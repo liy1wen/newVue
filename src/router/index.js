@@ -304,7 +304,7 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '弹幕话题管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/newUsersMatchFriends', component: user, name: '弹幕话题管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operationSupportOne/user', component: user, name: '发送系统通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/bannerManagement', component: bannerManagement, name: 'banner条管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operationSupportOne/user', component: user, name: '文章管理', hidden: false, meta: { role: ['admin', 'testP1'] } },

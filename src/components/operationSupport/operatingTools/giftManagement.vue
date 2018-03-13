@@ -28,7 +28,7 @@
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.icon" alt="" style="width:100px;height:100px;">
+									<img :src="scope.row.icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -43,7 +43,7 @@
 						<el-table-column label="动态图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.dynamic_icon" alt="" style="width:100px;height:100px;">
+									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -141,7 +141,7 @@
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.icon" alt="" style="width:100px;height:100px;">
+									<img :src="scope.row.icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -156,7 +156,7 @@
 						<el-table-column label="动态图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.dynamic_icon" alt="" style="width:100px;height:100px;">
+									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -254,7 +254,7 @@
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.icon" alt="" style="width: 100px; height: 100px; margin: 0 auto;">
+									<img :src="scope.row.icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -269,7 +269,7 @@
 						<el-table-column label="动态图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: 100px;">
+									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -428,15 +428,15 @@
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
 						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
-						<input class="filepic fileinput" @change="uploading($event, 0)" type="file">
+						<input class="filepic fileinput" @change="uploading($event, 0, 0)" type="file">
 				        <!--图片展示-->
-				        <img :src="giftUploading.src_pic"/>
+				        <img :src="giftUploading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
 						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
-						<input class="filegif fileinput" @change="uploading($event, 1)" type="file">
+						<input class="filegif fileinput" @change="uploading($event, 1, 0)" type="file">
 				        <!--图片展示-->
-				        <img :src="giftUploading.src_gif"/>
+				        <img :src="giftUploading.src_gif" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftUploading.params.position">
@@ -511,15 +511,15 @@
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
 						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
-						<input class="filepic fileinput" @change="uploading($event, 0)" type="file">
+						<input class="filepic fileinput" @change="uploading($event, 0, 1)" type="file">
 				        <!--图片展示-->
-				        <img :src="giftEditorloading.src_pic"/>
+				        <img :src="giftEditorloading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
 						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
-						<input class="filegif fileinput" @change="uploading($event, 1)" type="file">
+						<input class="filegif fileinput" @change="uploading($event, 1, 1)" type="file">
 				        <!--图片展示-->
-				        <img :src="giftEditorloading.src_gif"/>
+				        <img :src="giftEditorloading.src_gif" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftEditorloading.params.position">
@@ -1103,19 +1103,33 @@ export default {
 				baseConfig.errorTipMsg(_this, error);
 			})
 		},	
-		// 得到上传文件(0->pic，1->gif)
-        uploading(event, type) {
+		// 得到上传文件type(0->pic，1->gif),val(0->礼物新增，1->礼物编辑)
+        uploading(event, type, val) {
 			var _this = this;
-			if(type==0) { // 静态图icon图标
-				_this.giftUploading.file_pic = event.target.files[0];//获取文件
-		  	    var windowURL = window.URL || window.webkitURL;
-		        //创建图片文件的url
-				_this.giftUploading.src_pic = windowURL.createObjectURL(event.target.files[0]);
-			} else if(type==1) { // 动态图icon图标
-				_this.giftUploading.file_gif = event.target.files[0];//获取文件
-		  	    var windowURL = window.URL || window.webkitURL;
-		        //创建图片文件的url
-				_this.giftUploading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+			if(val==0) { // 礼物新增
+				if(type==0) { // 静态图icon图标
+					_this.giftUploading.file_pic = event.target.files[0];//获取文件
+			  	    var windowURL = window.URL || window.webkitURL;
+			        //创建图片文件的url
+					_this.giftUploading.src_pic = windowURL.createObjectURL(event.target.files[0]);
+				} else if(type==1) { // 动态图icon图标
+					_this.giftUploading.file_gif = event.target.files[0];//获取文件
+			  	    var windowURL = window.URL || window.webkitURL;
+			        //创建图片文件的url
+					_this.giftUploading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+				}
+			} else if(val==1) { // 礼物编辑
+				if(type==0) { // 静态图icon图标
+					_this.giftEditorloading.file_pic = event.target.files[0];//获取文件
+			  	    var windowURL = window.URL || window.webkitURL;
+			        //创建图片文件的url
+					_this.giftEditorloading.src_pic = windowURL.createObjectURL(event.target.files[0]);
+				} else if(type==1) { // 动态图icon图标
+					_this.giftEditorloading.file_gif = event.target.files[0];//获取文件
+			  	    var windowURL = window.URL || window.webkitURL;
+			        //创建图片文件的url
+					_this.giftEditorloading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+				}
 			}
       	}, 
 		// 添加礼物的操作
@@ -1196,11 +1210,6 @@ export default {
 .fileinput{
 	float: left;
 	margin-top: 8px;
-}
-img{
-    display: block; float: left;
-	/* 图片进行高度自适应 */
-    width: 100px; height: auto;
 }
 /* 页面样式css内容 */
 .excelBox{

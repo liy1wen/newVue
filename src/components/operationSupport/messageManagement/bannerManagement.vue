@@ -4,110 +4,91 @@
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-tabs v-model="tabActiveName" type="border-card" @tab-click="handleClick">
-			<!-- 普通礼物 -->
-			<el-tab-pane label="普通礼物" name="first">
+			<!-- Banner条记录查询 -->
+			<el-tab-pane label="Banner条记录查询" name="first">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formOne">
 						<el-form-item>
 							<div class="block">
-								<span class="registerTime">注册时间</span>
+								<span class="registerTime">日期</span>
 								<el-date-picker v-model="formOne.choiceDate" type="daterange" range-separator=" - " placeholder="选择日期范围"></el-date-picker>
 							</div>
 						</el-form-item>
 						<el-form-item>
-							<el-button type="primary" @click="giftUploading.dialogShow = true;">新增礼物</el-button>
-							<el-button type="primary" @click="getTableNormalGiftData">查询</el-button>
+							<span>位置</span>
+							<el-select v-model="formOne.position">
+								<el-option label="全部" value=""></el-option>
+								<el-option label="首页广告弹窗（安卓）" value="0"></el-option>
+								<el-option label="首页广告弹窗（ios）" value="1"></el-option>
+								<el-option label="充值页（安卓）" value="2"></el-option>
+								<el-option label="充值页（ios）" value="3"></el-option>
+								<el-option label="设置收费页（安卓）" value="4"></el-option>
+								<el-option label="设置收费页（ios）" value="5"></el-option>
+								<el-option label="安卓消息界面广告" value="9"></el-option>
+								<el-option label="IOS消息界面广告" value="10"></el-option>
+								<el-option label="安卓首页界面广告" value="11"></el-option>
+								<el-option label="IOS首页界面广告" value="12"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item>
+							<el-button type="primary" @click="getTableFind">查询</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
-				<!--用户的数据展示列表-->
+				<!--数据展示列表-->
 				<template>
 					<el-table ref="tableHeight" :data="onePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="礼物名称" width="150"></el-table-column>
-						<el-table-column label="礼物图标" width="150">
+						<el-table-column prop="add_time" label="注册时间" width="200"></el-table-column>
+						<el-table-column label="banner条位置" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.icon" alt="" style="width:100px;height:100px;">
+									<p v-if="scope.row.position==0">安卓首页广告</p>
+									<p v-else-if="scope.row.position==1">IOS首页广告</p>
+									<p v-else-if="scope.row.position==2">安卓钱包界面广告</p>									
+									<p v-else-if="scope.row.position==3">IOS钱包界面广告</p>									
+									<p v-else-if="scope.row.position==4">安卓设置通话价格界面广告</p>									
+									<p v-else-if="scope.row.position==5">IOS设置通话价格界面广告</p>									
+									<p v-else-if="scope.row.position==9">安卓消息界面广告</p>									
+									<p v-else-if="scope.row.position==10">IOS消息界面广告</p>									
+									<p v-else-if="scope.row.position==11">安卓首页界面广告</p>									
+									<p v-else-if="scope.row.position==12">IOS首页界面广告</p>									
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="price" label="礼物价格" width="50"></el-table-column>
-						<el-table-column label="礼物类型" width="50">
+						<el-table-column prop="title" label="标题" width="100"></el-table-column>
+						<el-table-column label="banner条图片" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.type==1">聊币</p>									
+									<img :src="scope.row.image_url" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column label="动态图标" width="150">
+						<el-table-column prop="jump_url" label="跳转地址" min-width="300"></el-table-column>
+						<el-table-column prop="page_param" label="跳转参数" width="80"></el-table-column>
+						<el-table-column label="跳转类型" width="100">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.dynamic_icon" alt="" style="width:100px;height:100px;">
+									<p v-if="scope.row.type==1">应用</p>
+									<p v-else-if="scope.row.type==2">H5页面</p>
+									<p v-else-if="scope.row.type==6">偷听界面</p>
+									<p v-else-if="scope.row.type==0">不跳转</p>
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="on_sale_time" label="上架时间" width="80"></el-table-column>
-						<el-table-column prop="create_time" label="创建时间" width="80"></el-table-column>
-						<el-table-column label="上架状态" width="100">
+						<el-table-column label="展示频率" width="100">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.status==1">上架了</p>
-									<p v-else-if="scope.row.status==0">已下架</p>
-									<p v-else-if="scope.row.status==2">等待上架</p>									
+									<p v-if="scope.row.show_type==0">每次都显示</p>
+									<p v-else-if="scope.row.show_type==1">一天显示一次</p>
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="sort" label="排序" width="50"></el-table-column>
-						<el-table-column prop="second_id" label="二级ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="会员专属？" width="50">
+						<el-table-column label="展示状态" width="80">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_vip==1">是</p>
-									<p v-else>否</p>
+									<p v-if="scope.row.is_show==0">不展示</p>
+									<p v-else-if="scope.row.is_show==1">展示</p>
 								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="down_sale_time" label="礼物下架时间" width="80">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.down_sale_time==null">无</p>
-									<p v-else>{{scope.row.down_sale_time}}</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="name" label="转盘礼物？" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_turntable==0">否</p>
-									<p v-else-if="scope.row.is_turntable==1">是</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="probability" label="转盘几率" width="80"></el-table-column>
-						<el-table-column label="位置" width="80">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.position==1">普通礼物</p>
-									<p v-else-if="scope.row.position==2">活动礼物</p>
-									<p v-if="scope.row.position==3">房间礼物</p>
-								</div>
-							</template>
-						</el-table-column>							
-						<el-table-column label="特殊礼物？" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_special==1">是</p>
-									<p v-else-if="scope.row.is_special==0">否</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
-						<el-table-column label="操作" min-width="100">
-							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" size="small">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -117,110 +98,79 @@
 					</el-col>
 				</template>
 			</el-tab-pane>
-			<!-- 活动礼物 -->
-			<el-tab-pane label="活动礼物" name="second">
+			<!-- Banner条记录管理 -->
+			<el-tab-pane label="Banner条记录管理" name="second">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formTwo">
 						<el-form-item>
-							<div class="block">
-								<span class="registerTime">注册时间</span>
-								<el-date-picker v-model="formTwo.choiceDate" type="daterange" range-separator=" - " placeholder="选择日期范围"></el-date-picker>
-							</div>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" @click="giftUploading.dialogShow = true;">新增礼物</el-button>							
-							<el-button type="primary" @click="getTableActivityGiftData">查询</el-button>
+							<el-button type="primary" @click="bannerNewloading.dialogShow = true;">新增Banner条</el-button>							
 						</el-form-item>
 					</el-form>
 				</el-col>
-				<!--用户的数据展示列表-->
+				<!--数据展示列表-->
 				<template>
 					<el-table ref="tableHeight" :data="twoPageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="礼物名称" width="150"></el-table-column>
-						<el-table-column label="礼物图标" width="150">
+						<el-table-column label="Banner条位置" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.icon" alt="" style="width:100px;height:100px;">
+									<p v-if="scope.row.position==0">安卓首页广告</p>
+									<p v-else-if="scope.row.position==1">IOS首页广告</p>
+									<p v-else-if="scope.row.position==2">安卓钱包界面广告</p>									
+									<p v-else-if="scope.row.position==3">IOS钱包界面广告</p>									
+									<p v-else-if="scope.row.position==4">安卓设置通话价格界面广告</p>									
+									<p v-else-if="scope.row.position==5">IOS设置通话价格界面广告</p>									
+									<p v-else-if="scope.row.position==9">安卓消息界面广告</p>									
+									<p v-else-if="scope.row.position==10">IOS消息界面广告</p>									
+									<p v-else-if="scope.row.position==11">安卓首页界面广告</p>									
+									<p v-else-if="scope.row.position==12">IOS首页界面广告</p>									
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="price" label="礼物价格" width="50"></el-table-column>
-						<el-table-column label="礼物类型" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.type==1">聊币</p>									
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column label="动态图标" width="150">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.dynamic_icon" alt="" style="width:100px;height:100px;">
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="on_sale_time" label="上架时间" width="80"></el-table-column>
-						<el-table-column prop="create_time" label="创建时间" width="80"></el-table-column>
-						<el-table-column label="上架状态" width="100">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.status==1">上架了</p>
-									<p v-else-if="scope.row.status==0">已下架</p>
-									<p v-else-if="scope.row.status==2">等待上架</p>									
-								</div>
-							</template>
-						</el-table-column>
+						<el-table-column prop="title" label="标题" width="80"></el-table-column>
 						<el-table-column prop="sort" label="排序" width="50"></el-table-column>
-						<el-table-column prop="second_id" label="二级ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="会员专属？" width="50">
+						<el-table-column label="Banner条图片" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_vip==1">是</p>
-									<p v-else>否</p>
+									<img :src="scope.row.image_url" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="down_sale_time" label="礼物下架时间" width="80">
+						<el-table-column prop="jump_url" label="跳转地址" min-width="200"></el-table-column>
+						<el-table-column prop="page_param" label="跳转参数" width="50"></el-table-column>
+						<el-table-column label="跳转类型" width="80">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.down_sale_time==null">无</p>
-									<p v-else>{{scope.row.down_sale_time}}</p>
+									<p v-if="scope.row.type==1">应用</p>
+									<p v-else-if="scope.row.type==2">H5页面</p>
+									<p v-else-if="scope.row.type==6">偷听界面</p>
+									<p v-else-if="scope.row.type==0">不跳转</p>
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="name" label="转盘礼物？" width="50">
+						<el-table-column label="展示频率" width="50">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_turntable==0">否</p>
-									<p v-else-if="scope.row.is_turntable==1">是</p>
+									<p v-if="scope.row.show_type==0">每次都显示</p>
+									<p v-else-if="scope.row.show_type==1">一天显示一次</p>
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="probability" label="转盘几率" width="80"></el-table-column>
-						<el-table-column label="位置" width="80">
+						<el-table-column label="展示状态" width="50">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.position==1">普通礼物</p>
-									<p v-else-if="scope.row.position==2">活动礼物</p>
-									<p v-if="scope.row.position==3">房间礼物</p>
-								</div>
-							</template>
-						</el-table-column>	
-						<el-table-column label="特殊礼物？" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_special==1">是</p>
-									<p v-else-if="scope.row.is_special==0">否</p>
+									<p v-if="scope.row.is_show==0">不展示</p>
+									<p v-else-if="scope.row.is_show==1">展示</p>
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
-						<el-table-column label="操作" min-width="100">
+						<el-table-column prop="req_uid" label="拨打电话Uid" width="50"></el-table-column>
+						<el-table-column prop="res_uid" label="接听电话Uid" width="50"></el-table-column>
+						<el-table-column prop="start_time" label="直播通话开始时间" width="80"></el-table-column>
+						<el-table-column prop="end_time" label="直播通话结束时间" width="80"></el-table-column>
+						<el-table-column label="操作" width="150">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formTwo.TabData, '2')" size="small">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData)" size="small">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, formTwo.TabData)" size="small">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -230,351 +180,148 @@
 					</el-col>
 				</template>
 			</el-tab-pane>
-			<!-- 房间礼物 -->
-			<el-tab-pane label="房间礼物" name="three">
-				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formTwo">
-						<el-form-item>
-							<div class="block">
-								<span class="registerTime">注册时间</span>
-								<el-date-picker v-model="formTwo.choiceDate" type="daterange" range-separator=" - " placeholder="选择日期范围"></el-date-picker>
-							</div>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" @click="giftUploading.dialogShow = true;">新增礼物</el-button>							
-							<el-button type="primary" @click="getTableRoomGiftData">查询</el-button>
-						</el-form-item>
-					</el-form>
-				</el-col>
-				<!--用户的数据展示列表-->
-				<template>
-					<el-table ref="tableHeight" :data="threePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="礼物名称" width="150"></el-table-column>
-						<el-table-column label="礼物图标" width="150">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.icon" alt="" style="width: 100px; height: 100px; margin: 0 auto;">
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="price" label="礼物价格" width="50"></el-table-column>
-						<el-table-column label="礼物类型" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.type==1">聊币</p>									
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column label="动态图标" width="150">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: 100px;">
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="on_sale_time" label="上架时间" width="80"></el-table-column>
-						<el-table-column prop="create_time" label="创建时间" width="80"></el-table-column>
-						<el-table-column label="上架状态" width="100">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.status==1">上架了</p>
-									<p v-else-if="scope.row.status==0">已下架</p>
-									<p v-else-if="scope.row.status==2">等待上架</p>									
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="sort" label="排序" width="50"></el-table-column>
-						<el-table-column prop="second_id" label="二级ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="会员专属？" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_vip==1">是</p>
-									<p v-else>否</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="down_sale_time" label="礼物下架时间" width="80">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.down_sale_time==null">无</p>
-									<p v-else>{{scope.row.down_sale_time}}</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="name" label="转盘礼物？" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_turntable==0">否</p>
-									<p v-else-if="scope.row.is_turntable==1">是</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="probability" label="转盘几率" width="80"></el-table-column>
-						<el-table-column label="位置" width="80">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.position==1">普通礼物</p>
-									<p v-else-if="scope.row.position==2">活动礼物</p>
-									<p v-if="scope.row.position==3">房间礼物</p>
-								</div>
-							</template>
-						</el-table-column>	
-						<el-table-column label="特殊礼物？" width="50">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.is_special==1">是</p>
-									<p v-else-if="scope.row.is_special==0">否</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
-						<el-table-column label="操作" min-width="100">
-							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '4')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" size="small">下架</el-button>
-							</template>
-						</el-table-column>
-					</el-table>
-					<!--工具条-->
-					<el-col :span="24" class="toolbar">
-						<el-pagination layout="total,prev,pager,next,jumper" @current-change="threeHandleCurrentChange" :page-size="20" :total="formThree.TotalPage" style="float:right;"></el-pagination>
-					</el-col>
-				</template>
-			</el-tab-pane>
-			<!-- 标签管理 -->
-			<el-tab-pane label="标签管理" name="four">
-				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formFour">
-						<el-form-item>
-							<el-button type="primary" @click="formFour.addDialogShow=true;">新增标签</el-button>
-						</el-form-item>
-					</el-form>
-				</el-col>
-				<!--用户的数据展示列表-->
-				<template>
-					<el-table ref="tableHeight" :data="fourPageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-						<el-table-column prop="id" label="ID" width="150"></el-table-column>
-						<el-table-column prop="tab_name" label="礼物标签名" width="150"></el-table-column>
-						<el-table-column prop="position" label="位置(值)" width="150"></el-table-column>
-						<el-table-column prop="create_time" label="创建时间" width="200"></el-table-column>
-						<el-table-column label="状态" width="150">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.status==0">下架</p>
-									<p v-else-if="scope.row.status==1">上架</p>
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column prop="sort" label="排序" width="150"></el-table-column>
-						<el-table-column label="操作" min-width="100">
-							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeLabelUserData(scope.$index, formFour.TabData)" size="small">编辑</el-button>								
-								<el-button type="primary" @click.native.prevent="deleteLabel(scope.$index, formFour.TabData)" size="small">删除</el-button>
-							</template>
-						</el-table-column>
-					</el-table>
-					<!--工具条-->
-					<el-col :span="24" class="toolbar">
-						<el-pagination layout="total,prev,pager,next,jumper" @current-change="fourHandleCurrentChange" :page-size="20" :total="formFour.TotalPage" style="float:right;"></el-pagination>
-					</el-col>
-					<!-- 编辑修改--对应的dialog -->
-					<el-dialog title="修改礼物标签" :visible.sync="formFour.editorDialogShow">
-						<el-form :model="formFour.editor">
-							<el-form-item label="标签ID" :label-width="formLabelWidth">
-								<el-input v-model="formFour.editor.id" auto-complete="off" disabled></el-input>
-							</el-form-item>
-							<el-form-item label="标签名称" :label-width="formLabelWidth">
-								<el-input v-model="formFour.editor.tab_name" auto-complete="off"></el-input>
-							</el-form-item>
-							<el-form-item label="标签排序" :label-width="formLabelWidth">
-								<el-input v-model="formFour.editor.sort" auto-complete="off"></el-input>
-							</el-form-item>
-						</el-form>
-						<div slot="footer" class="dialog-footer">
-							<el-button @click.native.prevent="editorLabelSure(0)">取 消</el-button>
-							<el-button type="primary" @click.native.prevent="editorLabelSure(1)">确 定</el-button>
-						</div>
-					</el-dialog>
-					<!-- 新增修改--对应的dialog -->
-					<el-dialog title="新增礼物标签" :visible.sync="formFour.addDialogShow">
-						<el-form :model="formFour.add">
-							<el-form-item label="标签名称" :label-width="formLabelWidth">
-								<el-input v-model="formFour.add.tab_name" auto-complete="off"></el-input>
-							</el-form-item>
-							<el-form-item label="标签排序" :label-width="formLabelWidth">
-								<el-input v-model="formFour.add.sort" auto-complete="off"></el-input>
-							</el-form-item>
-						</el-form>
-						<div slot="footer" class="dialog-footer">
-							<el-button @click.native.prevent="addLabelSure(0)">取 消</el-button>
-							<el-button type="primary" @click.native.prevent="addLabelSure(3)">确 定</el-button>
-						</div>
-					</el-dialog>
-				</template>
-			</el-tab-pane>
-			<!-- 礼物上传 -->
-			<el-dialog title="礼物上传" :visible.sync="giftUploading.dialogShow">
-				<el-form :model="giftUploading.params">
-					<el-form-item label="礼物排序" :label-width="formLabelWidth">
-						<el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input>
+			<!-- banner条新增 -->
+			<el-dialog title="banner条新增" :visible.sync="bannerNewloading.dialogShow">
+				<el-form :model="bannerNewloading.params">
+					<el-form-item label="banner位置" :label-width="formLabelWidth">
+						<el-select v-model="bannerNewloading.params.position">
+							<el-option label="安卓首页广告" value="0"></el-option>
+							<el-option label="IOS首页广告" value="1"></el-option>
+							<el-option label="安卓钱包界面广告" value="2"></el-option>
+							<el-option label="IOS钱包界面广告" value="3"></el-option>
+							<el-option label="安卓设置通话价格界面广告" value="4"></el-option>
+							<el-option label="IOS设置通话价格界面广告" value="5"></el-option>
+							<el-option label="安卓消息界面广告" value="9"></el-option>
+							<el-option label="IOS消息界面广告" value="10"></el-option>
+							<el-option label="安卓首页界面广告" value="11"></el-option>
+							<el-option label="IOS首页界面广告" value="12"></el-option>
+						</el-select>
 					</el-form-item>
-					<el-form-item label="礼物名称" :label-width="formLabelWidth">
-						<el-input v-model="giftUploading.params.name" auto-complete="off"></el-input>
+					<el-form-item label="banner排序" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.sort" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="礼物价格" :label-width="formLabelWidth">
-						<el-input v-model="giftUploading.params.price" auto-complete="off"></el-input>
+					<el-form-item label="banner标题" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.title" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
 						<input class="filepic fileinput" @change="uploading($event, 0)" type="file">
-				        <!--图片展示-->
-				        <img :src="giftUploading.src_pic"/>
+				        <img :src="bannerNewloading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
-					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
-						<input class="filegif fileinput" @change="uploading($event, 1)" type="file">
-				        <!--图片展示-->
-				        <img :src="giftUploading.src_gif"/>
-					</el-form-item>
-					<el-form-item label="礼物位置" :label-width="formLabelWidth">
-						<el-select v-model="giftUploading.params.position">
-							<el-option label="普通礼物" value="1"></el-option>
-							<el-option label="活动礼物" value="2"></el-option>
-							<el-option label="房间礼物" value="3"></el-option>
+					<el-form-item label="跳转类型" :label-width="formLabelWidth">
+						<el-select v-model="bannerNewloading.params.type">
+							<el-option label="不跳转" value="0"></el-option>
+							<el-option label="H5跳转" value="2"></el-option>
+							<el-option label="应用内" value="1"></el-option>
+							<el-option label="应用外" value="3"></el-option>
+							<el-option label="偷听界面" value="6"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="礼物上架状态" :label-width="formLabelWidth">
-						<el-select v-model="giftUploading.params.status">
-							<el-option label="上架" value="1"></el-option>
-							<el-option label="下架" value="0"></el-option>
+					<el-form-item label="拨打电话uid" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.req_uid" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="接听电话uid" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.res_uid" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="直播通话开始时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.start_time" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="直播通话结束时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.end_time" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="跳转链接" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.jump_url" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="跳转参数" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.page_param" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="展示频率" :label-width="formLabelWidth">
+						<el-select v-model="bannerNewloading.params.show_type">
+							<el-option label="每次都显示" value="0"></el-option>
+							<el-option label="一天显示一次" value="1"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="礼物类型" :label-width="formLabelWidth">
-						<el-select v-model="giftUploading.params.type">
-							<el-option label="聊币" value="1"></el-option>
+					<el-form-item label="上线设置" :label-width="formLabelWidth">
+						<el-select v-model="bannerNewloading.params.is_show">
+							<el-option label="不展示" value="0"></el-option>
+							<el-option label="展示" value="1"></el-option>
 						</el-select>
-					</el-form-item>
-					<el-form-item label="礼物描述" :label-width="formLabelWidth">
-						<el-input v-model="giftUploading.params.desc" auto-complete="off"></el-input>
-					</el-form-item>
-					<el-form-item label="上架时间" :label-width="formLabelWidth">
-						<div class="block">
-							<el-date-picker v-model="giftUploading.params.on_sale_time" type="datetime" placeholder="选择日期时间"></el-date-picker>
-						</div>
-					</el-form-item>
-					<el-form-item label="是否为Vip专享" :label-width="formLabelWidth">
-						<el-select v-model="giftUploading.params.is_vip">
-							<el-option label="否" value="0"></el-option>
-							<el-option label="是" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="是否为转盘礼物" :label-width="formLabelWidth">
-						<el-select v-model="giftUploading.params.is_turntable">
-							<el-option label="否" value="0"></el-option>
-							<el-option label="是" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="转盘概率" :label-width="formLabelWidth">
-						<el-input v-model="giftUploading.params.probability" auto-complete="off"></el-input>
-					</el-form-item>
-					<el-form-item label="是否为特殊礼物" :label-width="formLabelWidth">
-						<el-select v-model="giftUploading.params.is_special">
-							<el-option label="否" value="0"></el-option>
-							<el-option label="是" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="库存数量" :label-width="formLabelWidth">
-						<el-input v-model="giftUploading.params.stock_num" auto-complete="off"></el-input>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
-					<el-button @click.native.prevent="addGiftSure(0)">取 消</el-button>
-					<el-button type="primary" @click.native.prevent="addGiftSure(1)">确 定</el-button>
+					<el-button @click.native.prevent="addBannerSure(0)">取 消</el-button>
+					<el-button type="primary" @click.native.prevent="addBannerSure(1)">确 定</el-button>
 				</div>
 			</el-dialog>
-			<!-- 礼物编辑 -->
-			<el-dialog title="礼物编辑" :visible.sync="giftEditorloading.dialogShow">
-				<el-form :model="giftEditorloading.params">
-					<el-form-item label="礼物ID" :label-width="formLabelWidth">
-						<el-input disabled v-model="giftEditorloading.params.id" auto-complete="off"></el-input>
+			<!-- banner条编辑修改 -->
+			<el-dialog title="banner条编辑" :visible.sync="bannerEditorloading.dialogShow">
+				<el-form :model="bannerEditorloading.params">
+					<el-form-item label="banner位置" :label-width="formLabelWidth">
+						<el-select v-model="bannerEditorloading.params.position" disabled>
+							<el-option label="安卓首页广告" value="0"></el-option>
+							<el-option label="IOS首页广告" value="1"></el-option>
+							<el-option label="安卓钱包界面广告" value="2"></el-option>
+							<el-option label="IOS钱包界面广告" value="3"></el-option>
+							<el-option label="安卓设置通话价格界面广告" value="4"></el-option>
+							<el-option label="IOS设置通话价格界面广告" value="5"></el-option>
+							<el-option label="安卓消息界面广告" value="9"></el-option>
+							<el-option label="IOS消息界面广告" value="10"></el-option>
+							<el-option label="安卓首页界面广告" value="11"></el-option>
+							<el-option label="IOS首页界面广告" value="12"></el-option>
+						</el-select>
 					</el-form-item>
-					<el-form-item label="礼物排序" :label-width="formLabelWidth">
-						<el-input v-model="giftEditorloading.params.sort" auto-complete="off"></el-input>
+					<el-form-item label="banner排序" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.sort" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="礼物名称" :label-width="formLabelWidth">
-						<el-input v-model="giftEditorloading.params.name" auto-complete="off"></el-input>
-					</el-form-item>
-					<el-form-item label="礼物价格" :label-width="formLabelWidth">
-						<el-input v-model="giftEditorloading.params.price" auto-complete="off"></el-input>
+					<el-form-item label="banner标题" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.title" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
-						<input class="filepic fileinput" @change="uploading($event, 0)" type="file">
-				        <!--图片展示-->
-				        <img :src="giftEditorloading.src_pic"/>
+						<input class="filepic fileinput" @change="uploading($event, 1)" type="file">
+				        <img :src="bannerEditorloading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
-					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
-						<input class="filegif fileinput" @change="uploading($event, 1)" type="file">
-				        <!--图片展示-->
-				        <img :src="giftEditorloading.src_gif"/>
-					</el-form-item>
-					<el-form-item label="礼物位置" :label-width="formLabelWidth">
-						<el-select v-model="giftEditorloading.params.position">
-							<el-option label="普通礼物" value="1"></el-option>
-							<el-option label="活动礼物" value="2"></el-option>
-							<el-option label="房间礼物" value="3"></el-option>
+					<el-form-item label="跳转类型" :label-width="formLabelWidth">
+						<el-select v-model="bannerEditorloading.params.type">
+							<el-option label="不跳转" value="0"></el-option>
+							<el-option label="H5跳转" value="2"></el-option>
+							<el-option label="应用内" value="1"></el-option>
+							<el-option label="应用外" value="3"></el-option>
+							<el-option label="偷听界面" value="6"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="礼物上架状态" :label-width="formLabelWidth">
-						<el-select v-model="giftEditorloading.params.status">
-							<el-option label="上架" value="1"></el-option>
-							<el-option label="下架" value="0"></el-option>
+					<el-form-item label="拨打电话uid" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.req_uid" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="接听电话uid" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.res_uid" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="直播通话开始时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.start_time" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="直播通话结束时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.end_time" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="跳转链接" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.jump_url" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="跳转参数" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.page_param" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="展示频率" :label-width="formLabelWidth">
+						<el-select v-model="bannerEditorloading.params.show_type">
+							<el-option label="每次都显示" value="0"></el-option>
+							<el-option label="一天显示一次" value="1"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="礼物类型" :label-width="formLabelWidth">
-						<el-select v-model="giftEditorloading.params.type">
-							<el-option label="聊币" value="1"></el-option>
+					<el-form-item label="上线设置" :label-width="formLabelWidth">
+						<el-select v-model="bannerEditorloading.params.is_show">
+							<el-option label="不展示" value="0"></el-option>
+							<el-option label="展示" value="1"></el-option>
 						</el-select>
-					</el-form-item>
-					<el-form-item label="添加时间" :label-width="formLabelWidth">
-						<el-input disabled v-model="giftEditorloading.params.create_time" auto-complete="off"></el-input>
-					</el-form-item>
-					<el-form-item label="上架时间" :label-width="formLabelWidth">
-						<div class="block">
-							<el-date-picker v-model="giftEditorloading.params.on_sale_time" type="datetime" placeholder="选择日期时间"></el-date-picker>
-						</div>
-					</el-form-item>
-					<el-form-item label="是否为Vip专享" :label-width="formLabelWidth">
-						<el-select v-model="giftEditorloading.params.is_vip">
-							<el-option label="否" value="0"></el-option>
-							<el-option label="是" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="是否为转盘礼物" :label-width="formLabelWidth">
-						<el-select v-model="giftEditorloading.params.is_turntable">
-							<el-option label="否" value="0"></el-option>
-							<el-option label="是" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="转盘概率" :label-width="formLabelWidth">
-						<el-input v-model="giftEditorloading.params.probability" auto-complete="off"></el-input>
-					</el-form-item>
-					<el-form-item label="是否为特殊礼物" :label-width="formLabelWidth">
-						<el-select v-model="giftEditorloading.params.is_special">
-							<el-option label="否" value="0"></el-option>
-							<el-option label="是" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="库存数量" :label-width="formLabelWidth">
-						<el-input v-model="giftEditorloading.params.stock_num" auto-complete="off"></el-input>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
-					<el-button @click.native.prevent="editorGiftSure(0)">取 消</el-button>
-					<el-button type="primary" @click.native.prevent="editorGiftSure(1)">确 定</el-button>
+					<el-button @click.native.prevent="editorBannerSure(0)">取 消</el-button>
+					<el-button type="primary" @click.native.prevent="editorBannerSure(1)">确 定</el-button>
 				</div>
 			</el-dialog>
 		</el-tabs>
@@ -594,7 +341,8 @@ export default {
 			tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
 			// 各个tab页面的相应字段
 			formOne: {
-				choiceDate: [new Date()-180*24*60*60*1000,new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				position: '',
 				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				TotalPage: null, //下方工具条的总页数 
 				Page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
@@ -602,94 +350,55 @@ export default {
 				end: '20', //每一页的结束数据
 			},
 			formTwo: {
-				choiceDate: [new Date()-180*24*60*60*1000,new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				TotalPage: null, //下方工具条的总页数 
 				Page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
 				star: '0', //每一页的开始数据
 				end: '20', //每一页的结束数据
 			},
-			formThree: {
-				choiceDate: [new Date()-180*24*60*60*1000,new Date()], // 对应选择的日期,给默认时间180之前到现在
-				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
-				TotalPage: null, //下方工具条的总页数 
-				Page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
-				star: '0', //每一页的开始数据
-				end: '20', //每一页的结束数据
-			},
-			formFour: {
-				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
-				TotalPage: null, //下方工具条的总页数 
-				Page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
-				star: '0', //每一页的开始数据
-				end: '20', //每一页的结束数据
-				editorDialogShow: false, // 修改弹窗的显示隐藏
-				addDialogShow: false, // 新增弹窗的显示隐藏
-				editor: { // 修改对应标签
-					index: '',
-					id: '',
-					sort: '',
-					tab_name: '',
-				},
-				add: { // 新增对应的标签
-					sort: '',
-					tab_name: '',
-				},
-			},
-			giftUploading: {
+			bannerNewloading: {
 				dialogShow: false,
 				file_pic: '',
 				src_pic: '',
-				file_gif: '',
-				src_gif: '',
 				params: {
+					position: '0',
 					sort: '',
-					name: '',
-					price: '',
-					pic: '',
-					gif: '',
-					position: '2',
-					status: '1',
-					type: '1',
-					desc: '',
-					on_sale_time: '',
-					is_vip: '0',
-					is_turntable: '0',
-					probability: '',
-					is_special: '0',
-					stock_num: '',
+					title: '',
+					type: '2',
+					req_uid: '',
+					res_uid: '',
+					start_time: '',
+					end_time: '',
+					jump_url: '',
+					page_param: '',
+					show_type: '0',
+					is_show: '1',
 				},
 			},
-			giftEditorloading: {
-				index: '',
-				type: '',
+			bannerEditorloading: {
 				dialogShow: false,
 				file_pic: '',
 				src_pic: '',
-				file_gif: '',
-				src_gif: '',
 				params: {
-					id: '',
-					sort: '',
-					name: '',
-					price: '',
-					pic: '',
-					gif: '',
 					position: '',
-					status: '',
+					id: '',
+					sort: '',
+					title: '',
 					type: '',
-					create_time: '',
-					on_sale_time: '',
-					is_vip: '',
-					is_turntable: '',
-					probability: '',
-					is_special: '',
-					stock_num: '',
+					req_uid: '',
+					res_uid: '',
+					start_time: '',
+					end_time: '',
+					jump_url: '',
+					page_param: '',
+					show_type: '',
+					is_show: '',
 				},
 			},
 			listLoading: false, //动画加载时显示的动画
-			tabActiveName: 'first', // 设置为tab切换栏的选中不同的状态(first、second、three、four)
-			formLabelWidth: '120px', // 设置dialog弹框的宽度
+			tabActiveName: 'second', // 设置为tab切换栏的选中不同的状态(first、second)
+			formLabelWidth: '130px', // 设置dialog弹框的宽度
 		};
 	},
 	computed:{
@@ -701,14 +410,6 @@ export default {
 		twoPageData() {
 			var _this = this;
 			return _this.formTwo.TabData.slice(_this.formTwo.star, _this.formTwo.end);
-		},
-		threePageData() {
-			var _this = this;
-			return _this.formThree.TabData.slice(_this.formThree.star, _this.formThree.end);
-		},
-		fourPageData() {
-			var _this = this;
-			return _this.formFour.TabData.slice(_this.formFour.star, _this.formFour.end);
 		},
 	},
 	methods: {
@@ -727,74 +428,31 @@ export default {
 			_this.formTwo.star = (_this.formTwo.Page-1)*20;
 			_this.formTwo.end = _this.formTwo.star+20;
 		},
-		threeHandleCurrentChange(val) {
-			// val指的是当前点击是第一页
-			var _this = this;
-			_this.formThree.Page = val;
-			_this.formThree.star = (_this.formThree.Page-1)*20;
-			_this.formThree.end = _this.formThree.star+20;
-		},
-		fourHandleCurrentChange(val) {
-			// val指的是当前点击是第一页
-			var _this = this;
-			_this.formFour.Page = val;
-			_this.formFour.star = (_this.formFour.Page-1)*20;
-			_this.formFour.end = _this.formFour.star+20;
-		},
-		// 提示早已经下架了
-		tipUndercarriage() {
-			var _this = this;
-			baseConfig.warningTipMsg(_this, '早就已经下架了！');
-		},
-		// 搜索条件
-		searchConditionNormalGift() {
+		// 在记录中进行搜索条件
+		searchConditionFind() {
 			var _this = this;
 			var obj = {};
 			obj.date_s = baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0);
 			obj.date_e = baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0);
-			obj.position = '1';
+			obj.position = _this.formOne.position;
 			for(var key in obj) { // 对需要判断搜索值是否为空进行判断提示
-				if(obj[key]=='') {
-					baseConfig.warningTipMsg(_this, '搜索条件值不能为空！');
-					return null;
+				if(key=='position') {
+					// 位置的参数可以进行为空
+				} else {
+					if(obj[key]=='') {
+						baseConfig.warningTipMsg(_this, '搜索条件值不能为空！');
+						return null;
+					}
 				}
 			}
 			return obj; // return出组装好的搜索条件
 		},
-		searchConditionActiveGift() {
-			var _this = this;
-			var obj = {};
-			obj.date_s = baseConfig.changeDateTime(_this.formTwo.choiceDate[0], 0);
-			obj.date_e = baseConfig.changeDateTime(_this.formTwo.choiceDate[1], 0);
-			obj.position = '2';
-			for(var key in obj) { // 对需要判断搜索值是否为空进行判断提示
-				if(obj[key]=='') {
-					baseConfig.warningTipMsg(_this, '搜索条件值不能为空！');
-					return null;
-				}
-			}
-			return obj; // return出组装好的搜索条件
-		},
-		searchConditionRoomGift() {
-			var _this = this;
-			var obj = {};
-			obj.date_s = baseConfig.changeDateTime(_this.formThree.choiceDate[0], 0);
-			obj.date_e = baseConfig.changeDateTime(_this.formThree.choiceDate[1], 0);
-			obj.position = '3';
-			for(var key in obj) { // 对需要判断搜索值是否为空进行判断提示
-				if(obj[key]=='') {
-					baseConfig.warningTipMsg(_this, '搜索条件值不能为空！');
-					return null;
-				}
-			}
-			return obj; // return出组装好的搜索条件
-		},
-		// 获取普通礼物数据列表
-		getTableNormalGiftData() {
+		// 获取banner查询的数据
+		getTableFind() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/Gift/getGift';
-			var params = _this.searchConditionNormalGift();
+			var url = '/Banner/getBanner';
+			var params = _this.searchConditionFind();
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
@@ -812,181 +470,17 @@ export default {
 				})
 			}
 		},
-		getTableActivityGiftData() {
+		// 获取banner管理的数据
+		getTableManage() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/Gift/getGift';
-			var params = _this.searchConditionActiveGift();
-			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
-				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
-			} else {
-				allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
-					// 数据请求成功
-					_this.listLoading = false;
-					if(res.data.ret) {
-						_this.formTwo.TotalPage = res.data.data.length; // 正常数据
-						_this.formTwo.TabData = res.data.data;
-					} else {
-						baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
-					}
-				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
-				})
-			}
-		},
-		getTableRoomGiftData() {
-			var _this = this ;
-			_this.listLoading = true;
-			var url = '/Gift/getGift';
-			var params = _this.searchConditionRoomGift();
-			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
-				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
-			} else {
-				allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
-					// 数据请求成功
-					_this.listLoading = false;
-					if(res.data.ret) {
-						_this.formThree.TotalPage = res.data.data.length; // 正常数据
-						_this.formThree.TabData = res.data.data;
-					} else {
-						baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
-					}
-				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
-				})
-			}
-		},
-		// 下架的操作
-		undercarriage(index, rows, type) {
-			var _this = this;
-			if(type=='1') {
-				index = index + (_this.formOne.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			} else if(type=='2') {
-				index = index + (_this.formTwo.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			} else if(type=='3') {
-				index = index + (_this.formThree.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			}
-			var id = rows[index].id; // 拿出对应内容的中value值	
-			var url = 'Gift/downGift';
-			var params = {
-				id: id,
-			};
-			allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
-				// 数据请求成功
-				if(res.data.ret) {
-					baseConfig.successTipMsg(_this, '下架成功！');
-					if(type=='1') {
-						_this.getTableNormalGiftData();
-					} else if(type=='2') {
-						_this.getTableActivityGiftData();
-					} else if(type=='3') {
-						_this.getTableRoomGiftData();
-					}
-				} else {
-					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
-				}
-			}).catch(function(error){
-				baseConfig.errorTipMsg(_this, error);
-			})
-		},
-		// 礼物的编辑操作
-		changeOneUserData(index, rows, type) {
-			var _this = this;
-			if(type=='1') {
-				index = index + (_this.formOne.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			} else if(type=='2') {
-				index = index + (_this.formTwo.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			} else if(type=='3') {
-				index = index + (_this.formThree.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			}
-			// 进行赋值操作
-			_this.giftEditorloading.index = index;
-			_this.giftEditorloading.type = type;
-			_this.giftEditorloading.params.id = rows[index].id;
-			_this.giftEditorloading.params.sort = rows[index].sort;
-			_this.giftEditorloading.params.name = rows[index].name;
-			_this.giftEditorloading.params.price = rows[index].price;
-			_this.giftEditorloading.src_pic = rows[index].icon;
-			_this.giftEditorloading.src_gif = rows[index].dynamic_icon;
-			_this.giftEditorloading.params.position = rows[index].position;
-			_this.giftEditorloading.params.status = rows[index].status;
-			_this.giftEditorloading.params.type = rows[index].type;
-			_this.giftEditorloading.params.create_time = rows[index].create_time;
-			_this.giftEditorloading.params.on_sale_time = rows[index].on_sale_time;
-			_this.giftEditorloading.params.is_vip = rows[index].is_vip;
-			_this.giftEditorloading.params.is_turntable = rows[index].is_turntable;
-			_this.giftEditorloading.params.probability = rows[index].probability;
-			_this.giftEditorloading.params.is_special = rows[index].is_special;
-			_this.giftEditorloading.params.stock_num = rows[index].stock_num;
-			_this.giftEditorloading.dialogShow = true;
-			console.log(_this.giftEditorloading);
-		},
-		// 确定礼物的编辑操作
-		editorGiftSure(type) {
-			var _this = this;
-			if(type==0) {
-				_this.giftEditorloading.dialogShow = false;
-				console.log('点击了取消按钮');
-			} else if(type==1) {
-				console.log('点击了确定按钮');
-				_this.listLoading = true;
-				// 进行编辑的操作
-				let formData = new FormData();
-			  	formData.append('id', _this.giftEditorloading.params.id);
-			  	formData.append('sort', _this.giftEditorloading.params.sort);
-			  	formData.append('name', _this.giftEditorloading.params.name);
-			  	formData.append('price', _this.giftEditorloading.params.price);
-			  	formData.append('pic', _this.giftEditorloading.file_pic); //提交的静态图标文件
-			  	formData.append('gif', _this.giftEditorloading.file_gif); //提交的动态图标文件
-			  	formData.append('position', _this.giftEditorloading.params.position);
-			  	formData.append('status', _this.giftEditorloading.params.status);
-			  	formData.append('type', _this.giftEditorloading.params.type);
-			  	formData.append('create_time', _this.giftEditorloading.params.create_time);
-			  	formData.append('on_sale_time', baseConfig.changeDateTime(_this.giftEditorloading.params.on_sale_time, 1));
-			  	formData.append('is_vip', _this.giftEditorloading.params.is_vip);
-			  	formData.append('is_turntable', _this.giftEditorloading.params.is_turntable);
-			  	formData.append('probability', _this.giftEditorloading.params.probability);
-			  	formData.append('is_special', _this.giftEditorloading.params.is_special);
-			  	formData.append('stock_num', _this.giftEditorloading.params.stock_num);
-				let config = {
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				};		
-				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/editGift', formData, config)
-				.then((res) => {
-					console.log(res.data);
-					_this.listLoading = false;	
-					_this.giftEditorloading.dialogShow = false;									
-					if(res.data.ret) {	
-						baseConfig.successTipMsg(_this, '编辑修改成功！');
-						// 对相应的table中的内容进行修改替换
-						if(_this.giftEditorloading.type==1) {
-							_this.getTableNormalGiftData();
-						} else if(_this.giftEditorloading.type==2) {
-							_this.getTableActivityGiftData();
-						} else if(_this.giftEditorloading.type==3) {
-							_this.getTableRoomGiftData();
-						}
-					} else {
-						baseConfig.errorTipMsg(_this, res.data.msg);						
-					}
-				}).catch((error) => {
-					console.log(error);
-				});
-			}
-		},
-		// 获取标签管理页面的数据
-		getLabelData() {
-			var _this = this;
-			_this.listLoading = true;
-			var url = '/Gift/getGiftTab';
+			var url = '/Banner/getBanner';
 			allget('', url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
 				// 数据请求成功
 				_this.listLoading = false;
 				if(res.data.ret) {
-					_this.formFour.TotalPage = res.data.data.length; // 正常数据
-					_this.formFour.TabData = res.data.data;
+					_this.formTwo.TotalPage = res.data.data.length; // 正常数据
+					_this.formTwo.TabData = res.data.data;
 				} else {
 					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
 				}
@@ -994,183 +488,157 @@ export default {
 				baseConfig.errorTipMsg(_this, error);
 			})
 		},
-		// 添加标签的操作
-		addLabelSure(type) {
-			var _this = this;
-			if(type==3) {
-				baseConfig.warningTipMsg(_this, '请联系管理员进行添加！');
-				_this.formFour.addDialogShow = false;
-			} else if(type==0) {
-				_this.formFour.addDialogShow = false;
-			} else if(type==1) {
-				_this.listLoading = true;
-				var url = '/Gift/addGiftTab';
-				var params = {
-					tab_name: _this.formFour.add.tab_name,
-					sort: _this.formFour.add.sort,
-				};
-				if(params.tab_name!=''&&params.sort!='') {
-					_this.formFour.addDialogShow = false;
-					allget(params, url).then(res => {
-						if(res.data.ret) {
-							// 数据请求成功
-							_this.listLoading = false;
-							baseConfig.successTipMsg(_this, '新增成功！');
-							_this.getLabelData();
-						} else {
-							baseConfig.errorTipMsg(_this, res.data.msg);
-						}
-					}).catch(function(error){
-						baseConfig.errorTipMsg(_this, error);
-					})
-				} else {
-					_this.listLoading = false; 
-					baseConfig.warningTipMsg(_this, '新增的标签名称、排序不能为空！');
-				}
-			}
-		},
-		// 编辑标签的操作
-		changeLabelUserData(index, rows) {
-			var _this = this;
-			index = index + (_this.formFour.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			_this.formFour.editor.index = index;
-			_this.formFour.editor.id = rows[index].id;
-			_this.formFour.editor.tab_name = rows[index].tab_name;
-			_this.formFour.editor.sort = rows[index].sort;
-			_this.formFour.editorDialogShow = true; // 点击了编辑修改显示dialog框
-		},
-		// 编辑标签的确定,0->取消，1->确定
-		editorLabelSure(type) {
-			var _this = this;
-			if(type==0) {
-				_this.formFour.editorDialogShow = false; // 点击了取消按钮
-			} else if(type==1){
-				_this.listLoading = true;
-				// 进行修改操作
-				var url = 'Gift/editGiftTab';
-				var params = {
-					id: _this.formFour.editor.id,
-					tab_name: _this.formFour.editor.tab_name,
-					sort: _this.formFour.editor.sort,
-				};
-				if(params.id!=''&&params.tab_name!=''&&params.sort!='') {
-					_this.formFour.editorDialogShow = false;
-					allget(params, url).then(res => {
-						if(res.data.ret) {
-							// 数据请求成功
-							_this.listLoading = false;
-							baseConfig.successTipMsg(_this, '编辑修改成功！');
-							// 直接对table表格的内容进行修改
-							_this.formFour.TabData[_this.formFour.editor.index].id = params.id;
-							_this.formFour.TabData[_this.formFour.editor.index].tab_name = params.tab_name;
-							_this.formFour.TabData[_this.formFour.editor.index].sort = params.sort;
-						} else {
-							baseConfig.errorTipMsg(_this, res.data.msg);
-						}
-					}).catch(function(error){
-						baseConfig.warningTipMsg(_this, error);
-					})
-				} else {
-					_this.listLoading = false; 
-					baseConfig.warningTipMsg(_this, '编辑修改的标签名称、排序不能为空！');
-				}
-			}
-		},
-		// 删除标签的操作
-		deleteLabel(index, rows) {
-			var _this = this;
-			index = index + (_this.formFour.Page-1)*20;
-			var id = rows[index].id;
-			_this.listLoading = true;
-			var url = '/Gift/delGiftTab';
-			var params = {
-				id: id,
-			};
-			// 进行get请求删除掉这条用户注册语
-			allget(params, url).then(res => {
-				// 数据请求成功
-				_this.listLoading = false;
-				if(res.data.ret) {
-					baseConfig.successTipMsg(_this, '删除成功');
-					_this.formFour.TabData.splice(index, 1);
-					_this.formFour.Totalpage--;
-				} else {
-					// 返回ret==0，非正常数据
-					baseConfig.errorTipMsg(_this, res.data.msg);
-				}
-
-			}).catch(function(error) {
-				baseConfig.errorTipMsg(_this, error);
-			})
-		},	
-		// 得到上传文件(0->pic，1->gif)
+		// 得到上传文件type(0->新增banner，1->编辑banner)
         uploading(event, type) {
 			var _this = this;
-			if(type==0) { // 静态图icon图标
-				_this.giftUploading.file_pic = event.target.files[0];//获取文件
+			if(type==0) {
+				_this.bannerNewloading.file_pic = event.target.files[0];//获取文件
 		  	    var windowURL = window.URL || window.webkitURL;
 		        //创建图片文件的url
-				_this.giftUploading.src_pic = windowURL.createObjectURL(event.target.files[0]);
-			} else if(type==1) { // 动态图icon图标
-				_this.giftUploading.file_gif = event.target.files[0];//获取文件
+				_this.bannerNewloading.src_pic = windowURL.createObjectURL(event.target.files[0]);
+			} else if(type==1) {
+				_this.bannerEditorloading.file_pic = event.target.files[0];//获取文件
 		  	    var windowURL = window.URL || window.webkitURL;
 		        //创建图片文件的url
-				_this.giftUploading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+				_this.bannerEditorloading.src_pic = windowURL.createObjectURL(event.target.files[0]);
 			}
       	}, 
-		// 添加礼物的操作
-		addGiftSure(type) {
+		// banner条新增
+		addBannerSure(type) {
 			var _this = this;
 			if(type==0) {
-				// 点击了取消按钮
 				console.log('点击了取消按钮');
-				_this.giftEditorloading.dialogShow = false;
+				_this.bannerNewloading.dialogShow = false;
 			} else if(type==1) {
-				// 点击了确认按钮
 				console.log('点击了确认按钮');
 				_this.listLoading = true;
-				// 进行添加的操作
+				// 进行添加操作
 				let formData = new FormData();
-			  	formData.append('sort', _this.giftUploading.params.sort);
-			  	formData.append('status', _this.giftUploading.params.status);
-			  	formData.append('name', _this.giftUploading.params.name);
-			  	formData.append('pic', _this.giftUploading.file_pic); //提交的静态图标文件
-			  	formData.append('gif', _this.giftUploading.file_gif); //提交的动态图标文件
-			  	formData.append('price', _this.giftUploading.params.price);
-			  	formData.append('type', _this.giftUploading.params.type);
-			  	formData.append('on_sale_time', baseConfig.changeDateTime(_this.giftUploading.params.on_sale_time, 1));
-			  	formData.append('is_vip', _this.giftUploading.params.is_vip);
-			  	formData.append('position', _this.giftUploading.params.position);
-			  	formData.append('is_turntable', _this.giftUploading.params.is_turntable);
-			  	formData.append('probability', _this.giftUploading.params.probability);
-			  	formData.append('is_special', _this.giftUploading.params.is_special);
-			  	formData.append('stock_num', _this.giftUploading.params.stock_num);
+				formData.append('position', _this.bannerNewloading.params.position);
+				formData.append('sort', _this.bannerNewloading.params.sort);
+				formData.append('title', _this.bannerNewloading.params.title);
+				formData.append('type', _this.bannerNewloading.params.type);
+				formData.append('req_uid', _this.bannerNewloading.params.req_uid);
+				formData.append('res_uid', _this.bannerNewloading.params.res_uid);
+				formData.append('start_time', _this.bannerNewloading.params.start_time);
+				formData.append('end_time', _this.bannerNewloading.params.end_time);
+				formData.append('jump_url', _this.bannerNewloading.params.jump_url);
+				formData.append('page_param', _this.bannerNewloading.params.page_param);
+				formData.append('show_type', _this.bannerNewloading.params.show_type);
+				formData.append('is_show', _this.bannerNewloading.params.is_show);
+			  	formData.append('pic', _this.bannerNewloading.file_pic); //提交的新增图标的文件
 				let config = {
 					headers: {
 						'Content-Type': 'multipart/form-data'
 					}
-				};		
-				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/addGift', formData, config)
+				};	
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/Banner/addBanner', formData, config)
 				.then((res) => {
 					console.log(res.data);
 					_this.listLoading = false;	
-					_this.giftUploading.dialogShow = false;								
+					_this.bannerNewloading.dialogShow = false;								
 					if(res.data.ret) {	
 						baseConfig.successTipMsg(_this, '新增成功！');
-						if(formData.get('position')==1) {
-							_this.getTableNormalGiftData();
-						} else if(formData.get('position')==2) {
-							_this.getTableActivityGiftData();
-						} else if(formData.get('position')==3) {
-							_this.getTableRoomGiftData();
-						}
+						_this.getTableFind();
+						_this.getTableManage();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
 				}).catch((error) => {
 					console.log(error);
 				});
-			}		
+			}
+		},
+		// 对应的banner条的删除功能
+		deleteOneUserData(index, rows) {
+			var _this = this;
+			index = index + (_this.formTwo.Page-1)*20;
+			var id = rows[index].id;
+			_this.listLoading = true;
+			var url = 'Banner/deleteBanner';
+			var params = {
+				id: id,
+			};
+			allget(params, url).then(res => {
+				_this.listLoading = false;
+				if(res.data.ret) {
+					baseConfig.successTipMsg(_this, '删除成功');
+					_this.getTableFind();
+					_this.getTableManage();
+				} else {
+					baseConfig.errorTipMsg(_this, res.data.msg);
+				}
+			}).catch(function(error) {
+				console.log(error);
+			})
+		},
+		// 编辑进行修改
+		changeOneUserData(index, rows) {
+			var _this = this;
+			index = index + (_this.formTwo.Page-1)*20;
+			console.log(index);
+			_this.bannerEditorloading.params.position = rows[index].position;
+			_this.bannerEditorloading.params.id = rows[index].id;
+			_this.bannerEditorloading.params.sort = rows[index].sort;
+			_this.bannerEditorloading.params.title = rows[index].title;
+			_this.bannerEditorloading.params.type = rows[index].type;
+			_this.bannerEditorloading.params.req_uid = rows[index].req_uid;
+			_this.bannerEditorloading.params.res_uid = rows[index].res_uid;
+			_this.bannerEditorloading.params.start_time = rows[index].start_time;
+			_this.bannerEditorloading.params.end_time = rows[index].end_time;
+			_this.bannerEditorloading.params.jump_url = rows[index].jump_url;
+			_this.bannerEditorloading.params.page_param = rows[index].page_param;
+			_this.bannerEditorloading.params.show_type = rows[index].show_type;
+			_this.bannerEditorloading.params.is_show = rows[index].is_show;
+			_this.bannerEditorloading.src_pic = rows[index].image_url;
+			_this.bannerEditorloading.dialogShow = true;
+		},
+		// 确定进行修改的
+		editorBannerSure(type) {
+			var _this = this;
+			if(type==0) {
+				console.log('点击了取消按钮');
+				_this.bannerEditorloading.dialogShow = false;
+			} else if(type==1) {
+				console.log('点击了确认按钮');
+				_this.listLoading = true;
+				// 进行添加操作
+				let formData = new FormData();
+				formData.append('position', _this.bannerEditorloading.params.position);
+				formData.append('id', _this.bannerEditorloading.params.id);
+				formData.append('sort', _this.bannerEditorloading.params.sort);
+				formData.append('title', _this.bannerEditorloading.params.title);
+				formData.append('type', _this.bannerEditorloading.params.type);
+				formData.append('req_uid', _this.bannerEditorloading.params.req_uid);
+				formData.append('res_uid', _this.bannerEditorloading.params.res_uid);
+				formData.append('start_time', _this.bannerEditorloading.params.start_time);
+				formData.append('end_time', _this.bannerEditorloading.params.end_time);
+				formData.append('jump_url', _this.bannerEditorloading.params.jump_url);
+				formData.append('page_param', _this.bannerEditorloading.params.page_param);
+				formData.append('show_type', _this.bannerEditorloading.params.show_type);
+				formData.append('is_show', _this.bannerEditorloading.params.is_show);
+			  	formData.append('pic', _this.bannerEditorloading.file_pic); //提交的新增图标的文件
+				let config = {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				};	
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/Banner/editBanner', formData, config)
+				.then((res) => {
+					console.log(res.data);
+					_this.listLoading = false;	
+					_this.bannerEditorloading.dialogShow = false;								
+					if(res.data.ret) {	
+						baseConfig.successTipMsg(_this, '编辑修改成功！');
+						_this.getTableFind();
+						_this.getTableManage();
+					} else {
+						baseConfig.errorTipMsg(_this, res.data.msg);						
+					}
+				}).catch((error) => {
+					console.log(error);
+				});
+			}
 		},
 		// 顶部tab进行页面的切换
 		handleClick(tab, event) {
@@ -1182,10 +650,8 @@ export default {
 		var _this = this;
 		this.$nextTick(function() {
 			_this.tableHeight = tabSearchPageHeight;
-			_this.getTableNormalGiftData();
-			_this.getTableActivityGiftData();
-			_this.getTableRoomGiftData();
-			_this.getLabelData();
+			_this.getTableFind();
+			_this.getTableManage();
 		})
 	}
 };
@@ -1196,11 +662,6 @@ export default {
 .fileinput{
 	float: left;
 	margin-top: 8px;
-}
-img{
-    display: block; float: left;
-	/* 图片进行高度自适应 */
-    width: 100px; height: auto;
 }
 /* 页面样式css内容 */
 .excelBox{
