@@ -1,0 +1,73 @@
+之前：
+    1、整个项目的动态路由创建->可以进行二级路由，相应的三级路由的配置；
+    2、新增空路由、去实现页面的刷新功能；
+    3、配置好常用功能，让相应的提示框放入baseConfig.js方法里面；
+    4、添加个人uid进行个人信息展示功能；
+    5、适配调整了整个页面展示样式；
+    6、完成上传图片、上传Excel表的文件组建开发。
+1-8：
+    1、新增随机签名页面；
+    2、完成页面路由刷新功能时，让相应的上面导航栏、左边导航栏进行选中；
+    3、完成进行页面的table数据进行修改；
+    4、新增随机昵称页面；
+    5、完成随机标签页面；
+    6、对查询条件有两行之上的页面进行适配，即对下发的table的高度进行调整适应；
+    7、调整左边导航栏的行高、设置高度40px；
+    8、优化小屏幕的电脑的显示效果->默认table数据宽度滚动。
+2-18：
+    对文件夹的设置进行全方位的修改，修改的规则
+        Home文件夹 ->
+                设置为主页的文件夹，分别的对应为含有
+                hello.vue--欢迎的组建
+                home.vue--指的是显示的最顶部路由的显示组建
+                activityManagement.vue--活动专区
+                operationData.vue--运营数据
+                operationSupport.vue--运营支撑
+                systemManagement.vue--系统管理
+                userManagement.vue--用户管理
+        rootGlobal文件夹 ->
+                设置为在全局使用的，全局组建
+                401.vue--为错误的显示使用的组建
+                emtry.vue--空组建，在进行页面刷新的时候，别的页面带参数跳转，又回到那个页面，使用页面的刷新作用
+                login.vue--登录组建
+                oneUserContent.vue--用户的个人显示组建
+        operationSupport文件夹 ->
+                设置为运营支撑的文件集
+                callManagement->通话管理文件夹
+
+                financialManagement->财务管理文件夹
+
+                globalParameter->全局参数文件夹
+
+                messageManagement->消息管理文件夹
+
+                operatingTools->运营工具文件夹
+                    randomLabel.vue--随机标签组建
+                    randomNickname.vue--随机昵称组建
+                    randomSignature.vue--随机签名组建
+                    imageUpload.vue--图片上传组建
+                    registeredUserGreeting.vue--注册用户招呼语
+                    newUsersMatchFriends.vue--新用户匹配好友
+                    autoMaticCodeSealRule.vue--自动封号规则
+                    revenueSuspensionWindow.vue--收益悬浮窗页面
+
+                recordingManagement->录音管理文件夹
+
+3-1：
+    1、对相应的顶部的在刷新条件下进行默认选中，对相应设置为hidden: true;的选项进行设置为隐藏掉;
+    2、在有选项条件的页面进行初始值的设置;
+3-2：
+    展示区域内：设置好不同的高度值进行区分判断
+    leftNavHeight->定义初始的高度
+    tabHeight->tab切换
+    searchHeight->search搜索条件
+    pageHeight->page翻页工具
+    tabSearchHeight->tab切换、搜索条件
+    tabPageHeight->tab切换、page翻页工具
+    searchPageHeight->search搜索条件、page翻页工具
+    tabSearchPageHeight->tab切换、search搜索条件、page翻页工具
+3-5：
+    完成tab的切换模块的进行搭建组建
+    revenueSuspensionWindow.vue--收益悬浮窗页面
+    含有tab切换，完成相应的功能，及其的tab项目的切换需要，tab位置的大小的自适应
+    
