@@ -588,6 +588,7 @@ import { allget } from '../../../api/api';
 import store from '../../../vuex/store';
 import axios from 'axios';
 // import index from '../../../../node_modules/_vue@2.5.13@vue';
+const lala = "";
 export default {
 	data() {
 		return {
