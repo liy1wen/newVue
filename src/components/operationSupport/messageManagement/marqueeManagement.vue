@@ -12,13 +12,18 @@
 					</div>
 				</el-form-item>
 				<el-form-item>
-					<span>展示位置</span>
-					<el-select v-model="formOne.position">
-						<el-option label="全部" value=""></el-option>
-						<el-option label="随机匹配话题" value="0"></el-option>
-						<el-option label="抢聊话题" value="1"></el-option>
-						<el-option label="刺激话题" value="2"></el-option>
-						<el-option label="组组匹配推送话题" value="3"></el-option>
+					<span>类型</span>
+					<el-select v-model="formOne.type">
+						<el-option label="全部" value="0"></el-option>
+						<el-option label="随机匹配话题" value="1"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<span>状态</span>
+					<el-select v-model="formOne.status">
+						<el-option label="全部" value="0"></el-option>
+						<el-option label="进行中" value="1"></el-option>
+						<el-option label="已结束" value="2"></el-option>
 					</el-select>
 				</el-form-item>
                 <el-form-item>
@@ -30,21 +35,27 @@
 		<!--用户的数据展示列表-->
 		<template>
 			<el-table ref="tableHeight" :data="tabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="sort" label="弹幕序号" width="100" sortable ></el-table-column>
-				<el-table-column prop="content" label="弹幕内容" min-width="400" sortable ></el-table-column>
-				<el-table-column label="弹幕位置" width="400" sortable >
+				<el-table-column prop="operate_time" label="操作时间" width="80" sortable ></el-table-column>
+				<el-table-column prop="start_time" label="起始时间" width="80" sortable ></el-table-column>
+				<el-table-column prop="end_time" label="结束时间" width="80" sortable ></el-table-column>
+				<el-table-column prop="content" label="内容" min-width="300" sortable ></el-table-column>
+				<el-table-column label="链接类型" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.position==0">随机匹配话题</p>
-							<p v-else-if="scope.row.position==1">抢聊话题</p>
-							<p v-else-if="scope.row.position==2">刺激话题</p>
-							<p v-else-if="scope.row.position==3">组组匹配推送话题</p>
+							<p v-if="scope.row.link_type==0">无跳转</p>
+							<p v-else-if="scope.row.link_type==1">应用</p>
+							<p v-else-if="scope.row.link_type==2">H5页面</p>
+							<p v-else-if="scope.row.link_type==3">跳转外部浏览器打开</p>
+							<p v-else-if="scope.row.link_type==4">跳转打电话界面</p>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="200">
+				<el-table-column prop="ios_link" label="IOS中的链接" width="200" sortable ></el-table-column>				
+				<el-table-column prop="android_link" label="安卓中的链接" width="200" sortable ></el-table-column>				
+				<el-table-column label="操作" width="100">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, tabData)" size="small">删除</el-button>
+						<el-button v-if="scope.row.status=='1'" type="primary" plain size="small" @click.native.prevent="tipEnd()">结束</el-button>
+						<el-button v-else-if="scope.row.status=='0'" type="primary" @click.native.prevent="endSure(scope.$index, formTwo.TabData, '2')" size="small">结束</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -92,8 +103,8 @@ export default {
 			// 搜索条件的组装字段
 			formOne: {
 				choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
-				type: '', 
-				status: '',
+				type: '0', 
+				status: '0',
 			},
 			formTwo: {
 				content: '',
@@ -121,20 +132,16 @@ export default {
 			var _this = this;
 			var obj = {};
 			obj.type = _this.formOne.type; // 给对象添加键值对
-			obj.page = _this.page;
 			obj.date_s = baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0);
 			obj.date_e = baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0);
 			// 对需要判断搜索值是否为空进行判断提示
 			for(var key in obj) {
-				if(key=='position') {
-					// 全部时，位置传空
-				} else {
-					if(obj[key]=='') {
-						baseConfig.warningTipMsg(_this, '搜索条件值不能为空！');
-						return null;
-					}
+				if(obj[key]=='') {
+					baseConfig.warningTipMsg(_this, '搜索条件值不能为空！');
+					return null;
 				}
 			}
+			obj.page = _this.page; // 在page==0，会进入搜索条件值为空的判断
 			return obj; // return出组装好的搜索条件
 		},
 		// 确定了新增传递过来对应的内容值(val对应的值：0->取消，1->确认)
@@ -182,7 +189,7 @@ export default {
 		getTableData() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/GlobalSet/findScreen';
+			var url = '/Marquee/getOperationMarquee';
 			var params = _this.searchCondition();
 			// 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 			if(params==null) {
@@ -195,12 +202,9 @@ export default {
 					_this.listLoading = false;
 					if(res.data.ret) {
 						// 正常数据
-						for(var i=0; i<res.data.data.length; i++) { // 对数据进行处理，将最大的序列号进行加1操作保存
+						for(var i=0; i<res.data.data.length; i++) { // 对数据进行处理
+							console.log(res.data.data[i].content);
 							res.data.data[i].content = decodeURI(res.data.data[i].content);
-							if(_this.formTwo.sort<=res.data.data[i].sort) {
-								_this.formTwo.sort = res.data.data[i].sort-0+1;
-								// console.log(_this.formTwo.sort);
-							}
 						}
 						_this.totalpage = res.data.data.length;
 						_this.tabData = res.data.data;
@@ -212,6 +216,15 @@ export default {
 					console.log(error);
 				})
 			}
+		},
+		// 只是提示已经结束了
+		tipEnd() {
+			baseConfig.errorTipMsg(_this, '早就已经结束了！');						
+		},
+		// 确定结束的方法
+		endSure(index, rows) {
+			var _this = this;
+
 		},
 		// 删除某一个已经存在确定的用户
 		deleteOneUserData(index, rows) {
