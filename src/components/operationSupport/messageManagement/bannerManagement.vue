@@ -507,10 +507,10 @@ export default {
 		addBannerSure(type) {
 			var _this = this;
 			if(type==0) {
-				console.log('点击了取消按钮');
+				// console.log('点击了取消按钮');
 				_this.bannerNewloading.dialogShow = false;
 			} else if(type==1) {
-				console.log('点击了确认按钮');
+				// console.log('点击了确认按钮');
 				_this.listLoading = true;
 				// 进行添加操作
 				let formData = new FormData();
@@ -534,7 +534,7 @@ export default {
 				};	
 				axios.post(baseConfig.server+baseConfig.requestUrl+'/Banner/addBanner', formData, config)
 				.then((res) => {
-					console.log(res.data);
+					// console.log(res.data);
 					_this.listLoading = false;	
 					_this.bannerNewloading.dialogShow = false;								
 					if(res.data.ret) {	
@@ -576,7 +576,6 @@ export default {
 		changeOneUserData(index, rows) {
 			var _this = this;
 			index = index + (_this.formTwo.Page-1)*20;
-			console.log(index);
 			_this.bannerEditorloading.params.position = rows[index].position;
 			_this.bannerEditorloading.params.id = rows[index].id;
 			_this.bannerEditorloading.params.sort = rows[index].sort;
@@ -597,10 +596,10 @@ export default {
 		editorBannerSure(type) {
 			var _this = this;
 			if(type==0) {
-				console.log('点击了取消按钮');
+				// console.log('点击了取消按钮');
 				_this.bannerEditorloading.dialogShow = false;
 			} else if(type==1) {
-				console.log('点击了确认按钮');
+				// console.log('点击了确认按钮');
 				_this.listLoading = true;
 				// 进行添加操作
 				let formData = new FormData();
@@ -625,7 +624,6 @@ export default {
 				};	
 				axios.post(baseConfig.server+baseConfig.requestUrl+'/Banner/editBanner', formData, config)
 				.then((res) => {
-					console.log(res.data);
 					_this.listLoading = false;	
 					_this.bannerEditorloading.dialogShow = false;								
 					if(res.data.ret) {	
@@ -643,7 +641,7 @@ export default {
 		// 顶部tab进行页面的切换
 		handleClick(tab, event) {
 			var _this = this;
-			console.log(tab.label);
+			// console.log(tab.label);
 		},
 	},
 	mounted() {

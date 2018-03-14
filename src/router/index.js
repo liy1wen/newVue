@@ -26,7 +26,9 @@ import giftManagement from '../components/operationSupport/operatingTools/giftMa
 // 完成*****
 // 消息管理
 // 开始*****
-import bannerManagement from '../components/operationSupport/messageManagement/bannerManagement.vue';//礼物管理
+import bannerManagement from '../components/operationSupport/messageManagement/bannerManagement.vue';//banner条管理
+import barrageTopicManagement from '../components/operationSupport/messageManagement/barrageTopicManagement.vue';//弹幕话题管理
+import marqueeManagement from '../components/operationSupport/messageManagement/marqueeManagement.vue';//弹幕话题管理
 
 // 完成*****
 
@@ -304,13 +306,13 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operatingTools/newUsersMatchFriends', component: user, name: '弹幕话题管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '发送系统通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/barrageTopicManagement', component: barrageTopicManagement, name: '弹幕话题管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/user', component: user, name: '发送系统通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/bannerManagement', component: bannerManagement, name: 'banner条管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '文章管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '活动通知管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '发送短信通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/user', component: user, name: '文章管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/user', component: user, name: '活动通知管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/user', component: user, name: '发送短信通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {

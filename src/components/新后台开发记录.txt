@@ -40,7 +40,9 @@
                 globalParameter->全局参数文件夹
 
                 messageManagement->消息管理文件夹
+                    bannerManagement.vue--banner条管理
 
+                    
                 operatingTools->运营工具文件夹
                     randomLabel.vue--随机标签组建
                     randomNickname.vue--随机昵称组建
@@ -50,7 +52,8 @@
                     newUsersMatchFriends.vue--新用户匹配好友
                     autoMaticCodeSealRule.vue--自动封号规则
                     revenueSuspensionWindow.vue--收益悬浮窗页面
-
+                    channelManagement.vue--渠道管理
+                    giftManagement.vue--礼物管理
                 recordingManagement->录音管理文件夹
 
 3-1：
