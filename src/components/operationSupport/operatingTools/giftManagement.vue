@@ -587,7 +587,7 @@ import Event from './../../../public_js/event.js';
 import { allget } from '../../../api/api';
 import store from '../../../vuex/store';
 import axios from 'axios';
-import index from '../../../../node_modules/_vue@2.5.13@vue';
+// import index from '../../../../node_modules/_vue@2.5.13@vue';
 export default {
 	data() {
 		return {
