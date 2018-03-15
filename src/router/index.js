@@ -47,6 +47,9 @@ import heldOutData from '../components/basicData/heldOutData'; //留存数据
 import liveOnlineDetails from '../components/basicData/liveOnlineDetails'; //实时在线详情
 import realTimeMatching from '../components/basicData/realTimeMatching'; //实时匹配详情
 
+// 录音管理
+import dailyAdditions from '../components/operationSupport/recordingManagement/DailyAdditions.vue'; // 每日新增录音明细
+
 // 系统设置 
 import empty from '../components/rootGlobal/empty.vue';//空组建进行页面进行刷新时使用
 
@@ -354,7 +357,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/operationSupport/operationSupportOne/user', component: user, name: '录播管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '每日新增录音明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingManagement/dailyAdditions', component: dailyAdditions, name: '每日新增录音明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音精彩内容', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operationSupportOne/user', component: user, name: '分享页推荐列表管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音页面投诉管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
