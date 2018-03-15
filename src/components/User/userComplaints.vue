@@ -7,7 +7,7 @@
 				<el-form-item>
 					<div class="block">
 						<span class="registerTime">日期</span>
-						<el-date-picker v-model="time_register" type="daterange" range-separator=" - " placeholder="选择日期范围"></el-date-picker>
+						<el-date-picker v-model="time_register" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
                     </div>
 				</el-form-item>
 				<el-form-item>
