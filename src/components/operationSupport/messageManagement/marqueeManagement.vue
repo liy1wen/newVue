@@ -8,7 +8,7 @@
 				<el-form-item>
 					<div class="block">
 						<span class="registerTime">日期</span>
-						<el-date-picker v-model="formOne.choiceDate" type="daterange" range-separator=" - " placeholder="选择日期范围"></el-date-picker>
+						<el-date-picker v-model="formOne.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
 					</div>
 				</el-form-item>
 				<el-form-item>
@@ -70,6 +70,9 @@
 				<el-form-item label="编辑公告概要" :label-width="formLabelWidth">
 					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formTwo.content" auto-complete="off"></el-input>
 				</el-form-item>
+				<el-form-item label="添加超链接" :label-width="formLabelWidth">
+					<p style="font-weight: bold;">在发送文字正文中相应位置插入{messageDisplay}超链接才生效</p>
+				</el-form-item>
 				<el-form-item label="链接类型" :label-width="formLabelWidth">
 					<el-select v-model="formTwo.link_type">
 						<el-option label="无跳转" value="0"></el-option>
@@ -90,7 +93,7 @@
 				</el-form-item>
 				<el-form-item label="轮播时间段" :label-width="formLabelWidth">
 					<div class="block">
-						<el-date-picker v-model="formTwo.choiceDate" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+						<el-date-picker v-model="formTwo.choiceDate" type="datetimerange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
 					</div>
 				</el-form-item>
 			</el-form>
@@ -187,8 +190,6 @@ export default {
 						'Content-Type': 'multipart/form-data'
 					}
 				};
-				console.log(formData.get('start_time'));
-				console.log(formData.get('end_time'));
 				if(formData.get('content')!=''&&formData.get('start_time')!=''&&formData.get('end_time')!='') {
 					axios.post(baseConfig.server+baseConfig.requestUrl+'/Marquee/sendOperationMarquee', formData, config)
 					.then((res) => {
@@ -235,6 +236,11 @@ export default {
 							} else {
 								// 不进行数据的处理
 							}
+							// 将多有的标签的进行替换
+							res.data.data[i].content = res.data.data[i].content.replace(/<font  color="#809ebd">/g, '');
+							res.data.data[i].content = res.data.data[i].content.replace(/<font color="#809ebd">/g, '');
+							res.data.data[i].content = res.data.data[i].content.replace(/<\/font>/g, '');
+							res.data.data[i].content = res.data.data[i].content.replace(/<font  color="#ffffff">/g, '');
 						}
 						_this.totalpage = res.data.data.length;
 						_this.tabData = res.data.data;

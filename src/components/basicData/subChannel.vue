@@ -9,7 +9,7 @@
                       <el-date-picker
                         v-model="time_value"
                         type="daterange"
-                        range-separator=" - "
+                        range-separator=" 至 "
                         placeholder="选择日期范围">
                       </el-date-picker>
                     </div>
