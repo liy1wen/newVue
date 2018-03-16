@@ -1,5 +1,5 @@
 <template>
-	<!-- 发送系统通知 -->
+	<!-- 发送短信通知 -->
 	<!-- dom结构内容 -->
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
@@ -22,7 +22,7 @@
 				</el-form-item>
                 <el-form-item>
 					<el-button type="primary" @click="formCondition.dialogFormVisible=true;">按条件发送</el-button>
-					<el-button type="primary" @click="formUid.dialogFormVisible=true;">按UID发送</el-button>
+					<el-button type="primary" @click="formPhone.dialogFormVisible=true;">按UID发送</el-button>
 					<el-button type="primary" @click="getTableData">查询</el-button>
 				</el-form-item>
 			</el-form>
@@ -30,36 +30,27 @@
 		<!--用户的数据展示列表-->
 		<template>
 			<el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="time" label="添加时间" width="150" sortable ></el-table-column>
+				<el-table-column prop="create_time" label="添加时间" width="150" sortable ></el-table-column>
 				<el-table-column prop="send_time" label="发送时间" width="150" sortable ></el-table-column>
-				<el-table-column prop="uid_list" label="接收人列表" width="150" sortable ></el-table-column>
-				<el-table-column label="接收人地区" width="80" sortable >
+				<el-table-column label="性别" width="50" sortable >
+					<template slot-scope="scope">
+						<div slot="reference" class="name-wrapper">
+							<p v-if="scope.row.condition_sex==0">女</p>
+							<p v-else-if="scope.row.condition_sex==1">男</p>
+							<p v-else>全部</p>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column label="地址" width="80" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
 							<p v-if="scope.row.address==0">全国</p>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="接收人性别" width="80" sortable >
-					<template slot-scope="scope">
-						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.condition_sex==0">全部</p>
-							<p v-else-if="scope.row.condition_sex==1">男</p>
-							<p v-else-if="scope.row.condition_sex==2">女</p>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column prop="content" label="发送内容" min-width="150" sortable ></el-table-column>
-				<el-table-column prop="operation_name" label="发送人" width="150" sortable ></el-table-column>
-				<el-table-column label="发送状态" width="150" sortable >
-					<template slot-scope="scope">
-						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.send_status==0">未发送</p>
-							<p v-else-if="scope.row.send_status==1">已发送</p>
-							<p v-else-if="scope.row.send_status==2">取消发送</p>
-						</div>
-					</template>
-				</el-table-column>
+				<el-table-column prop="phone_list" label="手机号列表" min-width="150" sortable ></el-table-column>
+				<el-table-column prop="template_id" label="短信模板id" width="100" sortable ></el-table-column>
+				<el-table-column prop="parameter" label="短信模板参数" width="150" sortable ></el-table-column>
 				<el-table-column label="是否定时" width="100" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
@@ -68,10 +59,18 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="100">
+				<el-table-column label="发送状态" width="150" sortable >
 					<template slot-scope="scope">
-						<el-button v-if="scope.row.send_status==0" type="primary" @click.native.prevent="cacelOneUserData(scope.$index, tabData)" size="small">取消发送</el-button>
-						<p v-else-if="scope.row.send_status==1||scope.row.send_status==2">不可改</p>
+						<div slot="reference" class="name-wrapper">
+							<p v-if="scope.row.send_status==0">未发送</p>
+							<p v-else-if="scope.row.send_status==1">已发送</p>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column prop="operation_name" label="操作人" width="150" sortable ></el-table-column>				
+				<el-table-column label="查看" width="100">
+					<template slot-scope="scope">
+						<el-button type="primary" @click.native.prevent="lookOneUserData(scope.$index, tabData)" size="small">查看详情</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -80,6 +79,23 @@
 				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
 			</el-col>
 		</template>
+		<!-- 显示为查看内容 -->
+		<el-dialog title="查看详情" :visible.sync="formFind.dialogFormVisible">
+			<el-table :data="formFind.tabData" style="width: 100%">
+				<el-table-column prop="mobile" label="手机号码" width="180"></el-table-column>
+				<el-table-column prop="updatetime" label="日期" width="180"></el-table-column>
+				<el-table-column prop="status" label="状态">
+					<template slot-scope="scope">
+						<div slot="reference" class="name-wrapper">
+							<p v-if="scope.row.status==0">未发送</p>
+							<p v-else-if="scope.row.status==1">发送成功</p>
+							<p v-else-if="scope.row.status==2">发送失败</p>
+							<p v-else-if="scope.row.status==3">反垃圾</p>
+						</div>
+					</template>
+				</el-table-column>
+			</el-table>
+		</el-dialog>
 		<!-- 按条件发送--对应的dialog -->
 		<el-dialog title="按条件发送" :visible.sync="formCondition.dialogFormVisible">
 			<el-form :model="formCondition">
@@ -111,34 +127,12 @@
 				<el-form-item label="版本号" :label-width="formLabelWidth">
 					<el-input v-model="formCondition.version_name" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="发送群体" :label-width="formLabelWidth">
-					<el-select v-model="formCondition.identity">
-						<el-option label="全部" value="0"></el-option>
-						<el-option label="主播" value="1"></el-option>
-						<el-option label="vip用户" value="2"></el-option>
-						<el-option label="代理" value="3"></el-option>
-					</el-select>
+				<el-form-item label="短信模板ID" :label-width="formLabelWidth">
+					<el-input v-model="formCondition.template_id" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="发送文字" :label-width="formLabelWidth">
-					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formCondition.content" auto-complete="off"></el-input>
-					<p style="font-weight: bold;">在发送文字正文中相应位置插入{messageDisplay}超链接才生效</p>
-				</el-form-item>
-				<el-form-item label="显示的文字" :label-width="formLabelWidth">
-					<el-input v-model="formCondition.display" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="链接类型" :label-width="formLabelWidth">
-					<el-select v-model="formCondition.Link_type">
-						<el-option label="应用" value="1"></el-option>
-						<el-option label="H5页面" value="2"></el-option>
-						<el-option label="跳转外部浏览器打开" value="3"></el-option>
-						<el-option label="跳转打电话界面" value="4"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="ios中链接地址" :label-width="formLabelWidth">
-					<el-input v-model="formCondition.ios_link" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="安卓中链接地址" :label-width="formLabelWidth">
-					<el-input v-model="formCondition.android_link" auto-complete="off"></el-input>
+				<el-form-item label="短信模板参数" :label-width="formLabelWidth">
+					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formCondition.parameter" auto-complete="off"></el-input>
+					<p style="font-weight: bold;">每个参数，用英文逗号隔开（例如：xxx,xxx,xxx,xxx）</p>
 				</el-form-item>
 				<el-form-item label="是否定时" :label-width="formLabelWidth">
 					<el-radio v-model="formCondition.is_timing" label="0">无</el-radio>
@@ -156,46 +150,32 @@
 			</div>
 		</el-dialog>
 		<!-- 按uid发送--对应的dialog -->
-		<el-dialog title="按Uid发送" :visible.sync="formUid.dialogFormVisible">
-			<el-form :model="formUid">
-				<el-form-item label="发送的Uid" :label-width="formLabelWidth">
-					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formUid.uid_list" auto-complete="off"></el-input>
-					<p>每个Uid，用英文逗号隔开(例如:10000,10001,12201)</p>
+		<el-dialog title="按Phone发送" :visible.sync="formPhone.dialogFormVisible">
+			<el-form :model="formPhone">
+				<el-form-item label="发送的Phone" :label-width="formLabelWidth">
+					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formPhone.phone_list" auto-complete="off"></el-input>
+					<p style="font-weight: bold;">每个Phone，用英文逗号隔开(例如:13800000000,13800000001,13800000002)</p>
 				</el-form-item>
-				<el-form-item label="发送文字" :label-width="formLabelWidth">
-					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formUid.content" auto-complete="off"></el-input>
-					<p style="font-weight: bold;">在发送文字正文中相应位置插入{messageDisplay}超链接才生效</p>
+				<el-form-item label="短信模板ID" :label-width="formLabelWidth">
+					<el-input v-model="formPhone.template_id" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="显示的文字" :label-width="formLabelWidth">
-					<el-input v-model="formUid.display" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="链接类型" :label-width="formLabelWidth">
-					<el-select v-model="formUid.Link_type">
-						<el-option label="应用" value="1"></el-option>
-						<el-option label="H5页面" value="2"></el-option>
-						<el-option label="跳转外部浏览器打开" value="3"></el-option>
-						<el-option label="跳转打电话界面" value="4"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="ios中链接地址" :label-width="formLabelWidth">
-					<el-input v-model="formUid.ios_link" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="安卓中链接地址" :label-width="formLabelWidth">
-					<el-input v-model="formUid.android_link" auto-complete="off"></el-input>
+				<el-form-item label="短信模板参数" :label-width="formLabelWidth">
+					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formPhone.parameter" auto-complete="off"></el-input>
+					<p style="font-weight: bold;">每个参数，用英文逗号隔开（例如：xxx,xxx,xxx,xxx）</p>
 				</el-form-item>
 				<el-form-item label="是否定时" :label-width="formLabelWidth">
-					<el-radio v-model="formUid.is_timing" label="0">无</el-radio>
-					<el-radio v-model="formUid.is_timing" label="1">定时</el-radio>
+					<el-radio v-model="formPhone.is_timing" label="0">无</el-radio>
+					<el-radio v-model="formPhone.is_timing" label="1">定时</el-radio>
 				</el-form-item>
-				<el-form-item v-if="formUid.is_timing==1" label="定时时间" :label-width="formLabelWidth">
+				<el-form-item v-if="formPhone.is_timing==1" label="定时时间" :label-width="formLabelWidth">
 					<div class="block">
-						<el-date-picker v-model="formUid.send_time" type="datetime" placeholder="选择发送的时间"></el-date-picker>
+						<el-date-picker v-model="formPhone.send_time" type="datetime" placeholder="选择发送的时间"></el-date-picker>
 					</div>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="uidSure(0)">取 消</el-button>
-				<el-button type="primary" @click="uidSure(1)">确 定</el-button>
+				<el-button @click="phoneSure(0)">取 消</el-button>
+				<el-button type="primary" @click="phoneSure(1)">确 定</el-button>
 			</div>
 		</el-dialog>
 	</section>
@@ -216,9 +196,13 @@ export default {
 				choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				send_status: '',
 			},
+			formFind: {
+				dialogFormVisible: false,
+				tabData: [],
+			},
 			formCondition: {
 				dialogFormVisible: false, // 控制dialog弹框的显示和隐藏
-				appoint_type: '0', //条件发送值为0
+				appoint_type: '2', //条件发送值为0
 				// 开始
 				condition_sex: '0', //性别
 				registerTime: [new Date()-180*24*60*60*1000, new Date()], //注册时间
@@ -230,24 +214,19 @@ export default {
 				address: '0', //地区
 				channel: '0', //系统渠道（全部、ios、安卓）
 				version_name: '', //版本号
-				identity: '0', //发送群体
 				// 结束
 				// *****
-				uid_list: ' ', //uid列表
+				phone_list: ' ', 
 				// *****
-				content_type: '0', //默认为发送文字0,发送图片为1
-				content: '', //发送文字的内容
-				display: '', //显示的文字内容
-				Link_type: '1', //链接类型
-				ios_link: '', //ios链接地址
-				android_link: '', //安卓链接地址
+				template_id: '', 
+				parameter: ' ', 
 				is_timing: '0', //是否定时（0->不定时，1->定时）
 				send_time: '', //定时的时间
 				operation_name: '', //操作人
 			},
-			formUid: {
+			formPhone: {
 				dialogFormVisible: false, // 控制dialog弹框的显示和隐藏
-				appoint_type: '1', //uid发送值为1
+				appoint_type: '3', //uid发送值为1
 				// *****
 				condition_sex: '0', //性别
 				addtime_start: '', //注册时间
@@ -257,17 +236,12 @@ export default {
 				address: '0', //地区
 				channel: '0', //系统渠道（全部、ios、安卓）
 				version_name: '', //版本号
-				identity: '0', //发送群体
 				// *****
 				// 开始
-				uid_list: ' ', //uid列表
+				phone_list: ' ', 
 				// 结束
-				content_type: '0', //默认为发送文字0,发送图片为1
-				content: '', //发送文字的内容
-				display: '', //显示的文字内容
-				Link_type: '1', //链接类型
-				ios_link: '', //ios链接地址
-				android_link: '', //安卓链接地址
+				template_id: '', 
+				parameter: ' ', 
 				is_timing: '0', //是否定时（0->不定时，1->定时）
 				send_time: '', //定时的时间
 				operation_name: '', //操作人
@@ -336,25 +310,19 @@ export default {
 			  	formData.append('lasttime_end', baseConfig.changeDateTime(_this.formCondition.loginTime[1], 0));
 			  	formData.append('address', _this.formCondition.address);
 			  	formData.append('appoint_type', _this.formCondition.appoint_type);
-			  	formData.append('uid_list', _this.formCondition.uid_list);
-			  	formData.append('content_type', _this.formCondition.content_type);
-			  	formData.append('content', _this.formCondition.content);
-			  	formData.append('display', _this.formCondition.display);
-			  	formData.append('Link_type', _this.formCondition.Link_type);
-			  	formData.append('ios_link', _this.formCondition.ios_link);
-			  	formData.append('android_link', _this.formCondition.android_link);
+			  	formData.append('phone_list', _this.formCondition.phone_list);
+			  	formData.append('template_id', _this.formCondition.template_id);
+			  	formData.append('parameter', _this.formCondition.parameter);
 			  	formData.append('operation_name', _this.formCondition.operation_name);
-			  	formData.append('channel', _this.formCondition.channel);
 			  	formData.append('version_name', _this.formCondition.version_name);
 			  	formData.append('is_timing', _this.formCondition.is_timing);
 			  	formData.append('send_time', baseConfig.changeDateTime(_this.formCondition.loginTime, 1));
-			  	formData.append('identity', _this.formCondition.identity);
 				let config = {
 					headers: {
 						'Content-Type': 'multipart/form-data'
 					}
 				};		
-				axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/sendSystemMessage', formData, config)
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/sendMsmMess', formData, config)
 				.then((res) => {
 					_this.listLoading = false;	
 					_this.formCondition.dialogFormVisible = false;									
@@ -370,46 +338,40 @@ export default {
 			} 
 		},
 		// uid发送的确定发送
-		uidSure(val) {
+		phoneSure(val) {
 			var _this = this;
 			if(val==0) {
 				// 点击了取消按钮
-				_this.formUid.dialogFormVisible = false; // 点击了取消、确定按钮都要进行隐藏dialog框
+				_this.formPhone.dialogFormVisible = false; // 点击了取消、确定按钮都要进行隐藏dialog框
 				// console.log('点击了取消按钮');
 			} else if(val==1) {
 				// 点击了确认按钮
 				// console.log('点击了确认按钮');
 				_this.listLoading = true;
 				let formData = new FormData();
-			  	formData.append('condition_sex', _this.formUid.condition_sex);
+			  	formData.append('condition_sex', _this.formPhone.condition_sex);
 			  	formData.append('addtime_start', '');
 			  	formData.append('addtime_end', '');
 			  	formData.append('lasttime_start', '');
 			  	formData.append('lasttime_end', '');
-			  	formData.append('address', _this.formUid.address);
-			  	formData.append('appoint_type', _this.formUid.appoint_type);
-			  	formData.append('uid_list', _this.formUid.uid_list);
-			  	formData.append('content_type', _this.formUid.content_type);
-			  	formData.append('content', _this.formUid.content);
-			  	formData.append('display', _this.formUid.display);
-			  	formData.append('Link_type', _this.formUid.Link_type);
-			  	formData.append('ios_link', _this.formUid.ios_link);
-			  	formData.append('android_link', _this.formUid.android_link);
-			  	formData.append('operation_name', _this.formUid.operation_name);
-			  	formData.append('channel', _this.formUid.channel);
-			  	formData.append('version_name', _this.formUid.version_name);
-			  	formData.append('is_timing', _this.formUid.is_timing);
-			  	formData.append('send_time', baseConfig.changeDateTime(_this.formUid.loginTime, 1));
-			  	formData.append('identity', _this.formUid.identity);
+			  	formData.append('address', _this.formPhone.address);
+			  	formData.append('appoint_type', _this.formPhone.appoint_type);
+			  	formData.append('phone_list', _this.formPhone.phone_list);
+			  	formData.append('template_id', _this.formPhone.template_id);
+			  	formData.append('parameter', _this.formPhone.parameter);
+			  	formData.append('operation_name', _this.formPhone.operation_name);
+			  	formData.append('version_name', _this.formPhone.version_name);
+			  	formData.append('is_timing', _this.formPhone.is_timing);
+			  	formData.append('send_time', baseConfig.changeDateTime(_this.formPhone.loginTime, 1));
 				let config = {
 					headers: {
 						'Content-Type': 'multipart/form-data'
 					}
 				};		
-				axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/sendSystemMessage', formData, config)
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/sendMsmMess', formData, config)
 				.then((res) => {
 					_this.listLoading = false;	
-					_this.formUid.dialogFormVisible = false;									
+					_this.formPhone.dialogFormVisible = false;									
 					if(res.data.ret) {	
 						baseConfig.successTipMsg(_this, '发送成功！');
 						_this.getTableData();
@@ -425,7 +387,7 @@ export default {
 		getTableData() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/GlobalSet/findSystemMessageLog';
+			var url = '/GlobalSet/findMsmMess';
 			var params = _this.searchCondition();
 			// 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 			if(params==null) {
@@ -451,31 +413,31 @@ export default {
 			}
 		},
 		// 取消发送操作
-		cacelOneUserData(index, rows) {
+		lookOneUserData(index, rows) {
 			var _this = this;
 			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 移除前拿出对应内容的中value值	
+			var send_id = rows[index].send_id; // 移除前拿出对应内容的中value值	
 			// 下面的操作主要是为了进行将删除的用户调用删除接口进行删除
 			_this.listLoading = true;
-			let formData = new FormData();
-			formData.append('id', id);
-			let config = {
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				}
-			};		
-			axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/delSystemMessage', formData, config)
-			.then((res) => {
-				_this.listLoading = false;	
-				if(res.data.ret) {	
-					baseConfig.successTipMsg(_this, '取消发送成功！');
-					_this.getTableData();
+			var url = '/GlobalSet/getMsmMessStatus';
+			var params = {
+				send_id: send_id,
+			};
+			allget(params, url).then(res => {
+				_this.listLoading = false;
+				if(res.data.ret) {
+					// 对数据进行切割处理
+					for(var i=0; i<res.data.obj.length; i++) {
+						res.data.obj[i].updatetime = baseConfig.changeDateTime(new Date(res.data.obj[i].updatetime), 0);
+					}
+					_this.formFind.tabData = res.data.obj;
+					_this.formFind.dialogFormVisible = true;
 				} else {
-					baseConfig.errorTipMsg(_this, res.data.msg);						
+					baseConfig.errorTipMsg(_this, res.data.msg);
 				}
-			}).catch((error) => {
+			}).catch(function(error) {
 				console.log(error);
-			});
+			})
 		},
 	},
 	mounted() {
@@ -484,7 +446,7 @@ export default {
 			_this.tableHeight = searchPageHeight;
 			_this.getTableData();
 			_this.formCondition.operation_name = store.state.user.name; // 操作用户的昵称
-			_this.formUid.operation_name = store.state.user.name; // 操作用户的昵称
+			_this.formPhone.operation_name = store.state.user.name; // 操作用户的昵称
 		})
 	}
 };

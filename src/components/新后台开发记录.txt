@@ -45,7 +45,7 @@
                     marqueeManagement.vue--跑马灯管理
                     sendSystemNotification.vue--发送系统通知
                     activityNotificationManagement.vue--活动通知管理
-                    
+                    sendMessageNotifications.vue--发送短信通知
                 operatingTools->运营工具文件夹
                     randomLabel.vue--随机标签组建
                     randomNickname.vue--随机昵称组建

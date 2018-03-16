@@ -31,6 +31,7 @@ import barrageTopicManagement from '../components/operationSupport/messageManage
 import marqueeManagement from '../components/operationSupport/messageManagement/marqueeManagement.vue';//跑马灯管理
 import sendSystemNotification from '../components/operationSupport/messageManagement/sendSystemNotification.vue';//发送系统通知
 import activityNotificationManagement from '../components/operationSupport/messageManagement/activityNotificationManagement.vue';//活动通知管理
+import sendMessageNotifications from '../components/operationSupport/messageManagement/sendMessageNotifications.vue';//发送短信通知
 
 // 完成*****
 
@@ -316,7 +317,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/messageManagement/bannerManagement', component: bannerManagement, name: 'banner条管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/user', component: user, name: '文章管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/activityNotificationManagement', component: activityNotificationManagement, name: '活动通知管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/user', component: user, name: '发送短信通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/sendMessageNotifications', component: sendMessageNotifications, name: '发送短信通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
