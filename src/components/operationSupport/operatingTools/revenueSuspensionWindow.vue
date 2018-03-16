@@ -90,7 +90,7 @@
 				</el-form>
 				<el-button type="primary" style="margin-left: 50px; margin-top: 30px;" @click="sendToTask()">确定发送</el-button>
 			</el-tab-pane>
-			<el-tab-pane label="操作记录管理" name="second">
+			<el-tab-pane label="操作记录管理" name="second" :style="{ height:  tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formOne">
 						<el-form-item>
@@ -137,7 +137,7 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="reward" label="奖励数量" width="100"></el-table-column>
+						<el-table-column prop="reward" label="奖励数量" width="80"></el-table-column>
 						<el-table-column label="跳转类型" width="100">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
@@ -181,7 +181,7 @@
 								</div>
 							</template>
 						</el-table-column>					
-						<el-table-column label="操作" min-width="200">
+						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>								
 								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.$index, tabData)" size="small">上架</el-button>
@@ -210,6 +210,7 @@ export default {
 		return {
 			tabHeight: '', // tab展示的页面的高度多少，第一页中对应高度
 			tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
+			tabSearchHeight: '', //对应tab-plane的高度
 			// 搜索条件的组装字段
 			formOne: {
 				status: '1', //form搜索条件中的性别
@@ -452,6 +453,7 @@ export default {
 		this.$nextTick(function() {
 			_this.tabHeight = tabHeight;
 			_this.tableHeight = tabSearchPageHeight;
+			_this.tabSearchHeight = tabSearchHeight;
 			_this.getTableData();
 		})
 	}

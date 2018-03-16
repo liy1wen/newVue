@@ -5,7 +5,7 @@
 		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-tabs v-model="tabActiveName" type="border-card" @tab-click="handleClick">
 			<!-- Banner条记录查询 -->
-			<el-tab-pane label="Banner条记录查询" name="first">
+			<el-tab-pane label="Banner条记录查询" name="first" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formOne">
 						<el-form-item>
@@ -99,7 +99,7 @@
 				</template>
 			</el-tab-pane>
 			<!-- Banner条记录管理 -->
-			<el-tab-pane label="Banner条记录管理" name="second">
+			<el-tab-pane label="Banner条记录管理" name="second" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formTwo">
 						<el-form-item>
@@ -338,6 +338,7 @@ export default {
 	data() {
 		return {
 			tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
+			tabSearchHeight: '',
 			// 各个tab页面的相应字段
 			formOne: {
 				choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
@@ -647,6 +648,7 @@ export default {
 		var _this = this;
 		this.$nextTick(function() {
 			_this.tableHeight = tabSearchPageHeight;
+			_this.tabSearchHeight = tabSearchHeight;			
 			_this.getTableFind();
 			_this.getTableManage();
 		})

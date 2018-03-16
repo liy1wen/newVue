@@ -5,7 +5,7 @@
 		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-tabs v-model="tabActiveName" type="border-card" @tab-click="handleClick">
 			<!-- 普通礼物 -->
-			<el-tab-pane label="普通礼物" name="first">
+			<el-tab-pane label="普通礼物" name="first" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formOne">
 						<el-form-item>
@@ -118,7 +118,7 @@
 				</template>
 			</el-tab-pane>
 			<!-- 活动礼物 -->
-			<el-tab-pane label="活动礼物" name="second">
+			<el-tab-pane label="活动礼物" name="second" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formTwo">
 						<el-form-item>
@@ -231,7 +231,7 @@
 				</template>
 			</el-tab-pane>
 			<!-- 房间礼物 -->
-			<el-tab-pane label="房间礼物" name="three">
+			<el-tab-pane label="房间礼物" name="three" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formTwo">
 						<el-form-item>
@@ -344,7 +344,7 @@
 				</template>
 			</el-tab-pane>
 			<!-- 标签管理 -->
-			<el-tab-pane label="标签管理" name="four">
+			<el-tab-pane label="标签管理" name="four" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" :model="formFour">
 						<el-form-item>
@@ -591,6 +591,7 @@ export default {
 	data() {
 		return {
 			tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
+			tabSearchHeight: '',
 			// 各个tab页面的相应字段
 			formOne: {
 				choiceDate: [new Date()-180*24*60*60*1000,new Date()], // 对应选择的日期,给默认时间180之前到现在
@@ -1195,6 +1196,7 @@ export default {
 		var _this = this;
 		this.$nextTick(function() {
 			_this.tableHeight = tabSearchPageHeight;
+			_this.tabSearchHeight = tabSearchHeight;
 			_this.getTableNormalGiftData();
 			_this.getTableActivityGiftData();
 			_this.getTableRoomGiftData();
