@@ -8,16 +8,11 @@
 				<el-form-item>
 					<div class="block">
 						<span class="registerTime">日期</span>
-						<el-date-picker
-						v-model="formOne.startDate"
-						type="daterange"
-						range-separator="至"
-						start-placeholder="开始日期"
-						end-placeholder="结束日期">
+						<el-date-picker v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
 						</el-date-picker>
 					</div>
 				</el-form-item>
-				<el-form-item>
+				<el-form-item style="margin-left: 50px;">
 					<span>录音状态</span>
 					<el-select style="width: 100px;" v-model="recordStatus">
 						<el-option label="全部" value="0"></el-option>
@@ -35,24 +30,16 @@
 				</el-form-item>
                 <el-form-item>
 					<span>uid</span>
-					<el-input
-                    style="width:100px;"
-                    placeholder="请输入内容"
-                    v-model="value10"
-                    clearable>
+					<el-input style="width:100px;" placeholder="请输入内容" v-model="uid" clearable>
                     </el-input>
 				</el-form-item>
                 <el-form-item>
 					<span>录音id</span>
-					<el-input
-                    style="width: 100px;"
-                    placeholder="请输入内容"
-                    v-model="value10"
-                    clearable>
+					<el-input style="width: 100px;" placeholder="请输入内容" v-model="audio_uid" clearable>
                     </el-input>
 				</el-form-item>
                 <el-form-item class="search-span" style="float:right;">
-					<el-button id="searchBtn" type="primary" >查询</el-button>
+					<el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
@@ -60,11 +47,11 @@
 		<template>
 			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="time" label="发布时间" width="180"></el-table-column>
-				<el-table-column prop="call_record_id"  label="录音编码" width="100"></el-table-column>
+				<el-table-column prop="id"  label="录音编码" width="100"></el-table-column>
 				<el-table-column label="录音音频" width="300">
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<audio controls :src="scope.row.voice_url"></audio>
+							<audio controls="controls" :src="scope.row.voice_url"></audio>
 						</div>
 					</template>
 				</el-table-column>
@@ -81,22 +68,46 @@
 				<el-table-column prop="award" label="打赏数" width="50"></el-table-column>
 				<el-table-column prop="share" label="分享数" width="50"></el-table-column>
 				<el-table-column prop="complain" label="举报数" width="50"></el-table-column>
-				<!-- <el-table-column label="bianji" min-width="100">
+				<el-table-column label="操作" min-width="220">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="small">编辑</el-button>								
-						<el-button v-if="scope.row.status=='0'" type="primary" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
-						<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" size="small">下架</el-button>
-					</template>
-				</el-table-column> -->
-				<el-table-column label="操作" min-width="190">
-					<template slot-scope="scope">
-						<el-col :span="5"><el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">推荐</el-button></el-col>
-						<el-col :span="5"><el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button></el-col>
-						<el-col :span="6"><el-button size="mini" type="success" @click="handleDelete(scope.$index, scope.row)">审核</el-button></el-col>
-						<el-col :span="8"><el-button style="margin-right:10px;" size="mini" type="info" @click="handleDelete(scope.$index, scope.row)">对方信息</el-button></el-col>
+						<div v-if="scope.row.is_up_list==1">
+							<el-col :span="8"><el-button size="mini" type="primary" @click="cacelRecommend(scope.$index, scope.row)">取消人工推荐</el-button></el-col>
+							<el-col :span="3"><el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button></el-col>
+						</div>
+						<div v-if="scope.row.is_up_list==2">
+							<el-col :span="5"><el-button size="mini" type="primary" @click="cacelRecommend(scope.$index, scope.row)">取消系统推荐</el-button></el-col>
+							<el-col :span="5"><el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button></el-col>
+						</div>
+						<div v-if="scope.row.is_up_list==0">
+							<el-col :span="5"><el-button size="mini" type="primary" @click="recommend(scope.$index, scope.row)">推荐</el-button></el-col>
+							<el-col :span="5"><el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button></el-col>
+						</div>
+						<div v-if="scope.row.is_review==0">
+							<el-col :span="5"><el-button size="mini" type="success" @click="Auditing(scope.$index, scope.row)">审核</el-button></el-col>
+							<el-col :span="8"><el-button style="margin-right:10px;" size="mini" type="info" @click="showInfo(scope.$index, scope.row)">对方信息</el-button></el-col>
+						</div>
+						<div v-if="scope.row.is_review==1">
+							<el-col :span="5"><el-button size="mini" type="info" plain  @click="tipInfo()">已审核</el-button></el-col>
+							<el-col :span="8"><el-button style="margin-right:10px;" size="mini" type="info" @click="showInfo(scope.$index, scope.row)">对方信息</el-button></el-col>
+						</div>
 					</template>
 				</el-table-column>
 			</el-table>
+			<!-- 工具条 -->
+			<el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="20" :total=1000 :current-page="page+1" style="float:right; ">
+				</el-pagination>
+			</el-col>
+			<el-dialog title="录音信息" :visible.sync="formInfo.dialogShow">
+				<el-form :model="formInfo">
+					<el-form-item label="发起通话者Uid" :label-width="formLabelWidth">
+						<el-input v-model="formInfo.req_uid" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="接收通话者Uid" :label-width="formLabelWidth">
+						<el-input v-model="formInfo.res_uid" auto-complete="off"></el-input>
+					</el-form-item>
+				</el-form>
+			</el-dialog>
 		</template>
     </section>
 </template>
@@ -109,9 +120,14 @@
             return {
 				tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
                 formOne: {
-                    startDate: [new Date()-10*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
-                    endDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
-                },
+                    startDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+                    // endDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				},
+				formInfo: {
+					dialogShow: false,
+					req_uid: '',
+					res_uid: '',
+				},
 				value6: '',
 				value10: 'text',
 				recordStatus: '',
@@ -119,58 +135,174 @@
 				page: 0,
 				totalpage: '',
 				listData: [],
+				uid: "",
+				audio_uid: '',
+				totalpage:null,
+				formLabelWidth: '120px',
+				listLoading: false,
             }
         },
 		methods: {
-			// 时间格式化
-			YMDdata(data){
-				let date = new Date(data);
-				let yy = date.getFullYear();
-				let mm = (date.getMonth() + 1).toString();
-				let dd = (date.getDate()).toString();
-				// let time = date.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-				mm<10?mm="0"+mm:mm;
-				dd<10?dd="0"+dd:dd;
-				return yy+'-'+mm+'-'+dd
+			//页面的页数
+			handleCurrentChange(val) {
+				//服务器的第一页是0 所以 这里要 -1
+				this.page = val-1;
+				this.getData();
 			},
 			// 获取数据
 			getData() {
-				let url = '/Voice/getVoiceListInfo?page=1&date_s=2017-09-14&date_e=2018-03-16';
+				var _this = this;
+				let url = '/Voice/getVoiceListInfo';
 				let param ={
 					page: this.page,
+					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
+					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
+					is_up_list: this.recordStatus,
+					price: this.recordStyle,
+					uid: this.uid,
+					id: this.audio_uid
 				}
 				allget(param, url).then(res => {
 					this.listData = res.data.data;
-					console.log(this.listData)
 				}).catch(err => {
 					console.log(err)
 				})
-				// axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php/Voice/getVoiceListInfo?page=0&date_s=2018-03-14&date_e=2018-03-16')
-				// .then(res=>{
-				// 	this.listData = res.data.data;
-				// })
-				// .catch(err=>{
-				// 	console.log(err)
-				// })
+			},
+			// 提示已审核
+			tipInfo() {
+				var _this = this;
+				baseConfig.warningTipMsg(_this, '已审核了！');
 			},
 			// 录音形式
 			price(row){
 				return row.price > 0 ? "付费" : "免费";
 			},
-			// 编辑
-			handleEdit() {
-				console.log('编辑')
+			// 取消推荐
+			cacelRecommend(index, row) {
+				var _this = this;
+				var _this = this;
+				var id = row.id;
+				var url = '/Voice/cancelRecommendVoiceToHot';
+				var params = {
+					id: id,
+				};
+				_this.listLoading = true;				
+				allget(params, url).then(res => {
+					_this.listLoading = false;
+					if(res.data.ret) {
+						baseConfig.successTipMsg(_this, '取消成功！');						
+						_this.getData();
+					} else {
+						baseConfig.errorTipMsg(_this, res.data.msg);
+					}
+				}).catch(function(error){
+					baseConfig.errorTipMsg(_this, error);
+				})
+			},
+			// 推荐操作
+			recommend(index, row) {
+				var _this = this;
+				var id = row.id;
+				var url = '/Voice/recommendVoiceToHot';
+				var params = {
+					id: id,
+				};
+				_this.listLoading = true;				
+				allget(params, url).then(res => {
+					_this.listLoading = false;
+					if(res.data.ret) {
+						baseConfig.successTipMsg(_this, '推荐成功！');						
+						_this.getData();
+					} else {
+						baseConfig.errorTipMsg(_this, res.data.msg);
+					}
+				}).catch(function(error){
+					baseConfig.errorTipMsg(_this, error);
+				})
 			},
 			// 删除
-			handleDelete() {
-				console.log('删除')
-			}
+			handleDelete(index, row) {
+				var _this = this;
+				var id = row.id;
+				var url = '/Voice/deleteVoice';
+				var params = {
+					id: id,
+				};
+				_this.listLoading = true;				
+				allget(params, url).then(res => {
+					_this.listLoading = false;
+					if(res.data.ret) {
+						baseConfig.successTipMsg(_this, '删除成功');						
+						_this.getData();
+					} else {
+						baseConfig.errorTipMsg(_this, res.data.msg);
+					}
+				}).catch(function(error){
+					baseConfig.errorTipMsg(_this, error);
+				})
+			},
+			// 显示对方信息
+			showInfo(index, row) {
+				var _this = this;
+				var call_record_id = row.call_record_id;
+				var url = '/Voice/getVoiceOther';
+				var params = {
+					id: call_record_id,
+				};
+				_this.listLoading = true;				
+				allget(params, url).then(res => {
+					_this.listLoading = false;
+					if(res.data.ret) {
+						_this.formInfo.req_uid = res.data.data.uid_req;
+						_this.formInfo.res_uid = res.data.data.uid_res;
+						_this.formInfo.dialogShow = true;
+					} else {
+						baseConfig.errorTipMsg(_this, res.data.msg);
+					}
+				}).catch(function(error){
+					baseConfig.errorTipMsg(_this, error);
+				})
+			},
+			// 审核操作
+			Auditing(index, row) {
+				var _this = this;
+				var id = row.id;
+				var url = '/Voice/reviewVoice';
+				var params = {
+					id: id,
+				};
+				_this.listLoading = true;				
+				allget(params, url).then(res => {
+					_this.listLoading = false;
+					if(res.data.ret) {
+						baseConfig.successTipMsg(_this, '审核成功！');						
+						_this.getData();
+					} else {
+						baseConfig.errorTipMsg(_this, res.data.msg);
+					}
+				}).catch(function(error){
+					baseConfig.errorTipMsg(_this, error);
+				})
+			},
 		},
 		mounted() {
 			var _this = this;
-			console.log(this.value6);
-			_this.tableHeight = tabSearchPageHeight;
+			_this.tableHeight = searchPageHeight;
 			_this.getData();
+		},
+		updated() {
+			var _this = this;
+			//同一时间段，只能播放一条音频
+			var audio = document.getElementsByTagName("audio");
+			for(var i=0; i<audio.length; i++){
+				audio[i].addEventListener("play", function() {
+					for(var j=0; j<audio.length; j++) {
+						if(audio[j]!=this) { //这里的this指向的是监听音频对象
+							audio[j].pause();
+						}
+					}
+				});
+			}
 		}
     }
 
