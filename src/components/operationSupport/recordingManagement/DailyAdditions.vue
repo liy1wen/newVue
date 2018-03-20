@@ -40,7 +40,6 @@
 				</el-form-item>
                 <el-form-item class="search-span" style="float:right;">
 					<el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
-					<el-button type="primary" v-on:click="handleDownload">导出</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
