@@ -2,14 +2,22 @@
     <el-row class="container">
         <!-- 头部的导航栏 -->
         <el-menu theme="dark" :default-active="indexPath" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
+            <!-- 前面的logo -->
             <div class="el_logo">
                 <div class="logo"></div>
             </div>
+            <!-- 链接的跳转，几个大类 -->
             <el-menu-item index="/operationData" :route="{path: '/operationData'}">运营数据</el-menu-item>
             <el-menu-item index="/userManager" :route="{path: '/userManager'}">用户管理</el-menu-item>
             <el-menu-item index="/operationSupport" :route="{path: '/operationSupport'}">运营支撑</el-menu-item>
             <el-menu-item index="/systemManagement" :route="{path: '/activityManagement'}">活动专区</el-menu-item>
             <el-menu-item index="/systemSetting" :route="{path: '/systemManagement'}">系统管理</el-menu-item>
+            <!-- 加上uid查询的功能 -->
+            <div class="uidFind">
+                <input v-model="uidFind" placeholder="请输入uid进行查询" />
+                <div @click="goToShowUidContent()">用户详情</div>
+            </div>
+            <!-- 用户头像、用户简介 -->
             <el-col :span="4" class="userinfo">
                 <el-dropdown trigger="hover">
                     <span class="el-dropdown-link userinfo-inner"><img :src="sysUserAvatar" /> {{sysUserName}}</span>
@@ -44,6 +52,7 @@
 </template>
 
 <script>
+import Event from './../../public_js/event.js';
 import oneUserContent from './../rootGlobal/oneUserContent.vue'; // 个人信息内容弹窗
 import store from '../../vuex/store';
 export default {
@@ -54,6 +63,7 @@ export default {
         indexPath: '', // 页面刷新时，直接页面路由的跳转，设置默认打开的页面 
         indexPathArr: ['/operationData', '/operationSupport', '/anchorManager', '/systemManagement', '/systemSetting'], // 设置home上面导航栏的默认路由集合
         // routes:"",
+        uidFind: '', //uid的查询信息
       };
     },
     components: {
@@ -99,12 +109,62 @@ export default {
         },
         handleClose(key, keyPath) {
             // console.log(key, keyPath);
-        }
+        },
+        // 点击查询之后进行用户信息的显示
+        goToShowUidContent() {
+            var _this = this;
+            if(baseConfig.server.indexOf('test')=='-1') {
+                // 正式服，进行6为有效数字的匹配
+                if(/^[0-9]{6}$/.test(_this.uidFind)) {
+                    Event.$emit('show-one-user', {
+                        uid : _this.uidFind,
+                    });
+                } else {
+                    baseConfig.normalTipMsg(_this, 'uid输入有误，请输入正确的uid！');
+                }
+            } else {
+                // 测试服的数据，进行5的uid的查询
+                if(/^[0-9]{5}$/.test(_this.uidFind)) {
+                    Event.$emit('show-one-user', {
+                        uid : _this.uidFind,
+                    });
+                } else {
+                    baseConfig.normalTipMsg(_this, 'uid输入有误，请输入正确的uid！');
+                }
+            }
+            
+        },
     }
 }
 </script>
 
 <style lang="css">
+/* 设置uid查询的样式问题 */
+.uidFind{
+    position: absolute;
+    right: 15%; top: 10px;
+    width: 220px; height: 40px;
+}
+.uidFind input{
+    width: 150px; height: 40px;
+    padding: 0; margin: 0;
+    text-align: left; line-height: 40px;
+    position: absolute; left: 0; top: 0;
+    border: none; outline: none;
+    text-indent: 20px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.uidFind div{
+    width: 70px; height: 40px;
+    text-align: center; line-height: 40px;
+    position: absolute; left: 150px; top: 0;
+    background: cadetblue; color: #fff;
+    cursor: pointer;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+/* 后面的样式问题 */
 .userinfo {
     height: 60px;
     text-align: right;

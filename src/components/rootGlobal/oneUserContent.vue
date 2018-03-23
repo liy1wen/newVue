@@ -87,32 +87,22 @@ export default {
 		// 获取单个用户的信息 
 		getuserinfo(uid){
 			let _this =this;
+			_this.listLoading = true;
 			_this.isgetuser = true;
 			let url = '/User/getUserInfo';// /User/getUserInfo
 			let data ={ uid: uid, };
 			allget(data, url).then(data => {
-                // console.log(data.data);
+                console.log(data.data);
 				if (data.data.ret) {
 					_this.userinfo = data.data.data[0];
 					_this.dialogVisible = true;
 					_this.isgetuser = false;
 				} else {
-					_this.$notify.error({
-							title: '错误',
-							message: res.data.msg,
-							duration: 1000,
-							offset: 100
-						}); 
+					baseConfig.normalTipMsg(_this, data.data.msg);
 					_this.isgetuser=false;
 				}
 			}).catch(function(err){
 				console.log(err);
-				_this.isgetuser=false;
-				_this.$notify.error({
-					title: '错误',
-					message: '遇到了未知的问题请联系管理员解决',
-					duration: 0
-				});
 			});
 			
 		},
