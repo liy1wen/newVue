@@ -51,6 +51,11 @@ import realTimeMatching from '../components/basicData/realTimeMatching'; //实�
 
 // 录音管理
 import dailyAdditions from '../components/operationSupport/recordingManagement/DailyAdditions.vue'; // 每日新增录音明细
+import wonderfulRecord from '../components/operationSupport/recordingManagement/wonderfulRecord.vue'; // 录音精彩内容
+import newRecording from '../components/operationSupport/recordingManagement/newRecordingAddList.vue'; // 每日新增录音统计
+import tapeSharing from '../components/operationSupport/recordingManagement/tapeSharingData.vue';  // 分享页推荐录音列表
+import systemRack from '../components/operationSupport/recordingManagement/systemRack.vue' // 录音下榜列表
+import recordShareManage from '../components/operationSupport/recordingManagement/recordShareManage' // 录音分享卡片
 
 // 系统设置 
 import empty from '../components/rootGlobal/empty.vue';//空组建进行页面进行刷新时使用
@@ -361,12 +366,13 @@ export const asyncRouterMap = [
                 children: [
                     { path: '/operationSupport/operationSupportOne/user', component: user, name: '录播管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/recordingManagement/dailyAdditions', component: dailyAdditions, name: '每日新增录音明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音精彩内容', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '分享页推荐列表管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音页面投诉管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音下榜名单', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音标签管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音分享卡片', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingManagement/wonderfulRecord', component: wonderfulRecord, name: '录音精彩内容', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingManagement/newRecording', component: newRecording, name: '每日新增录音统计', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingManagement/tapeSharing', component: tapeSharing, name: '分享页推荐列表管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    // { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音页面投诉管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingManagement/systemRack', component: systemRack, name: '录音下榜列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    // { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音标签管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingManagement/recordShareManage', component: recordShareManage, name: '录音分享卡片', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {

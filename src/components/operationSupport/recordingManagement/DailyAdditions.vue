@@ -88,7 +88,6 @@
 						</div>
 						<div v-if="scope.row.is_review==1">
 							<el-col :span="5"><el-button size="mini" type="info" plain  @click="tipInfo()">已审核</el-button></el-col>
-							<el-col :span="8"><el-button style="margin-right:10px;" size="mini" type="info" @click="showInfo(scope.$index, scope.row)">对方信息</el-button></el-col>
 						</div>
 					</template>
 				</el-table-column>
@@ -120,7 +119,7 @@
             return {
 				tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
                 formOne: {
-                    startDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+                    startDate: [new Date()-2*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
                     // endDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				},
 				formInfo: {
