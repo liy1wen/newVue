@@ -58,7 +58,8 @@ import systemRack from '../components/operationSupport/recordingManagement/syste
 import recordShareManage from '../components/operationSupport/recordingManagement/recordShareManage'; // 录音分享卡片
 
 // 主播后台管理
-import anchorDailyCollection from '../components/operationSupport/authorManagement/anchorDailyDataCollection.vue' // 主播每日数据汇总
+import anchorDailyCollection from '../components/operationSupport/authorManagement/anchorDailyDataCollection.vue'; // 主播每日数据汇总
+import anchorPersonalDataCollection from '../components/operationSupport/authorManagement/anchorPersonalDataCollection.vue'; // 主播个人数据汇总
 
 // 系统设置 
 import empty from '../components/rootGlobal/empty.vue';//空组建进行页面进行刷新时使用
@@ -257,7 +258,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/authorManagement/anchorDailyDataCollection', component: anchorDailyCollection, name: '主播每日数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '主播个人数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/authorManagement/anchorPersonalDataCollection', component: anchorPersonalDataCollection, name: '主播个人数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '主播每日行为数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
