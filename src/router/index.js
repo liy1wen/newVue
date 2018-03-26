@@ -33,6 +33,7 @@ import sendSystemNotification from '../components/operationSupport/messageManage
 import activityNotificationManagement from '../components/operationSupport/messageManagement/activityNotificationManagement.vue';//活动通知管理
 import sendMessageNotifications from '../components/operationSupport/messageManagement/sendMessageNotifications.vue';//发送短信通知
 import dataSynthesis from '../components/graphic/dataSynthesis.vue';//图形的样式
+import heldOutData from '../components/operationSupport/messageManagement/heldOutData.vue';//留存数据
 
 // 完成*****
 
@@ -45,7 +46,7 @@ import Err401 from '../components/rootGlobal/401.vue';//错误界面
 // 基础数据
 import channelDataManagement from '../components/basicData/channelDataManagement'; //总渠道基础数据
 import subChannel from '../components/basicData/subChannel'; //分渠道数据
-import heldOutData from '../components/basicData/heldOutData'; //留存数据
+// import heldOutData from '../components/basicData/heldOutData'; //留存数据
 import liveOnlineDetails from '../components/basicData/liveOnlineDetails'; //实时在线详情
 import realTimeMatching from '../components/basicData/realTimeMatching'; //实时匹配详情
 
@@ -331,6 +332,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/messageManagement/sendMessageNotifications', component: sendMessageNotifications, name: '发送短信通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/dataSynthesis', component: dataSynthesis, name: '图形', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/heldOutData', component: heldOutData, name: '留存数据', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {

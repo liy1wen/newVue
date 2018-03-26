@@ -82,7 +82,7 @@ import axios from 'axios';
 export default {
 	data() {
 		return {
-			tableHeight: '', // table展示的页面的高度多少
+			tableHeight: null, // table展示的页面的高度多少
 			// 搜索条件的组装字段
 			formOne: {
 				position: '', //form搜索条件中的位置

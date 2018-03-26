@@ -114,7 +114,7 @@ import axios from 'axios';
 export default {
 	data() {
 		return {
-			tableHeight: '', // table展示的页面的高度多少
+			tableHeight: null, // table展示的页面的高度多少
 			operate_user: '', // 当前进入的用户
 			// 搜索条件的组装字段
 			formOne: {

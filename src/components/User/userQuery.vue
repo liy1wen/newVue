@@ -157,7 +157,7 @@ import store from '../../vuex/store';
 export default {
 	data() {
 		return {
-			tableHeight: '', // table展示的页面的高度多少
+			tableHeight: null, // table展示的页面的高度多少
 			filters: {
 				name: ''
 			},

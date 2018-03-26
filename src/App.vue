@@ -184,5 +184,46 @@ body {
 	/* 这里设置的是具体组建当中tab切换的颜色 */
     background-color: #bef0ff !important;
 }
+/* 设置上面、左边导航栏的背景颜色 */
+.el-menu--horizontal{
+    background-color: #324157 !important;	
+	border-bottom: none !important;
+}
+.el-menu--horizontal>.el-menu-item{
+	color: #bfcbd9 !important;
+}
+.el-menu--horizontal>.el-menu-item.is-active{
+	color: #409EFF !important;
+	border-bottom: 5px solid transparent !important;	
+	background-color: #324157 !important;	
+}
+.el-menu--horizontal>.el-menu-item.is-active:hover{
+	color: #409EFF !important;	
+}
+.el-menu--horizontal>.el-menu-item:hover{
+	background-color: #324157 !important;
+	color: #bfcbd9 !important;
+	border-bottom: 5px solid #409EFF !important;
+}
+/* 左边导航栏 */ 
+.el-menu-vertical-demo{
+    background-color: #324157 !important;
+}
+.el-menu-vertical-demo .el-menu-item,
+.el-menu-vertical-demo .el-submenu__title{
+    color: #bfcbd9;
+}
+.el-menu-vertical-demo .el-submenu .el-menu{
+    background-color: #1f2d3d !important;
+}
+.el-submenu__title:hover{
+	background-color: #48566A !important;
+}
+.el-menu-vertical-demo .el-menu-item{
+    background-color: #1f2d3d !important;
+}
+.el-menu-item:hover{
+	background-color: #48566A !important;
+}
 </style>
 
