@@ -41,7 +41,6 @@
 
 <script>
 	import { allget } from '../../../api/api';
-	import axios from 'axios';
     export default {
         data() {
             return {

@@ -69,7 +69,7 @@
     export default {
         data() {
             return {
-				tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
+				tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
                 formOne: {
                     startDate: [new Date()-100*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				},

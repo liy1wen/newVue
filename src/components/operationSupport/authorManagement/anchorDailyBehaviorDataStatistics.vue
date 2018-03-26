@@ -1,5 +1,5 @@
 <template>
-    <!-- 主播个人数据汇总 -->
+    <!-- 主播每日行为数据统计 -->
     <!-- dom结构内容 -->
 	<section>
         <!-- 工具条/头部的搜索条件搜索 -->
@@ -8,7 +8,7 @@
 				<el-form-item>
 					<div class="block">
 						<span class="registerTime">日期</span>
-						<el-date-picker v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
+						<el-date-picker v-model="formOne.startDate" type="date">
 						</el-date-picker>
 					</div>
 				</el-form-item>
@@ -59,7 +59,7 @@
             return {
 				tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
                 formOne: {
-                    startDate: [new Date()-90*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+                    startDate: [new Date()], // 对应选择的日期,给默认时间180之前到现在
 				},
 				listData: [],
 				formLabelWidth: '120px',
@@ -72,10 +72,9 @@
 			// 获取数据
 			getData() {
 				var _this = this;
-				let url = '/Anchor/getAnchorOwnData';
+				let url = '/Anchor/getDayAnchorActionData';
 				let param ={
-					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
-                    date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
+					date: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                     uid: this.uid,
                     operate_user: this.operate_user,
 				}
