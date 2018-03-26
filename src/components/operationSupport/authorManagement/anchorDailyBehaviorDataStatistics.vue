@@ -29,18 +29,20 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="uid" label="用户UID"></el-table-column>
-				<el-table-column prop="register_time"  label="注册时间"></el-table-column>
-				<el-table-column prop="addtime" label="添加时间"></el-table-column>
-				<el-table-column prop="nickname" label="昵称" ></el-table-column>
-				<el-table-column prop="lasttime" label="最后登录时间"></el-table-column>
-				<el-table-column prop="accumulate_time" label="累积通话时长" sortable></el-table-column>
-				<el-table-column prop="total_chat_ticket" label="累积聊票数"></el-table-column>
-				<el-table-column prop="total_money" label="累积收入"></el-table-column>
-				<el-table-column prop="follow_num" label="关注数"></el-table-column>
-				<el-table-column prop="fans_num" label="粉丝数"></el-table-column>
-				<el-table-column prop="rand_call_num" label="累积随机通话次数"></el-table-column>
+			<el-table :data="listData" border fit highlight-current-row style="width: 100%;"  :height="tableHeight">
+				<el-table-column prop="date" label="日期"></el-table-column>
+				<el-table-column prop="uid"  label="用户UID"></el-table-column>
+				<el-table-column prop="nickname" label="昵称"></el-table-column>
+				<el-table-column prop="lasttime" label="最后登录时间" ></el-table-column>
+				<el-table-column prop="online_time" label="在线时长"></el-table-column>
+				<el-table-column prop="accumulate_time" label="总通话时长" sortable></el-table-column>
+				<el-table-column prop="rand_accumulate_time" label="随机通话时长"></el-table-column>
+				<el-table-column prop="rand_call_num" label="随机通话次数"></el-table-column>
+				<el-table-column prop="new_friend_num" label="新增好友数"></el-table-column>
+				<el-table-column prop="total_chat_ticket" label="总聊票"></el-table-column>
+				<el-table-column prop="total_call_chat_ticket" label="付费通话聊票"></el-table-column>
+				<el-table-column prop="total_gift_chat_ticket" label="礼物聊票"></el-table-column>
+				<el-table-column prop="total_eavesdrop_chat_ticket" label="被偷听聊票"></el-table-column>
 				<el-table-column prop="operate_user" label="操作人"></el-table-column>
 			</el-table>
 			<!-- 工具条 -->

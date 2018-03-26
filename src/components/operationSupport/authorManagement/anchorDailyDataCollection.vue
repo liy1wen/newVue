@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row style="width: 100%;"  :height="tableHeight">
 				<el-table-column prop="date" label="日期"></el-table-column>
 				<el-table-column prop="new_anchor"  label="新增主播数"></el-table-column>
 				<el-table-column prop="total_anchor" label="累积主播数"></el-table-column>
@@ -44,7 +44,7 @@
     export default {
         data() {
             return {
-				tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
+				tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
                 formOne: {
                     startDate: [new Date()-7*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				},
