@@ -1,25 +1,25 @@
 /* 进行适配整个屏幕高度，对左边的导航的路由表的内容进行自适应，对整个tableHeight的高度进行自适应 */ 
 /*
-	tab切换的高度44px(tab)
-	搜索条件的高度57px(search)
+	tab切换的高度40px(tab)-4
+	搜索条件的高度60px(search)+3
 	底部翻页的高度52px(page)
 */ 
 // 在展示的区域中，什么都没有，定义为初始的高度()
 var leftNavHeight = document.documentElement.clientHeight - 60; 
 // 在展示的区域中，只有一个tab切换(tab)
-var tabHeight = document.documentElement.clientHeight - 104; 
+var tabHeight = document.documentElement.clientHeight - 100; 
 // 在展示的区域中，只有一个搜索条件(search)
-var searchHeight = document.documentElement.clientHeight - 117;
+var searchHeight = document.documentElement.clientHeight - 120;
 // 在展示的区域中，只有一个翻页工具(page)
 var pageHeight = document.documentElement.clientHeight - 112;
 // 在展示的区域中，一个tab切换、一个搜索条件(tab-search)
-var tabSearchHeight = document.documentElement.clientHeight - 161;
+var tabSearchHeight = document.documentElement.clientHeight - 162;
 // 在展示的区域中，一个tab切换、一个翻页工具(tab-page)
-var tabPageHeight = document.documentElement.clientHeight - 156;
+var tabPageHeight = document.documentElement.clientHeight - 152;
 // 在展示的区域中，一个搜索条件、一个翻页工具(search-page)
-var searchPageHeight = document.documentElement.clientHeight - 169; 
+var searchPageHeight = document.documentElement.clientHeight - 172; 
 // 在展示的区域中，一个tab切换、一个搜索条件、一个翻页工具(tab-search-page)
-var tabSearchPageHeight = document.documentElement.clientHeight - 213; 
+var tabSearchPageHeight = document.documentElement.clientHeight - 214; 
 /* 公共的方法引用 */
 var baseConfig = {
 	khserver: "http://test-app-h.dianliaoapp.com",

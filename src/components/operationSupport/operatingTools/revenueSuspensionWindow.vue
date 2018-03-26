@@ -208,9 +208,9 @@ import axios from 'axios';
 export default {
 	data() {
 		return {
-			tabHeight: '', // tab展示的页面的高度多少，第一页中对应高度
-			tableHeight: '', // table展示的页面的高度多少，第二页中对应高度
-			tabSearchHeight: '', //对应tab-plane的高度
+			tabHeight: null, // tab展示的页面的高度多少，第一页中对应高度
+			tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
+			tabSearchHeight: null, //对应tab-plane的高度
 			// 搜索条件的组装字段
 			formOne: {
 				status: '1', //form搜索条件中的性别
