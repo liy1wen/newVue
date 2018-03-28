@@ -1,5 +1,5 @@
 <template>
-	<!-- banner管理->table为指的是数据table展示页面 -->
+	<!-- 家族嗨场（测）->table为指的是数据table展示页面 -->
 	<!-- dom结构内容 -->
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
@@ -249,7 +249,7 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+				axios.get('http://test-manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
 				.then((res) => {
 					// console.log(res.data);
 					_this.listLoading = false;	
@@ -292,7 +292,7 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+				axios.get('http://test-manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
 				.then((res) => {
 					_this.listLoading = false;	
 					if(res.data.ret) {
@@ -343,7 +343,7 @@ export default {
 						'Content-Type': 'multipart/form-data'
 					}
 				};	
-				axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php/Activity/addFamilyThemeActivity', formData, config)
+				axios.post('http://test-manage.dianliaoapp.com/ydlManage/server/index.php/Activity/addFamilyThemeActivity', formData, config)
 				.then((res) => {
 					console.log(res.data);
 					_this.listLoading = false;	
@@ -371,7 +371,7 @@ export default {
 				id: id,
 				status: 1,
 			};
-			axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+			axios.get('http://test-manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
 			.then((res) => {
 				_this.listLoading = false;	
 				if(res.data.ret) {
@@ -396,7 +396,7 @@ export default {
 				id: id,
 				status: 0,
 			};
-			axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+			axios.get('http://test-manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
 			.then((res) => {
 				_this.listLoading = false;	
 				if(res.data.ret) {

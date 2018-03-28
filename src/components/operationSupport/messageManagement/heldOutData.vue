@@ -33,47 +33,50 @@
 		<!--用户的数据展示列表-->
 		<template>
 			<el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="create_time" label="添加时间" width="150" sortable ></el-table-column>
-				<el-table-column prop="send_time" label="发送时间" width="150" sortable ></el-table-column>
-				<el-table-column label="性别" width="50" sortable >
+				<el-table-column prop="date" label="日期" width="200" sortable >
+					
+				</el-table-column>
+				<el-table-column prop="regPlayer" label="注册数" min-width="150" sortable ></el-table-column>
+				<el-table-column label="次留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.condition_sex==0">女</p>
-							<p v-else-if="scope.row.condition_sex==1">男</p>
-							<p v-else>全部</p>
+							<p>{{scope.row.rate}}</p>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="地址" width="80" sortable >
+				<el-table-column label="2日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.address==0">全国</p>
+							<p>{{scope.row.rate2}}</p>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="phone_list" label="手机号列表" min-width="150" sortable ></el-table-column>
-				<el-table-column prop="template_id" label="短信模板id" width="100" sortable ></el-table-column>
-				<el-table-column prop="parameter" label="短信模板参数" width="150" sortable ></el-table-column>
-				<el-table-column label="是否定时" width="100" sortable >
+				<el-table-column label="3日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.is_timing==0">不定时</p>
-							<p v-else-if="scope.row.is_timing==1">定时</p>
+							<p>{{scope.row.rate3}}</p>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="发送状态" width="150" sortable >
+				<el-table-column label="7日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.send_status==0">未发送</p>
-							<p v-else-if="scope.row.send_status==1">已发送</p>
+							<p>{{scope.row.rate7}}</p>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="operation_name" label="操作人" width="150" sortable ></el-table-column>				
-				<el-table-column label="查看" width="100">
+				<el-table-column label="15日留" width="150" sortable >
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="lookOneUserData(scope.$index, tabData)" size="small">查看详情</el-button>
+						<div slot="reference" class="name-wrapper">
+							<p>{{scope.row.rate15}}</p>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column label="30日留" width="150" sortable >
+					<template slot-scope="scope">
+						<div slot="reference" class="name-wrapper">
+							<p>{{scope.row.rate30}}</p>
+						</div>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -98,7 +101,7 @@ export default {
 			tableHeight: null, // table展示的页面的高度多少
 			// 搜索条件的组装字段
 			formOne: {
-				choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-7*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				channel: [],
 				options: [],
 				sex: '',
@@ -165,9 +168,43 @@ export default {
 					_this.listLoading = false;
 					if(res.data.ret) {
 						console.log(res.data.data);
+						// 拿到数据进行处理
+						var betweenData = res.data.data;
+						for(var i=0; i<res.data.data.length; i++) {
+							if(res.data.data[i].rate=='0.000') {
+								betweenData[i].rate = '--';	
+							} else {
+								betweenData[i].rate = (res.data.data[i].rate*100).toFixed(2)+'%';
+							}
+							if(res.data.data[i].rate2=='0.000') {
+								betweenData[i].rate2 = '--';	
+							} else {
+								betweenData[i].rate2 = (res.data.data[i].rate2*100).toFixed(2)+'%';
+							}
+							if(res.data.data[i].rate3=='0.000') {
+								betweenData[i].rate3 = '--';	
+							} else {
+								betweenData[i].rate3 = (res.data.data[i].rate3*100).toFixed(2)+'%';
+							}
+							if(res.data.data[i].rate7=='0.000') {
+								betweenData[i].rate7 = '--';	
+							} else {
+								betweenData[i].rate7 = (res.data.data[i].rate7*100).toFixed(2)+'%';
+							}
+							if(res.data.data[i].rate15=='0.000') {
+								betweenData[i].rate15 = '--';	
+							} else {
+								betweenData[i].rate15 = (res.data.data[i].rate15*100).toFixed(2)+'%';
+							}
+							if(res.data.data[i].rate30=='0.000') {
+								betweenData[i].rate30 = '--';	
+							} else {
+								betweenData[i].rate30 = (res.data.data[i].rate30*100).toFixed(2)+'%';
+							}
+						}
 						// 正常数据
-						_this.totalpage = res.data.data.length;
-						_this.tabData = res.data.data;
+						_this.totalpage = betweenData.length;
+						_this.tabData = betweenData;
 					} else {
 						// 返回ret==0，非正常数据
 						baseConfig.errorTipMsg(_this, res.data.msg);
@@ -200,7 +237,7 @@ export default {
 		this.$nextTick(function() {
 			_this.tableHeight = searchPageHeight;
 			_this.getChannel();
-			// _this.getTableData();
+			_this.getTableData();
 		})
 	}
 };

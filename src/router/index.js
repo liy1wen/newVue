@@ -37,7 +37,8 @@ import heldOutData from '../components/operationSupport/messageManagement/heldOu
 // 完成*****
 // 活动专区
 // 开始*******
-import familyBackstageBackstage from '../components/activities/familyBackstageBackstage.vue';//家族嗨场后台
+import familyBackstageBackstageManage from '../components/activities/familyBackstageBackstageManage.vue';//家族嗨场(正)后台
+import familyBackstageBackstageTest from '../components/activities/familyBackstageBackstageTest.vue';//家族嗨场(测)后台
 
 // 结束*******
 
@@ -412,7 +413,8 @@ export const asyncRouterMap = [
                 name: '活动专区',
                 hidden: false,
                 children: [
-                    { path: '/activities/familyBackstageBackstage', component: familyBackstageBackstage, name: '家族嗨场', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/familyBackstageBackstageManage', component: familyBackstageBackstageManage, name: '家族嗨场(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupportOne/user', component: user, name: '新年活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupportOne/user', component: user, name: '公众号关注', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
