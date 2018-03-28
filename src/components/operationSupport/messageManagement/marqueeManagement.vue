@@ -54,7 +54,7 @@
 				<el-table-column prop="android_link" label="安卓中的链接" width="200" sortable ></el-table-column>				
 				<el-table-column label="操作" width="100">
 					<template slot-scope="scope">
-						<el-button v-if="scope.row.status=='1'" type="primary" plain size="small" @click.native.prevent="tipEnd()">已结束</el-button>
+						<el-button v-if="scope.row.status=='1'" plain size="small" @click.native.prevent="tipEnd()">已结束</el-button>
 						<el-button v-else-if="scope.row.status=='0'" type="primary" @click.native.prevent="endSure(scope.$index, tabData)" size="small">结束</el-button>
 					</template>
 				</el-table-column>

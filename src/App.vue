@@ -225,5 +225,8 @@ body {
 .el-menu-item:hover{
 	background-color: #48566A !important;
 }
+.el-menu-vertical-demo{
+	width: 100%;
+}
 </style>
 

@@ -106,7 +106,7 @@
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-if="scope.row.status=='0'" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
 								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" size="small">下架</el-button>
 							</template>
 						</el-table-column>
@@ -219,7 +219,7 @@
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-if="scope.row.status=='0'" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
 								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formTwo.TabData, '2')" size="small">下架</el-button>
 							</template>
 						</el-table-column>
@@ -332,7 +332,7 @@
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-if="scope.row.status=='0'" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
 								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" size="small">下架</el-button>
 							</template>
 						</el-table-column>

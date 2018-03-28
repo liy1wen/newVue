@@ -87,7 +87,7 @@
 							<el-col :span="8"><el-button style="margin-right:10px;" size="mini" type="info" @click="showInfo(scope.$index, scope.row)">对方信息</el-button></el-col>
 						</div>
 						<div v-if="scope.row.is_review==1">
-							<el-col :span="5"><el-button size="mini" type="info" plain  @click="tipInfo()">已审核</el-button></el-col>
+							<el-col :span="5"><el-button size="mini" plain  @click="tipInfo()">已审核</el-button></el-col>
 						</div>
 					</template>
 				</el-table-column>

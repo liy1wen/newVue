@@ -13,8 +13,16 @@
 				</el-form-item>
 				<el-form-item>
 					<span>渠道</span>
-					<el-select multiple collapse-tags style="margin-left: 20px;" v-model="formOne.channel">
+					<el-select multiple collapse-tags style="margin-left: 20px;" v-model="formOne.channel" placeholder="请选择，默认为全渠道">
 						<el-option v-for="item in formOne.options" :key="item.id" :label="item.annotation" :value="item.id"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<span>性别</span>
+					<el-select v-model="formOne.sex">
+						<el-option label="全部" value=""></el-option>
+						<el-option label="男" value="1"></el-option>
+						<el-option label="女" value="2"></el-option>
 					</el-select>
 				</el-form-item>
                 <el-form-item>
@@ -93,6 +101,7 @@ export default {
 				choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				channel: [],
 				options: [],
+				sex: '',
 			},
 			listLoading: false, //动画加载时显示的动画
 			tabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
@@ -123,27 +132,27 @@ export default {
 		searchCondition() {
 			var _this = this;
 			var obj = {};
-			obj.date_s = baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0); // 给对象添加键值对
-			obj.date_e = baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0); // 给对象添加键值对
-			obj.send_status = _this.formOne.send_status; // 给对象添加键值对
-			// 对需要判断搜索值是否为空进行判断提示
-			for(var key in obj) {
-				if(key=='send_status') {
-					// 不进行处理
-				} else {
-					if(obj[key]=='') {
-						baseConfig.warningTipMsg(_this, '搜索条件值不能为空！');
-						return null;
+			obj.date_s = baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0);
+			obj.date_e = baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0);
+			if(_this.formOne.channel.length) {
+				for(var i=0; i<_this.formOne.channel.length; i++) {
+					if(i==0) {
+						obj.channel += _this.formOne.channel[i];
+					} else {
+						obj.channel += ','+_this.formOne.channel[i];
 					}
 				}
+			} else {
+				obj.channel = '';
 			}
-			return obj; // return出组装好的搜索条件
+			obj.sex = _this.formOne.sex;
+			return obj;
 		},
 		// 获取数据列表
 		getTableData() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/GlobalSet/findMsmMess';
+			var url = '/Base/getRetPlayer';
 			var params = _this.searchCondition();
 			// 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 			if(params==null) {
@@ -155,6 +164,7 @@ export default {
 					// 数据请求成功
 					_this.listLoading = false;
 					if(res.data.ret) {
+						console.log(res.data.data);
 						// 正常数据
 						_this.totalpage = res.data.data.length;
 						_this.tabData = res.data.data;

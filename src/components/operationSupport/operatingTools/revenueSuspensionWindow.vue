@@ -185,7 +185,7 @@
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>								
 								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.$index, tabData)" size="small">上架</el-button>
-								<el-button v-if="scope.row.status=='1'" type="primary" plain @click.native.prevent="undercarriage(scope.$index, tabData)" size="small">下架</el-button>
+								<el-button v-if="scope.row.status=='1'" plain @click.native.prevent="undercarriage(scope.$index, tabData)" size="small">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>

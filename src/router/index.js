@@ -34,8 +34,13 @@ import activityNotificationManagement from '../components/operationSupport/messa
 import sendMessageNotifications from '../components/operationSupport/messageManagement/sendMessageNotifications.vue';//发送短信通知
 import dataSynthesis from '../components/graphic/dataSynthesis.vue';//图形的样式
 import heldOutData from '../components/operationSupport/messageManagement/heldOutData.vue';//留存数据
-
 // 完成*****
+// 活动专区
+// 开始*******
+import familyBackstageBackstage from '../components/activities/familyBackstageBackstage.vue';//家族嗨场后台
+
+// 结束*******
+
 
 import user from '../components/User/richText.vue';//文章编辑
 import userQuery from '../components/User/userQuery.vue';//用户查询
@@ -407,25 +412,9 @@ export const asyncRouterMap = [
                 name: '活动专区',
                 hidden: false,
                 children: [
+                    { path: '/activities/familyBackstageBackstage', component: familyBackstageBackstage, name: '家族嗨场', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupportOne/user', component: user, name: '新年活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupportOne/user', component: user, name: '公众号关注', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '新浪统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '老司机统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '代理活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '用户群抽奖', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '翻牌红包', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '杂货店', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '漂流瓶', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '万圣节', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '代理邀请活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '家族争霸', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '超级转盘', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '娃娃机', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '圆蛋', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '心愿墙', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '声音邂逅心动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '微信大转盘后台', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '恋爱誓约后台', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],
