@@ -38,6 +38,7 @@
         </el-menu>
         <!-- 个人信息展示组件 -->
 		<oneUserContent></oneUserContent>
+		<chartLine></chartLine>
         <!-- 左侧的导航栏 -->
         <!--  -->
         <el-col :span="24" class="content-all-wrapper">
@@ -54,6 +55,7 @@
 <script>
 import Event from './../../public_js/event.js';
 import oneUserContent from './../rootGlobal/oneUserContent.vue'; // 个人信息内容弹窗
+import chartLine from './../rootGlobal/chartLine.vue'; // 折线图
 import store from '../../vuex/store';
 export default {
      data() {
@@ -67,7 +69,8 @@ export default {
       };
     },
     components: {
-		oneUserContent,
+        oneUserContent,
+        chartLine,
 	},
     mounted:function(){
         var _this = this;

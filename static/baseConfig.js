@@ -6,6 +6,7 @@
 */ 
 // 在展示的区域中，什么都没有，定义为初始的高度()
 var lookHeight = document.documentElement.clientHeight || document.body.clientHeight;
+var lookWidth = document.documentElement.clientWidth || document.body.clientWidth;
 var leftNavHeight = lookHeight - 60; 
 // 在展示的区域中，只有一个tab切换(tab)
 var tabHeight = lookHeight - 100; 

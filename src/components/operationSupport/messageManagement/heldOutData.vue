@@ -26,6 +26,7 @@
 					</el-select>
 				</el-form-item>
                 <el-form-item>
+					<el-button type="primary" @click="chartLineShow">折线图</el-button>
 					<el-button type="primary" @click="getTableData">查询</el-button>
 				</el-form-item>
 			</el-form>
@@ -33,49 +34,53 @@
 		<!--用户的数据展示列表-->
 		<template>
 			<el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="date" label="日期" width="200" sortable >
-					
-				</el-table-column>
+				<el-table-column prop="date" label="日期" width="200" sortable ></el-table-column>
 				<el-table-column prop="regPlayer" label="注册数" min-width="150" sortable ></el-table-column>
 				<el-table-column label="次留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p>{{scope.row.rate}}</p>
+							<p v-if="scope.row.rate==0">--</p>
+							<p v-else>{{(scope.row.rate*100).toFixed(2)+'%'}}</p>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="2日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p>{{scope.row.rate2}}</p>
+							<p v-if="scope.row.rate2==0">--</p>
+							<p v-else>{{(scope.row.rate2*100).toFixed(2)+'%'}}</p>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="3日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p>{{scope.row.rate3}}</p>
+							<p v-if="scope.row.rate3==0">--</p>
+							<p v-else>{{(scope.row.rate3*100).toFixed(2)+'%'}}</p>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="7日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p>{{scope.row.rate7}}</p>
+							<p v-if="scope.row.rate7==0">--</p>
+							<p v-else>{{(scope.row.rate7*100).toFixed(2)+'%'}}</p>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="15日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p>{{scope.row.rate15}}</p>
+							<p v-if="scope.row.rate15==0">--</p>
+							<p v-else>{{(scope.row.rate15*100).toFixed(2)+'%'}}</p>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="30日留" width="150" sortable >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p>{{scope.row.rate30}}</p>
+							<p v-if="scope.row.rate30==0">--</p>
+							<p v-else>{{(scope.row.rate30*100).toFixed(2)+'%'}}</p>
 						</div>
 					</template>
 				</el-table-column>
@@ -85,7 +90,6 @@
 				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
 			</el-col>
 		</template>
-
 	</section>
 </template>
 
@@ -113,6 +117,11 @@ export default {
 			star: '0', //每一页的开始数据
 			end: '20', //每一页的结束数据
 			formLabelWidth: '120px', // 设置dialog弹框的宽度
+			chartLineData: {//用于折线图绘制的数据
+				legend: [],
+				xAxis: [],
+				series: [[], [], [], [], [], []],
+			}, 
 		};
 	},
 	computed:{
@@ -167,49 +176,28 @@ export default {
 					// 数据请求成功
 					_this.listLoading = false;
 					if(res.data.ret) {
-						console.log(res.data.data);
 						// 拿到数据进行处理
 						var betweenData = res.data.data;
-						for(var i=0; i<res.data.data.length; i++) {
-							if(res.data.data[i].rate=='0.000') {
-								betweenData[i].rate = '--';	
-							} else {
-								betweenData[i].rate = (res.data.data[i].rate*100).toFixed(2)+'%';
-							}
-							if(res.data.data[i].rate2=='0.000') {
-								betweenData[i].rate2 = '--';	
-							} else {
-								betweenData[i].rate2 = (res.data.data[i].rate2*100).toFixed(2)+'%';
-							}
-							if(res.data.data[i].rate3=='0.000') {
-								betweenData[i].rate3 = '--';	
-							} else {
-								betweenData[i].rate3 = (res.data.data[i].rate3*100).toFixed(2)+'%';
-							}
-							if(res.data.data[i].rate7=='0.000') {
-								betweenData[i].rate7 = '--';	
-							} else {
-								betweenData[i].rate7 = (res.data.data[i].rate7*100).toFixed(2)+'%';
-							}
-							if(res.data.data[i].rate15=='0.000') {
-								betweenData[i].rate15 = '--';	
-							} else {
-								betweenData[i].rate15 = (res.data.data[i].rate15*100).toFixed(2)+'%';
-							}
-							if(res.data.data[i].rate30=='0.000') {
-								betweenData[i].rate30 = '--';	
-							} else {
-								betweenData[i].rate30 = (res.data.data[i].rate30*100).toFixed(2)+'%';
-							}
-						}
-						// 正常数据
 						_this.totalpage = betweenData.length;
 						_this.tabData = betweenData;
+						// 设置重置折线图的参数
+						_this.chartLineData.legend = ['次留', '2日留', '3日留', '7日留', '15日留', '30日留'];
+						_this.chartLineData.name = '留存数据';
+						_this.chartLineData.series = [[], [], [], [], [], []];
+						_this.chartLineData.xAxis = [];
+						for(var j=0; j<betweenData.length; j++) {
+							_this.chartLineData.xAxis.push(res.data.data[j].date);
+							_this.chartLineData.series[0].push((res.data.data[j].rate*100).toFixed(2));
+							_this.chartLineData.series[1].push((res.data.data[j].rate2*100).toFixed(2));
+							_this.chartLineData.series[2].push((res.data.data[j].rate3*100).toFixed(2));
+							_this.chartLineData.series[3].push((res.data.data[j].rate7*100).toFixed(2));
+							_this.chartLineData.series[4].push((res.data.data[j].rate15*100).toFixed(2));
+							_this.chartLineData.series[5].push((res.data.data[j].rate30*100).toFixed(2));
+						}
 					} else {
 						// 返回ret==0，非正常数据
 						baseConfig.errorTipMsg(_this, res.data.msg);
 					}
-
 				}).catch(function(error){
 					console.log(error);
 				})
@@ -230,6 +218,13 @@ export default {
 			}).catch(function(error){
 				console.log(error);
 			})
+		},
+		// 折线图展示
+		chartLineShow() {
+			var _this = this;
+			Event.$emit('show-chart-line', {
+				data: _this.chartLineData,
+			});
 		},
 	},
 	mounted() {
