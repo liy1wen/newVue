@@ -182,6 +182,7 @@ export default {
 						_this.tabData = betweenData;
 						// 设置重置折线图的参数
 						_this.chartLineData.legend = ['次留', '2日留', '3日留', '7日留', '15日留', '30日留'];
+						_this.chartLineData.unit = '%';
 						_this.chartLineData.name = '留存数据';
 						_this.chartLineData.series = [[], [], [], [], [], []];
 						_this.chartLineData.xAxis = [];

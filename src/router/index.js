@@ -34,6 +34,7 @@ import activityNotificationManagement from '../components/operationSupport/messa
 import sendMessageNotifications from '../components/operationSupport/messageManagement/sendMessageNotifications.vue';//发送短信通知
 import dataSynthesis from '../components/graphic/dataSynthesis.vue';//图形的样式
 import heldOutData from '../components/operationSupport/messageManagement/heldOutData.vue';//留存数据
+import dailyRealTimeRecharge from '../components/operationSupport/messageManagement/dailyRealTimeRecharge.vue';//每日实时充值数据
 // 完成*****
 // 活动专区
 // 开始*******
@@ -339,6 +340,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/messageManagement/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/dataSynthesis', component: dataSynthesis, name: '图形', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/messageManagement/heldOutData', component: heldOutData, name: '留存数据', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/messageManagement/dailyRealTimeRecharge', component: dailyRealTimeRecharge, name: '每日实时充值', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {

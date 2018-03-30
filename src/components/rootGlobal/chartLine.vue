@@ -2,7 +2,7 @@
 <!-- 折线图的图形 dom结构内容 -->
 	<section class="chart-container">
 		<el-dialog title="折线图" :width="dialogWidth" :visible.sync="dialogVisible" @open="show()" size="large">
-            <div ref='chartLine' class="chartLine"></div>
+            <div class="chartLine"></div>
 		</el-dialog>
 	</section>
 </template>
@@ -22,6 +22,7 @@ export default {
     },
     methods: {
         chartLineShow(arrData) {
+            console.log(arrData);
             var _this = this;
             var series = [];
             for(var i=0; i<arrData.legend.length; i++) {
@@ -42,7 +43,7 @@ export default {
                     formatter:function(params) {    
                         var relVal = params[0].name;    
                         for(var i = 0, l = params.length; i < l; i++) {    
-                            relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value+"%";    
+                            relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value+arrData.unit;    
                         }    
                         return relVal;    
                     }   
@@ -75,7 +76,7 @@ export default {
                         interval: 'auto',    // {number}
                         rotate: -20,
                         margin: 10,
-                        formatter: '{value}%',
+                        formatter: '{value}'+arrData.unit,
                         textStyle: {
                             color: '#1e90ff',
                             fontFamily: 'sans-serif',
@@ -91,7 +92,10 @@ export default {
         show() {
             var _this = this;
             _this.$nextTick(function() {
-                _this.chartLine = echarts.init(_this.$refs.chartLine);
+                console.log(11111);
+                // document.getElementsByClassName('chartLine')[0].innerHTML = '';
+                console.log(document.getElementsByClassName('chartLine')[0].innerHTML);
+                _this.chartLine = echarts.init(document.getElementsByClassName('chartLine')[0]);
                 _this.chartLineShow(_this.chartData);
             }); 
         },
@@ -113,6 +117,9 @@ export default {
 <style scoped>
 /* 这个样式规则限制使得它们应用于<style scoped>元素的父<div>元素及其内部的所有元素上。我们称之为“范围” */
 .chart-container .chartLine{
-    width: 100%; height: 400px;
+    width: 100%; height: 600px;
+}
+.chart-container .chartLine .chartLineDiv{
+    width: 100%; height: 600px !important;    
 }
 </style>
