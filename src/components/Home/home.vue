@@ -8,10 +8,10 @@
             </div>
             <!-- 链接的跳转，几个大类 -->
             <el-menu-item index="/operationData" :route="{path: '/operationData'}">运营数据</el-menu-item>
-            <el-menu-item index="/userManager" :route="{path: '/userManager'}">用户管理</el-menu-item>
+            <el-menu-item index="/userManagement" :route="{path: '/userManagement'}">用户管理</el-menu-item>
             <el-menu-item index="/operationSupport" :route="{path: '/operationSupport'}">运营支撑</el-menu-item>
-            <el-menu-item index="/systemManagement" :route="{path: '/activityManagement'}">活动专区</el-menu-item>
-            <el-menu-item index="/systemSetting" :route="{path: '/systemManagement'}">系统管理</el-menu-item>
+            <el-menu-item index="/activities" :route="{path: '/activities'}">活动专区</el-menu-item>
+            <el-menu-item index="/systemSetup" :route="{path: '/systemSetup'}">系统设置</el-menu-item>
             <!-- 加上uid查询的功能 -->
             <div class="uidFind">
                 <input v-model="uidFind" placeholder="请输入uid进行查询" />
