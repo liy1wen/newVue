@@ -4,74 +4,85 @@ import VueRouter from 'vue-router';
 // 大板块的引用
 import Home from '../components/Home/home.vue';//总的页面
 import operationData from '../components/Home/operationData.vue';//运营数据
+import userManagement from '../components/Home/userManagement.vue';//用户管理
 import operationSupport from '../components/Home/operationSupport.vue';//运营支撑
-import userManager from '../components/Home/userManager.vue';//主播管理
-import activityManagement from '../components/Home/activityManagement.vue';//系统管理
-import systemManagement from '../components/Home/systemManagement.vue';//系统设置
+import activities from '../components/Home/activities.vue';//活动专区
+import systemSetup from '../components/Home/systemSetup.vue';//系统设置
 import Login from '../components/rootGlobal/login.vue';//登陆页面
-// 图形的页面
-import graphic from '../components/graphic/dataSynthesis.vue';
-// 运营工具
-// 开始*****
-import randomSignature from '../components/operationSupport/operatingTools/randomSignature.vue';//随机签名页面
-import randomNickname from '../components/operationSupport/operatingTools/randomNickname.vue';//随机昵称页面
-import randomLabel from '../components/operationSupport/operatingTools/randomLabel.vue';//随机标签页面
-import imageUpload from '../components/operationSupport/operatingTools/imageUpload.vue';//图片上传页面->功能
-import registeredUserGreeting from '../components/operationSupport/operatingTools/registeredUserGreeting.vue';//注册语设置
-import newUsersMatchFriends from '../components/operationSupport/operatingTools/newUsersMatchFriends.vue';//新用户匹配好友
-import autoMaticCodeSealRule from '../components/operationSupport/operatingTools/autoMaticCodeSealRule.vue';//自动封号规则
-import revenueSuspensionWindow from '../components/operationSupport/operatingTools/revenueSuspensionWindow.vue';//收益悬浮窗
-import channelManagement from '../components/operationSupport/operatingTools/channelManagement.vue';//渠道管理
-import giftManagement from '../components/operationSupport/operatingTools/giftManagement.vue';//礼物管理
-// 完成*****
-// 消息管理
-// 开始*****
-import bannerManagement from '../components/operationSupport/messageManagement/bannerManagement.vue';//banner条管理
-import barrageTopicManagement from '../components/operationSupport/messageManagement/barrageTopicManagement.vue';//弹幕话题管理
-import marqueeManagement from '../components/operationSupport/messageManagement/marqueeManagement.vue';//跑马灯管理
-import sendSystemNotification from '../components/operationSupport/messageManagement/sendSystemNotification.vue';//发送系统通知
-import activityNotificationManagement from '../components/operationSupport/messageManagement/activityNotificationManagement.vue';//活动通知管理
-import sendMessageNotifications from '../components/operationSupport/messageManagement/sendMessageNotifications.vue';//发送短信通知
-import dataSynthesis from '../components/graphic/dataSynthesis.vue';//图形的样式
-import heldOutData from '../components/operationSupport/messageManagement/heldOutData.vue';//留存数据
-import dailyRealTimeRecharge from '../components/operationSupport/messageManagement/dailyRealTimeRecharge.vue';//每日实时充值数据
-// 完成*****
-// 活动专区
-// 开始*******
-import familyBackstageBackstageManage from '../components/activities/familyBackstageBackstageManage.vue';//家族嗨场(正)后台
-import familyBackstageBackstageTest from '../components/activities/familyBackstageBackstageTest.vue';//家族嗨场(测)后台
-
-// 结束*******
-
-
-import user from '../components/User/richText.vue';//文章编辑
-import userQuery from '../components/User/userQuery.vue';//用户查询
-import userComplaints from '../components/User/userComplaints.vue';//用户查询
 // 页面的基本架构
 import Hello from '../components/Home/hello.vue';//欢迎界面
 import Err401 from '../components/rootGlobal/401.vue';//错误界面
-// 基础数据
+import empty from '../components/rootGlobal/empty.vue';//空组建进行页面进行刷新时使用
+// 测试的引用查看数据
+
+// 1、运营数据
+// 运营数据start
+// 1-1渠道数据
+import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
+// 1-2充值消费
+import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
+// 1-3用户分析
+import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
+// 运营数据end
+
+// 2、用户管理
+// 用户管理start
+// 2-1主播管理
+import anchorDailyBehaviorDataStatistics from '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue';//主播每日行为数据统计
+import anchorDailyDataCollection from '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue';//主播每日数据汇总
+import anchorPersonalDataCollection from '../components/userManagement/anchorsManagement/anchorPersonalDataCollection.vue';//主播个人数据汇总
+// 用户管理end
+
+// 3、运营支撑**
+// 运营支撑start
+// 3-1、app内容管理
+import barrageTopicManagement from '../components/operationSupport/appContentManagement/barrageTopicManagement.vue';//弹幕话题管理
+import newUsersMatchFriends from '../components/operationSupport/appContentManagement/newUsersMatchFriends.vue';//新用户匹配好友
+import randomLabel from '../components/operationSupport/appContentManagement/randomLabel.vue';//随机标签
+import randomNickname from '../components/operationSupport/appContentManagement/randomNickname.vue';//随机昵称
+import randomSignature from '../components/operationSupport/appContentManagement/randomSignature.vue';//随机签名
+import registeredUserGreeting from '../components/operationSupport/appContentManagement/randomSignature.vue';//注册用户招呼语
+import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/randomSignature.vue';//收益悬浮窗
+// 3-2、app内容管理
+import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
+import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
+import bannerManagement from '../components/operationSupport/operatingTools/bannerManagement.vue';//banner管理
+import giftManagement from '../components/operationSupport/operatingTools/giftManagement.vue';//礼物管理
+import marqueeManagement from '../components/operationSupport/operatingTools/marqueeManagement.vue';//跑马灯管理
+import sendMessageNotifications from '../components/operationSupport/operatingTools/marqueeManagement.vue';//发送短信通知
+import sendSystemNotification from '../components/operationSupport/operatingTools/sendSystemNotification.vue';//发送系统通知
+// 3-3、录音日志
+import DailyAdditions from '../components/operationSupport/recordingLog/DailyAdditions.vue';//每日新增录音明细
+import newRecordingAddList from '../components/operationSupport/recordingLog/newRecordingAddList.vue';//每日新增录音统计
+import recordShareManage from '../components/operationSupport/recordingLog/recordShareManage.vue';//录音分享卡片
+import systemRack from '../components/operationSupport/recordingLog/systemRack.vue';//录音下榜列表
+import tapeSharingData from '../components/operationSupport/recordingLog/tapeSharingData.vue';//分享页推荐录音列表
+import wonderfulRecord from '../components/operationSupport/recordingLog/wonderfulRecord.vue';//录音精彩内容
+// 运营支撑end
+
+// 4、活动专区
+// 活动专区start
+import familyBackstageBackstageManage from '../components/activities/familyBackstageBackstageManage.vue';//家族活动正式服后台
+import familyBackstageBackstageTest from '../components/activities/familyBackstageBackstageTest.vue';//家族活动测试服后台
+// 活动专区end
+// 5、系统设置
+// 系统设置start
+import imageUpload from '../components/systemSetup/imageUpload.vue';//图片上传
+// 系统设置end
+
+// 留存测试填充数据
+import user from '../components/User/richText.vue';//文章编辑
+import userQuery from '../components/User/userQuery.vue';//用户查询
+import userComplaints from '../components/User/userComplaints.vue';//用户查询
 import channelDataManagement from '../components/basicData/channelDataManagement'; //总渠道基础数据
 import subChannel from '../components/basicData/subChannel'; //分渠道数据
-// import heldOutData from '../components/basicData/heldOutData'; //留存数据
 import liveOnlineDetails from '../components/basicData/liveOnlineDetails'; //实时在线详情
 import realTimeMatching from '../components/basicData/realTimeMatching'; //实时匹配详情
+import graphic from '../components/graphic/dataSynthesis.vue';
 
-// 录音管理
-import dailyAdditions from '../components/operationSupport/recordingManagement/DailyAdditions.vue'; // 每日新增录音明细
-import wonderfulRecord from '../components/operationSupport/recordingManagement/wonderfulRecord.vue'; // 录音精彩内容
-import newRecording from '../components/operationSupport/recordingManagement/newRecordingAddList.vue'; // 每日新增录音统计
-import tapeSharing from '../components/operationSupport/recordingManagement/tapeSharingData.vue';  // 分享页推荐录音列表
-import systemRack from '../components/operationSupport/recordingManagement/systemRack.vue'; // 录音下榜列表
-import recordShareManage from '../components/operationSupport/recordingManagement/recordShareManage'; // 录音分享卡片
-
-// 主播后台管理
-import anchorDailyCollection from '../components/operationSupport/authorManagement/anchorDailyDataCollection.vue'; // 主播每日数据汇总
-import anchorPersonalDataCollection from '../components/operationSupport/authorManagement/anchorPersonalDataCollection.vue'; // 主播个人数据汇总
-import anchorDailyBehaviorDataStatistics from '../components/operationSupport/authorManagement/anchorDailyBehaviorDataStatistics.vue'; // 主播每日行为数据统计
 
 // 系统设置 
-import empty from '../components/rootGlobal/empty.vue';//空组建进行页面进行刷新时使用
+
 
 // 把router 引用进入vue
 Vue.use(VueRouter);
@@ -123,68 +134,25 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupportOne/user', component: user, name: '总渠道数据', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '每日总数据大全', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationData/comprehensiveOverview/user', component: user, name: '综合数据', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
                 path: '/operationData',
                 component: operationData,
-                name: '激活与注册',
+                name: '用户分析',
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupportOne/user', component: user, name: '激活注册详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                ],
-            },
-            {
-                path: '/operationData',
-                component: operationData,
-                name: '留存与流失',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/operationSupportOne/user', component: user, name: '留存数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                ],
-            },
-            {
-                path: '/operationData',
-                component: operationData,
-                name: '活跃与在线',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/operationSupportOne/user', component: user, name: '实时在线详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '日活用户行为', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                ],
-            },
-            {
-                path: '/operationData',
-                component: operationData,
-                name: '通话数据统计',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/operationSupportOne/user', component: user, name: '实时匹配详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '实时通话次数', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '通话数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '随机通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '网红通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '好友通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '偷听汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '抢聊通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: 'IM消息统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '每日新增录音统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                ],
-            },
-            {
-                path: '/operationData',
-                component: operationData,
-                name: '运营数据统计',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/operationSupportOne/user', component: user, name: '分享页每日数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '激活与注册', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/heldOutData', component: heldOutData, name: '留存数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '活跃用户', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '日活用户行为', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '平台5分钟实时在线', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '每日在线人数', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '人均使用时长', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '使用频率', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/user', component: user, name: '在线时长分布', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
             {
@@ -194,15 +162,42 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupportOne/user', component: user, name: '每日充值明细', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '每日实时充值', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '每月充值明细', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '三日充值数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '聊币统计汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '聊票统计汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '每月礼物数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '聊票流入流出汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '聊币流入流出汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/user', component: user, name: '财务日报', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/dailyRealTimeRecharge', component: dailyRealTimeRecharge, name: '分时充值详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/user', component: user, name: '付费用户数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/user', component: user, name: '聊币数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/user', component: user, name: '聊票数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/user', component: user, name: '礼物数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/user', component: user, name: 'VIP会员充值数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                ],
+            },
+            {
+                path: '/operationData',
+                component: operationData,
+                name: '通话数据统计',
+                iconCls: 'el-icon-menu',
+                hidden: false,
+                children: [
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '通话数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '实时匹配详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '实时通话次数', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '随机通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '网红通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '好友通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '偷听汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '抢聊通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callDataStatistics/user', component: user, name: '录音数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                ],
+            },
+            {
+                path: '/operationData',
+                component: operationData,
+                name: '运营数据统计',
+                iconCls: 'el-icon-menu',
+                hidden: false,
+                children: [
+                    { path: '/operationData/operationDataStatistics/user', component: user, name: '分享页数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/operationDataStatistics/user', component: user, name: 'IM消息统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
             {
@@ -212,75 +207,77 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupportOne/user', component: user, name: '分渠道数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: 'CPS数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '分渠道CPA数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '分渠道实时注册数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '分渠道数据累计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationSupportOne/user', component: user, name: '单日分渠道数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/channelData/user', component: user, name: '分渠道数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/channelData/channelManagement', component: channelManagement, name: '渠道管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
         ],
     },
     // 用户管理
     {
-        path: '/userManager',
+        path: '/userManagement',
         component: Home,
         name: '用户管理',
         //iconCls: 'el-icon-message',//图标样式class
         children: [
             {
-                path: '/userManager',
-                component: userManager,
-                name: '用户管理',
+                path: '/userManagement',
+                component: userManagement,
+                name: '用户信息管理',
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '用户查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '封号解封操作记录', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '用户货币明细查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: 'VIP用户数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '女性魅力值', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '真人认证审核', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '置顶网红管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '用户信息查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '置顶网红管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '用户认证审核', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '账号封禁记录（可解禁）', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '录音投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '设备及IP封禁管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '货币流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '礼物赠送查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '用户登录查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '充值排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '收入排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/user', component: user, name: '女性魅力值', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                 ],
             },
             {
-                path: '/userManager',
-                component: userManager,
-                name: '代理管理',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '代理总览', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '代理推广查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '代理排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '代理首次通话查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                ],
-            },
-            {
-                path: '/userManager',
-                component: userManager,
-                name: '主播管理',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/authorManagement/anchorDailyDataCollection', component: anchorDailyCollection, name: '主播每日数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/authorManagement/anchorPersonalDataCollection', component: anchorPersonalDataCollection, name: '主播个人数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/authorManagement/anchorDailyBehaviorDataStatistics', component: anchorDailyBehaviorDataStatistics, name: '主播每日行为数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                ],
-            },
-            {
-                path: '/userManager',
-                component: userManager,
+                path: '/userManagement',
+                component: userManagement,
                 name: '家族管理',
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '家族查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '房间数据和记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/registeredUserGreeting', component: registeredUserGreeting, name: '房间流水', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/user', component: user, name: '家族查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/user', component: user, name: '房间数据和记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/user', component: user, name: '房间消费流水', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/user', component: user, name: '解散家族', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                ],
+            },
+            {
+                path: '/userManagement',
+                component: userManagement,
+                name: '代理推广管理',
+                iconCls: 'el-icon-menu',
+                hidden: false,
+                children: [
+                    { path: '/userManagement/agentPromotionManagement/user', component: user, name: '推广数据总览', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/agentPromotionManagement/user', component: user, name: '代理推广查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/agentPromotionManagement/user', component: user, name: '代理排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                ],
+            },
+            {
+                path: '/userManagement',
+                component: userManagement,
+                name: '主播管理',
+                iconCls: 'el-icon-menu',
+                hidden: false,
+                children: [
+                    { path: '/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics', component: anchorDailyBehaviorDataStatistics, name: '主播每日行为数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/anchorsManagement/anchorDailyDataCollection', component: anchorDailyDataCollection, name: '主播每日数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/anchorsManagement/anchorPersonalDataCollection', component: anchorPersonalDataCollection, name: '主播个人数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],
@@ -295,14 +292,17 @@ export const asyncRouterMap = [
             {
                 path: '/operationSupport',
                 component: operationSupport,
-                name: '运营支撑一',
+                name: '财务管理',
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '文章编辑', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/imageUpload', component: imageUpload, name: '图片上传', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/userQuery', component: userQuery, name: '用户查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/userComplaints', component: userComplaints, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/user', component: user, name: '充值流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/user', component: user, name: '提现审核', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/user', component: user, name: '提现记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/user', component: user, name: '货币申请审核', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/user', component: user, name: '货币申请及记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/user', component: user, name: '充值配置列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/user', component: user, name: '充值配置操作记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
@@ -312,132 +312,98 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operatingTools/newUsersMatchFriends', component: newUsersMatchFriends, name: '新用户匹配好友', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/registeredUserGreeting', component: registeredUserGreeting, name: '注册用户招呼语', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operatingTools/giftManagement', component: giftManagement, name: '礼物管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/revenueSuspensionWindow', component: revenueSuspensionWindow, name: '收益悬浮窗', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/channelManagement', component: channelManagement, name: '渠道管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/randomSignature', component: randomSignature, name: '随机签名', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/randomNickname', component: randomNickname, name: '随机昵称', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/randomLabel', component: randomLabel, name: '随机标签', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/autoMaticCodeSealRule', component: autoMaticCodeSealRule, name: '自动封号规则', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/imageUpload', component: imageUpload, name: '图片上传', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/bannerManagement', component: bannerManagement, name: 'banner条管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/sendSystemNotification', component: sendSystemNotification, name: '发送系统通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/activityNotificationManagement', component: activityNotificationManagement, name: '活动通知管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/sendMessageNotifications', component: sendMessageNotifications, name: '发送手机短信', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/adRestrictionParameters', component: adRestrictionParameters, name: '广告限制次数', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
                 path: '/operationSupport',
                 component: operationSupport,
-                name: '消息管理',
+                name: '通话日志',
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/messageManagement/barrageTopicManagement', component: barrageTopicManagement, name: '弹幕话题管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/sendSystemNotification', component: sendSystemNotification, name: '发送系统通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/bannerManagement', component: bannerManagement, name: 'banner条管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/user', component: user, name: '文章管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/activityNotificationManagement', component: activityNotificationManagement, name: '活动通知管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/sendMessageNotifications', component: sendMessageNotifications, name: '发送短信通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/dataSynthesis', component: dataSynthesis, name: '图形', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/heldOutData', component: heldOutData, name: '留存数据', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/messageManagement/dailyRealTimeRecharge', component: dailyRealTimeRecharge, name: '每日实时充值', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/callLog/user', component: user, name: '通话记录明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/callLog/user', component: user, name: '公开通话管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/callLog/user', component: user, name: '抢聊通话明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
                 path: '/operationSupport',
                 component: operationSupport,
-                name: '财务管理',
+                name: '录音日志',
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '充值促销管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '充值流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '提现审核', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '提现流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '货币赠送申请及查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '充值操作记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '充值列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingLog/DailyAdditions', component: DailyAdditions, name: '每日新增录音明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingLog/newRecordingAddList', component: newRecordingAddList, name: '每日新增录音统计', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingLog/wonderfulRecord', component: wonderfulRecord, name: '精选录音列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingLog/tapeSharingData', component: tapeSharingData, name: '分享页推荐列表管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingLog/systemRack', component: systemRack, name: '录音下榜列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingLog/user', component: user, name: '录音标签管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/recordingLog/recordShareManage', component: recordShareManage, name: '录音分享卡片', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
                 path: '/operationSupport',
                 component: operationSupport,
-                name: '通话管理',
+                name: 'App内容管理',
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '通话记录明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '公开通话中管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '抢聊通话详情', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '偷听列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                ],
-            },
-            {
-                path: '/operationSupport',
-                component: operationSupport,
-                name: '录音管理',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '录播管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/recordingManagement/dailyAdditions', component: dailyAdditions, name: '每日新增录音明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/recordingManagement/wonderfulRecord', component: wonderfulRecord, name: '录音精彩内容', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/recordingManagement/newRecording', component: newRecording, name: '每日新增录音统计', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/recordingManagement/tapeSharing', component: tapeSharing, name: '分享页推荐列表管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    // { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音页面投诉管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/recordingManagement/systemRack', component: systemRack, name: '录音下榜列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    // { path: '/operationSupport/operationSupportOne/user', component: user, name: '录音标签管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/recordingManagement/recordShareManage', component: recordShareManage, name: '录音分享卡片', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                ],
-            },
-            {
-                path: '/operationSupport',
-                component: operationSupport,
-                name: '全局参数',
-                iconCls: 'el-icon-menu',
-                hidden: false,
-                children: [
-                    { path: '/operationSupport/operationSupportOne/user', component: user, name: '全局参数', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/user', component: user, name: '首页标签管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/revenueSuspensionWindow', component: revenueSuspensionWindow, name: '收益任务管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/barrageTopicManagement', component: barrageTopicManagement, name: '弹幕话题管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/registeredUserGreeting', component: registeredUserGreeting, name: '注册用户招呼语', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/newUsersMatchFriends', component: newUsersMatchFriends, name: '新用户匹配好友', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/randomLabel', component: randomLabel, name: '随机用户标签', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/randomNickname', component: randomNickname, name: '随机用户昵称', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/randomSignature', component: randomSignature, name: '随机用户签名', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],
     },
     // 活动专区
     {
-        path: '/activityManagement',
+        path: '/activities',
         component: Home,
         name: '活动专区',
         //iconCls: 'el-icon-message',//图标样式class
         children: [
             {
-                path: '/activityManagement',
-                component: activityManagement,
+                path: '/activities',
+                component: activities,
                 name: '活动专区',
                 hidden: false,
                 children: [
                     { path: '/activities/familyBackstageBackstageManage', component: familyBackstageBackstageManage, name: '家族嗨场(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '新年活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupportOne/user', component: user, name: '公众号关注', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],
     },
     // 系统管理
     {
-        path: '/systemManagement',
+        path: '/systemSetup',
         component: Home,
-        name: '系统管理',
+        name: '系统设置',
         //iconCls: 'el-icon-message',//图标样式class
         children: [
             {
-                path: '/systemManagement',
-                component: systemManagement,
+                path: '/systemSetup',
+                component: systemSetup,
                 name: '系统管理',
                 hidden: false,
                 children: [
-                    { path: '/systemManagement/dataSynthesis', component: graphic, name: '账号管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin'] } },
-                    { path: '/systemManagement/channelDataManagement', component: channelDataManagement, name: '修改密码', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin'] } },
+                    { path: '/systemSetup/user', component: user, name: '账号管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/user', component: user, name: '修改密码', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/user', component: user, name: '全局参数', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/imageUpload', component: imageUpload, name: '图片上传', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],

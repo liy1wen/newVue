@@ -33,7 +33,7 @@ export default {
             // 拿取store中的路由表的相应内容
             let thatDdta = store.getters.addRouters;
             let data =  thatDdta.filter(data => {
-                if(data.name=='系统管理'){
+                if(data.name=='系统设置'){
                     return  data;
                 }
             }) 

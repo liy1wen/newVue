@@ -1,2 +1,0 @@
-DailyAdditions.vue  每日新增录音明细
-wonderfulRecord.vue  录音精彩内容
