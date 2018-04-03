@@ -177,7 +177,7 @@ var baseConfig = {
 		}
 		return newobj;
 	},
-	// 对日期时间的格式进行转换时间格式化，type==0->日期，type==1->日期时间
+	// 对日期时间的格式进行转换时间格式化，type==0->日期，type==1->日期时间,type==2->（年-月）
 	changeDateTime(data, type) {
 		var date = new Date(data);
 		var sign1 = "-";
@@ -194,10 +194,25 @@ var baseConfig = {
 		if(minutes>=0 && minutes<=9) { minutes = "0" + minutes; }
 		if(seconds>=0 && seconds<=9) { seconds = "0" + seconds; }
 		var currentDate = year+sign1+month+sign1+day;
+		var currentMonth = year+sign1+month;  // 新增（年-月）格式转换
 		var currentDateTime = year+sign1+month+sign1+day+" "+hour+sign2+minutes+sign2+seconds;
 		if(type==0) { return currentDate; }
 		else if(type==1) { return currentDateTime; }
+		else if(type==2) {return currentMonth;}
 	},
+	// 时间转换 毫秒-> 天 时 分 秒
+	changeTime(time) {
+		// if(typeof(time)!=="number"){
+		// 	return;
+		// }
+		console.log(typeof(time));
+		var minute = Math.floor(time/60%60); // 分
+		var hour = Math.floor(time/60/60%24); // 时
+		var second = Math.floor(time%60); // 秒
+		var day = Math.floor(time/60/60/24); // 天
+		var timeString = day + "天" + hour + "时" + minute + "分" + second + "秒";
+		return timeString;
+ 	},
 };
 // console.log(location.href);
 // 进行正式服、测试服区分
