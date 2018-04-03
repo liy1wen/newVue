@@ -57,7 +57,7 @@ import adRestrictionParameters from '../components/operationSupport/operatingToo
 import bannerManagement from '../components/operationSupport/operatingTools/bannerManagement.vue';//banner管理
 import giftManagement from '../components/operationSupport/operatingTools/giftManagement.vue';//礼物管理
 import marqueeManagement from '../components/operationSupport/operatingTools/marqueeManagement.vue';//跑马灯管理
-import sendMessageNotifications from '../components/operationSupport/operatingTools/marqueeManagement.vue';//发送短信通知
+import sendMessageNotifications from '../components/operationSupport/operatingTools/sendMessageNotifications.vue';//发送短信通知
 import sendSystemNotification from '../components/operationSupport/operatingTools/sendSystemNotification.vue';//发送系统通知
 // 3-3、录音日志
 import DailyAdditions from '../components/operationSupport/recordingLog/DailyAdditions.vue';//每日新增录音明细
@@ -76,6 +76,8 @@ import familyBackstageBackstageTest from '../components/activities/familyBacksta
 // 5、系统设置
 // 系统设置start
 import imageUpload from '../components/systemSetup/imageUpload.vue';//图片上传
+import globalParameter from '../components/systemSetup/globalParameter.vue';//全局参数
+import modifyThePassword from '../components/systemSetup/modifyThePassword.vue';//密码修改
 // 系统设置end
 
 // 留存测试填充数据
@@ -172,6 +174,7 @@ export const asyncRouterMap = [
                 children: [
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '财务日报', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/dailyRealTimeRecharge', component: dailyRealTimeRecharge, name: '分时充值详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/monthRealTimeRecharge', component: dailyRealTimeRecharge, name: '每月充值详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '付费用户数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '聊币数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '聊票数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
@@ -409,8 +412,8 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/systemSetup/user', component: user, name: '账号管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/systemSetup/user', component: user, name: '修改密码', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/systemSetup/user', component: user, name: '全局参数', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/modifyThePassword', component: modifyThePassword, name: '修改密码', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/globalParameter', component: globalParameter, name: '全局参数', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/systemSetup/imageUpload', component: imageUpload, name: '图片上传', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
