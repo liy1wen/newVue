@@ -66,7 +66,7 @@ var baseConfig = {
         });
     },
     // 设置cookie
-	setCooki(name, value, expireDay) {
+	setCookie(name, value, expireDay) {
 		expireDay = expireDay || 1;
 		var exp = new Date();
 	    exp.setTime(exp.getTime() + this.cookieExpire*24*60*60*1000);

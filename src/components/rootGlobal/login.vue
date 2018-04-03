@@ -19,24 +19,26 @@
 import { allget } from '../../api/api'
 import store from '../../vuex/store';
 import router from '../../router';
-
+import en_md from '../../public_js/md5.js';
 export default {
     data() {
         return {
             logining: false,
             ruleForm2: {
-                account: 'fll',
-                checkPass: '123456'
+                account: '',
+                checkPass: ''
             },
             rules2: {
-                account: [{
+                account: [
+                    {
                         required: true,
                         message: '请输入账号',
                         trigger: 'blur'
                     },
                     //{ validator: validaePass }
                 ],
-                checkPass: [{
+                checkPass: [
+                    {
                         required: true,
                         message: '请输入密码',
                         trigger: 'blur'
@@ -47,62 +49,69 @@ export default {
             checked: true
         };
     },
-    
     methods: {
         //   handleReset2() {
         //     this.$refs.ruleForm2.resetFields();
         //   },
         handleSubmit2(ev) {
             let _this = this;
-            this.logining = true;
-            this.$refs.ruleForm2.validate(valid => {
-            if (valid) {
-                let loginParams = {
-                    username: this.ruleForm2.account,
-                    password: this.ruleForm2.checkPass,
-                };
-                if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user信息
-                    store.dispatch('GetInfo',loginParams).then(res => { // 拉取user
-                    // console.log(res);
-                        if(res.data.ret){
-                            const roles = ['admin'];
-                            // const ajaxrouter = res.data.data;
-                            //   console.log(roles);
-                            store.dispatch('GenerateRoutes', {
-                                roles
-                            }).then(() => { // 生成可访问的路由表
-                                router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-                                
-                            })
-                            sessionStorage.setItem('user', JSON.stringify(loginParams));
-                            // console.log(loginParams);
-                            this.$router.push({
-                                path: '/hello'
-                            });
-                            this.logining = false;
-                        }else {
-                            this.$notify.error({
-                                title: '错误',
-                                message: res.data.msg,
-                                duration: 1000,
-                                offset: 100
-                            });
-                            this.logining = false;
-                        }
-                    }).catch(err => {
-                        this.logining = false;
-                        // console.log(err);
-                    });
+            _this.logining = true;
+            _this.$refs.ruleForm2.validate(valid => {
+                if (valid) {
+                    let loginParams = {
+                        username: _this.ruleForm2.account,
+                        password: _this.ruleForm2.checkPass,
+                    };
+                    if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user信息
+                        store.dispatch('GetInfo',loginParams).then(res => { // 拉取user
+                            // console.log(res);
+                            if(res.data.ret){
+                                const roles = ['admin']; //设置为管理者权限
+                                // const ajaxrouter = res.data.data;
+                                // console.log(roles);
+                                store.dispatch('GenerateRoutes', {
+                                    roles
+                                }).then(() => { // 生成可访问的路由表
+                                    router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+                                    
+                                })
+                                sessionStorage.setItem('user', JSON.stringify(loginParams));
+                                baseConfig.setCookie('loginParams', JSON.stringify(loginParams), 7);
+                                // console.log(loginParams);
+                                _this.$router.push({
+                                    path: '/hello'
+                                });
+                                _this.logining = false;
+                            }else {
+                                _this.errorTipMsg(_this, res.data.msg);
+                                _this.logining = false;
+                            }
+                        }).catch(err => {
+                            _this.logining = false;
+                            console.log(err);
+                        });
+                    }
+                } else {
+                    _this.logining = false;
+                    console.log('error submit!!');
+                    return false;
                 }
-            } else {
-                this.logining = false;
-                console.log('error submit!!');
-                return false;
-            }
-          });
-            
+            });
         },
-    }
+    },
+    mounted() {
+        var _this = this;
+        _this.$nextTick(function() {
+            if(baseConfig.getCookie('loginParams')) {
+                if(JSON.parse(baseConfig.getCookie('loginParams')).username) {
+                    _this.ruleForm2.account = JSON.parse(baseConfig.getCookie('loginParams')).username;
+                } else {}
+                if(JSON.parse(baseConfig.getCookie('loginParams')).password) {
+                    _this.ruleForm2.checkPass = JSON.parse(baseConfig.getCookie('loginParams')).password;
+                } else {}
+            }
+        })
+    },
 }
 </script>
 

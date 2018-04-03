@@ -2,7 +2,7 @@
     <el-row>
         <div class="welcome">
             <div class="welcome-left">
-                <div class="hello-nav">欢迎回来----<span>{{nsernmae | name}}</span></div>
+                <div class="hello-nav">欢迎回来，<span>{{username | name}}</span></div>
                 <div class="time-nav el-icon-time" >{{time}} <span>{{week}}</span></div>
             </div>
         </div>
@@ -16,7 +16,7 @@
 export default {
     data() {
         return {
-            nsernmae:"",
+            username:"",
             time:"",
             week:"",
         }
@@ -26,7 +26,7 @@ export default {
             if(name=='admin'){
                 return '超级管理员'
             }else {
-                return name + '管理员'
+                return '管理员'+name; 
             }
         }
     },
@@ -42,9 +42,9 @@ export default {
                 console.log('没有本地信息')
             }
             try {
-                // this.nsernmae = JSON.parse(sessionStorage.getItem('user').username);
+                // this.username = JSON.parse(sessionStorage.getItem('user').username);
                 let user = JSON.parse(sessionStorage.getItem('user'));
-                this.nsernmae = user.username;
+                this.username = user.username;
                 // console.log(user);
             } catch (e) {
                 console.log(e);
@@ -68,13 +68,10 @@ export default {
 
 <style lang="css">
     .hello-nav {
-
-        color: #fff;
+        color: #8492a6;
         font-size: 40px;
-
     }
     .time-nav{
-
         color: #000;
         font-size: 40px;
         margin: 20px auto 0;
@@ -90,6 +87,5 @@ export default {
     }
     .welcome-right {
         width: 200px;
-        
     }
 </style>

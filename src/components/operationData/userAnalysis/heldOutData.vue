@@ -85,6 +85,8 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<!-- 折线图组建 -->
+			<chartLine></chartLine>
 			<!--工具条-->
 			<el-col :span="24" class="toolbar">
 				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
@@ -99,6 +101,7 @@ import Event from './../../../public_js/event.js';
 import { allget } from '../../../api/api';
 import store from '../../../vuex/store';
 import axios from 'axios';
+import chartLine from '../../rootGlobal/chartLine.vue'; // 折线图
 export default {
 	data() {
 		return {
@@ -123,6 +126,9 @@ export default {
 				series: [[], [], [], [], [], []],
 			}, 
 		};
+	},
+	components: {
+        chartLine,
 	},
 	computed:{
 		// 对某一页码展示某一页的数据，对返回的所有的数据进行切割处理，对当前的页码显示20条当前页码的数据
