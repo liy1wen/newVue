@@ -17,12 +17,17 @@ import empty from '../components/rootGlobal/empty.vue';//空组建进行页面�
 
 // 1、运营数据
 // 运营数据start
+// 1-1综合概述
+// 1-2用户分析
+import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
+// 1-3充值与消费
+import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
+// 1-4通话数据统计
+import callDataSummary from '../components/operationSupport/callLog/CallDataSummary.vue'//通话数据汇总
+// 1-5运营数据统计
 // 1-1渠道数据
 import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
-// 1-2充值消费
-import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
-// 1-3用户分析
-import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
+
 // 运营数据end
 
 // 2、用户管理
@@ -178,7 +183,7 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationData/callDataStatistics/user', component: user, name: '通话数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callLog/callDataSummary', component: callDataSummary, name: '通话数据汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/callDataStatistics/user', component: user, name: '实时匹配详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/callDataStatistics/user', component: user, name: '实时通话次数', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/callDataStatistics/user', component: user, name: '随机通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
