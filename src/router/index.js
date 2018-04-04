@@ -33,6 +33,7 @@ import eavesdroppingSummary from '../components/operationSupport/callLog/eavesdr
 import GrabChatDataSummary from '../components/operationSupport/callLog/GrabChatDataSummary.vue';//抢聊通话汇总
 import newRecordingAddList from '../components/operationSupport/callLog/newRecordingAddList.vue';//每日新增录音统计
 // 1-5运营数据统计
+import imMessageStatistics from '../components/operationData/operationDataStatistics/imMessageStatistics.vue';//IM消息统计
 // 1-1渠道数据
 import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
 
@@ -212,7 +213,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/operationData/operationDataStatistics/user', component: user, name: '分享页数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/operationDataStatistics/user', component: user, name: 'IM消息统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/operationDataStatistics/im', component: imMessageStatistics, name: 'IM消息统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
             {

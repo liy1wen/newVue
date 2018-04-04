@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" v-loading="listLoading" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="date" label="日期"></el-table-column>
 				<el-table-column prop="total_num" label="发起次数"></el-table-column>
 				<el-table-column prop="total_people" label="发起人数"></el-table-column>

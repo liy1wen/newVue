@@ -15,8 +15,8 @@
 				<el-form-item style="margin-left: 50px;">
 					<span>录音状态</span>
 					<el-select style="width: 100px;" v-model="recordStatus">
-						<el-option label="全部" value="0"></el-option>
-						<el-option label="未推荐" value="1"></el-option>
+						<el-option label="全部"></el-option>
+						<el-option label="未推荐" value="0"></el-option>
 						<el-option label="已推荐" value="1"></el-option>
 					</el-select>
 				</el-form-item>
