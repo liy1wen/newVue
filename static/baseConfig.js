@@ -202,15 +202,25 @@ var baseConfig = {
 	},
 	// 时间转换 毫秒-> 天 时 分 秒
 	changeTime(time) {
-		// if(typeof(time)!=="number"){
-		// 	return;
-		// }
-		console.log(typeof(time));
 		var minute = Math.floor(time/60%60); // 分
 		var hour = Math.floor(time/60/60%24); // 时
 		var second = Math.floor(time%60); // 秒
-		var day = Math.floor(time/60/60/24); // 天
-		var timeString = day + "天" + hour + "时" + minute + "分" + second + "秒";
+		var day = Math.floor(time/60/60/24); 
+		var timeString = null;
+		// 如果 天为0 就不显示
+		if(day==0){
+			if(hour==0){
+				if(minute==0){
+					timeString = second + "秒";
+				}else{
+					timeString = minute + "分" + second + "秒";
+				}
+			}else{
+				timeString = hour + "时" + minute + "分" + second + "秒";
+			}
+		}else {
+			timeString = day + "天" + hour + "时" + minute + "分" + second + "秒";
+		}
 		return timeString;
  	},
 };

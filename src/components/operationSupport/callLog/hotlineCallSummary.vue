@@ -1,5 +1,5 @@
 <template>
-	<!-- 随机通话汇总 -->
+	<!-- 网红通话汇总 -->
 	<!-- dom结构内容 -->
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
@@ -21,53 +21,91 @@
 		<template>
 			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="time" label="日期"></el-table-column>
-				<el-table-column prop="totalrandcallaa" label="AA通话次数"></el-table-column>
-				<el-table-column prop="totalnumaa" label="AA通话人数"></el-table-column>
-				<el-table-column prop="totalrandtimeaa" label="AA通话时长">
+				<el-table-column prop="manredclick" label="发起次数（男发起）"></el-table-column>
+				<el-table-column prop="man_num" label="接通次数（男发起）"></el-table-column>
+				<el-table-column prop="man_rate" label="接通率（男发起）">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.totalrandtimeaa)}}</P>
+                            <P>{{(scope.row.woman_rate*100).toFixed(2)+"%"}}</P>
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="avgtimeaa" label="AA平均通话时长">
+				<el-table-column prop="man_time" label="通话时长（男发起）">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.avgtimeaa)}}</P>
+                            <P>{{timeTransform(scope.row.man_time)}}</P>
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="totalrandcallab" label="AB通话次数"></el-table-column>
-				<el-table-column prop="totalrandtimeab" label="AB通话时长">
+				<el-table-column prop="womanredclick" label="发起次数（女发起）"></el-table-column>
+				<el-table-column prop="woman_num" label="接通次数（女发起）"></el-table-column>
+				<el-table-column prop="woman_rate" label="接通率（女发起）">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.totalrandtimeab)}}</P>
+                            <P>{{(scope.row.woman_rate*100).toFixed(2)+"%"}}</P>
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="totalnumab" label="AB通话人数"></el-table-column>
-				<el-table-column prop="avgtimeab" label="AB平均通话时长">
+				<el-table-column prop="woman_time" label="通话时长（女发起）">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.avgtimeab)}}</P>
+                            <P>{{timeTransform(scope.row.woman_time)}}</P>
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="atimes" label="A类发起数"></el-table-column>
-				<el-table-column prop="woman_atimes" label="女方A类发起数"></el-table-column>
-				<el-table-column prop="man_atimes" label="男方A类发起数"></el-table-column>
-				<el-table-column prop="new_atimes" label="新用户A类发起数"></el-table-column>
-				<el-table-column prop="old_atimes" label="老用户A类发起数"></el-table-column>
-				<el-table-column prop="anums" label="A类发起人数"></el-table-column>
-				<el-table-column prop="snums" label="匹配次数（服务端）"></el-table-column>
-				<el-table-column prop="rate" label="失败率">
+				<el-table-column prop="freeredclick" label="发起次数（免费）"></el-table-column>
+				<el-table-column prop="free_num" label="接通次数（免费）"></el-table-column>
+				<el-table-column prop="free_rate" label="接通率（免费）">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <P>{{(scope.row.rate*100).toFixed(2)+"%"}}</P>
+                            <P>{{(scope.row.free_rate*100).toFixed(2)+"%"}}</P>
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="gift" label="礼物消费"></el-table-column>
+				<el-table-column prop="free_time" label="通话时长（免费）">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <P>{{timeTransform(scope.row.free_time)}}</P>
+                        </div>
+                    </template>
+                </el-table-column>
+				<el-table-column prop="moneyredclick" label="发起次数（付费）"></el-table-column>
+				<el-table-column prop="money_num" label="接通次数（付费）"></el-table-column>
+				<el-table-column prop="money_rate" label="接通率（付费）">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <P>{{(scope.row.money_rate*100).toFixed(2)+"%"}}</P>
+                        </div>
+                    </template>
+                </el-table-column>
+				<el-table-column prop="money_time" label="通话时长（付费）">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <P>{{timeTransform(scope.row.money_time)}}</P>
+                        </div>
+                    </template>
+                </el-table-column>
+				<el-table-column prop="totalredclick" label="总发起次数"></el-table-column>
+				<el-table-column prop="total_num" label="总接通次数"></el-table-column>
+				<el-table-column prop="total_rate" label="总接通率">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <P>{{(scope.row.total_rate*100).toFixed(2)+"%"}}</P>
+                        </div>
+                    </template>
+                </el-table-column>
+				<el-table-column prop="total_time" label="总通话时长">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <P>{{timeTransform(scope.row.total_time)}}</P>
+                        </div>
+                    </template>
+                </el-table-column>
+				<el-table-column prop="call_money" label="总通话消费"></el-table-column>
+				<el-table-column prop="listen_valid_times" label="有效通话次数"></el-table-column>
+				<el-table-column prop="listen_valid_long" label="有效通话时长"></el-table-column>
+				<el-table-column prop="avg" label="总通话平均时长"></el-table-column>
+				<el-table-column prop="gift_money" label="礼物消费"></el-table-column>
 				<el-table-column prop="one_num" label="0~1分钟"></el-table-column>
 				<el-table-column prop="three_num" label="1~3分钟"></el-table-column>
 				<el-table-column prop="five_num" label="3~5分钟"></el-table-column>
@@ -75,29 +113,6 @@
 				<el-table-column prop="thirty_num" label="10~30分钟"></el-table-column>
 				<el-table-column prop="sixty_num" label="30~60分钟"></el-table-column>
 				<el-table-column prop="sixtymore_num" label="大于60分钟"></el-table-column>
-				<el-table-column prop="totalcall" label="总通话次数"></el-table-column>
-				<el-table-column prop="totaltime" label="总通话时长">
-                    <template slot-scope="scope">
-                        <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.totaltime)}}</P>
-                        </div>
-                    </template>
-                </el-table-column>
-				<el-table-column prop="listen_valid_times" label="有效通话次数"></el-table-column>
-				<el-table-column prop="listen_valid_long" label="有效通话时长">
-                    <template slot-scope="scope">
-                        <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.listen_valid_long)}}</P>
-                        </div>
-                    </template>
-                </el-table-column>
-				<el-table-column prop="avgtime" label="平均通话时长">
-                    <template slot-scope="scope">
-                        <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.avgtime)}}</P>
-                        </div>
-                    </template>
-                </el-table-column>
 			</el-table>
 		</template>
 	</section>
@@ -106,7 +121,6 @@
 <script>
 import { allget } from "../../../api/api";
 import axios from 'axios';
-
 export default {
     data() {
         return {
@@ -124,17 +138,20 @@ export default {
         getData() {
             var _this = this;
 			let param = _this.condition();
-            let url = "/Record/getRandCallData";
+            let url = "/Record/getRedData";
             allget(param, url)
                 .then(res => {
                     if (res.data.ret) {
+                            for(var i = 0;i<res.data.data.length;i++){
+                                res.data.data[i].avg = baseConfig.changeTime(res.data.data[i].total_time/res.data.data[i].total_num);
+                            }
                         this.listData = res.data.data;
                     } else {
                         baseConfig.errorTipMsg(this, res.data.msg);
                     }
                 })
                 .catch(err => {
-                    baseConfig.errorTipMsg(this, "error");
+                    baseConfig.errorTipMsg(this, "error"); 
                 });
 		},
 		// 条件参数
@@ -147,11 +164,6 @@ export default {
         // 时间转换
         timeTransform(oldValue){
             return baseConfig.changeTime(oldValue);
-        }
-    },
-    filters: {
-        numberTransform(value){
-            return (value*100).toFixed(2);
         }
     },
     mounted() {

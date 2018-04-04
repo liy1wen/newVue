@@ -27,6 +27,11 @@ import callDataSummary from '../components/operationSupport/callLog/CallDataSumm
 import timeMatching from '../components/operationSupport/callLog/timeMatching.vue';//实时详情
 import realTimeCall from '../components/operationSupport/callLog/realTimeCall.vue';//实时通话次数
 import randomCallSummary from '../components/operationSupport/callLog/randomCallSummary';//随机通话汇总
+import hotLineSummary from '../components/operationSupport/callLog/hotlineCallSummary.vue';//网红通话汇总
+import friendsCallSummary from '../components/operationSupport/callLog/friendsCallSummary.vue';//好友通话汇总
+import eavesdroppingSummary from '../components/operationSupport/callLog/eavesdroppingSummary.vue';//偷听汇总
+import GrabChatDataSummary from '../components/operationSupport/callLog/GrabChatDataSummary.vue';//抢聊通话汇总
+import newRecordingAddList from '../components/operationSupport/callLog/newRecordingAddList.vue';//每日新增录音统计
 // 1-5运营数据统计
 // 1-1渠道数据
 import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
@@ -61,7 +66,6 @@ import sendMessageNotifications from '../components/operationSupport/operatingTo
 import sendSystemNotification from '../components/operationSupport/operatingTools/sendSystemNotification.vue';//发送系统通知
 // 3-3、录音日志
 import DailyAdditions from '../components/operationSupport/recordingLog/DailyAdditions.vue';//每日新增录音明细
-import newRecordingAddList from '../components/operationSupport/recordingLog/newRecordingAddList.vue';//每日新增录音统计
 import recordShareManage from '../components/operationSupport/recordingLog/recordShareManage.vue';//录音分享卡片
 import systemRack from '../components/operationSupport/recordingLog/systemRack.vue';//录音下榜列表
 import tapeSharingData from '../components/operationSupport/recordingLog/tapeSharingData.vue';//分享页推荐录音列表
@@ -193,11 +197,11 @@ export const asyncRouterMap = [
                     { path: '/operationData/callLog/timeMatching', component: timeMatching, name: '实时匹配详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/callLog/realTimeCall', component: realTimeCall, name: '实时通话次数', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/callLog/randomCallSummary', component: randomCallSummary, name: '随机通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/callDataStatistics/user', component: user, name: '网红通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/callDataStatistics/user', component: user, name: '好友通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/callDataStatistics/user', component: user, name: '偷听汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/callDataStatistics/user', component: user, name: '抢聊通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/callDataStatistics/user', component: user, name: '录音数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callLog/hotLineSummary', component: hotLineSummary, name: '网红通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callLog/friendsCallSummary', component: friendsCallSummary, name: '好友通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callLog/eavesdroppingSummary', component: eavesdroppingSummary, name: '偷听汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callLog/GrabChatDataSummary', component: GrabChatDataSummary, name: '抢聊通话汇总', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/callLog/newRecordingAddList', component: newRecordingAddList, name: '录音数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
             {
@@ -352,7 +356,6 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/operationSupport/recordingLog/DailyAdditions', component: DailyAdditions, name: '每日新增录音明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/recordingLog/newRecordingAddList', component: newRecordingAddList, name: '每日新增录音统计', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/recordingLog/wonderfulRecord', component: wonderfulRecord, name: '精选录音列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/recordingLog/tapeSharingData', component: tapeSharingData, name: '分享页推荐列表管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/recordingLog/systemRack', component: systemRack, name: '录音下榜列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
