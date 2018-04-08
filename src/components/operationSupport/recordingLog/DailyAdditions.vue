@@ -39,7 +39,7 @@
                     </el-input>
 				</el-form-item>
                 <el-form-item class="search-span" style="float:right;">
-					<el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
+					<el-button id="searchBtn" type="primary" @click="getData(0)">查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
@@ -149,8 +149,11 @@
 				this.getData();
 			},
 			// 获取数据
-			getData() {
+			getData(type) {
 				var _this = this;
+				if(type==0){
+					_this.page = 0;
+				}
 				let url = '/Voice/getVoiceListInfo';
 				let param ={
 					page: this.page,

@@ -41,7 +41,9 @@ import channelManagement from '../components/operationData/channelData/channelMa
 
 // 2、用户管理
 // 用户管理start
-// 2-1主播管理
+// 2-1用户信息管理
+import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
+// 2-4主播管理
 import anchorDailyBehaviorDataStatistics from '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue';//主播每日行为数据统计
 import anchorDailyDataCollection from '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue';//主播每日数据汇总
 import anchorPersonalDataCollection from '../components/userManagement/anchorsManagement/anchorPersonalDataCollection.vue';//主播个人数据汇总
@@ -255,7 +257,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '用户登录查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '充值排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '收入排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '女性魅力值', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/girlsRanking', component: girlsRanking, name: '女性魅力值', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                 ],
             },
             {
