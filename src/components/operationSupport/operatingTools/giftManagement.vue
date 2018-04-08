@@ -24,7 +24,7 @@
 				<template>
 					<el-table ref="tableHeight" :data="onePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="礼物名称" width="150"></el-table-column>
+						<el-table-column prop="name" label="礼物名称" width="100"></el-table-column>
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
@@ -44,6 +44,14 @@
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
 									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column label="角标图" width="100">
+							<template slot-scope="scope">
+								<div slot="reference" class="name-wrapper">
+									<p v-if="scope.row.superscript==null">暂无角标图</p>
+									<img v-else :src="scope.row.superscript" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -105,9 +113,9 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" size="small">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="mini">编辑</el-button>								
+								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -137,7 +145,7 @@
 				<template>
 					<el-table ref="tableHeight" :data="twoPageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="礼物名称" width="150"></el-table-column>
+						<el-table-column prop="name" label="礼物名称" width="100"></el-table-column>
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
@@ -157,6 +165,14 @@
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
 									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column label="角标图" width="100">
+							<template slot-scope="scope">
+								<div slot="reference" class="name-wrapper">
+									<p v-if="scope.row.superscript==null">暂无角标图</p>
+									<img v-else :src="scope.row.superscript" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -218,9 +234,9 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formTwo.TabData, '2')" size="small">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" size="mini">编辑</el-button>								
+								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formTwo.TabData, '2')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -250,7 +266,7 @@
 				<template>
 					<el-table ref="tableHeight" :data="threePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
-						<el-table-column prop="name" label="礼物名称" width="150"></el-table-column>
+						<el-table-column prop="name" label="礼物名称" width="100"></el-table-column>
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
@@ -270,6 +286,14 @@
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
 									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column label="角标图" width="100">
+							<template slot-scope="scope">
+								<div slot="reference" class="name-wrapper">
+									<p v-if="scope.row.superscript==null">暂无角标图</p>
+									<img v-else :src="scope.row.superscript" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -331,9 +355,10 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" plain size="small" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" size="small">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="specialData(scope.$index, formThree.TabData, '3')" size="mini">添加特效</el-button>								
+								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -370,8 +395,8 @@
 						<el-table-column prop="sort" label="排序" width="150"></el-table-column>
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeLabelUserData(scope.$index, formFour.TabData)" size="small">编辑</el-button>								
-								<el-button type="primary" @click.native.prevent="deleteLabel(scope.$index, formFour.TabData)" size="small">删除</el-button>
+								<el-button type="primary" @click.native.prevent="changeLabelUserData(scope.$index, formFour.TabData)" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="deleteLabel(scope.$index, formFour.TabData)" size="mini">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -427,16 +452,16 @@
 						<el-input v-model="giftUploading.params.price" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
 						<input class="filepic fileinput" @change="uploading($event, 0, 0)" type="file">
-				        <!--图片展示-->
 				        <img :src="giftUploading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
 						<input class="filegif fileinput" @change="uploading($event, 1, 0)" type="file">
-				        <!--图片展示-->
 				        <img :src="giftUploading.src_gif" style="width: 100px; height: auto;"/>
+					</el-form-item>
+					<el-form-item label="角标图" :label-width="formLabelWidth">
+						<input class="filegif fileinput" @change="uploading($event, 2, 0)" type="file">
+				        <img :src="giftUploading.src_corner" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftUploading.params.position">
@@ -510,16 +535,16 @@
 						<el-input v-model="giftEditorloading.params.price" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
 						<input class="filepic fileinput" @change="uploading($event, 0, 1)" type="file">
-				        <!--图片展示-->
 				        <img :src="giftEditorloading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<!-- <el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input> -->
 						<input class="filegif fileinput" @change="uploading($event, 1, 1)" type="file">
-				        <!--图片展示-->
 				        <img :src="giftEditorloading.src_gif" style="width: 100px; height: auto;"/>
+					</el-form-item>
+					<el-form-item label="角标图" :label-width="formLabelWidth">
+						<input class="filegif fileinput" @change="uploading($event, 2, 1)" type="file">
+				        <img :src="giftEditorloading.src_corner" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftEditorloading.params.position">
@@ -575,6 +600,37 @@
 				<div slot="footer" class="dialog-footer">
 					<el-button @click.native.prevent="editorGiftSure(0)">取 消</el-button>
 					<el-button type="primary" @click.native.prevent="editorGiftSure(1)">确 定</el-button>
+				</div>
+			</el-dialog>
+			<!-- 礼物特效编辑 -->
+			<el-dialog>
+				<el-form :model="giftSpecial">
+					<el-form-item label="id" :label-width="formLabelWidth">
+						<el-input disabled v-model="giftSpecial.id" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="数量" :label-width="formLabelWidth">
+						<el-select v-model="giftSpecial.num">
+							<el-option label="1" value="1"></el-option>
+							<el-option label="10" value="10"></el-option>
+							<el-option label="38" value="38"></el-option>
+							<el-option label="66" value="66"></el-option>
+							<el-option label="188" value="188"></el-option>
+							<el-option label="520" value="520"></el-option>
+							<el-option label="1314" value="1314"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="标识图" :label-width="formLabelWidth">
+						<input class="filegif fileinput" @change="uploading($event, 0, 2)" type="file">
+				        <img :src="giftSpecial.src_num" style="width: 100px; height: auto;"/>
+					</el-form-item>
+					<el-form-item label="特效图" :label-width="formLabelWidth">
+						<input class="filegif fileinput" @change="uploading($event, 1, 2)" type="file">
+				        <img :src="giftSpecial.src_effect" style="width: 100px; height: auto;"/>
+					</el-form-item>
+				</el-form>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click.native.prevent="specialGiftSure(0)">取 消</el-button>
+					<el-button type="primary" @click.native.prevent="specialGiftSure(1)">确 定</el-button>
 				</div>
 			</el-dialog>
 		</el-tabs>
@@ -638,10 +694,12 @@ export default {
 			},
 			giftUploading: {
 				dialogShow: false,
-				file_pic: '',
+				file_pic: '',//上传的图片
 				src_pic: '',
-				file_gif: '',
+				file_gif: '',//动态图
 				src_gif: '',
+				file_corner: '',//角标图
+				src_corner: '',
 				params: {
 					sort: '',
 					name: '',
@@ -668,6 +726,8 @@ export default {
 				src_pic: '',
 				file_gif: '',
 				src_gif: '',
+				file_corner: '',//角标图
+				src_corner: '',
 				params: {
 					id: '',
 					sort: '',
@@ -686,6 +746,16 @@ export default {
 					is_special: '',
 					stock_num: '',
 				},
+			},
+			giftSpecial: {
+				dialogShow: false,
+				id: '',
+				num: '',
+				is_dynamic_effect: '',
+				num_url: '',
+				src_num: '',
+				effect_url: '',
+				src_effect: '',
 			},
 			listLoading: false, //动画加载时显示的动画
 			tabActiveName: 'first', // 设置为tab切换栏的选中不同的状态(first、second、three、four)
@@ -908,6 +978,7 @@ export default {
 			_this.giftEditorloading.params.price = rows[index].price;
 			_this.giftEditorloading.src_pic = rows[index].icon;
 			_this.giftEditorloading.src_gif = rows[index].dynamic_icon;
+			_this.giftEditorloading.src_corner = rows[index].superscript;
 			_this.giftEditorloading.params.position = rows[index].position;
 			_this.giftEditorloading.params.status = rows[index].status;
 			_this.giftEditorloading.params.type = rows[index].type;
@@ -936,8 +1007,9 @@ export default {
 			  	formData.append('sort', _this.giftEditorloading.params.sort);
 			  	formData.append('name', _this.giftEditorloading.params.name);
 			  	formData.append('price', _this.giftEditorloading.params.price);
-			  	formData.append('pic', _this.giftEditorloading.file_pic); //提交的静态图标文件
-			  	formData.append('gif', _this.giftEditorloading.file_gif); //提交的动态图标文件
+			  	formData.append('pic', _this.giftEditorloading.file_pic);
+			  	formData.append('gif', _this.giftEditorloading.file_gif);
+			  	formData.append('corner', _this.giftEditorloading.file_corner);
 			  	formData.append('position', _this.giftEditorloading.params.position);
 			  	formData.append('status', _this.giftEditorloading.params.status);
 			  	formData.append('type', _this.giftEditorloading.params.type);
@@ -1108,27 +1180,41 @@ export default {
 			var _this = this;
 			if(val==0) { // 礼物新增
 				if(type==0) { // 静态图icon图标
-					_this.giftUploading.file_pic = event.target.files[0];//获取文件
+					_this.giftUploading.file_pic = event.target.files[0];
 			  	    var windowURL = window.URL || window.webkitURL;
-			        //创建图片文件的url
 					_this.giftUploading.src_pic = windowURL.createObjectURL(event.target.files[0]);
 				} else if(type==1) { // 动态图icon图标
-					_this.giftUploading.file_gif = event.target.files[0];//获取文件
+					_this.giftUploading.file_gif = event.target.files[0];
 			  	    var windowURL = window.URL || window.webkitURL;
-			        //创建图片文件的url
 					_this.giftUploading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+				} else if(type==2) { // 角标图
+					_this.giftUploading.file_corner = event.target.files[0];
+			  	    var windowURL = window.URL || window.webkitURL;
+					_this.giftUploading.src_corner = windowURL.createObjectURL(event.target.files[0]);			
 				}
 			} else if(val==1) { // 礼物编辑
 				if(type==0) { // 静态图icon图标
 					_this.giftEditorloading.file_pic = event.target.files[0];//获取文件
 			  	    var windowURL = window.URL || window.webkitURL;
-			        //创建图片文件的url
 					_this.giftEditorloading.src_pic = windowURL.createObjectURL(event.target.files[0]);
 				} else if(type==1) { // 动态图icon图标
 					_this.giftEditorloading.file_gif = event.target.files[0];//获取文件
 			  	    var windowURL = window.URL || window.webkitURL;
-			        //创建图片文件的url
 					_this.giftEditorloading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+				} else if(type==2) { // 角标图
+					_this.giftEditorloading.file_corner = event.target.files[0];
+			  	    var windowURL = window.URL || window.webkitURL;
+					_this.giftEditorloading.src_corner = windowURL.createObjectURL(event.target.files[0]);					
+				}
+			} else if(val==2) { // 礼物特效
+				if(type==0) { // 标识图
+					_this.giftSpecial.num_url = event.target.files[0];//获取文件
+			  	    var windowURL = window.URL || window.webkitURL;
+					_this.giftSpecial.src_num = windowURL.createObjectURL(event.target.files[0]);
+				} else if(type==1) { // 特效图
+					_this.giftSpecial.effect_url = event.target.files[0];//获取文件
+			  	    var windowURL = window.URL || window.webkitURL;
+					_this.giftSpecial.src_effect = windowURL.createObjectURL(event.target.files[0]);
 				}
 			}
       	}, 
@@ -1148,8 +1234,9 @@ export default {
 			  	formData.append('sort', _this.giftUploading.params.sort);
 			  	formData.append('status', _this.giftUploading.params.status);
 			  	formData.append('name', _this.giftUploading.params.name);
-			  	formData.append('pic', _this.giftUploading.file_pic); //提交的静态图标文件
-			  	formData.append('gif', _this.giftUploading.file_gif); //提交的动态图标文件
+			  	formData.append('pic', _this.giftUploading.file_pic);
+			  	formData.append('gif', _this.giftUploading.file_gif);
+			  	formData.append('corner', _this.giftUploading.file_corner);
 			  	formData.append('price', _this.giftUploading.params.price);
 			  	formData.append('type', _this.giftUploading.params.type);
 			  	formData.append('on_sale_time', baseConfig.changeDateTime(_this.giftUploading.params.on_sale_time, 1));
@@ -1191,6 +1278,16 @@ export default {
 			var _this = this;
 			console.log(tab.label);
 		},
+		// 房间礼物添加特效
+		specialData(index, rows, type) {
+			var _this = this;
+			if(type=='3') {
+				index = index + (_this.formThree.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
+			} else {
+				baseConfig.errorTipMsg(_this, '只有房间礼物可以添加特效啦~');				
+			}
+			console.log('开始特效效果的制作');
+		},			
 	},
 	mounted() {
 		var _this = this;
