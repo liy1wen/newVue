@@ -47,14 +47,6 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column label="角标图" width="100">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.superscript==null">暂无角标图</p>
-									<img v-else :src="scope.row.superscript" alt="" style="width: 100px; height: auto;">
-								</div>
-							</template>
-						</el-table-column>
 						<el-table-column prop="on_sale_time" label="上架时间" width="80"></el-table-column>
 						<el-table-column prop="create_time" label="创建时间" width="80"></el-table-column>
 						<el-table-column label="上架状态" width="100">
@@ -165,14 +157,6 @@
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
 									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
-								</div>
-							</template>
-						</el-table-column>
-						<el-table-column label="角标图" width="100">
-							<template slot-scope="scope">
-								<div slot="reference" class="name-wrapper">
-									<p v-if="scope.row.superscript==null">暂无角标图</p>
-									<img v-else :src="scope.row.superscript" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -293,7 +277,7 @@
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
 									<p v-if="scope.row.superscript==null">暂无角标图</p>
-									<img v-else :src="scope.row.superscript" alt="" style="width: 100px; height: auto;">
+									<img v-else :src="scope.row.superscript" alt="" style="width: 60px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -356,7 +340,7 @@
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" size="mini">编辑</el-button>								
-								<el-button type="primary" @click.native.prevent="specialData(scope.$index, formThree.TabData, '3')" size="mini">添加特效</el-button>								
+								<el-button type="primary" @click.native.prevent="specialData(scope.$index, formThree.TabData, '3')" size="mini">特效</el-button>								
 								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
 								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" size="mini">下架</el-button>
 							</template>
@@ -602,22 +586,51 @@
 					<el-button type="primary" @click.native.prevent="editorGiftSure(1)">确 定</el-button>
 				</div>
 			</el-dialog>
+			<!-- 礼物特效的弹窗的table表框 -->
+			<el-dialog title="礼物数量特效详情" :visible.sync="giftNumTable.dialogShow">
+				<el-table :data="giftNumTable.giftNumArr">
+					<el-table-column property="gift_id" label="礼物ID" width="100"></el-table-column>
+					<el-table-column property="num" label="数量" width="100"></el-table-column>
+					<el-table-column property="num_name" label="礼物数字描述" min-width="100"></el-table-column>
+					<el-table-column property="is_dynamic_effect" label="是否有特效" width="50">
+						<template slot-scope="scope">
+							<div slot="reference" class="name-wrapper">
+								<p v-if="scope.row.is_dynamic_effect==0">无特效</p>
+								<p v-else-if="scope.row.is_dynamic_effect==1">有</p>
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column property="num_img_url" label="标识图" width="150">
+						<template slot-scope="scope">
+							<div slot="reference" class="name-wrapper">
+								<p v-if="scope.row.num_img_url==''||scope.row.num_img_url==null">无标识图</p>
+								<img :src="scope.row.num_img_url" alt="" style="width: 100px; height: auto;">
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column property="dynamic_effect_url" label="特效图" width="150">
+						<template slot-scope="scope">
+							<div slot="reference" class="name-wrapper">
+								<p v-if="scope.row.dynamic_effect_url==''||scope.row.dynamic_effect_url==null">无特效图</p>
+								<img :src="scope.row.dynamic_effect_url" alt="" style="width: 100px; height: auto;">
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column label="操作" width="100">
+						<template slot-scope="scope">
+							<el-button type="primary" @click.native.prevent="changeNumGIft(scope.$index, giftNumTable.giftNumArr)" size="mini">编辑</el-button>								
+						</template>
+					</el-table-column>
+				</el-table>
+			</el-dialog>
 			<!-- 礼物特效编辑 -->
-			<el-dialog>
+			<el-dialog title="特效礼物添加编辑" :visible.sync="giftSpecial.dialogShow">
 				<el-form :model="giftSpecial">
 					<el-form-item label="id" :label-width="formLabelWidth">
 						<el-input disabled v-model="giftSpecial.id" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="数量" :label-width="formLabelWidth">
-						<el-select v-model="giftSpecial.num">
-							<el-option label="1" value="1"></el-option>
-							<el-option label="10" value="10"></el-option>
-							<el-option label="38" value="38"></el-option>
-							<el-option label="66" value="66"></el-option>
-							<el-option label="188" value="188"></el-option>
-							<el-option label="520" value="520"></el-option>
-							<el-option label="1314" value="1314"></el-option>
-						</el-select>
+					<el-form-item  label="数量" :label-width="formLabelWidth">
+						<el-input disabled v-model="giftSpecial.num" auto-complete="off"></el-input>						
 					</el-form-item>
 					<el-form-item label="标识图" :label-width="formLabelWidth">
 						<input class="filegif fileinput" @change="uploading($event, 0, 2)" type="file">
@@ -747,11 +760,15 @@ export default {
 					stock_num: '',
 				},
 			},
+			giftNumTable: {
+				dialogShow: false,
+				giftNumArr: [],
+			},
 			giftSpecial: {
 				dialogShow: false,
 				id: '',
 				num: '',
-				is_dynamic_effect: '',
+				is_dynamic_effect: '1',
 				num_url: '',
 				src_num: '',
 				effect_url: '',
@@ -868,7 +885,8 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
+				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })				
+				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
 					_this.listLoading = false;
 					if(res.data.ret) {
@@ -890,7 +908,8 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
+				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })				
+				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
 					_this.listLoading = false;
 					if(res.data.ret) {
@@ -912,7 +931,8 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
+				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
+				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
 					_this.listLoading = false;
 					if(res.data.ret) {
@@ -941,7 +961,8 @@ export default {
 			var params = {
 				id: id,
 			};
-			allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
+			.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 				// 数据请求成功
 				if(res.data.ret) {
 					baseConfig.successTipMsg(_this, '下架成功！');
@@ -1053,7 +1074,8 @@ export default {
 			var _this = this;
 			_this.listLoading = true;
 			var url = '/Gift/getGiftTab';
-			allget('', url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
+			axios.get(baseConfig.server+baseConfig.requestUrl+url)					
+			.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 				// 数据请求成功
 				_this.listLoading = false;
 				if(res.data.ret) {
@@ -1083,7 +1105,8 @@ export default {
 				};
 				if(params.tab_name!=''&&params.sort!='') {
 					_this.formFour.addDialogShow = false;
-					allget(params, url).then(res => {
+					axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })					
+					.then(res => {
 						if(res.data.ret) {
 							// 数据请求成功
 							_this.listLoading = false;
@@ -1127,7 +1150,8 @@ export default {
 				};
 				if(params.id!=''&&params.tab_name!=''&&params.sort!='') {
 					_this.formFour.editorDialogShow = false;
-					allget(params, url).then(res => {
+					axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
+					.then(res => {
 						if(res.data.ret) {
 							// 数据请求成功
 							_this.listLoading = false;
@@ -1158,8 +1182,8 @@ export default {
 			var params = {
 				id: id,
 			};
-			// 进行get请求删除掉这条用户注册语
-			allget(params, url).then(res => {
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
+			.then(res => {
 				// 数据请求成功
 				_this.listLoading = false;
 				if(res.data.ret) {
@@ -1286,8 +1310,76 @@ export default {
 			} else {
 				baseConfig.errorTipMsg(_this, '只有房间礼物可以添加特效啦~');				
 			}
-			console.log('开始特效效果的制作');
+			_this.getNumGift(rows[index].id);	
 		},			
+		// 进行房间礼物请求对应数量的详情
+		getNumGift(id) {
+			var _this = this;
+			var url = 'Gift/getGetEffects';
+			var params = {
+				id: id,
+			};
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
+			.then(res => {
+				// 数据请求成功
+				_this.listLoading = false;
+				if(res.data.ret) {
+					_this.giftNumTable.dialogShow = true;
+					_this.giftNumTable.giftNumArr = res.data.data;
+				} else {
+					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
+				}
+			}).catch(function(error){
+				console.log(error);
+			})
+		},
+		// 礼物数量进行相对应的编辑
+		changeNumGIft(index, row) {
+			var _this = this;
+			// 进行赋值的操作
+			console.log(row[index]);
+			_this.giftSpecial.id = row[index].gift_id;
+			_this.giftSpecial.num = row[index].num;
+			_this.giftSpecial.src_num = row[index].num_img_url ? row[index].num_img_url : '';
+			_this.giftSpecial.src_effect = row[index].dynamic_effect_url ? row[index].dynamic_effect_url : '';
+			_this.giftSpecial.dialogShow = true;
+		},
+		// 进行特效礼物的上传
+		specialGiftSure(type) {
+			var _this = this;
+			if(type==0) {
+				_this.giftSpecial.dialogShow = false;
+			} else if(type==1) {
+				_this.listLoading = true;
+				let formData = new FormData();
+				formData.append('id', _this.giftSpecial.id);
+				formData.append('num', _this.giftSpecial.num);
+				formData.append('is_dynamic_effect', _this.giftSpecial.is_dynamic_effect);
+				formData.append('num_url', _this.giftSpecial.num_url);
+				formData.append('effect_url', _this.giftSpecial.effect_url);
+				let config = {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				};
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/editGetEffects', formData, config)
+				.then((res) => {
+					console.log(2222);
+					_this.listLoading = false;	
+					_this.giftSpecial.dialogShow = false;							
+					if(res.data.ret) {	
+						baseConfig.successTipMsg(_this, '新增成功！');
+						// 本身的房间的数据进行更新、然后对相应的弹窗内容进行修改展示
+						_this.getTableRoomGiftData();
+						_this.getNumGift(_this.giftSpecial.id);
+					} else {
+						baseConfig.errorTipMsg(_this, res.data.msg);						
+					}
+				}).catch((error) => {
+					console.log(error);
+				});
+			}
+		},
 	},
 	mounted() {
 		var _this = this;
