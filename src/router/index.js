@@ -43,6 +43,8 @@ import channelManagement from '../components/operationData/channelData/channelMa
 // 用户管理start
 // 2-1用户信息管理
 import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
+// 2-2家族管理
+import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
 // 2-4主播管理
 import anchorDailyBehaviorDataStatistics from '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue';//主播每日行为数据统计
 import anchorDailyDataCollection from '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue';//主播每日数据汇总
@@ -268,7 +270,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/userManagement/householdManagement/user', component: user, name: '家族查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/userManagement/householdManagement/user', component: user, name: '房间数据和记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '房间消费流水', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '解散家族', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['admin', 'testP1'] } },

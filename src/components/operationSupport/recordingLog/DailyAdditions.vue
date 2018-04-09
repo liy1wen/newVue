@@ -132,7 +132,6 @@
 				recordStatus: '',
 				recordStyle: '',
 				page: 0,
-				totalpage: '',
 				listData: [],
 				uid: "",
 				audio_uid: '',
@@ -181,7 +180,6 @@
 			},
 			// 取消推荐
 			cacelRecommend(index, row) {
-				var _this = this;
 				var _this = this;
 				var id = row.id;
 				var url = '/Voice/cancelRecommendVoiceToHot';
