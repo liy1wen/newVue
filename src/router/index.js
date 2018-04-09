@@ -65,7 +65,8 @@ import revenueSuspensionWindow from '../components/operationSupport/appContentMa
 import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
 import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
 import bannerManagement from '../components/operationSupport/operatingTools/bannerManagement.vue';//banner管理
-import giftManagement from '../components/operationSupport/operatingTools/giftManagement.vue';//礼物管理
+import giftManagement from '../components/operationSupport/operatingTools/giftManagement.vue';//礼物管理(正式服)
+import giftManagementTest from '../components/operationSupport/operatingTools/giftManagementTest.vue';//礼物管理(测试服)
 import marqueeManagement from '../components/operationSupport/operatingTools/marqueeManagement.vue';//跑马灯管理
 import sendMessageNotifications from '../components/operationSupport/operatingTools/sendMessageNotifications.vue';//发送短信通知
 import sendSystemNotification from '../components/operationSupport/operatingTools/sendSystemNotification.vue';//发送系统通知
@@ -332,7 +333,8 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operatingTools/giftManagement', component: giftManagement, name: '礼物管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/giftManagement', component: giftManagement, name: '礼物管理(正式服)', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/giftManagementTest', component: giftManagementTest, name: '礼物管理(测试服)', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operatingTools/bannerManagement', component: bannerManagement, name: 'banner条管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operatingTools/sendSystemNotification', component: sendSystemNotification, name: '发送系统通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operatingTools/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },

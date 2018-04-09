@@ -885,7 +885,7 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })				
+				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })				
 				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
 					_this.listLoading = false;
@@ -908,7 +908,7 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })				
+				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })				
 				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
 					_this.listLoading = false;
@@ -931,7 +931,7 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
 				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
 					_this.listLoading = false;
@@ -961,7 +961,7 @@ export default {
 			var params = {
 				id: id,
 			};
-			axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
 			.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 				// 数据请求成功
 				if(res.data.ret) {
@@ -1046,7 +1046,7 @@ export default {
 						'Content-Type': 'multipart/form-data'
 					}
 				};		
-				axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php'+'/Gift/editGift', formData, config)
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/editGift', formData, config)
 				.then((res) => {
 					console.log(res.data);
 					_this.listLoading = false;	
@@ -1074,7 +1074,7 @@ export default {
 			var _this = this;
 			_this.listLoading = true;
 			var url = '/Gift/getGiftTab';
-			axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url)					
+			axios.get(baseConfig.server+baseConfig.requestUrl+url)					
 			.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 				// 数据请求成功
 				_this.listLoading = false;
@@ -1105,7 +1105,7 @@ export default {
 				};
 				if(params.tab_name!=''&&params.sort!='') {
 					_this.formFour.addDialogShow = false;
-					axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })					
+					axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })					
 					.then(res => {
 						if(res.data.ret) {
 							// 数据请求成功
@@ -1150,7 +1150,7 @@ export default {
 				};
 				if(params.id!=''&&params.tab_name!=''&&params.sort!='') {
 					_this.formFour.editorDialogShow = false;
-					axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+					axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
 					.then(res => {
 						if(res.data.ret) {
 							// 数据请求成功
@@ -1182,7 +1182,7 @@ export default {
 			var params = {
 				id: id,
 			};
-			axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
 			.then(res => {
 				// 数据请求成功
 				_this.listLoading = false;
@@ -1275,7 +1275,7 @@ export default {
 						'Content-Type': 'multipart/form-data'
 					}
 				};		
-				axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php'+'/Gift/addGift', formData, config)
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/addGift', formData, config)
 				.then((res) => {
 					console.log(res.data);
 					_this.listLoading = false;	
@@ -1319,7 +1319,7 @@ export default {
 			var params = {
 				id: id,
 			};
-			axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
 			.then(res => {
 				// 数据请求成功
 				_this.listLoading = false;
@@ -1362,7 +1362,7 @@ export default {
 						'Content-Type': 'multipart/form-data'
 					}
 				};
-				axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php'+'/Gift/editGetEffects', formData, config)
+				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/editGetEffects', formData, config)
 				.then((res) => {
 					console.log(2222);
 					_this.listLoading = false;	
