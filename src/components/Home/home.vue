@@ -287,4 +287,7 @@ export default {
     height: 40px !important;
     line-height: 40px !important;
 }
+.el-dialog__body{
+    padding-top: 10px !important;
+}
 </style>
