@@ -46,6 +46,10 @@ import girlsRanking from '../components/userManagement/userInformationManagement
 // 2-2家族管理
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
 import roomConsumptionFlow from '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue';//房间消费流水
+// 2-3代理推广管理
+import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
+import agentPopularize from '../components/userManagement/agentPromotionManagement/agentPopularize.vue';//代理推广查询
+import agentRanking from '../components/userManagement/agentPromotionManagement/agentRanking.vue';//代理排行榜
 // 2-4主播管理
 import anchorDailyBehaviorDataStatistics from '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue';//主播每日行为数据统计
 import anchorDailyDataCollection from '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue';//主播每日数据汇总
@@ -285,9 +289,9 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/userManagement/agentPromotionManagement/user', component: user, name: '推广数据总览', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/userManagement/agentPromotionManagement/user', component: user, name: '代理推广查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/userManagement/agentPromotionManagement/user', component: user, name: '代理排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/agentPromotionManagement/agentTotalView', component: agentTotalView, name: '推广数据总览', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/agentPromotionManagement/agentPopularize', component: agentPopularize, name: '代理推广查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/agentPromotionManagement/agentRanking', component: agentRanking, name: '代理排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
