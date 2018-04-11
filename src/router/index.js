@@ -89,6 +89,8 @@ import openCallManage from '../components/operationSupport/callLog/openCallManag
 // 活动专区start
 import familyBackstageBackstageManage from '../components/activities/familyBackstageBackstageManage.vue';//家族活动正式服后台
 import familyBackstageBackstageTest from '../components/activities/familyBackstageBackstageTest.vue';//家族活动测试服后台
+import roomTopManagement from '../components/activities/roomTopManagement.vue';//家族置顶管理
+import roomTopManagementTest from '../components/activities/roomTopManagementTest.vue';//家族置顶管理(测试服)
 // 活动专区end
 // 5、系统设置
 // 系统设置start
@@ -410,7 +412,9 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/activities/familyBackstageBackstageManage', component: familyBackstageBackstageManage, name: '家族嗨场(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/roomTopManagement', component: roomTopManagement, name: '家族置顶(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/roomTopManagementTest', component: roomTopManagementTest, name: '家族置顶(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],

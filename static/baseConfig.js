@@ -19,7 +19,7 @@ var tabSearchHeight = lookHeight - 162;
 // 在展示的区域中，一个tab切换、一个翻页工具(tab-page)
 var tabPageHeight = lookHeight - 152;
 // 在展示的区域中，一个搜索条件、一个翻页工具(search-page)
-var searchPageHeight = lookHeight - 172; 
+var searchPageHeight = lookHeight - 173; //处理减去相应的火狐的兼容多减去1px
 // 在展示的区域中，一个tab切换、一个搜索条件、一个翻页工具(tab-search-page)
 var tabSearchPageHeight = lookHeight - 214; 
 /* 公共的方法引用 */
