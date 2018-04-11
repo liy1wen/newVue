@@ -81,6 +81,8 @@ import recordShareManage from '../components/operationSupport/recordingLog/recor
 import systemRack from '../components/operationSupport/recordingLog/systemRack.vue';//录音下榜列表
 import tapeSharingData from '../components/operationSupport/recordingLog/tapeSharingData.vue';//分享页推荐录音列表
 import wonderfulRecord from '../components/operationSupport/recordingLog/wonderfulRecord.vue';//录音精彩内容
+// 3-4、通话日志
+import openCallManage from '../components/operationSupport/callLog/openCallManage.vue';//公开通话管理
 // 运营支撑end
 
 // 4、活动专区
@@ -356,7 +358,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/operationSupport/callLog/user', component: user, name: '通话记录明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/callLog/user', component: user, name: '公开通话管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/callLog/openCallManage', component: openCallManage, name: '公开通话管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/callLog/user', component: user, name: '抢聊通话明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
