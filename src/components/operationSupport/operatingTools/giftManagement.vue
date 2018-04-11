@@ -1248,7 +1248,7 @@ export default {
 			if(type==0) {
 				// 点击了取消按钮
 				console.log('点击了取消按钮');
-				_this.giftEditorloading.dialogShow = false;
+				_this.giftUploading.dialogShow = false;
 			} else if(type==1) {
 				// 点击了确认按钮
 				console.log('点击了确认按钮');
