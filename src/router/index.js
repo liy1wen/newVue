@@ -36,12 +36,14 @@ import newRecordingAddList from '../components/operationSupport/callLog/newRecor
 import imMessageStatistics from '../components/operationData/operationDataStatistics/imMessageStatistics.vue';//IM消息统计
 // 1-1渠道数据
 import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
+import channelDataList from '../components/operationData/channelData/channelDataList.vue';//分渠道数据
 
 // 运营数据end
 
 // 2、用户管理
 // 用户管理start
 // 2-1用户信息管理
+import userComplaintsList from '../components/userManagement/userInformationManagement/userComplaintsList.vue';//用户投诉处理
 import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
 // 2-2家族管理
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
@@ -237,7 +239,7 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationData/channelData/user', component: user, name: '分渠道数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/channelData/channelDataList', component: channelDataList, name: '分渠道数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/channelData/channelManagement', component: channelManagement, name: '渠道管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
@@ -260,7 +262,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '用户信息查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '置顶网红管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '用户认证审核', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/userComplaintsList', component: userComplaintsList, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '账号封禁记录（可解禁）', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '录音投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '设备及IP封禁管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
