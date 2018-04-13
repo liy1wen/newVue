@@ -196,7 +196,7 @@
 						baseConfig.errorTipMsg(_this, res.data.msg);
 					}
 				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
+					baseConfig.errorTipMsg(_this, err.data.msg);
 				})
 			},
 			// 推荐操作

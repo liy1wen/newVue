@@ -44,6 +44,7 @@ import channelDataList from '../components/operationData/channelData/channelData
 // 用户管理start
 // 2-1用户信息管理
 import userComplaintsList from '../components/userManagement/userInformationManagement/userComplaintsList.vue';//用户投诉处理
+import openCloseList from '../components/userManagement/userInformationManagement/openCloseList.vue';//账号封禁记录（可封禁）
 import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
 // 2-2家族管理
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
@@ -93,6 +94,8 @@ import familyBackstageBackstageManage from '../components/activities/familyBacks
 import familyBackstageBackstageTest from '../components/activities/familyBackstageBackstageTest.vue';//家族活动测试服后台
 import roomTopManagement from '../components/activities/roomTopManagement.vue';//家族置顶管理
 import roomTopManagementTest from '../components/activities/roomTopManagementTest.vue';//家族置顶管理(测试服)
+import loveActivityManage from '../components/activities/loveActivityManage.vue';//情人节数据统计
+import interactionInfo from '../components/activities/interactionInfo.vue';//黑色情人节互动信息
 // 活动专区end
 // 5、系统设置
 // 系统设置start
@@ -263,7 +266,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '置顶网红管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '用户认证审核', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/userComplaintsList', component: userComplaintsList, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '账号封禁记录（可解禁）', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/openCloseList', component: openCloseList, name: '账号封禁记录（可解禁）', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '录音投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '设备及IP封禁管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '货币流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
@@ -417,6 +420,8 @@ export const asyncRouterMap = [
                     { path: '/activities/roomTopManagement', component: roomTopManagement, name: '家族置顶(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/roomTopManagementTest', component: roomTopManagementTest, name: '家族置顶(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/loveActivityManage', component: loveActivityManage, name: '情人节活动数据统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/interactionInfo', component: interactionInfo, name: '黑色情人节互动信息', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],

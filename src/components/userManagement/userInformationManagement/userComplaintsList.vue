@@ -1,8 +1,8 @@
 <template>
-    <!-- 用户投诉管理 -->
-    <!-- dom结构内容 -->
+	<!-- 用户投诉管理 -->
+	<!-- dom结构内容 -->
 	<section>
-        <!-- 工具条/头部的搜索条件搜索 -->
+		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true">
 				<el-form-item>
@@ -12,23 +12,39 @@
 						</el-date-picker>
 					</div>
 				</el-form-item>
-                <el-form-item style="margin-left: 100px;">
-                    <span>渠道</span>
-                    <el-select v-model="channelId" multiple filterable collapse-tags style="margin-left: 20px;" placeholder="请选择">
-                        <el-option v-for="(item, key) of channelData" :key="item" :label="item" :value="key">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                
-                
-				<el-form-item style="margin-left: 50px;">
-					<span>推荐类别：</span>
-					<el-select style="width: 100px;" v-model="recordStatus">
-						<el-option label="人工推荐" value="1"></el-option>
-						<el-option label="系统推荐" value="2"></el-option>
+				<el-form-item>
+					<span>渠道</span>
+					<el-select v-model="channelId" multiple filterable collapse-tags style="width: 150px;" placeholder="请选择">
+						<el-option v-for="(item, key) of channelData" :key="item" :label="item" :value="key">
+						</el-option>
 					</el-select>
 				</el-form-item>
-                <el-form-item class="search-span" style="float:right;">
+				<el-form-item>
+					<span>投诉类型</span>
+					<el-select style="width: 100px;" v-model="content">
+						<el-option label="全部" value=""></el-option>
+						<el-option label="色情" value="1"></el-option>
+						<el-option label="欺诈" value="2"></el-option>
+						<el-option label="骚扰" value="3"></el-option>
+						<el-option label="垃圾广告" value="4"></el-option>
+						<el-option label="其他" value="5"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<span>UID</span>
+					<el-input style="width:100px;" placeholder="请输入内容" v-model="find" clearable>
+					</el-input>
+				</el-form-item>
+				<el-form-item>
+					<span>处理状态</span>
+					<el-select style="width: 100px;" v-model="status">
+						<el-option label="全部" value=""></el-option>
+						<el-option label="已忽略" value="1"></el-option>
+						<el-option label="已警告" value="2"></el-option>
+						<el-option label="已封号" value="3"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item class="search-span" style="float:right;">
 					<el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
 				</el-form-item>
 			</el-form>
@@ -36,176 +52,306 @@
 		<!-- 用户的数据展示列表 -->
 		<template>
 			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="recommend_time" label="推荐时间" width="180"></el-table-column>
-				<el-table-column prop="id"  label="录音编码" width="100"></el-table-column>
-				<el-table-column label="录音音频" width="300">
+				<el-table-column prop="id" label="投诉ID"></el-table-column>
+				<el-table-column prop="time" label="投诉时间"></el-table-column>
+				<el-table-column prop="uid" label="投诉人"></el-table-column>
+				<el-table-column prop="complain_uid" label="被投诉人"></el-table-column>
+				<el-table-column prop="long_time" label="封号时长"></el-table-column>
+				<el-table-column prop="channel" label="渠道"></el-table-column>
+				<el-table-column prop="num" label="投诉次数"></el-table-column>
+				<el-table-column prop="warn_num" label="警告次数"></el-table-column>
+				<el-table-column prop="content" label="投诉类型"></el-table-column>
+				<el-table-column prop="explains" label="详细内容"></el-table-column>
+				<el-table-column prop="evidences" label="图片">
 					<template slot-scope="scope">
-						<div slot="reference" class="name-wrapper">
-							<audio controls="controls" :src="scope.row.voice_url"></audio>
-						</div>
+						<el-popover trigger="hover" placement="left">
+							<img :src="scope.row.evidences" alt="" style="width:300px;height:300px;">
+							<div slot="reference" class="name-wrapper">
+								<img :src="scope.row.evidences" alt="" style="width:100px;height:100px;">
+							</div>
+						</el-popover>
 					</template>
 				</el-table-column>
-				<el-table-column prop="duration" label="录音时长"  min-width="50" ></el-table-column>
-				<el-table-column prop="uid" label="发布者ID" min-width="50" ></el-table-column>
-				<el-table-column prop="content" label="录音描述"></el-table-column>
-				<el-table-column prop="price" :formatter="price" label="形式" min-width="50" sortable></el-table-column>
-				<el-table-column prop="listen" label="播放次数" width="50"></el-table-column>
-				<el-table-column prop="praise" label="点赞数" width="50"></el-table-column>
-				<el-table-column prop="relay" label="转播数" width="50"></el-table-column>
-				<el-table-column prop="award" label="打赏数" width="50"></el-table-column>
-				<el-table-column prop="share" label="分享数" width="50"></el-table-column>
-				<el-table-column prop="complain" label="举报数" width="50"></el-table-column>
-				<el-table-column prop="recommend" label="推荐次数" width="50"></el-table-column>
 				<el-table-column label="操作" min-width="120">
 					<template slot-scope="scope">
-                        <el-col :span="12"><el-button size="small" type="primary" @click="recommendAgent(scope.$index, scope.row)">在推荐</el-button></el-col>
-                        <el-col :span="12"><el-button size="small" type="danger" @click="cancleAgent(scope.$index, scope.row)">取消推荐</el-button></el-col>
+						<div v-if="scope.row.status==1">已忽略</div>
+						<div v-else-if="scope.row.status==2">已警告</div>
+						<div v-else-if="scope.row.status==3">已封号</div>
+						<el-row v-else-if="scope.row.status==0">
+							<el-col :span="8">
+								<el-button size="mini" type="success" @click="ignore(scope.$index, scope.row)">忽视</el-button>
+							</el-col>
+							<el-col :span="8">
+								<el-button size="mini" type="warning" @click="warning(scope.$index, scope.row)">警告</el-button>
+							</el-col>
+							<el-col :span="8">
+								<el-button size="mini" type="info" @click="dialogFormVisible = true, getter(scope.$index, scope.row)">封号</el-button>
+							</el-col>
+						</el-row>
 					</template>
 				</el-table-column>
 			</el-table>
-			<!-- 工具条 -->
-			<el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="20" :total=1000 :current-page="page+1" style="float:right; ">
-				</el-pagination>
-			</el-col>
 		</template>
-    </section>
+		<el-dialog title="封号" :visible.sync="dialogFormVisible">
+			<el-form :model="form">
+				<el-form-item label="封号时长" :label-width="formLabelWidth">
+					<el-select v-model="form.time" placeholder="请选择封号时长">
+						<el-option label="1天" value="1"></el-option>
+						<el-option label="3天" value="3"></el-option>
+						<el-option label="5天" value="5"></el-option>
+						<el-option label="7天" value="7"></el-option>
+						<el-option label="15天" value="15"></el-option>
+						<el-option label="30天" value="30"></el-option>
+						<el-option label="永远封号" value="0"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="封号理由" :label-width="formLabelWidth">
+					<el-input v-model="form.reason" auto-complete="off"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogFormVisible = false">取 消</el-button>
+				<el-button type="primary" @click="title()">确 定</el-button>
+			</div>
+		</el-dialog>
+		<el-dialog title="提示" :visible.sync="dialogtitle" width="30%">
+			<span>请选择封号时长</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="dialogtitle = false">确 定</el-button>
+			</span>
+		</el-dialog>
+	</section>
 </template>
 
 <script>
-	import { allget } from '../../../api/api';
-	import axios from 'axios';
+import { allget } from "../../../api/api";
+import axios from "axios";
 import store from "../../../vuex/store";
-    export default {
-        data() {
-            return {
-				tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
-                formOne: {
-                    startDate: [new Date()-100*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
-				},
-				value6: '',
-				value10: 'text',
-				recordStatus: '',
-				page: 0,
-				listData: [],
-				totalpage:null,
-				formLabelWidth: '120px',
-                listLoading: false,
-                channelData: {},
-                channelId: null,
-            }
-        },
-		methods: {
-			//页面的页数
-			handleCurrentChange(val) {
-				//服务器的第一页是0 所以 这里要 -1
-				this.page = val-1;
-				this.getData();
-			},
-			// 获取数据
-			getData() {
-				var _this = this;
-				let url = '/Voice/getHotVoiceList';
-				let param ={
-					page: this.page,
-					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
-					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-					is_up_list: this.recordStatus,
-					price: this.recordStyle,
-					uid: this.uid,
-					id: this.audio_uid
-				}
-				allget(param, url).then(res => {
-					this.listData = res.data.data;
-				}).catch(err => {
-					console.log(err)
-				})
-			},
-			// 提示已审核
-			tipInfo() {
-				var _this = this;
-				baseConfig.warningTipMsg(_this, '已审核了！');
-			},
-			// 录音形式
-			price(row){
-				return row.price > 0 ? "付费" : "免费";
-			},
-			
-            // 再推荐
-			recommendAgent(index, row) {
-				var _this = this;
-				var id = row.id;
-				var url = '/NewUser/getComplain';
-				var params = {
-					id: id,
-				};
-				_this.listLoading = true;				
-				allget(params, url).then(res => {
-					_this.listLoading = false;
-					if(res.data.ret) {
-						baseConfig.successTipMsg(_this, '推荐成功');						
-						_this.getData();
-					} else {
-						baseConfig.errorTipMsg(_this, res.data.msg);
-					}
-				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
-				})
+export default {
+    data() {
+        return {
+            tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
+            formOne: {
+                startDate: [new Date() - 100 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
-			// 取消推荐
-			cancleAgent(index, row) {
-				var _this = this;
-				var id = row.id;
-				var url = '/Voice/cancelRecommendVoiceToHot';
-				var params = {
-					id: id,
-				};
-				_this.listLoading = true;				
-				allget(params, url).then(res => {
-					_this.listLoading = false;
-					if(res.data.ret) {
-						baseConfig.successTipMsg(_this, '已取消');						
-						_this.getData();
-					} else {
-						baseConfig.errorTipMsg(_this, res.data.msg);
-					}
-				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
-				})
-			},
-		},
-		mounted() {
-			this.tableHeight = searchPageHeight;
-			this.getData();
-            var id = store.state.user.channelid.split(",");
-            var name = store.state.user.channelname.split(","); 
-            for(var i = 0; i<id.length; i++){
-                this.channelData[id[i]] = name[i];
+            recordStatus: "",
+            listData: [
+                {
+                    id: "231", //投诉ID
+                    time: "2018-02-27 16:22:36", //投诉时间
+                    uid: "10866", //投诉人
+                    complain_uid: "10512", //被投诉人
+                    long_time: "-1", //封号时长
+                    channel: "62", //渠道
+                    num: "3", //投诉次数
+                    warn_num: "0", //警告次数
+                    content: "辱骂", //投诉类型
+                    explains: "", //详细内容
+                    evidences:
+                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
+                    status: "0", //投诉状态【1忽略2警告3封号】
+                    is_show: "0" //是否显示
+                },
+                {
+                    id: "231", //投诉ID
+                    time: "2018-02-27 16:22:36", //投诉时间
+                    uid: "10866", //投诉人
+                    complain_uid: "10512", //被投诉人
+                    long_time: "-1", //封号时长
+                    channel: "62", //渠道
+                    num: "3", //投诉次数
+                    warn_num: "0", //警告次数
+                    content: "辱骂", //投诉类型
+                    explains: "", //详细内容
+                    evidences:
+                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
+                    status: "1", //投诉状态【1忽略2警告3封号】
+                    is_show: "0" //是否显示
+                },
+                {
+                    id: "231", //投诉ID
+                    time: "2018-02-27 16:22:36", //投诉时间
+                    uid: "10866", //投诉人
+                    complain_uid: "10512", //被投诉人
+                    long_time: "-1", //封号时长
+                    channel: "62", //渠道
+                    num: "3", //投诉次数
+                    warn_num: "0", //警告次数
+                    content: "辱骂", //投诉类型
+                    explains: "", //详细内容
+                    evidences:
+                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
+                    status: "2", //投诉状态【1忽略2警告3封号】
+                    is_show: "0" //是否显示
+                },
+                {
+                    id: "231", //投诉ID
+                    time: "2018-02-27 16:22:36", //投诉时间
+                    uid: "10866", //投诉人
+                    complain_uid: "10512", //被投诉人
+                    long_time: "-1", //封号时长
+                    channel: "62", //渠道
+                    num: "3", //投诉次数
+                    warn_num: "0", //警告次数
+                    content: "辱骂", //投诉类型
+                    explains: "", //详细内容
+                    evidences:
+                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
+                    status: "3", //投诉状态【1忽略2警告3封号】
+                    is_show: "0" //是否显示
+                }
+            ],
+            totalpage: null,
+            formLabelWidth: "120px",
+            listLoading: false,
+            channelData: {},
+            channelId: null,
+            find: null,
+            status: null,
+            content: null,
+            dialogFormVisible: false,
+            formLabelWidth: "120px",
+            form: {
+                time: null,
+                reason: null
+            },
+            totle: {
+                complain: "",
+                time: "",
+                id: "",
+                uid: ""
+            },
+			dialogtitle: false,
+			operate_user: null
+        };
+    },
+    methods: {
+        // 获取数据
+        getData() {
+            var _this = this;
+            let url = "/NewUser/getComplain";
+            let param = {
+                date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
+                date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
+                content: this.content,
+                find: this.find,
+                status: this.status,
+                channel: this.channelId.join(","),
+                operate_user: this.operate_user
+            };
+            allget(param, url)
+                .then(res => {
+                    // this.listData = res.data.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        // 忽略
+        ignore(index, row) {
+            let url = "/NewUser/ignoreUserComplain";
+            let param = {
+                id: row.id
+            };
+            allget(param, url)
+                .then(res => {
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                })
+                .catch(err => {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                });
+        },
+        // 警告
+        warning(index, row) {
+            let url = "/NewUser/warnComplain";
+            let param = {
+                id: row.id,
+                uid: row.complain_uid
+            };
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    baseConfig.errorTipMsg(_this, err.data.msg);
+                });
+        },
+        // 点击封号的时候 获取相应的数值
+        getter(index, row) {
+            this.totle.complain = row.uid;
+            this.totle.time = row.time;
+            this.totle.id = row.id;
+            this.totle.uid = row.complain_uid;
+        },
+        // 封号
+        title(index, row) {
+            var _this = this;
+            let url = "/User/kickUser";
+            let param = {
+                complain: this.totle.complain,
+                operate_user: this.operate_user,
+                time: this.totle.time,
+                id: this.totle.id,
+                reason: this.form.reason,
+                uid: this.totle.uid,
+                day: this.form.time
+            };
+            if (param.day == "" || param.day == null) {
+                _this.dialogtitle = true;
+                return;
             }
-		},
-		updated() {
-			var _this = this;
-			//同一时间段，只能播放一条音频
-			var audio = document.getElementsByTagName("audio");
-			for(var i=0; i<audio.length; i++){
-				audio[i].addEventListener("play", function() {
-					for(var j=0; j<audio.length; j++) {
-						if(audio[j]!=this) { //这里的this指向的是监听音频对象
-							audio[j].pause();
-						}
-					}
-				});
-			}
-		}
+            _this.dialogFormVisible = false;
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    baseConfig.errorTipMsg(_this, err.data.msg);
+                });
+        }
+    },
+    mounted() {
+        this.tableHeight = searchPageHeight;
+        this.getData();
+        var id = store.state.user.channelid.split(",");
+        var name = store.state.user.channelname.split(",");
+        for (var i = 0; i < id.length; i++) {
+            this.channelData[id[i]] = name[i];
+        }
+        this.operate_user = store.state.user.name;
+    },
+    updated() {
+        var _this = this;
+        //同一时间段，只能播放一条音频
+        var audio = document.getElementsByTagName("audio");
+        for (var i = 0; i < audio.length; i++) {
+            audio[i].addEventListener("play", function() {
+                for (var j = 0; j < audio.length; j++) {
+                    if (audio[j] != this) {
+                        //这里的this指向的是监听音频对象
+                        audio[j].pause();
+                    }
+                }
+            });
+        }
     }
-
+};
 </script>
 
 <style lang="css" scoped>
-    .search-span{
-        float: right;
-    }
-    #searchBtn{
-        margin-right: 50px;
-    }
+.search-span {
+    float: right;
+}
+#searchBtn {
+    margin-right: 50px;
+}
 </style>
