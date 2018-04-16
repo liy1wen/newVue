@@ -136,72 +136,7 @@ export default {
                 startDate: [new Date() - 100 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             recordStatus: "",
-            listData: [
-                {
-                    id: "231", //投诉ID
-                    time: "2018-02-27 16:22:36", //投诉时间
-                    uid: "10866", //投诉人
-                    complain_uid: "10512", //被投诉人
-                    long_time: "-1", //封号时长
-                    channel: "62", //渠道
-                    num: "3", //投诉次数
-                    warn_num: "0", //警告次数
-                    content: "辱骂", //投诉类型
-                    explains: "", //详细内容
-                    evidences:
-                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
-                    status: "0", //投诉状态【1忽略2警告3封号】
-                    is_show: "0" //是否显示
-                },
-                {
-                    id: "231", //投诉ID
-                    time: "2018-02-27 16:22:36", //投诉时间
-                    uid: "10866", //投诉人
-                    complain_uid: "10512", //被投诉人
-                    long_time: "-1", //封号时长
-                    channel: "62", //渠道
-                    num: "3", //投诉次数
-                    warn_num: "0", //警告次数
-                    content: "辱骂", //投诉类型
-                    explains: "", //详细内容
-                    evidences:
-                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
-                    status: "1", //投诉状态【1忽略2警告3封号】
-                    is_show: "0" //是否显示
-                },
-                {
-                    id: "231", //投诉ID
-                    time: "2018-02-27 16:22:36", //投诉时间
-                    uid: "10866", //投诉人
-                    complain_uid: "10512", //被投诉人
-                    long_time: "-1", //封号时长
-                    channel: "62", //渠道
-                    num: "3", //投诉次数
-                    warn_num: "0", //警告次数
-                    content: "辱骂", //投诉类型
-                    explains: "", //详细内容
-                    evidences:
-                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
-                    status: "2", //投诉状态【1忽略2警告3封号】
-                    is_show: "0" //是否显示
-                },
-                {
-                    id: "231", //投诉ID
-                    time: "2018-02-27 16:22:36", //投诉时间
-                    uid: "10866", //投诉人
-                    complain_uid: "10512", //被投诉人
-                    long_time: "-1", //封号时长
-                    channel: "62", //渠道
-                    num: "3", //投诉次数
-                    warn_num: "0", //警告次数
-                    content: "辱骂", //投诉类型
-                    explains: "", //详细内容
-                    evidences:
-                        '{"0":"http:\\/\\/img.dianliaoapp.com\\/DEBUG\\/10866\\/2018-02-27\\/1519719755978.png"}', //证据
-                    status: "3", //投诉状态【1忽略2警告3封号】
-                    is_show: "0" //是否显示
-                }
-            ],
+            listData: [],
             totalpage: null,
             formLabelWidth: "120px",
             listLoading: false,
@@ -320,30 +255,18 @@ export default {
         }
     },
     mounted() {
-        this.tableHeight = searchPageHeight;
-        this.getData();
+        var _this = this;
+        _this.tableHeight = searchPageHeight;
+        _this.getData();
         var id = store.state.user.channelid.split(",");
         var name = store.state.user.channelname.split(",");
         for (var i = 0; i < id.length; i++) {
-            this.channelData[id[i]] = name[i];
+            _this.channelData[id[i]] = name[i];
         }
-        this.operate_user = store.state.user.name;
+        console.log(_this.channelData)
+        _this.operate_user = store.state.user.name;
+        console.log(store.state)
     },
-    updated() {
-        var _this = this;
-        //同一时间段，只能播放一条音频
-        var audio = document.getElementsByTagName("audio");
-        for (var i = 0; i < audio.length; i++) {
-            audio[i].addEventListener("play", function() {
-                for (var j = 0; j < audio.length; j++) {
-                    if (audio[j] != this) {
-                        //这里的this指向的是监听音频对象
-                        audio[j].pause();
-                    }
-                }
-            });
-        }
-    }
 };
 </script>
 

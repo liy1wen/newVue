@@ -43,7 +43,6 @@ const user = {
             return new Promise((resolve, reject) => {
                 let url = '/loginTpl/login';
                 let pwd = md5(ueserInfo.password);
-
                 try {
                     allget({ userid: ueserInfo.username, userpwd: pwd }, url).then(data => {
                         //console.log(data.data.data);
