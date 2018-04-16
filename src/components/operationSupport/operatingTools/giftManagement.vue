@@ -589,14 +589,22 @@
 			<!-- 礼物特效的弹窗的table表框 -->
 			<el-dialog title="礼物数量特效详情" :visible.sync="giftNumTable.dialogShow">
 				<el-table :data="giftNumTable.giftNumArr">
-					<el-table-column property="gift_id" label="礼物ID" width="100"></el-table-column>
-					<el-table-column property="num" label="数量" width="100"></el-table-column>
+					<el-table-column property="gift_id" label="礼物ID" width="50"></el-table-column>
+					<el-table-column property="num" label="数量" width="50"></el-table-column>
 					<el-table-column property="num_name" label="礼物数字描述" min-width="100"></el-table-column>
-					<el-table-column property="is_dynamic_effect" label="是否有特效" width="50">
+					<el-table-column property="is_dynamic_effect" label="是否有特效" width="80">
 						<template slot-scope="scope">
 							<div slot="reference" class="name-wrapper">
 								<p v-if="scope.row.is_dynamic_effect==0">无特效</p>
-								<p v-else-if="scope.row.is_dynamic_effect==1">有</p>
+								<p v-else-if="scope.row.is_dynamic_effect==1">有特效</p>
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column property="num_status" label="是否显示" width="80">
+						<template slot-scope="scope">
+							<div slot="reference" class="name-wrapper">
+								<p v-if="scope.row.num_status==0">显示</p>
+								<p v-else-if="scope.row.num_status==1">不显示</p>
 							</div>
 						</template>
 					</el-table-column>
@@ -629,8 +637,23 @@
 					<el-form-item label="id" :label-width="formLabelWidth">
 						<el-input disabled v-model="giftSpecial.id" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item  label="数量" :label-width="formLabelWidth">
+					<el-form-item label="数量" :label-width="formLabelWidth">
 						<el-input disabled v-model="giftSpecial.num" auto-complete="off"></el-input>						
+					</el-form-item>
+					<el-form-item label="数字名称" :label-width="formLabelWidth">
+						<el-input disabled v-model="giftSpecial.num_name" auto-complete="off"></el-input>						
+					</el-form-item>
+					<el-form-item label="是否显示" :label-width="formLabelWidth">
+						<el-select v-model="giftSpecial.num_status">
+							<el-option label="显示" value="0"></el-option>
+							<el-option label="不显示" value="1"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="是否特效" :label-width="formLabelWidth">
+						<el-select v-model="giftSpecial.is_dynamic_effect">
+							<el-option label="无特效" value="0"></el-option>
+							<el-option label="有特效" value="1"></el-option>
+						</el-select>				
 					</el-form-item>
 					<el-form-item label="标识图" :label-width="formLabelWidth">
 						<input class="filegif fileinput" @change="uploading($event, 0, 2)" type="file">
@@ -768,11 +791,13 @@ export default {
 				dialogShow: false,
 				id: '',
 				num: '',
-				is_dynamic_effect: '1',
+				is_dynamic_effect: '',
 				num_url: '',
 				src_num: '',
 				effect_url: '',
 				src_effect: '',
+				num_name: '',
+				num_status: '',
 			},
 			listLoading: false, //动画加载时显示的动画
 			tabActiveName: 'first', // 设置为tab切换栏的选中不同的状态(first、second、three、four)
@@ -1336,10 +1361,12 @@ export default {
 		// 礼物数量进行相对应的编辑
 		changeNumGIft(index, row) {
 			var _this = this;
-			// 进行赋值的操作
 			console.log(row[index]);
 			_this.giftSpecial.id = row[index].gift_id;
 			_this.giftSpecial.num = row[index].num;
+			_this.giftSpecial.is_dynamic_effect = row[index].is_dynamic_effect;
+			_this.giftSpecial.num_name = row[index].num_name;
+			_this.giftSpecial.num_status = row[index].num_status;
 			_this.giftSpecial.src_num = row[index].num_img_url ? row[index].num_img_url : '';
 			_this.giftSpecial.src_effect = row[index].dynamic_effect_url ? row[index].dynamic_effect_url : '';
 			_this.giftSpecial.dialogShow = true;
@@ -1355,6 +1382,8 @@ export default {
 				formData.append('id', _this.giftSpecial.id);
 				formData.append('num', _this.giftSpecial.num);
 				formData.append('is_dynamic_effect', _this.giftSpecial.is_dynamic_effect);
+				formData.append('num_name', _this.giftSpecial.num_name);
+				formData.append('num_status', _this.giftSpecial.num_status);
 				formData.append('num_url', _this.giftSpecial.num_url);
 				formData.append('effect_url', _this.giftSpecial.effect_url);
 				let config = {
