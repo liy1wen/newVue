@@ -44,23 +44,23 @@
 					</el-form-item>
 					<el-form-item label="IOS链接地址" v-if="formLabelAlign.jump_app_show">
 						<el-select v-model="formLabelAlign.ios_link">
-							<el-option label="首页" value="DOTHomeVC"></el-option>
-							<el-option label="发现页" value="DOTFindUserVC"></el-option>
-							<el-option label="修改资料页" value="DOTEditUserInfoVC"></el-option>
-							<el-option label="抢聊大厅页" value="DOTRushChatVC"></el-option>
-							<el-option label="发起抢聊页" value="DOTBegChatVC"></el-option>
-							<el-option label="我的页面" value="DOTMineVC"></el-option>
-							<el-option label="我的奖金页" value="DOTMyRewardVC"></el-option>
-							<el-option label="分享给好友" value="DOTShareView"></el-option>
-							<el-option label="会员中心" value="DOTVipCenterVC"></el-option>
-							<el-option label="通话设置页" value="DOTConfigChargeVC"></el-option>
-							<el-option label="我要上首页-选择频道页" value="DOTMarkVC"></el-option>
-							<el-option label="家族页" value="DOTFamilyListVC"></el-option>
-							<el-option label="排行榜-土豪榜" value="DOTRankingVC_Wealth"></el-option>
-							<el-option label="排行榜-魅力榜" value="DOTRankingVC_Charm"></el-option>
-							<el-option label="一键语聊" value="DOTRadarVC_OneKeyChat"></el-option>
-							<el-option label="偷听学聊" value="DOTRadarVC_EavesdropLearnChat"></el-option>
-							<el-option label="做任务赚聊币" value="DOTChatCoinVC"></el-option>
+							<el-option label="首页" value="VOIHomeVC"></el-option>
+							<el-option label="发现页" value="VOIFindUserVC"></el-option>
+							<el-option label="修改资料页" value="VOIEditUserInfoVC"></el-option>
+							<el-option label="抢聊大厅页" value="VOIRushChatVC"></el-option>
+							<el-option label="发起抢聊页" value="VOIBegChatVC"></el-option>
+							<el-option label="我的页面" value="VOIMineVC"></el-option>
+							<el-option label="我的奖金页" value="VOIMyRewardVC"></el-option>
+							<el-option label="分享给好友" value="VOIShareView"></el-option>
+							<el-option label="会员中心" value="VOIVipCenterVC"></el-option>
+							<el-option label="通话设置页" value="VOIConfigChargeVC"></el-option>
+							<el-option label="我要上首页-选择频道页" value="VOIMarkVC"></el-option>
+							<el-option label="家族页" value="VOIFamilyListVC"></el-option>
+							<el-option label="排行榜-土豪榜" value="VOIRankingVC_Wealth"></el-option>
+							<el-option label="排行榜-魅力榜" value="VOIRankingVC_Charm"></el-option>
+							<el-option label="一键语聊" value="VOIRadarVC_OneKeyChat"></el-option>
+							<el-option label="偷听学聊" value="VOIRadarVC_EavesdropLearnChat"></el-option>
+							<el-option label="做任务赚聊币" value="VOIChatCoinVC"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="安卓链接地址" v-if="formLabelAlign.jump_app_show">
@@ -152,23 +152,23 @@
 								<div slot="reference" class="name-wrapper">
 									<p v-if="(scope.row.jump_url==null&&scope.row.ios_link==null&&scope.row.android_link==null)||(scope.row.jump_url==''&&scope.row.ios_link==''&&scope.row.android_link=='')">无</p>
 									<p v-else-if="scope.row.jump_url!=null&&scope.row.jump_url!=''">{{scope.row.jump_url}}</p>
-									<p v-else-if="scope.row.android_link=='FirstMainActivity'" androidlink="FirstMainActivity" ioslink="VCHomeVC">首页</p>
-									<p v-else-if="scope.row.android_link=='SearchUserActivity'" androidlink="SearchUserActivity" ioslink="DCFindUserVC">发现页</p>
-									<p v-else-if="scope.row.android_link=='ModifyUserInfoActivity'" androidlink="ModifyUserInfoActivity" ioslink="VCEditUserInfoVC">修改资料页</p>
-									<p v-else-if="scope.row.android_link=='GrabOrderFragment'" androidlink="GrabOrderFragment" ioslink="DCRushChatVC">抢聊大厅页</p>
-									<p v-else-if="scope.row.android_link=='SendOrderFragment'" androidlink="SendOrderFragment" ioslink="DCBegChatVC">发起抢聊页</p>
-									<p v-else-if="scope.row.android_link=='FirstMyFragment'" androidlink="FirstMyFragment" ioslink="DCMineVC">我的页面</p>
-									<p v-else-if="scope.row.android_link=='MyAwardActivity'" androidlink="MyAwardActivity" ioslink="DCMyRewardVC">我的奖金页</p>
-									<p v-else-if="scope.row.android_link=='ShareDialog'" androidlink="ShareDialog" ioslink="DCShareView">分享给好友</p>
-									<p v-else-if="scope.row.android_link=='VipCenterActivateActivity'" androidlink="VipCenterActivateActivity" ioslink="DCVipCenterVC">会员中心</p>
-									<p v-else-if="scope.row.android_link=='CallingPriceActivity'" androidlink="CallingPriceActivity" ioslink="VCConfigChargeVC">通话设置页</p>
-									<p v-else-if="scope.row.android_link=='SelectTopChannelActivity'" androidlink="SelectTopChannelActivity" ioslink="DCMarkVC">我要上首页-选择频道页</p>
-									<p v-else-if="scope.row.android_link=='FamilyLobbyActivity'" androidlink="FamilyLobbyActivity" ioslink="DCFamilyListVC">家族页</p>
-									<p v-else-if="scope.row.android_link=='WealthRankFragment'" androidlink="WealthRankFragment" ioslink="DCRankingVC_Wealth">排行榜-土豪榜</p>
-									<p v-else-if="scope.row.android_link=='CharmRankFragment'" androidlink="CharmRankFragment" ioslink="DCRankingVC_Charm">排行榜-魅力榜</p>
-									<p v-else-if="scope.row.android_link=='ConversationMatchActivity'" androidlink="ConversationMatchActivity" ioslink="DCRadarVC_OneKeyChat">一键语聊</p>
-									<p v-else-if="scope.row.android_link=='EavesdropMatchActivity'" androidlink="EavesdropMatchActivity" ioslink="DCRadarVC_EavesdropLearnChat">偷听学聊</p>
-									<p v-else-if="scope.row.android_link=='TaskActivity'" androidlink="TaskActivity" ioslink="VCChatCoinVC">做任务赚聊币</p>
+									<p v-else-if="scope.row.android_link=='FirstMainActivity'" androidlink="FirstMainActivity" ioslink="VOIHomeVC">首页</p>
+									<p v-else-if="scope.row.android_link=='SearchUserActivity'" androidlink="SearchUserActivity" ioslink="VOIFindUserVC">发现页</p>
+									<p v-else-if="scope.row.android_link=='ModifyUserInfoActivity'" androidlink="ModifyUserInfoActivity" ioslink="VOIEditUserInfoVC">修改资料页</p>
+									<p v-else-if="scope.row.android_link=='GrabOrderFragment'" androidlink="GrabOrderFragment" ioslink="VOIRushChatVC">抢聊大厅页</p>
+									<p v-else-if="scope.row.android_link=='SendOrderFragment'" androidlink="SendOrderFragment" ioslink="VOIBegChatVC">发起抢聊页</p>
+									<p v-else-if="scope.row.android_link=='FirstMyFragment'" androidlink="FirstMyFragment" ioslink="VOIMineVC">我的页面</p>
+									<p v-else-if="scope.row.android_link=='MyAwardActivity'" androidlink="MyAwardActivity" ioslink="VOIMyRewardVC">我的奖金页</p>
+									<p v-else-if="scope.row.android_link=='ShareDialog'" androidlink="ShareDialog" ioslink="VOIShareView">分享给好友</p>
+									<p v-else-if="scope.row.android_link=='VipCenterActivateActivity'" androidlink="VipCenterActivateActivity" ioslink="VOIVipCenterVC">会员中心</p>
+									<p v-else-if="scope.row.android_link=='CallingPriceActivity'" androidlink="CallingPriceActivity" ioslink="VOIConfigChargeVC">通话设置页</p>
+									<p v-else-if="scope.row.android_link=='SelectTopChannelActivity'" androidlink="SelectTopChannelActivity" ioslink="VOIMarkVC">我要上首页-选择频道页</p>
+									<p v-else-if="scope.row.android_link=='FamilyLobbyActivity'" androidlink="FamilyLobbyActivity" ioslink="VOIFamilyListVC">家族页</p>
+									<p v-else-if="scope.row.android_link=='WealthRankFragment'" androidlink="WealthRankFragment" ioslink="VOIRankingVC_Wealth">排行榜-土豪榜</p>
+									<p v-else-if="scope.row.android_link=='CharmRankFragment'" androidlink="CharmRankFragment" ioslink="VOIRankingVC_Charm">排行榜-魅力榜</p>
+									<p v-else-if="scope.row.android_link=='ConversationMatchActivity'" androidlink="ConversationMatchActivity" ioslink="VOIRadarVC_OneKeyChat">一键语聊</p>
+									<p v-else-if="scope.row.android_link=='EavesdropMatchActivity'" androidlink="EavesdropMatchActivity" ioslink="VOIRadarVC_EavesdropLearnChat">偷听学聊</p>
+									<p v-else-if="scope.row.android_link=='TaskActivity'" androidlink="TaskActivity" ioslink="VOIChatCoinVC">做任务赚聊币</p>
 								</div>
 							</template>
 						</el-table-column>

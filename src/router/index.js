@@ -70,8 +70,8 @@ import newUsersMatchFriends from '../components/operationSupport/appContentManag
 import randomLabel from '../components/operationSupport/appContentManagement/randomLabel.vue';//随机标签
 import randomNickname from '../components/operationSupport/appContentManagement/randomNickname.vue';//随机昵称
 import randomSignature from '../components/operationSupport/appContentManagement/randomSignature.vue';//随机签名
-import registeredUserGreeting from '../components/operationSupport/appContentManagement/randomSignature.vue';//注册用户招呼语
-import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/randomSignature.vue';//收益悬浮窗
+import registeredUserGreeting from '../components/operationSupport/appContentManagement/registeredUserGreeting.vue';//注册用户招呼语
+import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/revenueSuspensionWindow.vue';//收益悬浮窗
 // 3-2、app内容管理
 import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
 import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
@@ -396,7 +396,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/operationSupport/appContentManagement/user', component: user, name: '首页标签管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/appContentManagement/revenueSuspensionWindow', component: revenueSuspensionWindow, name: '收益任务管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/appContentManagement/revenueSuspensionWindow', component: revenueSuspensionWindow, name: '收益悬浮窗', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/appContentManagement/barrageTopicManagement', component: barrageTopicManagement, name: '弹幕话题管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/appContentManagement/registeredUserGreeting', component: registeredUserGreeting, name: '注册用户招呼语', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/appContentManagement/newUsersMatchFriends', component: newUsersMatchFriends, name: '新用户匹配好友', hidden: false, meta: { role: ['admin', 'testP1'] } },
