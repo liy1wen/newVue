@@ -22,6 +22,7 @@ import empty from '../components/rootGlobal/empty.vue';//空组建进行页面�
 import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
 // 1-3充值与消费
 import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
+import payUserDataList from '../components/operationData/rechargeConsumption/payUserDataList.vue';//付费用户数据
 // 1-4通话数据统计
 import callDataSummary from '../components/operationSupport/callLog/CallDataSummary.vue';//通话数据汇总
 import timeMatching from '../components/operationSupport/callLog/timeMatching.vue';//实时详情
@@ -43,6 +44,8 @@ import channelDataList from '../components/operationData/channelData/channelData
 // 2、用户管理
 // 用户管理start
 // 2-1用户信息管理
+import idReview from '../components/userManagement/userInformationManagement/idReview.vue';//用户认证审核(可操作)
+import idReviewList from '../components/userManagement/userInformationManagement/idReviewList.vue';//用户认证审核列表
 import userComplaintsList from '../components/userManagement/userInformationManagement/userComplaintsList.vue';//用户投诉处理
 import openCloseList from '../components/userManagement/userInformationManagement/openCloseList.vue';//账号封禁记录（可封禁）
 import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
@@ -199,7 +202,7 @@ export const asyncRouterMap = [
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '财务日报', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/dailyRealTimeRecharge', component: dailyRealTimeRecharge, name: '分时充值详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/monthRealTimeRecharge', component: dailyRealTimeRecharge, name: '每月充值详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/rechargeConsumption/user', component: user, name: '付费用户数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/payUserDataList', component: payUserDataList, name: '付费用户数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '聊币数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '聊票数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '礼物数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
@@ -264,7 +267,8 @@ export const asyncRouterMap = [
                 children: [
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '用户信息查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '置顶网红管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '用户认证审核', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/idReview', component: idReview, name: '用户认证审核（可操作）', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/idReviewList', component: idReviewList, name: '用户认证审核列表', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/userComplaintsList', component: userComplaintsList, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/openCloseList', component: openCloseList, name: '账号封禁记录（可解禁）', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '录音投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
