@@ -108,6 +108,7 @@ export default {
                 _this.dialogVisible = true;
                 _this.chartData = obj.data;
                 _this.dialogWidth = lookWidth*0.8+'px'; //设置进行dialog的宽度进行设置为屏幕的80%
+                console.log(_this.chartData)
             });
         })
 	},

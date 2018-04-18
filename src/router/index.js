@@ -20,7 +20,9 @@ import empty from '../components/rootGlobal/empty.vue';//空组建进行页面�
 // 1-1综合概述
 // 1-2用户分析
 import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
+import onlineDistribute from '../components/operationData/userAnalysis/onlineDistribute.vue';//在线时长分布
 // 1-3充值与消费
+import financialDaily from '../components/operationData/rechargeConsumption/financialDaily.vue';//财务日报
 import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
 import payUserDataList from '../components/operationData/rechargeConsumption/payUserDataList.vue';//付费用户数据
 // 1-4通话数据统计
@@ -189,7 +191,7 @@ export const asyncRouterMap = [
                     { path: '/operationData/userAnalysis/user', component: user, name: '每日在线人数', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/userAnalysis/user', component: user, name: '人均使用时长', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/userAnalysis/user', component: user, name: '使用频率', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/userAnalysis/user', component: user, name: '在线时长分布', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/userAnalysis/onlineDistribute', component: onlineDistribute, name: '在线时长分布', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
             {
@@ -199,7 +201,7 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationData/rechargeConsumption/user', component: user, name: '财务日报', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/financialDaily', component: financialDaily, name: '财务日报', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/dailyRealTimeRecharge', component: dailyRealTimeRecharge, name: '分时充值详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/monthRealTimeRecharge', component: dailyRealTimeRecharge, name: '每月充值详情', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/payUserDataList', component: payUserDataList, name: '付费用户数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
