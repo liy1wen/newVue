@@ -184,7 +184,7 @@ export default {
         },
     },
     mounted() {
-        this.tableHeight = searchPageHeight;
+        this.tableHeight = searchHeight;
         var id = store.state.user.channelid.split(",");
         var name = store.state.user.channelname.split(",");
         for (var i = 0; i < id.length; i++) {

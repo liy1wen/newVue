@@ -177,7 +177,7 @@ export default {
             };
             allget(param, url)
                 .then(res => {
-                    // this.listData = res.data.data;
+                    this.listData = res.data.data;
                 })
                 .catch(err => {
                     console.log(err);
@@ -263,9 +263,7 @@ export default {
         for (var i = 0; i < id.length; i++) {
             _this.channelData[id[i]] = name[i];
         }
-        console.log(_this.channelData)
         _this.operate_user = store.state.user.name;
-        console.log(store.state)
     },
 };
 </script>

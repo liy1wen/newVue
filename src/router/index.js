@@ -50,6 +50,7 @@ import idReview from '../components/userManagement/userInformationManagement/idR
 import idReviewList from '../components/userManagement/userInformationManagement/idReviewList.vue';//用户认证审核列表
 import userComplaintsList from '../components/userManagement/userInformationManagement/userComplaintsList.vue';//用户投诉处理
 import openCloseList from '../components/userManagement/userInformationManagement/openCloseList.vue';//账号封禁记录（可封禁）
+import recordingComplaints from '../components/userManagement/userInformationManagement/recordingComplaints.vue';//录音投诉管理
 import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
 // 2-2家族管理
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
@@ -58,6 +59,7 @@ import roomConsumptionFlow from '../components/userManagement/householdManagemen
 import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
 import agentPopularize from '../components/userManagement/agentPromotionManagement/agentPopularize.vue';//代理推广查询
 import agentRanking from '../components/userManagement/agentPromotionManagement/agentRanking.vue';//代理排行榜
+import agentBindingQuery from '../components/userManagement/agentPromotionManagement/agentBindingQuery.vue';//代理绑定查询
 // 2-4主播管理
 import anchorDailyBehaviorDataStatistics from '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue';//主播每日行为数据统计
 import anchorDailyDataCollection from '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue';//主播每日数据汇总
@@ -273,7 +275,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/userInformationManagement/idReviewList', component: idReviewList, name: '用户认证审核列表', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/userComplaintsList', component: userComplaintsList, name: '用户投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/openCloseList', component: openCloseList, name: '账号封禁记录（可解禁）', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '录音投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
+                    { path: '/userManagement/userInformationManagement/recordingComplaints', component: recordingComplaints, name: '录音投诉处理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '设备及IP封禁管理', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '货币流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '礼物赠送查询', hidden: false, meta: { role: ['admin', 'testP1'] } },                                        
@@ -307,6 +309,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/agentPromotionManagement/agentTotalView', component: agentTotalView, name: '推广数据总览', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/agentPromotionManagement/agentPopularize', component: agentPopularize, name: '代理推广查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/agentPromotionManagement/agentRanking', component: agentRanking, name: '代理排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/agentPromotionManagement/agentBindingQuery', component: agentBindingQuery, name: '代理绑定查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
