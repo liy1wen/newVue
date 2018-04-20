@@ -96,7 +96,7 @@
 </template>
 
 <script>
-	import { allget,officialAllet } from '../../../api/api';
+	import { allget } from '../../../api/api';
 	import axios from 'axios';
     export default {
         data() {
@@ -134,9 +134,10 @@
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
 					uid: this.searchUid,
                 }
-                // 请求正式服
-				officialAllet(param, url).then(res => {
+                // 请求测试服
+				allget(param, url).then(res => {
                     this.listData = [];
+                    console.log(res.data.data)
 					this.listData.push(res.data.data);
 				}).catch(err => {
 					console.log(err)
@@ -156,7 +157,7 @@
                     type: type,
                     uid: uid
                 }
-                officialAllet(param, url).then(res => {
+                allget(param, url).then(res => {
 					this.detialData = res.data.data;
 				}).catch(err => {
 					console.log(err)
@@ -170,7 +171,7 @@
                     uid: this.form.uid,
                     uid_str: this.form.uid_str,
                 }
-                officialAllet(param, url).then(res => {
+                allget(param, url).then(res => {
                     if(res.data.ret){
                         baseConfig.successTipMsg(this, res.data.msg);
                         this.form.uid = "";
