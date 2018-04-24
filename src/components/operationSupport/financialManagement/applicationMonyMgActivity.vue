@@ -1,6 +1,6 @@
 
 <template>
-    <!-- 货币申请及记录 -->
+    <!-- 货币申请及记录(正) -->
     <section>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="formOne">
@@ -166,7 +166,7 @@ export default {
             _this.listLoading = true;
             var url = "/Money/agreeSendMoneyTo";
             var params = _this.searchConditionOne();
-            allget(params, url)
+            officialAllet(params, url)
                 .then(res => {
                     _this.listLoading = false;
                     if (res.data.ret) {
@@ -205,7 +205,7 @@ export default {
                 num: this.passData.num,
             }
             var url = '/Money/sendMoneyToSuccess';
-            allget(params, url)
+            officialAllet(params, url)
                 .then(res=>{
                     if(res.data.ret) {
                         baseConfig.successTipMsg(this, res.data.msg);
@@ -229,7 +229,7 @@ export default {
                 num: this.passData.num,
             }
             var url = '/Money/sendMoneyToFail';
-            allget(params, url)
+            officialAllet(params, url)
                 .then(res=>{
                     if(res.data.ret) {
                         baseConfig.successTipMsg(this, res.data.msg);

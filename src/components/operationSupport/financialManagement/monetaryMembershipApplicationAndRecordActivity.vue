@@ -161,7 +161,7 @@ export default {
             _this.listLoading = true;
             var url = '/Money/findSendMoneyTo';
             var params = _this.searchConditionOne();
-            allget(params, url)
+            officialAllet(params, url)
             .then(res => {
                 _this.listLoading = false;
                 if(res.data.ret) {
@@ -197,7 +197,7 @@ export default {
                         'Content-Type': 'multipart/form-data'
                     }
                 };
-                axios.post(baseConfig.server+baseConfig.requestUrl+'/NewMoney/SendMoneyToYou', formData, config)
+                axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php'+'/NewMoney/SendMoneyToYou', formData, config)
                 .then((res) => {
                     _this.addDialog.dialogShow= false;
                     _this.listLoading = false;
