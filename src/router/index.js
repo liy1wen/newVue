@@ -77,7 +77,7 @@ import randomNickname from '../components/operationSupport/appContentManagement/
 import randomSignature from '../components/operationSupport/appContentManagement/randomSignature.vue';//随机签名
 import registeredUserGreeting from '../components/operationSupport/appContentManagement/registeredUserGreeting.vue';//注册用户招呼语
 import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/revenueSuspensionWindow.vue';//收益悬浮窗
-// 3-2、app内容管理
+// 3-2、运营工具
 import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
 import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
 import bannerManagement from '../components/operationSupport/operatingTools/bannerManagement.vue';//banner管理
@@ -94,6 +94,10 @@ import tapeSharingData from '../components/operationSupport/recordingLog/tapeSha
 import wonderfulRecord from '../components/operationSupport/recordingLog/wonderfulRecord.vue';//录音精彩内容
 // 3-4、通话日志
 import openCallManage from '../components/operationSupport/callLog/openCallManage.vue';//公开通话管理
+// 3-5、财务管理
+import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理
+import monetaryMembershipApplicationAndRecordTest from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordTest.vue';//货币、会员申请管理(测试)
+import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理(正式)
 // 运营支撑end
 
 // 4、活动专区
@@ -104,6 +108,8 @@ import roomTopManagement from '../components/activities/roomTopManagement.vue';/
 import roomTopManagementTest from '../components/activities/roomTopManagementTest.vue';//家族置顶管理(测试服)
 import loveActivityManage from '../components/activities/loveActivityManage.vue';//情人节数据统计
 import interactionInfo from '../components/activities/interactionInfo.vue';//黑色情人节互动信息
+import rechargeTheCrowdManagement from '../components/activities/rechargeTheCrowdManagement.vue';//充值众筹管理
+import rechargeTheCrowdManagementTest from '../components/activities/rechargeTheCrowdManagementTest.vue';//充值众筹管理
 // 活动专区end
 // 5、系统设置
 // 系统设置start
@@ -342,6 +348,9 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
+                    { path: '/operationSupport/financialManagement/presentAuditReview', component: presentAuditReview, name: '提现审核管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord', component: monetaryMembershipApplicationAndRecord, name: '货币、会员申请及记录(正)', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordTest', component: monetaryMembershipApplicationAndRecordTest, name: '货币、会员申请及记录(测)', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '充值流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '提现审核', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '提现记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
@@ -429,8 +438,10 @@ export const asyncRouterMap = [
                 children: [
                     { path: '/activities/familyBackstageBackstageManage', component: familyBackstageBackstageManage, name: '家族嗨场(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/roomTopManagement', component: roomTopManagement, name: '家族置顶(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/rechargeTheCrowdManagement', component: rechargeTheCrowdManagement, name: '充值众筹管理(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/roomTopManagementTest', component: roomTopManagementTest, name: '家族置顶(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/activities/rechargeTheCrowdManagementTest', component: rechargeTheCrowdManagementTest, name: '充值众筹管理(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/loveActivityManage', component: loveActivityManage, name: '情人节活动数据统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/interactionInfo', component: interactionInfo, name: '黑色情人节互动信息', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
