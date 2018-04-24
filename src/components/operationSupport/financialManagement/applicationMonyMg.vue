@@ -1,5 +1,6 @@
+
 <template>
-    <!-- 货币、会员申请及记录 -->
+    <!-- 货币申请及记录 -->
     <section>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="formOne">
@@ -36,35 +37,16 @@
         </el-col>
         <template>
             <el-table :data="onePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-                <el-table-column prop="time" label="日期" width="80" sortable></el-table-column>
-                <el-table-column prop="uid" label="用户uid" width="100" sortable></el-table-column>
+                <el-table-column prop="time" label="申请时间" width="80" sortable></el-table-column>
+                <el-table-column prop="uid" label="UID" width="100" sortable></el-table-column>
                 <el-table-column prop="nickname" label="昵称" width="150" sortable></el-table-column>
-                <el-table-column prop="num" label="数量、月份" width="100" sortable></el-table-column>
-                <el-table-column label="类型" width="100" sortable>
-                    <template slot-scope="scope">
-                        <div slot="reference" class="name-wrapper">
-                            <p v-if="scope.row.type==1">聊币</p>
-                            <p v-else-if="scope.row.type==2">聊票</p>
-                            <p v-else-if="scope.row.type==3">白银</p>
-                            <p v-else-if="scope.row.type==4">黄金</p>
-                            <p v-else-if="scope.row.type==5">铂金</p>
-                            <p v-else-if="scope.row.type==6">钻石</p>
-                            <p v-else-if="scope.row.type==7">至尊</p>
-                            <p v-else-if="scope.row.type==8">圣尊</p>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="operation_reason" label="赠送理由" min-width="200" sortable></el-table-column>
-                <el-table-column label="状态" width="100" sortable>
-                    <template slot-scope="scope">
-                        <div slot="reference" class="name-wrapper">
-                            <p v-if="scope.row.status==0">未审核</p>
-                            <p v-else-if="scope.row.status==1">通过</p>
-                            <p v-else-if="scope.row.status==2">未通过</p>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="operation_name" label="操作人" width="150" sortable></el-table-column>
+                <el-table-column prop="time" label="货币类型" width="100" sortable></el-table-column>
+                <el-table-column prop="num" label="申请数量" min-width="200" sortable></el-table-column>
+                <el-table-column prop="operation_name" label="申请人" min-width="200" sortable></el-table-column>
+                <el-table-column prop="operation_reason" label="申请原由" min-width="200" sortable></el-table-column>
+                <el-table-column prop="status" label="审核状态" min-width="200" sortable></el-table-column>
+                <el-table-column prop="examine_name" label="审核人" min-width="200" sortable></el-table-column>
+                <el-table-column prop="examine_time" label="审核时间" min-width="200" sortable></el-table-column>
             </el-table>
             <el-col :span="24" class="toolbar">
                 <el-pagination layout="total,prev,pager,next,jumper" @current-change="oneHandleCurrentChange" :page-size="20" :total="formOne.totalPage" style="float: right;"></el-pagination>
@@ -159,7 +141,7 @@ export default {
         getTableData() {
             var _this = this;
             _this.listLoading = true;
-            var url = '/Money/findSendMoneyTo';
+            var url = '/Money/agreeSendMoneyTo';
             var params = _this.searchConditionOne();
             allget(params, url)
             .then(res => {

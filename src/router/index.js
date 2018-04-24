@@ -98,6 +98,7 @@ import openCallManage from '../components/operationSupport/callLog/openCallManag
 import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理
 import monetaryMembershipApplicationAndRecordTest from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordTest.vue';//货币、会员申请管理(测试)
 import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理(正式)
+import applicationMonyMg from '../components/operationSupport/financialManagement/applicationMonyMg.vue';//货币申请及记录
 // 运营支撑end
 
 // 4、活动专区
@@ -355,7 +356,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/financialManagement/user', component: user, name: '提现审核', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '提现记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '货币申请审核', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/financialManagement/user', component: user, name: '货币申请及记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/applicationMonyMg', component: applicationMonyMg, name: '货币申请及记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '充值配置列表', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '充值配置操作记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
