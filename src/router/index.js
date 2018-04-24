@@ -96,8 +96,9 @@ import wonderfulRecord from '../components/operationSupport/recordingLog/wonderf
 import openCallManage from '../components/operationSupport/callLog/openCallManage.vue';//公开通话管理
 // 3-5、财务管理
 import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理
-import monetaryMembershipApplicationAndRecordTest from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordTest.vue';//货币、会员申请管理(测试)
-import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理(正式)
+import presentAuditReviewActivity from '../components/operationSupport/financialManagement/presentAuditReviewActivity.vue';//提现审核管理
+import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理(测试)
+import monetaryMembershipApplicationAndRecordActivity from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordActivity.vue';//货币、会员申请管理(正式)
 // 运营支撑end
 
 // 4、活动专区
@@ -316,7 +317,6 @@ export const asyncRouterMap = [
                     { path: '/userManagement/agentPromotionManagement/agentTotalView', component: agentTotalView, name: '推广数据总览', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/agentPromotionManagement/agentPopularize', component: agentPopularize, name: '代理推广查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/agentPromotionManagement/agentRanking', component: agentRanking, name: '代理排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/userManagement/agentPromotionManagement/agentBindingQuery', component: agentBindingQuery, name: '代理绑定查询（正式服）', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/agentPromotionManagement/agentBindingQueryTest', component: agentBindingQueryTest, name: '代理绑定查询（测试服）', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
@@ -349,8 +349,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 children: [
                     { path: '/operationSupport/financialManagement/presentAuditReview', component: presentAuditReview, name: '提现审核管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord', component: monetaryMembershipApplicationAndRecord, name: '货币、会员申请及记录(正)', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordTest', component: monetaryMembershipApplicationAndRecordTest, name: '货币、会员申请及记录(测)', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord', component: monetaryMembershipApplicationAndRecord, name: '货币、会员申请及记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '充值流水查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '提现审核', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/financialManagement/user', component: user, name: '提现记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
@@ -367,8 +366,7 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/operatingTools/giftManagement', component: giftManagement, name: '礼物管理(正式服)', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/operationSupport/operatingTools/giftManagementTest', component: giftManagementTest, name: '礼物管理(测试服)', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/giftManagementTest', component: giftManagementTest, name: '礼物管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operatingTools/bannerManagement', component: bannerManagement, name: 'banner条管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operatingTools/sendSystemNotification', component: sendSystemNotification, name: '发送系统通知', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/operatingTools/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
@@ -439,11 +437,15 @@ export const asyncRouterMap = [
                     { path: '/activities/familyBackstageBackstageManage', component: familyBackstageBackstageManage, name: '家族嗨场(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/roomTopManagement', component: roomTopManagement, name: '家族置顶(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/activities/rechargeTheCrowdManagement', component: rechargeTheCrowdManagement, name: '充值众筹管理(正)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/activities/roomTopManagementTest', component: roomTopManagementTest, name: '家族置顶(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/activities/rechargeTheCrowdManagementTest', component: rechargeTheCrowdManagementTest, name: '充值众筹管理(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/activities/loveActivityManage', component: loveActivityManage, name: '情人节活动数据统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
-                    { path: '/activities/interactionInfo', component: interactionInfo, name: '黑色情人节互动信息', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/operatingTools/giftManagement', component: giftManagement, name: '礼物管理(正)', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordActivity', component: monetaryMembershipApplicationAndRecordActivity, name: '货币、会员申请及记录(正)', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/userManagement/agentPromotionManagement/agentBindingQuery', component: agentBindingQuery, name: '代理绑定查询（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/userManagement/financialManagement/presentAuditReviewActivity', component: presentAuditReviewActivity, name: '审核管理（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
+                    // { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    // { path: '/activities/roomTopManagementTest', component: roomTopManagementTest, name: '家族置顶(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    // { path: '/activities/rechargeTheCrowdManagementTest', component: rechargeTheCrowdManagementTest, name: '充值众筹管理(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    // { path: '/activities/loveActivityManage', component: loveActivityManage, name: '情人节活动数据统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    // { path: '/activities/interactionInfo', component: interactionInfo, name: '黑色情人节互动信息', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
         ],

@@ -190,7 +190,7 @@ export default {
             _this.listLoading = true;
             var url = '/Money/getMoneyOutCheckFirst';
             var params = _this.searchConditionOne();
-            allget(params, url)
+            officialAllet(params, url)
             .then(res => {
                 _this.listLoading = false;
                 if(res.data.ret) {
@@ -217,7 +217,7 @@ export default {
             _this.addDialog.id = id;
             _this.addDialog.order_id = rows[index].order_id;
             _this.listLoading = true;            
-            allget(params, url)
+            officialAllet(params, url)
             .then(res => {
                 _this.listLoading = false;                
                 if(res.data.ret) {
@@ -269,7 +269,7 @@ export default {
                 formData.append('uid', _this.addDialog.uid);
                 formData.append('operation_name', _this.addDialog.operation_name);
                 formData.append('reason', _this.addDialog.reason);
-                axios.post(baseConfig.server+baseConfig.requestUrl+'/Money/getMoneyOutFail', formData, config)
+                axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php'+'/Money/getMoneyOutFail', formData, config)
                 .then((res) => {
                     if(res.data.ret) {
                         baseConfig.successTipMsg(_this, '已成功拒绝！');
@@ -293,7 +293,7 @@ export default {
                 };
                 formData.append('order_id', _this.addDialog.order_id);
                 formData.append('operation_name', _this.addDialog.operation_name);
-                axios.post(baseConfig.server+baseConfig.requestUrl+'/Money/getMoneyOutPassFirst', formData, config)
+                axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php'+'/Money/getMoneyOutPassFirst', formData, config)
                 .then((res) => {
                     if(res.data.ret) {
                         baseConfig.successTipMsg(_this, '已成功通过！');
