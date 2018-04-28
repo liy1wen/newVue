@@ -24,7 +24,13 @@
                 <el-table-column prop="req_time" label="请求时间" width="200" sortable></el-table-column>
                 <el-table-column prop="uid" label="用户uid" width="100" sortable></el-table-column>
                 <el-table-column prop="nickname" label="用户昵称" width="100" sortable></el-table-column>
-                <el-table-column prop="num" label="金额" width="100" sortable></el-table-column>
+                <el-table-column label="金额(元)" width="100" sortable>
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <p>{{(scope.row.num-0)/100}}</p>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="提现方式" width="100" sortable>
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
