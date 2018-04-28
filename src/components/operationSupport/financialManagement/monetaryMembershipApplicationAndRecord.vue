@@ -38,6 +38,14 @@
                 <el-table-column prop="time" label="日期" width="80" sortable></el-table-column>
                 <el-table-column prop="uid" label="用户uid" width="100" sortable></el-table-column>
                 <el-table-column prop="nickname" label="昵称" width="150" sortable></el-table-column>
+                <el-table-column label="加减" width="100" sortable>
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <p v-if="scope.row.add_sub==0">加</p>
+                            <p v-else-if="scope.row.type==1">减</p>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="num" label="数量、月份" width="100" sortable></el-table-column>
                 <el-table-column label="类型" width="100" sortable>
                     <template slot-scope="scope">
@@ -86,6 +94,12 @@
 							<el-option label="圣尊" value="8"></el-option>
 						</el-select>
 					</el-form-item>
+                    <el-form-item label="加减" :label-width="formLabelWidth">
+						<el-select v-model="addDialog.add_sub">
+							<el-option label="加" value="0"></el-option>
+							<el-option label="减" value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="数量" :label-width="formLabelWidth">
 						<el-input v-model="addDialog.num" placeholder="聊币聊票为数量，会员为月份" auto-complete="off"></el-input>						
 					</el-form-item>
@@ -125,6 +139,7 @@ export default {
                 dialogShow: false,
                 uid: '',
                 type: '1',
+                add_sub: '0',
                 num: '',
                 operation_name: '',
                 operation_reason: '',
@@ -188,6 +203,7 @@ export default {
                 let formData = new FormData();
                 formData.append('uid', _this.addDialog.uid);
                 formData.append('type', _this.addDialog.type);
+                formData.append('add_sub', _this.addDialog.add_sub);
                 formData.append('num', _this.addDialog.num);
                 formData.append('operation_name', _this.addDialog.operation_name);
                 formData.append('operation_reason', _this.addDialog.operation_reason);
