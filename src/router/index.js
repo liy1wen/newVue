@@ -62,6 +62,8 @@ import agentPopularize from '../components/userManagement/agentPromotionManageme
 import agentRanking from '../components/userManagement/agentPromotionManagement/agentRanking.vue';//代理排行榜
 import agentBindingQuery from '../components/userManagement/agentPromotionManagement/agentBindingQuery.vue';//代理绑定查询
 import agentBindingQueryTest from '../components/userManagement/agentPromotionManagement/agentBindingQueryTest.vue';//代理绑定查询(测试服)
+import agentList from '../components/userManagement/agentPromotionManagement/agentList.vue'; // 代理绑定查询记录
+import agentListTest from '../components/userManagement/agentPromotionManagement/agentListTest.vue'; // 代理绑定查询记录(测试服)
 // 2-4主播管理
 import anchorDailyBehaviorDataStatistics from '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue';//主播每日行为数据统计
 import anchorDailyDataCollection from '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue';//主播每日数据汇总
@@ -321,6 +323,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/agentPromotionManagement/agentPopularize', component: agentPopularize, name: '代理推广查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/agentPromotionManagement/agentRanking', component: agentRanking, name: '代理排行榜', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/agentPromotionManagement/agentBindingQueryTest', component: agentBindingQueryTest, name: '代理绑定查询（测试服）', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/agentPromotionManagement/agentListTest', component: agentListTest, name: '代理绑定操作记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
@@ -444,6 +447,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecordActivity', component: monetaryMembershipApplicationAndRecordActivity, name: '货币、会员申请及记录(正)', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/userManagement/agentPromotionManagement/agentBindingQuery', component: agentBindingQuery, name: '代理绑定查询（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/userManagement/financialManagement/presentAuditReviewActivity', component: presentAuditReviewActivity, name: '提现审核管理（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/userManagement/agentPromotionManagement/agentList', component: agentList, name: '代理绑定操作记录（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     // { path: '/userManagement/financialManagement/applicationMonyMgActivity', component: applicationMonyMgActivity, name: '货币申请及记录（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     // { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     // { path: '/activities/roomTopManagementTest', component: roomTopManagementTest, name: '家族置顶(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },

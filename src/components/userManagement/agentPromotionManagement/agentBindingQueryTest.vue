@@ -143,7 +143,7 @@ import store from "../../../vuex/store";
 				allget(param, url).then(res => {
                     this.listData = [];
                     console.log(res.data.data)
-					this.listData.push(res.data.data);
+                    this.listData.push(res.data.data);
 				}).catch(err => {
 					console.log(err)
 				})
