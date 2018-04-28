@@ -68,6 +68,11 @@
                 <el-table-column property="username" label="账号"></el-table-column>
                 <el-table-column property="nickname" label="昵称"></el-table-column>
                 <el-table-column property="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
+                <el-table-column label="操作" width="180px">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
+					</template>
+                </el-table-column>
             </el-table>
         </el-dialog>
         <el-dialog title="代理关系绑定" :visible.sync="dialogFormVisible">
@@ -91,6 +96,7 @@
 <script>
 	import { allget } from '../../../api/api';
 	import axios from 'axios';
+import store from "../../../vuex/store";
     export default {
         data() {
             return {
@@ -109,7 +115,10 @@
                 form: {
                     uid_str: null,
                     uid: null,
-                }
+                },
+                agent_uid: null,
+                operate_user: null,
+                agentType: null,
             }
         },
 		methods: {
@@ -148,11 +157,13 @@
             },
             getDetailData(type, uid) {
                 var _this = this;
+                this.agent_uid = uid;
                 let url = '/Agent/getAgentBindQueryDetailed';
                 let param = {
                     type: type,
                     uid: uid
                 }
+                this.agentType = type;
                 allget(param, url).then(res => {
 					this.detialData = res.data.data;
 				}).catch(err => {
@@ -166,6 +177,7 @@
                 let param = {
                     uid: this.form.uid,
                     uid_str: this.form.uid_str,
+                    operate_user: this.operate_user,
                 }
                 allget(param, url).then(res => {
                     if(res.data.ret){
@@ -178,11 +190,33 @@
                 }).catch(err => {
                     console.log(err)
                 })
+            },
+            // 取消绑定
+            cancel(index, row) {
+                console.log(row.uid);
+                let url = '/Agent/cancelAgentRelation';
+                let param ={
+                    agent_uid: this.agent_uid,
+                    uid: row.uid,
+                    operate_user: this.operate_user,
+                }
+                allget(param, url).then(res => {
+                    console.log(res)
+                    if(res.data.ret){
+                        this.getDetailData(this.agentType,this.agent_uid);
+                        baseConfig.successTipMsg(this, res.data.msg);
+                    }else{
+                        baseConfig.warningTipMsg(this, res.data.msg);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
             }
 		},
 		mounted() {
 			var _this = this;
-			_this.tableHeight = searchHeight;
+            _this.tableHeight = searchHeight;
+            this.operate_user = store.state.user.name;
 		},
     }
 
