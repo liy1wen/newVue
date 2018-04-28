@@ -70,13 +70,6 @@
                 <el-table-column property="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
             </el-table>
         </el-dialog>
-        <el-dialog title="提示" :visible.sync="dialogUid" width="30%">
-			<span>请输入查询UID绑定数据</span>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogUid = false">取 消</el-button>
-				<el-button type="primary" @click="dialogUid = false">确 定</el-button>
-			</span>
-		</el-dialog>
         <el-dialog title="代理关系绑定" :visible.sync="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="被绑定者UID：" :label-width="formLabelWidth">
@@ -109,7 +102,6 @@
 				listData: [],
 				formLabelWidth: '120px',
                 listLoading: false,
-                dialogUid: false,
                 searchUid: null,
                 dialogTableVisible: false,
                 detialData: null,
@@ -133,6 +125,10 @@
                     date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
 					uid: this.searchUid,
+                }
+                if(param.uid==null){
+                    baseConfig.errorTipMsg(_this,"请输入查询uid");
+                    return;
                 }
                 // 请求测试服
 				allget(param, url).then(res => {

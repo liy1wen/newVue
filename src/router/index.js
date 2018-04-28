@@ -53,6 +53,7 @@ import openCloseList from '../components/userManagement/userInformationManagemen
 import recordingComplaints from '../components/userManagement/userInformationManagement/recordingComplaints.vue';//录音投诉管理
 import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
 // 2-2家族管理
+import familyManage from '../components/userManagement/householdManagement/familyManage.vue';//家族查询
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
 import roomConsumptionFlow from '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue';//房间消费流水
 // 2-3代理推广管理
@@ -302,7 +303,7 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/userManagement/householdManagement/user', component: user, name: '家族查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/familyManage', component: familyManage, name: '家族查询', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/roomConsumptionFlow', component: roomConsumptionFlow, name: '房间消费流水', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '解散家族', hidden: false, meta: { role: ['admin', 'testP1'] } },
