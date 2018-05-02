@@ -80,7 +80,8 @@
 					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                     date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
                     type: this.searchType,
-				}
+                }
+                // 正式服 后台还没上传  可能会报500 不要在意
 				officialAllet(param, url).then(res => {
 					this.listData = res.data.data;
 				}).catch(err => {
