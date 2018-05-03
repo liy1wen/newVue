@@ -7,12 +7,12 @@
             <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="uid" label="用户id"></el-table-column>
                 <el-table-column prop="nickname" label="用户昵称"></el-table-column>
-                <el-table-column prop="one" label="点赞礼物数"></el-table-column>
-                <el-table-column prop="five" label="正能量礼物数"></el-table-column>
-                <el-table-column prop="four" label="蛮拼的礼物数"></el-table-column>
-                <el-table-column prop="two" label="佛系青年礼物数"></el-table-column>
-                <el-table-column prop="three" label="上天礼物数"></el-table-column>
-                <el-table-column prop="five" label="五四勋章礼物数"></el-table-column>
+                <el-table-column prop="one" label="点赞礼物数" sortable></el-table-column>
+                <el-table-column prop="five" label="正能量礼物数" sortable></el-table-column>
+                <el-table-column prop="four" label="蛮拼的礼物数" sortable></el-table-column>
+                <el-table-column prop="two" label="佛系青年礼物数" sortable></el-table-column>
+                <el-table-column prop="three" label="上天礼物数" sortable></el-table-column>
+                <el-table-column prop="five" label="五四勋章礼物数" sortable></el-table-column>
             </el-table>
         </template>
     </section>

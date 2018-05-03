@@ -56,6 +56,7 @@ import girlsRanking from '../components/userManagement/userInformationManagement
 import familyManage from '../components/userManagement/householdManagement/familyManage.vue';//家族查询
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
 import roomConsumptionFlow from '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue';//房间消费流水
+import changeFamilyGradeTest from '../components/userManagement/householdManagement/changeFamilyGradeTest.vue';//修改家族等级（测）
 // 2-3代理推广管理
 import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
 import agentPopularize from '../components/userManagement/agentPromotionManagement/agentPopularize.vue';//代理推广查询
@@ -314,6 +315,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/householdManagement/roomConsumptionFlow', component: roomConsumptionFlow, name: '房间消费流水', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '解散家族', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/userManagement/householdManagement/changeFamilyGradeTest', component: changeFamilyGradeTest, name: '修改家族等级', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],
             },
             {
