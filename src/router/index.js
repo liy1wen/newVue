@@ -116,6 +116,8 @@ import loveActivityManage from '../components/activities/loveActivityManage.vue'
 import interactionInfo from '../components/activities/interactionInfo.vue';//黑色情人节互动信息
 import rechargeTheCrowdManagement from '../components/activities/rechargeTheCrowdManagement.vue';//充值众筹管理
 import rechargeTheCrowdManagementTest from '../components/activities/rechargeTheCrowdManagementTest.vue';//充值众筹管理
+import youthDayTest from '../components/activities/youthDayTest.vue'; // 五四活动（测）
+import youthDay from '../components/activities/youthDay.vue'; // 五四活动（正）
 // 活动专区end
 // 5、系统设置
 // 系统设置start
@@ -451,6 +453,8 @@ export const asyncRouterMap = [
                     { path: '/userManagement/financialManagement/presentAuditReviewActivity', component: presentAuditReviewActivity, name: '提现审核管理（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/userManagement/agentPromotionManagement/agentList', component: agentList, name: '代理绑定操作记录（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/systemSetup/accountManage', component: accountManage, name: '账号修改，注册（正）', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/youthDayTest', component: youthDayTest, name: '五四活动（测）', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/youthDay', component: youthDay, name: '五四活动（正）', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     // { path: '/userManagement/financialManagement/applicationMonyMgActivity', component: applicationMonyMgActivity, name: '货币申请及记录（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     // { path: '/activities/familyBackstageBackstageTest', component: familyBackstageBackstageTest, name: '家族嗨场(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     // { path: '/activities/roomTopManagementTest', component: roomTopManagementTest, name: '家族置顶(测)', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
