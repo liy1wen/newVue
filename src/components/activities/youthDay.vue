@@ -43,7 +43,17 @@ export default {
             officialAllet(param, url)
                 .then(res => {
                     if(res.data.ret){
+                        for(var i=0; i<res.data.data.length; i++) {
+                            res.data.data[i].one = Number(res.data.data[i].one);
+                            res.data.data[i].two = Number(res.data.data[i].two);
+                            res.data.data[i].three = Number(res.data.data[i].three);
+                            res.data.data[i].four = Number(res.data.data[i].four);
+                            res.data.data[i].five = Number(res.data.data[i].five);
+                            res.data.data[i].six = Number(res.data.data[i].six);
+                        }
                         this.listData = res.data.data;
+                    }else{
+                        baseConfig.warningTipMsg(_this, res.data.msg);
                     }
                 })
                 .catch(err => {
