@@ -62,7 +62,7 @@ export default {
         },
     },
     mounted() {
-        this.tableHeight = searchPageHeight;
+        this.tableHeight = leftNavHeight;
         this.getData();
     }
 };

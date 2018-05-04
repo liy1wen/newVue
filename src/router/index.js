@@ -57,6 +57,7 @@ import familyManage from '../components/userManagement/householdManagement/famil
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
 import roomConsumptionFlow from '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue';//房间消费流水
 import changeFamilyGradeTest from '../components/userManagement/householdManagement/changeFamilyGradeTest.vue';//修改家族等级（测）
+import changeFamilyGrade from '../components/userManagement/householdManagement/changeFamilyGrade.vue';//修改家族等级（正）
 // 2-3代理推广管理
 import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
 import agentPopularize from '../components/userManagement/agentPromotionManagement/agentPopularize.vue';//代理推广查询
@@ -455,6 +456,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/financialManagement/presentAuditReviewActivity', component: presentAuditReviewActivity, name: '提现审核管理（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/userManagement/agentPromotionManagement/agentList', component: agentList, name: '代理绑定操作记录（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/systemSetup/accountManage', component: accountManage, name: '账号修改，注册（正）', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/systemSetup/changeFamilyGrade', component: changeFamilyGrade, name: '家族等级修改（正）', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/systemSetup/youthDayTest', component: youthDayTest, name: '五四活动（测）', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/systemSetup/youthDay', component: youthDay, name: '五四活动（正）', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     // { path: '/userManagement/financialManagement/applicationMonyMgActivity', component: applicationMonyMgActivity, name: '货币申请及记录（正）', hidden: false, iconCls: 'el-icon-menu', meta: { role: ['admin', 'testP1'] } },                    
