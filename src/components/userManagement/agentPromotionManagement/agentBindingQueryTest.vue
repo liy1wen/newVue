@@ -1,40 +1,40 @@
 <template>
     <!-- 代理绑定查询 -->
     <!-- dom结构内容 -->
-	<section>
+    <section>
         <!-- 工具条/头部的搜索条件搜索 -->
-		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true">
-				<el-form-item>
-					<div class="block">
-						<span class="registerTime">日期</span>
-						<el-date-picker v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
-						</el-date-picker>
-					</div>
-				</el-form-item>
+        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-form :inline="true">
                 <el-form-item>
-					<span>UID</span>
-					<el-input style="width:150px;" placeholder="请输入内容" v-model="searchUid">
-					</el-input>
-				</el-form-item>
+                    <div class="block">
+                        <span class="registerTime">日期</span>
+                        <el-date-picker v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
+                        </el-date-picker>
+                    </div>
+                </el-form-item>
+                <el-form-item>
+                    <span>UID</span>
+                    <el-input style="width:150px;" placeholder="请输入内容" v-model="searchUid">
+                    </el-input>
+                </el-form-item>
                 <el-form-item style="margin-left: 200px;">
-					<el-button id="handBinding" type="primary" @click="dialogFormVisible = true ">手动绑定代理关系</el-button>
-				</el-form-item>
+                    <el-button id="handBinding" type="primary" @click="dialogFormVisible = true ">手动绑定代理关系</el-button>
+                </el-form-item>
                 <el-form-item class="search-span" style="float:right;">
-					<el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
-				</el-form-item>
-                
-			</el-form>
-		</el-col>
-		<!-- 用户的数据展示列表 -->
-		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="uid"  label="UID"></el-table-column>
-				<el-table-column prop="nickname" label="昵称"></el-table-column>
-				<el-table-column prop="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
-				<el-table-column prop="wx_invite_uid" label="上级UID"></el-table-column>
-				<el-table-column prop="agent_nickname" label="上级昵称"></el-table-column>
-				<el-table-column prop="spread" label="推广用户数量">
+                    <el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
+                </el-form-item>
+
+            </el-form>
+        </el-col>
+        <!-- 用户的数据展示列表 -->
+        <template>
+            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+                <el-table-column prop="uid" label="UID"></el-table-column>
+                <el-table-column prop="nickname" label="昵称"></el-table-column>
+                <el-table-column prop="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
+                <el-table-column prop="wx_invite_uid" label="上级UID"></el-table-column>
+                <el-table-column prop="agent_nickname" label="上级昵称"></el-table-column>
+                <el-table-column prop="spread" label="推广用户数量">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <span>{{scope.row.spread}}</span>
@@ -42,7 +42,7 @@
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="agent_1" label="一级代理数量">
+                <el-table-column prop="agent_1" label="一级代理数量">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <span>{{scope.row.agent_1}}</span>
@@ -50,7 +50,7 @@
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="agent_2" label="二级代理数量">
+                <el-table-column prop="agent_2" label="二级代理数量">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <span>{{scope.row.agent_2}}</span>
@@ -58,9 +58,9 @@
                         </div>
                     </template>
                 </el-table-column>
-			</el-table>
-		</template>
-         <!-- Table -->
+            </el-table>
+        </template>
+        <!-- Table -->
         <el-dialog title="明细列表" :visible.sync="dialogTableVisible" center>
             <el-table :data="detialData">
                 <el-table-column property="addtime" label="注册时间"></el-table-column>
@@ -71,7 +71,7 @@
                 <el-table-column label="操作" width="180px">
                     <template slot-scope="scope">
                         <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
-					</template>
+                    </template>
                 </el-table-column>
             </el-table>
         </el-dialog>
@@ -126,23 +126,29 @@ import store from "../../../vuex/store";
 			getData(type) {
 				var _this = this;
                 let url = '/Agent/getAgentBindQuery';
-                if(this.formOne.startDate==null){
-                    baseConfig.warningTipMsg(this, "请输入日期");
-                    return;
-                }
+                // if(this.formOne.startDate==null){
+                //     baseConfig.warningTipMsg(this, "请输入日期");
+                //     return;
+                // }
+                this.formOne = {
+                    startDate: [new Date()-1*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+                };
 				let param ={
                     date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
 					uid: this.searchUid,
                 }
-                if(param.uid==null){
+                if(param.uid==null || param.uid==""){
                     baseConfig.errorTipMsg(_this,"请输入查询uid");
                     return;
+                }else {
+                    this.formOne = {}
+                    delete param.date_s;
+                    delete param.date_e;
                 }
                 // 请求测试服
 				allget(param, url).then(res => {
                     this.listData = [];
-                    console.log(res.data.data)
                     this.listData.push(res.data.data);
 				}).catch(err => {
 					console.log(err)
@@ -193,7 +199,6 @@ import store from "../../../vuex/store";
             },
             // 取消绑定
             cancel(index, row) {
-                console.log(row.uid);
                 let url = '/Agent/cancelAgentRelation';
                 let param ={
                     agent_uid: this.agent_uid,
@@ -201,7 +206,6 @@ import store from "../../../vuex/store";
                     operate_user: this.operate_user,
                 }
                 allget(param, url).then(res => {
-                    console.log(res)
                     if(res.data.ret){
                         this.getDetailData(this.agentType,this.agent_uid);
                         baseConfig.successTipMsg(this, res.data.msg);
@@ -223,13 +227,13 @@ import store from "../../../vuex/store";
 </script>
 
 <style lang="css" scoped>
-    .search-span{
-        float: right;
-    }
-    #searchBtn{
-        margin-right: 50px;
-    }
-    .bindingTitle{
-        margin-left: 130px;
-    }
+.search-span {
+    float: right;
+}
+#searchBtn {
+    margin-right: 50px;
+}
+.bindingTitle {
+    margin-left: 130px;
+}
 </style>

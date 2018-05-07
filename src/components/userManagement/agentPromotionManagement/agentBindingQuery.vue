@@ -126,23 +126,29 @@ import store from "../../../vuex/store";
 			getData(type) {
 				var _this = this;
                 let url = '/Agent/getAgentBindQuery';
-                if(this.formOne.startDate==null){
-                    baseConfig.warningTipMsg(this, "请输入日期");
-                    return;
-                }
+                // if(this.formOne.startDate==null){
+                //     baseConfig.warningTipMsg(this, "请输入日期");
+                //     return;
+                // }
+                this.formOne = {
+                    startDate: [new Date()-1*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+                };
 				let param ={
                     date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
 					uid: this.searchUid,
                 }
-                if(param.uid==null){
+                if(param.uid==null || param.uid==""){
                     baseConfig.errorTipMsg(_this,"请输入查询uid");
                     return;
+                }else {
+                    this.formOne = {}
+                    delete param.date_s;
+                    delete param.date_e;
                 }
                 // 请求正式服
 				officialAllet(param, url).then(res => {
                     this.listData = [];
-                    console.log(res.data.data)
 					this.listData.push(res.data.data);
 				}).catch(err => {
 					console.log(err)
@@ -193,7 +199,6 @@ import store from "../../../vuex/store";
             },
             // 取消绑定
             cancel(index, row) {
-                console.log(row.uid);
                 let url = '/Agent/cancelAgentRelation';
                 let param ={
                     agent_uid: this.agent_uid,
@@ -201,7 +206,6 @@ import store from "../../../vuex/store";
                     operate_user: this.operate_user,
                 }
                 officialAllet(param, url).then(res => {
-                    console.log(res)
                     if(res.data.ret){
                         this.getDetailData(this.agentType,this.agent_uid);
                         baseConfig.successTipMsg(this, res.data.msg);
