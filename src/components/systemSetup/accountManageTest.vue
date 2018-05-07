@@ -58,7 +58,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="form.dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="form.dialogFormVisible = false,changeAccount()">确 定</el-button>
+                <el-button type="primary" @click="changeAccount()">确 定</el-button>
             </div>
         </el-dialog>
         <el-dialog title="注销账户" :visible.sync="logout.dialogVisible">
@@ -213,9 +213,14 @@ export default {
                 phone: this.form.phone,
                 operate_user: this.operate_user
             };
+            if(!(/^1(3|4|5|7|8)\d{9}$/.test(param.phone))){ 
+                baseConfig.warningTipMsg(this, '手机号码有误，请重填');
+                return false; 
+            } 
             allget(param, url)
                 .then(res => {
                     if (res.data.ret) {
+                            form.dialogFormVisible = false;
                         baseConfig.successTipMsg(this, res.data.msg);
                         this.form.uid = "";
                         this.form.phone = "";
@@ -275,6 +280,10 @@ export default {
             if (param.phone == null || param.phone == "") {
                 baseConfig.warningTipMsg(this, "请输入手机号码！");
                 return;
+            }
+            if(!(/^1(3|4|5|7|8)\d{9}$/.test(param.phone))){ 
+                baseConfig.warningTipMsg(this, '手机号码有误，请重填');
+                return; 
             }
             if (param.is_code == null || param.is_code == "") {
                 baseConfig.warningTipMsg(this, "请选择验证码类型！");

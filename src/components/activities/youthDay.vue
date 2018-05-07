@@ -12,7 +12,7 @@
                 <el-table-column prop="four" label="蛮拼的礼物数" sortable></el-table-column>
                 <el-table-column prop="two" label="佛系青年礼物数" sortable></el-table-column>
                 <el-table-column prop="three" label="上天礼物数" sortable></el-table-column>
-                <el-table-column prop="five" label="五四勋章礼物数" sortable></el-table-column>
+                <el-table-column prop="six" label="五四勋章礼物数" sortable></el-table-column>
             </el-table>
         </template>
     </section>
@@ -62,7 +62,7 @@ export default {
         },
     },
     mounted() {
-        this.tableHeight = searchPageHeight;
+        this.tableHeight = leftNavHeight;
         this.getData();
     }
 };
