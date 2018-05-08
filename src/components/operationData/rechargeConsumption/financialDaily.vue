@@ -129,8 +129,6 @@ export default {
             obj.date_e = baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0);
             obj.channel = this.channelId.join(',');
             obj.date_type = this.searchType;
-            // obj.date_s = "2018-03-19";
-            // obj.date_e = "2018-03-25";
 			return obj;
 		},
 		// 获取数据列表

@@ -25,6 +25,7 @@ import onlineDistribute from '../components/operationData/userAnalysis/onlineDis
 import financialDaily from '../components/operationData/rechargeConsumption/financialDaily.vue';//财务日报
 import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
 import payUserDataList from '../components/operationData/rechargeConsumption/payUserDataList.vue';//付费用户数据
+import vipMemberData from '../components/operationData/rechargeConsumption/vipMemberData.vue';// vip会员数据
 // 1-4通话数据统计
 import callDataSummary from '../components/operationSupport/callLog/CallDataSummary.vue';//通话数据汇总
 import timeMatching from '../components/operationSupport/callLog/timeMatching.vue';//实时详情
@@ -230,7 +231,7 @@ export const asyncRouterMap = [
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '聊币数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '聊票数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                     { path: '/operationData/rechargeConsumption/user', component: user, name: '礼物数据统计', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
-                    { path: '/operationData/rechargeConsumption/user', component: user, name: 'VIP会员充值数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
+                    { path: '/operationData/rechargeConsumption/vipMemberData', component: vipMemberData, name: 'VIP会员充值数据', hidden: false, meta: { role: ['admin', 'testP1'] } },                    
                 ],
             },
             {

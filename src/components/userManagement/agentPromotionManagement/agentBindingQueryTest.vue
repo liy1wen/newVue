@@ -58,6 +58,11 @@
                         </div>
                     </template>
                 </el-table-column>
+                <el-table-column label="操作" width="180px">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
         </template>
         <!-- Table -->
@@ -68,11 +73,11 @@
                 <el-table-column property="username" label="账号"></el-table-column>
                 <el-table-column property="nickname" label="昵称"></el-table-column>
                 <el-table-column property="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
-                <el-table-column label="操作" width="180px">
+                <!-- <el-table-column label="操作" width="180px">
                     <template slot-scope="scope">
                         <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
         </el-dialog>
         <el-dialog title="代理关系绑定" :visible.sync="dialogFormVisible">
@@ -116,7 +121,6 @@ import store from "../../../vuex/store";
                     uid_str: null,
                     uid: null,
                 },
-                agent_uid: null,
                 operate_user: null,
                 agentType: null,
             }
@@ -163,7 +167,6 @@ import store from "../../../vuex/store";
             },
             getDetailData(type, uid) {
                 var _this = this;
-                this.agent_uid = uid;
                 let url = '/Agent/getAgentBindQueryDetailed';
                 let param = {
                     type: type,
@@ -201,7 +204,7 @@ import store from "../../../vuex/store";
             cancel(index, row) {
                 let url = '/Agent/cancelAgentRelation';
                 let param ={
-                    agent_uid: this.agent_uid,
+                    agent_uid: row.wx_invite_uid,
                     uid: row.uid,
                     operate_user: this.operate_user,
                 }

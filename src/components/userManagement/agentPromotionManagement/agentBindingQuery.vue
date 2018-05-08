@@ -1,40 +1,40 @@
 <template>
-    <!-- 代理绑定查询(正) -->
+    <!-- 代理绑定查询 -->
     <!-- dom结构内容 -->
-	<section>
+    <section>
         <!-- 工具条/头部的搜索条件搜索 -->
-		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true">
-				<el-form-item>
-					<div class="block">
-						<span class="registerTime">日期</span>
-						<el-date-picker v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
-						</el-date-picker>
-					</div>
-				</el-form-item>
+        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-form :inline="true">
                 <el-form-item>
-					<span>UID</span>
-					<el-input style="width:150px;" placeholder="请输入内容" v-model="searchUid">
-					</el-input>
-				</el-form-item>
+                    <div class="block">
+                        <span class="registerTime">日期</span>
+                        <el-date-picker v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
+                        </el-date-picker>
+                    </div>
+                </el-form-item>
+                <el-form-item>
+                    <span>UID</span>
+                    <el-input style="width:150px;" placeholder="请输入内容" v-model="searchUid">
+                    </el-input>
+                </el-form-item>
                 <el-form-item style="margin-left: 200px;">
-					<el-button id="handBinding" type="primary" @click="dialogFormVisible = true ">手动绑定代理关系</el-button>
-				</el-form-item>
+                    <el-button id="handBinding" type="primary" @click="dialogFormVisible = true ">手动绑定代理关系</el-button>
+                </el-form-item>
                 <el-form-item class="search-span" style="float:right;">
-					<el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
-				</el-form-item>
-                
-			</el-form>
-		</el-col>
-		<!-- 用户的数据展示列表 -->
-		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="uid"  label="UID"></el-table-column>
-				<el-table-column prop="nickname" label="昵称"></el-table-column>
-				<el-table-column prop="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
-				<el-table-column prop="wx_invite_uid" label="上级UID"></el-table-column>
-				<el-table-column prop="agent_nickname" label="上级昵称"></el-table-column>
-				<el-table-column prop="spread" label="推广用户数量">
+                    <el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
+                </el-form-item>
+
+            </el-form>
+        </el-col>
+        <!-- 用户的数据展示列表 -->
+        <template>
+            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+                <el-table-column prop="uid" label="UID"></el-table-column>
+                <el-table-column prop="nickname" label="昵称"></el-table-column>
+                <el-table-column prop="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
+                <el-table-column prop="wx_invite_uid" label="上级UID"></el-table-column>
+                <el-table-column prop="agent_nickname" label="上级昵称"></el-table-column>
+                <el-table-column prop="spread" label="推广用户数量">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <span>{{scope.row.spread}}</span>
@@ -42,7 +42,7 @@
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="agent_1" label="一级代理数量">
+                <el-table-column prop="agent_1" label="一级代理数量">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <span>{{scope.row.agent_1}}</span>
@@ -50,7 +50,7 @@
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="agent_2" label="二级代理数量">
+                <el-table-column prop="agent_2" label="二级代理数量">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <span>{{scope.row.agent_2}}</span>
@@ -58,9 +58,14 @@
                         </div>
                     </template>
                 </el-table-column>
-			</el-table>
-		</template>
-         <!-- Table -->
+                <el-table-column label="操作" width="180px">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <!-- Table -->
         <el-dialog title="明细列表" :visible.sync="dialogTableVisible" center>
             <el-table :data="detialData">
                 <el-table-column property="addtime" label="注册时间"></el-table-column>
@@ -68,11 +73,11 @@
                 <el-table-column property="username" label="账号"></el-table-column>
                 <el-table-column property="nickname" label="昵称"></el-table-column>
                 <el-table-column property="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
-                <el-table-column label="操作" width="180px">
+                <!-- <el-table-column label="操作" width="180px">
                     <template slot-scope="scope">
                         <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
-					</template>
-                </el-table-column>
+                    </template>
+                </el-table-column> -->
             </el-table>
         </el-dialog>
         <el-dialog title="代理关系绑定" :visible.sync="dialogFormVisible">
@@ -94,9 +99,9 @@
 </template>
 
 <script>
-	import { allget, officialAllet} from '../../../api/api';
+	import { allget, officialAllet } from '../../../api/api';
 	import axios from 'axios';
-import store from "../../../vuex/store";
+    import store from "../../../vuex/store";
     export default {
         data() {
             return {
@@ -116,7 +121,6 @@ import store from "../../../vuex/store";
                     uid_str: null,
                     uid: null,
                 },
-                agent_uid: null,
                 operate_user: null,
                 agentType: null,
             }
@@ -146,10 +150,10 @@ import store from "../../../vuex/store";
                     delete param.date_s;
                     delete param.date_e;
                 }
-                // 请求正式服
+                // 请求测试服
 				officialAllet(param, url).then(res => {
                     this.listData = [];
-					this.listData.push(res.data.data);
+                    this.listData.push(res.data.data);
 				}).catch(err => {
 					console.log(err)
 				})
@@ -163,7 +167,6 @@ import store from "../../../vuex/store";
             },
             getDetailData(type, uid) {
                 var _this = this;
-                this.agent_uid = uid;
                 let url = '/Agent/getAgentBindQueryDetailed';
                 let param = {
                     type: type,
@@ -201,7 +204,7 @@ import store from "../../../vuex/store";
             cancel(index, row) {
                 let url = '/Agent/cancelAgentRelation';
                 let param ={
-                    agent_uid: this.agent_uid,
+                    agent_uid: row.wx_invite_uid,
                     uid: row.uid,
                     operate_user: this.operate_user,
                 }
@@ -227,13 +230,13 @@ import store from "../../../vuex/store";
 </script>
 
 <style lang="css" scoped>
-    .search-span{
-        float: right;
-    }
-    #searchBtn{
-        margin-right: 50px;
-    }
-    .bindingTitle{
-        margin-left: 130px;
-    }
+.search-span {
+    float: right;
+}
+#searchBtn {
+    margin-right: 50px;
+}
+.bindingTitle {
+    margin-left: 130px;
+}
 </style>
