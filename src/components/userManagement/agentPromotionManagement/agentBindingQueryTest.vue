@@ -60,7 +60,6 @@
                 </el-table-column>
                 <el-table-column label="操作" width="180px">
                     <template slot-scope="scope">
-                        {{scope.row.wx_invite_uid}}
                         <el-button size="mini" type="primary" v-if="scope.row.wx_invite_uid!=0" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
                     </template>
                 </el-table-column>
