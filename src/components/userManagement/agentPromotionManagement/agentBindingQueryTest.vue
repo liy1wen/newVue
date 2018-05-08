@@ -60,7 +60,8 @@
                 </el-table-column>
                 <el-table-column label="操作" width="180px">
                     <template slot-scope="scope">
-                        <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
+                        {{scope.row.wx_invite_uid}}
+                        <el-button size="mini" type="primary" v-if="scope.row.wx_invite_uid!=0" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -73,11 +74,6 @@
                 <el-table-column property="username" label="账号"></el-table-column>
                 <el-table-column property="nickname" label="昵称"></el-table-column>
                 <el-table-column property="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
-                <!-- <el-table-column label="操作" width="180px">
-                    <template slot-scope="scope">
-                        <el-button size="mini" type="primary" @click="cancel(scope.$index, scope.row)">取消绑定</el-button>
-                    </template>
-                </el-table-column> -->
             </el-table>
         </el-dialog>
         <el-dialog title="代理关系绑定" :visible.sync="dialogFormVisible">
@@ -99,9 +95,9 @@
 </template>
 
 <script>
-	import { allget } from '../../../api/api';
+	import { allget, officialAllet} from '../../../api/api';
 	import axios from 'axios';
-import store from "../../../vuex/store";
+    import store from "../../../vuex/store";
     export default {
         data() {
             return {
