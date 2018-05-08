@@ -17,9 +17,6 @@
                     <el-input style="width:150px;" placeholder="请输入内容" v-model="searchUid">
                     </el-input>
                 </el-form-item>
-                <!-- <el-form-item style="margin-left: 200px;">
-					<el-button id="handBinding" type="primary" @click="dialogFormVisible = true ">手动绑定代理关系</el-button>
-				</el-form-item> -->
                 <el-form-item class="search-span" style="float:right;">
                     <el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
                 </el-form-item>
@@ -63,7 +60,7 @@
         <el-dialog title="家族详情" :visible.sync="dialogTableVisible" center>
             <div class="family_content">
                 <div class="image_container">
-                    <div class="image_box">
+                    <div class="image_box" v-if="form.family_icon">
                         <div class="avator">头像</div>
                         <div class="picture">
                             <el-popover trigger="hover" placement="left">
@@ -74,7 +71,7 @@
                             </el-popover>
                         </div>
                         <div class="delete">
-                            <el-button type="primary" size="mini">删除</el-button>
+                            <el-button type="primary" size="mini" @click="familyChange(1)">删除</el-button>
                         </div>
                     </div>
                     <div class="image_box" v-if="form.index_background_pic">
@@ -88,7 +85,7 @@
                             </el-popover>
                         </div>
                         <div class="delete">
-                            <el-button type="primary" size="mini">删除</el-button>
+                            <el-button type="primary" @click="familyChange(4)" size="mini">删除</el-button>
                         </div>
                     </div>
                     <div class="image_box" v-if="form.chat_background_pic">
@@ -102,7 +99,7 @@
                             </el-popover>
                         </div>
                         <div class="delete">
-                            <el-button type="primary" size="mini">删除</el-button>
+                            <el-button type="primary" @click="familyChange(5)" size="mini">删除</el-button>
                         </div>
                     </div>
                 </div>
@@ -334,6 +331,68 @@ export default {
                     .then(res => {
                         if (res.data.ret) {
                             baseConfig.successTipMsg(_this, "修改" + res.data.msg);
+                            _this.getData();    
+                        }else{
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }else if(type==1){
+                // 删除家族头像
+                var param = {
+                    family_id: _this.familyId,
+                    type: type,
+                }
+                allget(param, url)
+                    .then(res => {
+                        if (res.data.ret) {
+                            console.log(res.data)
+                            baseConfig.successTipMsg(_this, "删除" + res.data.msg);
+                            _this.dialogTableVisible = false;
+                            _this.getData();    
+                        }else{
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }else if(type==4){
+                // 删除主页背景图
+                var param = {
+                    family_id: _this.familyId,
+                    type: type,
+                }
+                console.log(param)
+                allget(param, url)
+                    .then(res => {
+                        if (res.data.ret) {
+                            console.log(res.data)
+                            baseConfig.successTipMsg(_this, "删除" + res.data.msg);
+                            _this.dialogTableVisible = false;
+                            _this.getData();    
+                        }else{
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }else if(type==5){
+                // 删除背景聊天图
+                var param = {
+                    family_id: _this.familyId,
+                    type: type,
+                }
+                console.log(param)
+                allget(param, url)
+                    .then(res => {
+                        if (res.data.ret) {
+                            console.log(res.data)
+                            baseConfig.successTipMsg(_this, "删除" + res.data.msg);
+                            _this.dialogTableVisible = false;
                             _this.getData();    
                         }else{
                             baseConfig.errorTipMsg(_this, res.data.msg);
