@@ -1,5 +1,5 @@
 <template>
-	<!-- 房间置顶管理 -->
+	<!-- 房间置顶管理（测试服） -->
 	<!-- dom结构内容 -->
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
@@ -169,7 +169,7 @@ export default {
 					}
 				};
 				if(formData.get('family_id')!='') {
-					axios.post('https://manage.dianliaoapp.com/ydlManage/server/index.php'+'/Family/addRoomSortPlan', formData, config)
+					axios.post(baseConfig.server+baseConfig.requestUrl+'/Family/addRoomSortPlan', formData, config)
 					.then((res) => {
 						_this.listLoading = false;	
 						_this.dialogFormVisible = false;					
@@ -199,7 +199,7 @@ export default {
 				// 不进行数据请求,直接关闭掉加载的图层
 				_this.listLoading = false;
 			} else {
-				axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })		
+				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })		
 				.then(res => {
 					// 数据请求成功
 					_this.listLoading = false;
@@ -224,7 +224,7 @@ export default {
 			var params = {
 				id: id,
 			};
-			axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, { params: params })					
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })					
 			.then(res => {
 				if(res.data.ret) {
 					baseConfig.successTipMsg(_this, '取消置顶成功！');

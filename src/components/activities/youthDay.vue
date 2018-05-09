@@ -12,14 +12,14 @@
                 <el-table-column prop="four" label="蛮拼的礼物数" sortable></el-table-column>
                 <el-table-column prop="two" label="佛系青年礼物数" sortable></el-table-column>
                 <el-table-column prop="three" label="上天礼物数" sortable></el-table-column>
-                <el-table-column prop="six" label="五四勋章礼物数" sortable></el-table-column>
+                <el-table-column prop="five" label="五四勋章礼物数" sortable></el-table-column>
             </el-table>
         </template>
     </section>
 </template>
 
 <script>
-import { allget, officialAllet} from "../../api/api.js";
+import { allget } from "../../api/api.js";
 import axios from "axios";
 export default {
     data() {
@@ -40,7 +40,7 @@ export default {
             let url = "/Activity/getFiveFourDataInfo";
             let param = {
             };
-            officialAllet(param, url)
+            allget(param, url)
                 .then(res => {
                     if(res.data.ret){
                         for(var i=0; i<res.data.data.length; i++) {

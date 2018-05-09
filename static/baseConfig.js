@@ -226,7 +226,7 @@ var baseConfig = {
 };
 // console.log(location.href);
 // 进行正式服、测试服区分
-if (location.href.indexOf('https://manage.dianliaoapp.com')=='0') {
+if (location.href.indexOf('http://new-manage.dianliaoapp.com')=='0') {
 	baseConfig.khserver = 'https://app-h.dianliaoapp.com';
 	baseConfig.server = 'https://manage.dianliaoapp.com';
 	baseConfig.wechatShareUrl = 'https://manage.dianliaoapp.com/client/dev/wechat/baseApi/wechatApi.php';

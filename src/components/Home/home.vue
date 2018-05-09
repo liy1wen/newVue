@@ -7,11 +7,12 @@
                 <div class="logo"></div>
             </div>
             <!-- 链接的跳转，几个大类 -->
-            <el-menu-item index="/operationData" :route="{path: '/operationData'}">运营数据</el-menu-item>
+            <!-- <el-menu-item index="/operationData" :route="{path: '/operationData'}">运营数据</el-menu-item>
             <el-menu-item index="/userManagement" :route="{path: '/userManagement'}">用户管理</el-menu-item>
             <el-menu-item index="/operationSupport" :route="{path: '/operationSupport'}">运营支撑</el-menu-item>
             <el-menu-item index="/activities" :route="{path: '/activities'}">活动专区</el-menu-item>
-            <el-menu-item index="/systemSetup" :route="{path: '/systemSetup'}">系统设置</el-menu-item>
+            <el-menu-item index="/systemSetup" :route="{path: '/systemSetup'}">系统设置</el-menu-item> -->
+            <el-menu-item v-for="(item, indexs) in dataView" :key="indexs" :index="item.path" :router="{path: item.path}">{{item.name}}</el-menu-item>
             <!-- 加上uid查询的功能 -->
             <div class="uidFind">
                 <input v-model="uidFind" placeholder="请输入uid进行查询" />
@@ -28,13 +29,6 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
-            <!-- 面包屑dom结构 -->
-            <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
-                <el-breadcrumb-item :to="{ path: '/home'}">首页</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/operationSupportOne/userQuery'}">运营支撑</el-breadcrumb-item>
-                <el-breadcrumb-item>运营支撑一</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/operationSupportOne/userQuery' }">用户查询</el-breadcrumb-item>
-            </el-breadcrumb> -->
         </el-menu>
         <!-- 个人信息展示组件 -->
 		<oneUserContent></oneUserContent>
@@ -57,14 +51,22 @@ import oneUserContent from './../rootGlobal/oneUserContent.vue'; // 个人信息
 import store from '../../vuex/store';
 export default {
      data() {
-      return {
-        sysUserName: '',
-        sysUserAvatar: 'http://imgtu.5011.net/uploads/content/20170410/2880121491810236.jpg',
-        indexPath: '', // 页面刷新时，直接页面路由的跳转，设置默认打开的页面 
-        indexPathArr: ['/operationData', '/operationSupport', '/anchorManager', '/systemManagement', '/systemSetting'], // 设置home上面导航栏的默认路由集合
-        // routes:"",
-        uidFind: '', //uid的查询信息
-      };
+        return {
+            sysUserName: '',
+            sysUserAvatar: 'http://imgtu.5011.net/uploads/content/20170410/2880121491810236.jpg',
+            indexPath: '', // 页面刷新时，直接页面路由的跳转，设置默认打开的页面 
+            indexPathArr: ['/operationData', '/operationSupport', '/anchorManager', '/systemManagement', '/systemSetting'], // 设置home上面导航栏的默认路由集合
+            // routes:"",
+            uidFind: '', //uid的查询信息
+        };
+    },
+    computed: {
+        dataView() {
+            // 拿取store中的路由表的相应内容
+            let thatDdta = store.getters.addRouters;
+            // console.log(store.getters.addRouters);            
+            return store.getters.addRouters;
+        }
     },
     components: {
         oneUserContent,
@@ -91,17 +93,14 @@ export default {
         },
         logout: function () {
             var _this = this;
-            this.$confirm('确认退出吗?', '提示', {
+            _this.$confirm('确认退出吗?', '提示', {
                 //type: 'warning'
             }).then(() => {
-                sessionStorage.removeItem('user');
-                this.$router.push({
-                                path: '/login'
-                            });
+                _this.$router.push({ path: '/login', });
                 //这个不能动
                 location.reload();
-            }).catch(() => {
-
+            }).catch((error) => {
+                console.log(error);
             });
         },
         handleOpen(key, keyPath) {
@@ -132,8 +131,7 @@ export default {
                     baseConfig.normalTipMsg(_this, 'uid输入有误，请输入正确的uid！');
                 }
             }
-            
-        },
+         },
     }
 }
 </script>

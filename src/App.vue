@@ -1,19 +1,12 @@
-
 <template>
-
 	<div id="app" >
-		
 		<transition name="fade" mode="out-in">
 			<router-view></router-view>
 		</transition>
-		
 	</div>
 </template>
-
 <script>
-
 import 'babel-polyfill';
-
 export default {
 	name: 'app',
 	components: {
@@ -40,28 +33,22 @@ export default {
 		    stars = new Stars(ctx, width, height, 200),
 		    meteors = [],
 		    count = 0
-
 		    canvas.width = width;
 		    canvas.height = height;
-
 			const meteorGenerator = ()=> {
 				//x位置偏移，以免经过月亮
 				let x = Math.random() * width + 800
 				meteors.push(new Meteor(ctx, x, height))
-
 				//每隔随机时间，生成新流星
 				setTimeout(()=> {
-					meteorGenerator()
-
+					meteorGenerator();
 				}, Math.random() * 2000)
 			}
-
 			const frame = ()=>{
 				count++
 				count % 10 == 0 && stars.blink()
-				moon.draw()
-				stars.draw()
-
+				moon.draw();
+				stars.draw();
 				meteors.forEach((meteor, index, arr)=> {
 					//如果流星离开视野之内，销毁流星实例，回收内存
 					if (meteor.flow()) {
@@ -69,17 +56,15 @@ export default {
 					} else {
 						arr.splice(index, 1)
 					}
-				})
-				requestAnimationFrame(frame)
+				});
+				requestAnimationFrame(frame);
 			}
-			meteorGenerator()
-			frame()
+			meteorGenerator();
+			frame();
 		}
 	}
 }
-
 </script>
-
 <style lang="css">
 /*#app {
 	background: url(assets/bg1.jpg) center !important;
@@ -108,7 +93,6 @@ body {
 	font-size: 14px;
 	-webkit-font-smoothing: antialiased;
 }
-
 #app {
 	position: absolute;
 	top: 0px;
@@ -116,12 +100,10 @@ body {
 	width: 100%;
 	height: 100%;
 }
-
 .el-submenu [class^=fa] {
 	vertical-align: baseline;
 	margin-right: 10px;
 }
-
 .el-menu-item [class^=fa] {
 	vertical-align: baseline;
 	margin-right: 10px;
