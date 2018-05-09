@@ -97,8 +97,8 @@ const user = {
                             commit('SET_ROLES', arr);
                             commit('SET_USER', res.data.data.user_name);
                             commit('SET_NAME', res.data.data.real_name);
-                            commit('SET_CHANNELID', res.data.data.channelid);
-                            commit('SET_CHANNELNAME', res.data.data.au_channelname);
+                            commit('SET_CHANNELID', res.data.data.channel_id_list);
+                            commit('SET_CHANNELNAME', res.data.data.channel_name_list);
                             commit('SET_TOKEN', '1248jsug1245875');
                             resolve(res);
                         } else {
