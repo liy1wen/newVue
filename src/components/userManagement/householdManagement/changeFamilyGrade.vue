@@ -92,7 +92,7 @@ export default {
                 family_id: this.form.uid,
                 level: this.form.level,
             };
-            officialAllet(param, url)
+            allget(param, url)
                 .then(res => {
                     console.log(res.data)
                     if (res.data.ret) {

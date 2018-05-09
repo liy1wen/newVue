@@ -145,8 +145,8 @@
                     delete param.date_s;
                     delete param.date_e;
                 }
-                // 请求正式服
-				officialAllet(param, url).then(res => {
+                // 请求测试服
+				allget(param, url).then(res => {
                     this.listData = [];
                     this.listData.push(res.data.data);
 				}).catch(err => {
@@ -168,7 +168,7 @@
                     uid: uid
                 }
                 this.agentType = type;
-                officialAllet(param, url).then(res => {
+                allget(param, url).then(res => {
 					this.detialData = res.data.data;
 				}).catch(err => {
 					console.log(err)
@@ -183,7 +183,7 @@
                     uid_str: this.form.uid_str,
                     operate_user: this.operate_user,
                 }
-                officialAllet(param, url).then(res => {
+                allget(param, url).then(res => {
                     if(res.data.ret){
                         baseConfig.successTipMsg(this, res.data.msg);
                         this.form.uid = "";
@@ -203,7 +203,7 @@
                     uid: row.uid,
                     operate_user: this.operate_user,
                 }
-                officialAllet(param, url).then(res => {
+                allget(param, url).then(res => {
                     if(res.data.ret){
                         this.getDetailData(this.agentType,this.agent_uid);
                         baseConfig.successTipMsg(this, res.data.msg);

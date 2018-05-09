@@ -1,7 +1,3 @@
-//test
-// export const getCount = state => {
-//     return state.count
-// }
 const getters = {
     name: state => state.user.name,
     roles: state => state.user.roles,

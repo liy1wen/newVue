@@ -109,7 +109,7 @@
 <script>
 /* 逻辑交互js内容 */
 import Event from './../../public_js/event.js';
-import { allget, officialAllet } from '../../api/api';
+import { allget } from '../../api/api';
 import store from '../../vuex/store';
 import axios from 'axios';
 export default {
@@ -124,8 +124,6 @@ export default {
 				tabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				totalPage: 1000, //下方工具条的总页数 
 				page: 0, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
-				star: '0', //每一页的开始数据
-				end: '20', //每一页的结束数据
 			},
 			formTwo: {
                 choiceDate: [new Date()-180*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
@@ -133,8 +131,6 @@ export default {
 				tabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				totalPage: 1000, //下方工具条的总页数 
 				page: 0, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
-				star: '0', //每一页的开始数据
-				end: '20', //每一页的结束数据
 			},
 			listLoading: false, //动画加载时显示的动画
 			tabActiveName: 'first', // 设置为tab切换栏的选中不同的状态(first、second)
@@ -177,7 +173,7 @@ export default {
 			_this.listLoading = true;
 			var url = '/Activity/getCrowdFundingVipNormalData';
 			var params = _this.searchConditionOne();
-            officialAllet(params, url).then(res => {
+            allget(params, url).then(res => {
                 _this.listLoading = false;
                 if(res.data.ret) {
                     _this.formOne.tabData = res.data.data;
@@ -194,7 +190,7 @@ export default {
 			_this.listLoading = true;
             var url = '/Activity/getCrowdFundingVipSuperData';
             var params = _this.searchConditionTwo();
-			officialAllet(params, url).then(res => { 
+			allget(params, url).then(res => { 
 				_this.listLoading = false;
 				if(res.data.ret) {
 					_this.formTwo.tabData = res.data.data;

@@ -1,5 +1,5 @@
 <template>
-    <!-- 代理绑定操作记录(正式服) -->
+    <!-- 代理绑定操作记录 -->
     <!-- dom结构内容 -->
 	<section>
         <!-- 工具条/头部的搜索条件搜索 -->
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-	import { allget, officialAllet} from '../../../api/api';
+	import { allget } from '../../../api/api';
 	import axios from 'axios';
     export default {
         data() {
@@ -80,9 +80,8 @@
 					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                     date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
                     type: this.searchType,
-                }
-                // 正式服 后台还没上传  可能会报500 不要在意
-				officialAllet(param, url).then(res => {
+				}
+				allget(param, url).then(res => {
 					this.listData = res.data.data;
 				}).catch(err => {
 					console.log(err)

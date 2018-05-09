@@ -63,7 +63,6 @@
 import { allget } from "../../../api/api";
 import axios from "axios";
 import store from "../../../vuex/store";
-import familyBackstageBackstageManageVue from '../../activities/familyBackstageBackstageManage.vue';
 export default {
     data() {
         return {

@@ -70,15 +70,16 @@ export default {
                     inputObj[3].focus();                    
                 } else {
                     let formData = new FormData();
-                    formData.append('userid', _this.formOne.userid);
-                    formData.append('userpwd', en_md(_this.formOne.userpwd));
-                    formData.append('newuserpwd', en_md(_this.formOne.newuserpwd));
+                    formData.append('user_name', _this.formOne.userid);
+                    formData.append('old_pass_word', en_md(_this.formOne.userpwd));
+                    formData.append('new_pass_word', en_md(_this.formOne.newuserpwd));
+                    console.log(formData.get('old_pass_word'));
                     let config = {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     };
-                    axios.post(baseConfig.server+baseConfig.requestUrl+'/loginTpl/modifyPasswd', formData, config)
+                    axios.post(baseConfig.server+baseConfig.requestUrl+'/NewLoginTpl/changePassWord', formData, config)
                     .then((res) => {
                         _this.listLoading = false;	
                         if(res.data.ret) {	
@@ -107,9 +108,10 @@ export default {
 	mounted() {
 		var _this = this;
 		_this.$nextTick(function() {
-			_this.tableHeight = searchPageHeight; // 固定table的自适应的高度
-		})
-	}
+            _this.tableHeight = searchPageHeight; // 固定table的自适应的高度
+            _this.formOne.userid = store.state.user.user;
+		});
+	},
 };
 </script>
 <style lang="css" scoped>
