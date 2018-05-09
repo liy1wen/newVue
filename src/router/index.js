@@ -102,6 +102,7 @@ import tapeSharingData from '../components/operationSupport/recordingLog/tapeSha
 import wonderfulRecord from '../components/operationSupport/recordingLog/wonderfulRecord.vue';//录音精彩内容
 // 3-4、通话日志
 import openCallManage from '../components/operationSupport/callLog/openCallManage.vue';//公开通话管理
+import callDataDetail from '../components/operationSupport/callLog/callDataDetail.vue';//通话记录明细
 // 3-5、财务管理
 import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理
 import presentAuditReviewActivity from '../components/operationSupport/financialManagement/presentAuditReviewActivity.vue';//提现审核管理
@@ -399,7 +400,7 @@ export const asyncRouterMap = [
                 iconCls: 'el-icon-menu',
                 hidden: false,
                 children: [
-                    { path: '/operationSupport/callLog/user', component: user, name: '通话记录明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
+                    { path: '/operationSupport/callLog/callDataDetail', component: callDataDetail, name: '通话记录明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/callLog/openCallManage', component: openCallManage, name: '公开通话管理', hidden: false, meta: { role: ['admin', 'testP1'] } },
                     { path: '/operationSupport/callLog/user', component: user, name: '抢聊通话明细', hidden: false, meta: { role: ['admin', 'testP1'] } },
                 ],

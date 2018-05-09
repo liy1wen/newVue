@@ -13,11 +13,14 @@
 					</div>
 				</el-form-item>
 				<el-form-item style="margin-left: 100px;">
-					<span>性别</span>
-					<el-select style="width: 150px;" v-model="sex">
-						<el-option label="全部" value=""></el-option>
-						<el-option label="男" value="1"></el-option>
-						<el-option label="女" value="2"></el-option>
+					<span>通话类型</span>
+					<el-select style="width: 150px;" v-model="type">
+						<el-option label="全部" value="0"></el-option>
+						<el-option label="随机" value="1"></el-option>
+						<el-option label="好友" value="2"></el-option>
+						<el-option label="网红" value="3"></el-option>
+						<el-option label="抢聊" value="4"></el-option>
+						<el-option label="组组" value="5"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item class="search-span" style="float:right;">
@@ -76,7 +79,7 @@ export default {
             listData: [],
             formLabelWidth: "120px",
             listLoading: false,
-            sex: ""
+            type: ""
         };
     },
     methods: {
@@ -101,12 +104,12 @@ export default {
 		},
 		// 条件参数
 		condition() {
-			console.log(this.sex)
-			if(this.sex !== "" || this.sex !== null){
+			console.log(this.type)
+			if(this.type !== "" || this.type !== null){
 				return {
                 	date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 	date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                	sex: this.sex
+                	type: this.type
             	};
 			}else {
 				return{

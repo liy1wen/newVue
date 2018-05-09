@@ -91,8 +91,8 @@ export default {
             chartLine: null,
             chartLineData: {
                 title: {
-                    text: "男女占比和各vip占比",
-                    subtext: "（搜索日期内)男女人数占比 及 VIP占比",
+                    text: "男女占比和各充值金额占比",
+                    subtext: "男女人数占比 及 各充值金额占比",
                     x: "center"
                 },
                 tooltip: {
@@ -106,12 +106,16 @@ export default {
                     data: [
                         "男",
                         "女",
-                        "白银",
-                        "黄金",
-                        "铂金",
-                        "钻石",
-                        "至尊",
-                        "圣尊",
+                        "10元",
+                        "30元",
+                        "100元",
+                        "200元",
+                        "500元",
+                        "1000元",
+                        "2000元",
+                        "3000元",
+                        "5000元",
+                        "10000元",
                     ]
                 },
                 toolbox: {
@@ -138,7 +142,7 @@ export default {
                 calculable: true,
                 series: [
                     {
-                        name: "男女占比",
+                        name: "男女人次占比",
                         type: "pie",
                         radius: "55%",
                         center: ["25%", "60%"],
@@ -148,17 +152,21 @@ export default {
                         ],
                     },
                     {
-                        name: "vip占比",
+                        name: "各充值金额占比饼状图",
                         type: "pie",
                         radius: "55%",
                         center: ["75%", "60%"],
                         data: [
-                            { value: '', name: "白银" },
-                            { value: '', name: "黄金" },
-                            { value: '', name: "白金" },
-                            { value: '', name: "砖石" },
-                            { value: '', name: "至尊" },
-                            { value: '', name: "圣尊" },
+                            { value: '', name: "10元" },
+                            { value: '', name: "30元" },
+                            { value: '', name: "100元" },
+                            { value: '', name: "200元" },
+                            { value: '', name: "500元" },
+                            { value: '', name: "1000元" },
+                            { value: '', name: "2000元" },
+                            { value: '', name: "3000元" },
+                            { value: '', name: "5000元" },
+                            { value: '', name: "10000元" },
                         ]
                     }
                 ]
@@ -192,25 +200,33 @@ export default {
                         //动态加载表格中的数据 男女比例数据加载
                         for(var i = 0; i<res.data.sex.length; i++){
                             if(res.data.sex[i].sex == 2) {
-                                _this.chartLineData.series[0].data[1].value = res.data.sex[i].num;
+                                _this.chartLineData.series[0].data[1].value = res.data.sex[i].sex_num;
                             }else if(res.data.sex[i].sex == 1) {
-                                _this.chartLineData.series[0].data[0].value = res.data.sex[i].num;
+                                _this.chartLineData.series[0].data[0].value = res.data.sex[i].sex_num;
                             }
                         }
                         //动态加载表格中的数据 会员比例数据加载
-                        for(var i = 0; i<res.data.vip.length; i++) {
-                            if(res.data.vip[i].vip_month == 1) {
-                                _this.chartLineData.series[1].data[0].value = res.data.vip[i].total;// 白银
-                            }else if(res.data.vip[i].vip_month == 3) {
-                                _this.chartLineData.series[1].data[1].value = res.data.vip[i].total;// 黄金
-                            }else if(res.data.vip[i].vip_month == 6) {
-                                _this.chartLineData.series[1].data[2].value = res.data.vip[i].total;// 铂金
-                            }else if(res.data.vip[i].vip_month == 12) {
-                                _this.chartLineData.series[1].data[3].value = res.data.vip[i].total;// 钻石
-                            }else if(res.data.vip[i].vip_month == 13) {
-                                _this.chartLineData.series[1].data[4].value = res.data.vip[i].total;// 至尊
-                            }else if(res.data.vip[i].vip_month == 14) {
-                                _this.chartLineData.series[1].data[5].value = res.data.vip[i].total;// 黄金
+                        for(var i = 0; i<res.data.money.length; i++) {
+                            if(res.data.money[i].total_fee == 10) {
+                                _this.chartLineData.series[1].data[0].value = res.data.money[i].money_num;// 10元
+                            }else if(res.data.money[i].total_fee == 30) {
+                                _this.chartLineData.series[1].data[1].value = res.data.money[i].money_num;// 30元
+                            }else if(res.data.money[i].total_fee == 100) {
+                                _this.chartLineData.series[1].data[2].value = res.data.money[i].money_num;// 100元
+                            }else if(res.data.money[i].total_fee == 200) {
+                                _this.chartLineData.series[1].data[3].value = res.data.money[i].money_num;// 200元
+                            }else if(res.data.money[i].total_fee == 500) {
+                                _this.chartLineData.series[1].data[4].value = res.data.money[i].money_num;// 500元
+                            }else if(res.data.money[i].total_fee == 1000) {
+                                _this.chartLineData.series[1].data[5].value = res.data.money[i].money_num;// 1000元
+                            }else if(res.data.money[i].total_fee == 2000) {
+                                _this.chartLineData.series[1].data[6].value = res.data.money[i].money_num;// 2000元
+                            }else if(res.data.money[i].total_fee == 3000) {
+                                _this.chartLineData.series[1].data[7].value = res.data.money[i].money_num;// 3000元
+                            }else if(res.data.money[i].total_fee == 5000) {
+                                _this.chartLineData.series[1].data[8].value = res.data.money[i].money_num;// 5000元
+                            }else if(res.data.money[i].total_fee == 10000) {
+                                _this.chartLineData.series[1].data[9].value = res.data.money[i].money_num;// 10000元
                             }
                         }
                     } else {
