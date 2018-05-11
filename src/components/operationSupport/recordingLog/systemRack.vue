@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :height="tableHeight">
 				<el-table-column prop="time" label="日期"></el-table-column>
 				<el-table-column prop="complain"  label="被投诉次数"></el-table-column>
 				<el-table-column prop="id" label="录音编码" ></el-table-column>
@@ -47,10 +47,10 @@
 				</el-table-column>
 			</el-table>
 			<!-- 工具条 -->
-			<el-col :span="24" class="toolbar">
+			<!-- <el-col :span="24" class="toolbar">
 				<el-pagination layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="20" :total=1000 :current-page="page+1" style="float:right; ">
 				</el-pagination>
-			</el-col>
+			</el-col> -->
 		</template>
     </section>
 </template>
@@ -70,7 +70,6 @@
 				totalpage:null,
 				formLabelWidth: '100px',
                 listLoading: false,
-               
             }
         },
 		methods: {
@@ -83,13 +82,19 @@
 			// 获取数据
 			getData() {
 				let _this = this;
+				_this.listLoading = true;
 				let url = '/Voice/getVoiceOffData';
 				let param ={
 					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
 				}
 				allget(param, url).then(res => {
-					this.listData = res.data.data;
+					if(res.data.ret){
+						_this.listLoading = false;
+						this.listData = res.data.data;
+					}else{
+						baseConfig.warningTipMsg(_this, res.data.msg);
+					}
 				}).catch(err => {
 					console.log(err)
 				})
@@ -139,7 +144,7 @@
 		},
 		mounted() {
 			var _this = this;
-			_this.tableHeight = searchPageHeight;
+			_this.tableHeight = searchHeight;
 			_this.getData();
 		}
     }

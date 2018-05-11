@@ -87,10 +87,12 @@ export default {
         // 获取数据
         getData() {
             var _this = this;
+            _this.listLoading = true;
 			let param = _this.condition();
             let url = "/Record/getChatOrder";
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if (res.data.ret) {
                             for(var i = 0;i<res.data.data.length;i++){
                                 res.data.data[i].avg = baseConfig.changeTime(res.data.data[i].listen_long/res.data.data[i].listen_success_times);
@@ -118,7 +120,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = pageHeight;
+        _this.tableHeight = searchHeight;
         _this.getData();
     }
 };

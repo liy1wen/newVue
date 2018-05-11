@@ -32,7 +32,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"  style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="uid" label="用户UID"></el-table-column>
 				<el-table-column prop="register_time" label="注册时间"></el-table-column>
 				<el-table-column prop="addtime" label="添加时间"></el-table-column>
@@ -48,7 +48,7 @@
 			</el-table>
 			<!-- 工具条 -->
 			<el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev, pager, next,jumper" :page-size="20" :total=1000 style="float:right; ">
+				<el-pagination layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="20" :total=1000 style="float:right; ">
 				</el-pagination>
 			</el-col>
 		</template>
@@ -74,7 +74,7 @@ export default {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-                startDate: [new Date() - 90 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
+                startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             listData: [],
             formLabelWidth: "120px",
@@ -82,23 +82,37 @@ export default {
             uid: null,
             operate_user: null,
             dialogFormVisible: false,
-            addUid: null
+			addUid: null,
+			listLoading: false,
+			page: 0,
         };
     },
     methods: {
+		handleCurrentChange(val) {
+            //服务器的第一页是0 所以 这里要 -1
+            this.page = val - 1;
+            this.getData();
+        },
         // 获取数据
         getData() {
-            var _this = this;
+			var _this = this;
+			_this.listLoading = true;
             let url = "/Anchor/getAnchorOwnData";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
                 uid: this.uid,
-                operate_user: this.operate_user
+                operate_user: this.operate_user,
+				page: this.page,
             };
             allget(param, url)
                 .then(res => {
-                    this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						this.listData = res.data.data;
+					}else{
+						baseConfig.warningTipMsg(res.data.msg);
+					}
                 })
                 .catch(err => {
                     console.log(err);

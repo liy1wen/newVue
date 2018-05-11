@@ -98,7 +98,7 @@
 <script>
 /* 逻辑交互js内容 */
 import Event from './../../../public_js/event.js';
-import { allget } from '../../../api/api';
+import { allget, officialAllet } from '../../../api/api';
 import store from '../../../vuex/store';
 import axios from 'axios';
 import chartLine from '../../rootGlobal/chartLine.vue'; // 折线图
@@ -108,7 +108,7 @@ export default {
 			tableHeight: null, // table展示的页面的高度多少
 			// 搜索条件的组装字段
 			formOne: {
-				choiceDate: [new Date()-7*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-1*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				channel: [],
 				options: [],
 				sex: '',

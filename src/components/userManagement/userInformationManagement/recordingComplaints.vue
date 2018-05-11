@@ -19,17 +19,17 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="onePageTabData" v-loading="listLoading" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="date" label="日期"></el-table-column>
 				<el-table-column prop="num" label="被投诉次数"></el-table-column>
 				<el-table-column prop="complain_uid" label="投诉人"></el-table-column>
 				<el-table-column prop="reason" label="理由"></el-table-column>
 				<el-table-column prop="voice_id" label="录音编码"></el-table-column>
 				<el-table-column prop="uid" label="录音发布者"></el-table-column>
-				<el-table-column prop="warn_num" label="录音内容">
+				<el-table-column prop="voice_url" width="300" label="录音内容">
                     <template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<audio controls="controls" :src="scope.row.warn_num"></audio>
+							<audio controls="controls" :src="scope.row.voice_url"></audio>
 						</div>
 					</template>
                 </el-table-column>
@@ -41,6 +41,9 @@
 					</template>
 				</el-table-column>
 			</el-table>
+            <el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
 		</template>
 		<el-dialog title="提示" :visible.sync="ignoreDialog" width="30%">
 			<span>确定要忽视吗？</span>
@@ -68,7 +71,7 @@ export default {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-                startDate: [new Date() - 100 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
+                startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             recordStatus: "",
             listData: [],
@@ -80,12 +83,29 @@ export default {
             ignoreId: null,
             deleteDialog: false,
             deleteId: null,
+            page: 1,
+			totalpage: null,
+			star: '0',
+			end: '20',
         };
     },
+	computed: {
+		onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+	},
     methods: {
+		handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+        },
         // 获取数据
         getData() {
             var _this = this;
+            _this.listLoading = true;
             let url = "/NewVoice/getVoiceComplain";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
@@ -93,8 +113,11 @@ export default {
             };
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if(res.data.ret){
                         this.listData = res.data.data;
+                        _this.totalpage = res.data.data.length;
+                        _this.page = 1;
                     }else{
                         baseConfig.errorTipMsg(_this, res.data.msg);
                     }

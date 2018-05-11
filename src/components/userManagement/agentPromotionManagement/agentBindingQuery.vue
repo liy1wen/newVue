@@ -28,7 +28,7 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+            <el-table :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
                 <el-table-column prop="is_agent" :formatter="agentJudeg" label="是否为付费代理"></el-table-column>
@@ -123,7 +123,8 @@
 		methods: {
 			// 获取数据
 			getData(type) {
-				var _this = this;
+                var _this = this;
+                _this.listLoading = true;
                 let url = '/Agent/getAgentBindQuery';
                 // if(this.formOne.startDate==null){
                 //     baseConfig.warningTipMsg(this, "请输入日期");
@@ -147,8 +148,13 @@
                 }
                 // 请求测试服
 				allget(param, url).then(res => {
-                    this.listData = [];
-                    this.listData.push(res.data.data);
+                    _this.listLoading = false;
+                    if(res.data.ret){
+                        this.listData = [];
+                        this.listData.push(res.data.data);
+                    }else{
+                        baseConfig.warningTipMsg(res.data.msg);
+                    }
 				}).catch(err => {
 					console.log(err)
 				})

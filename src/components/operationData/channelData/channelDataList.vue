@@ -26,7 +26,8 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+            <div style="font-size: 30px;">待接口修正</div>
+            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
                 <el-table-column prop="time" label="日期"></el-table-column>
                 <el-table-column prop="annotation" label="渠道名称"></el-table-column>
                 <el-table-column prop="device" label="设备激活"></el-table-column>
@@ -72,30 +73,33 @@ export default {
             listLoading: false,
             channelData: {},
             channelId: null,
+            listLoading: false,
         };
     },
     methods: {
         // 获取数据
         getData() {
             var _this = this;
+            _this.listLoading = true;
             let url = "/Base/comprehensiveDataByChannel";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
                 channel: this.channelId.join(',')
             };
-            allget(param, url)
-                .then(res => {
-                    if (res.data.ret) {
-                        this.listData = res.data.total_data;
-                        this.listData = this.listData.concat(res.data.channel_data);
-                    } else {
-                        baseConfig.errorTipMsg(this, res.data.msg);
-                    }
-                })
-                .catch(err => {
-                    baseConfig.errorTipMsg(this, err.data.msg);
-                });
+            // allget(param, url)
+            //     .then(res => {
+            //         _this.listLoading = false;
+            //         if (res.data.ret) {
+            //             this.listData = res.data.total_data;
+            //             this.listData = this.listData.concat(res.data.channel_data);
+            //         } else {
+            //             baseConfig.errorTipMsg(this, res.data.msg);
+            //         }
+            //     })
+            //     .catch(err => {
+            //         baseConfig.errorTipMsg(this, err.data.msg);
+            //     });
         }
     },
     mounted() {

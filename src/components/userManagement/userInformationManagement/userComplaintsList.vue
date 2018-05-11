@@ -51,7 +51,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
 				<el-table-column prop="id" label="投诉ID"></el-table-column>
 				<el-table-column prop="time" label="投诉时间"></el-table-column>
 				<el-table-column prop="uid" label="投诉人"></el-table-column>
@@ -64,10 +64,10 @@
 				<el-table-column prop="explains" label="详细内容"></el-table-column>
 				<el-table-column prop="evidences" label="图片">
 					<template slot-scope="scope">
-						<el-popover trigger="hover" placement="left">
-							<img :src="scope.row.evidences" alt="" style="width:300px;height:300px;">
+						<el-popover trigger="hover" v-if="changeData(scope.row.evidences)" placement="left">
+							<img :src="changeData(scope.row.evidences)" alt="" style="width:300px;height:500px;">
 							<div slot="reference" class="name-wrapper">
-								<img :src="scope.row.evidences" alt="" style="width:100px;height:100px;">
+								<img :src="changeData(scope.row.evidences)" alt="" style="width:100px;height:100px;">
 							</div>
 						</el-popover>
 					</template>
@@ -91,6 +91,9 @@
 					</template>
 				</el-table-column>
 			</el-table>
+            <el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
 		</template>
 		<el-dialog title="封号" :visible.sync="dialogFormVisible">
 			<el-form :model="form">
@@ -133,7 +136,7 @@ export default {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-                startDate: [new Date() - 100 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
+                startDate: [new Date() - 1 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             recordStatus: "",
             listData: [],
@@ -158,13 +161,43 @@ export default {
                 uid: ""
             },
 			dialogtitle: false,
-			operate_user: null
+			operate_user: null,
+			page: 1,
+			totalpage: null,
+			star: '0',
+			end: '20',
         };
     },
+	computed: {
+		onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+	},
     methods: {
+		handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+        },
+        // 获取图片
+        changeData(val){
+            try{
+                if(val==""){
+                    return "";
+                }else{
+                    return JSON.parse(val)[0];
+                }
+            }
+            catch(err){
+                console.error("后台返回图片格式改了"+err);
+            }
+        },
         // 获取数据
         getData() {
             var _this = this;
+            _this.listLoading = true;
             let url = "/NewUser/getComplain";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
@@ -177,7 +210,10 @@ export default {
             };
             allget(param, url)
                 .then(res => {
-                    this.listData = res.data.data;
+                    _this.listLoading = false;
+                    _this.listData = res.data.data;
+                    _this.totalpage = res.data.data.length;
+                    _this.page = 1;
                 })
                 .catch(err => {
                     console.log(err);

@@ -24,7 +24,7 @@
                 </el-col>
                 <!-- 用户的数据展示列表 -->
                 <template>
-                    <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+                    <el-table :data="onePageTabData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :height="tableHeight">
                         <el-table-column prop="id" label="ID"></el-table-column>
                         <el-table-column prop="time" label="制作时间"></el-table-column>
                         <el-table-column prop="title" label="分享描述"></el-table-column>
@@ -56,9 +56,8 @@
                         </el-table-column>
                     </el-table>
                     <!-- 工具条 -->
-                    <el-col :span="24" class="toolbar">
-                        <el-pagination layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="20" :total=1000 :current-page="page+1" style="float:right; ">
-                        </el-pagination>
+                     <el-col :span="24" class="toolbar">
+                        <el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
                     </el-col>
                 </template>
             </el-tab-pane>
@@ -77,23 +76,33 @@ export default {
             formOne: {
                 startDate: [new Date() - 14 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
-            page: 0,
+            page: 1,
+            totalpage: null,
+            star: '0',
+            end: '20',
             listData: [],
             totalpage: null,
             formLabelWidth: "100px",
             listLoading: false
         };
     },
+    computed: {
+        onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+    },
     methods: {
-        //页面的页数
         handleCurrentChange(val) {
-            //服务器的第一页是0 所以 这里要 -1
-            this.page = val - 1;
-            this.getData();
-        },
+            var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+		},
         // 获取操作记录列表数据
         getData() {
             let _this = this;
+            _this.listLoading = true;
             let url = "/Voice/getVoiceShareCard";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
@@ -101,7 +110,13 @@ export default {
             };
             allget(param, url)
                 .then(res => {
-                    this.listData = res.data.data;
+                    if(res.data.ret){
+                        _this.listLoading = false;
+                        this.listData = res.data.data;
+                        _this.totalpage = res.data.data.length;
+                    }else{
+                        baseConfig.warningTipMsg(_this, res.data.msg);
+                    }                    
                 })
                 .catch(err => {
                     console.log(err);

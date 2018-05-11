@@ -24,7 +24,7 @@
 				</el-form-item>
                 <el-form-item>
 					<span>UID/账号/昵称：</span>
-					<el-input style="width:100px;" placeholder="请输入内容" v-model="uid" clearable>
+					<el-input style="width:120px;" placeholder="请输入内容" v-model="uid" clearable>
                     </el-input>
 				</el-form-item>
 				<el-form-item class="search-span" style="float:right;">
@@ -34,7 +34,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="chat_id" label="通话id"></el-table-column>
 				<el-table-column prop="start_time" label="开始时间"></el-table-column>
 				<el-table-column prop="chat_type" label="通话类型">
@@ -100,6 +100,7 @@ export default {
         // 获取数据
         getData(type) {
             var _this = this;
+            _this.listLoading = true;
 			let param = _this.condition();
             let url = "/Record/getPublicCall";
             this.uid==null||this.uid==""?delete param.uid:param.uid=this.uid;
@@ -109,6 +110,7 @@ export default {
             }
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if (res.data.ret) {
                             for(var i = 0;i<res.data.data.length;i++){
                                 res.data.data[i].avg = baseConfig.changeTime(res.data.data[i].listen_long/res.data.data[i].listen_success_times);

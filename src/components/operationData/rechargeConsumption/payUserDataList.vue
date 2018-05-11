@@ -31,6 +31,7 @@
 		</el-col>
 		<!--用户的数据展示列表-->
 		<template>
+            <div style="font-size: 30px;">接口待定</div>
 			<el-table ref="tableHeight" :data="tabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="time" label="日期" width="90" sortable ></el-table-column>
 				<el-table-column prop="total_fee" label="充值金额" min-width="60"></el-table-column>
@@ -205,32 +206,32 @@ export default {
 				_this.listLoading = false;
 			} else {
 				// 进行get请求，(请求参数params, 请求地址url)
-				allget(params, url).then(res => {
-					// 数据请求成功
-                    _this.listLoading = false;
-					if(res.data.ret) {
-                        _this.tabData = res.data.data;
-                        // 根据获取数据，动态赋值折线图所需的数据
-                        // 赋值前先清空
-                        _this.chartLineData.xAxis[0].data = [];
-                        _this.chartLineData.series[0].data = [];
-                        _this.chartLineData.series[1].data = [];
-                        _this.chartLineData.series[2].data = [];
-                        _this.chartLineData.series[3].data = [];
-                        for(var i = res.data.data.length-1; i >= 0; i--){
-                            _this.chartLineData.xAxis[0].data.push(_this.tabData[i].time); // 横坐标
-                            _this.chartLineData.series[0].data.push(_this.tabData[i].consume_ARPPU); // 付费ARPPU值赋值
-                            _this.chartLineData.series[1].data.push(_this.tabData[i].active_ARPPU); // 活跃ARPU值
-                            _this.chartLineData.series[2].data.push(_this.tabData[i].consume_rate); // 日付费率
-                            _this.chartLineData.series[3].data.push(_this.tabData[i].cumulative_consume_rate); // 累计付费率
-                        }
-					} else {
-						// 返回ret==0，非正常数据
-						baseConfig.errorTipMsg(_this, res.data.msg);
-					}
-				}).catch(function(error){
-					console.log(error);
-				})
+				// allget(params, url).then(res => {
+				// 	// 数据请求成功
+                //     _this.listLoading = false;
+				// 	if(res.data.ret) {
+                //         _this.tabData = res.data.data;
+                //         // 根据获取数据，动态赋值折线图所需的数据
+                //         // 赋值前先清空
+                //         _this.chartLineData.xAxis[0].data = [];
+                //         _this.chartLineData.series[0].data = [];
+                //         _this.chartLineData.series[1].data = [];
+                //         _this.chartLineData.series[2].data = [];
+                //         _this.chartLineData.series[3].data = [];
+                //         for(var i = res.data.data.length-1; i >= 0; i--){
+                //             _this.chartLineData.xAxis[0].data.push(_this.tabData[i].time); // 横坐标
+                //             _this.chartLineData.series[0].data.push(_this.tabData[i].consume_ARPPU); // 付费ARPPU值赋值
+                //             _this.chartLineData.series[1].data.push(_this.tabData[i].active_ARPPU); // 活跃ARPU值
+                //             _this.chartLineData.series[2].data.push(_this.tabData[i].consume_rate); // 日付费率
+                //             _this.chartLineData.series[3].data.push(_this.tabData[i].cumulative_consume_rate); // 累计付费率
+                //         }
+				// 	} else {
+				// 		// 返回ret==0，非正常数据
+				// 		baseConfig.errorTipMsg(_this, res.data.msg);
+				// 	}
+				// }).catch(function(error){
+				// 	console.log(error);
+				// })
 			}
         },
         show() {

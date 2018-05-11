@@ -44,7 +44,7 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+            <el-table :data="onePageTabData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
                 <el-table-column prop="req_time" label="申请时间"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
@@ -61,7 +61,7 @@
                 </el-table-column>
                 <el-table-column prop="identity_card_icon" label="身份证照片">
                     <template slot-scope="scope">
-                        <el-popover trigger="hover" placement="right">
+                        <el-popover trigger="hover" v-if="scope.row.identity_card_icon" placement="right">
                             <img :src="scope.row.identity_card_icon" alt="" style="width:300px;height:400px;">
                             <div slot="reference" class="name-wrapper">
                                 <img :src="scope.row.identity_card_icon" alt="" style="width:100px;height:100px;">
@@ -109,6 +109,9 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
             <!-- 确定通过弹窗 -->
             <el-dialog title="提示" :visible.sync="passDialogVisible" width="30%">
                 <span>确定要通过吗？</span>
@@ -197,80 +200,7 @@ export default {
             formOne: {
                 startDate: [new Date() - 100 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
-            listData: [
-                {
-                    uid: "11181",
-                    aut_icon:
-                        "http://img.dianliaoapp.com/DEBUG/11181/picwall/1515464456345.png",
-                    status: "1",
-                    req_time: "2018-01-09 10:20:56",
-                    identity_card_icon: "http://img.dianliaoapp.com/DEBUG/11181/picwall/1515464456345.png",
-                    identity_card: "456",
-                    name: "cyz",
-                    pay_account: "32145678",
-                    surplus_num: "0",
-                    type: "0",
-                    fail_reason: null,
-                    auth_time: null,
-                    auth_user: null,
-                    nickname: "娇羞的大魔王",
-                    sex: "1"
-                },
-                {
-                    uid: "11181",
-                    aut_icon:
-                        "http://img.dianliaoapp.com/DEBUG/11181/picwall/1515464456345.png",
-                    status: "2",
-                    req_time: "2018-01-09 10:20:56",
-                    identity_card_icon: null,
-                    identity_card: null,
-                    name: null,
-                    pay_account: null,
-                    surplus_num: "0",
-                    type: "0",
-                    fail_reason: null,
-                    auth_time: null,
-                    auth_user: null,
-                    nickname: "娇羞的大魔王",
-                    sex: "1"
-                },
-                {
-                    uid: "11181",
-                    aut_icon:
-                        "http://img.dianliaoapp.com/DEBUG/11181/picwall/1515464456345.png",
-                    status: "3",
-                    req_time: "2018-01-09 10:20:56",
-                    identity_card_icon: null,
-                    identity_card: null,
-                    name: null,
-                    pay_account: null,
-                    surplus_num: "0",
-                    type: "0",
-                    fail_reason: null,
-                    auth_time: null,
-                    auth_user: null,
-                    nickname: "娇羞的大魔王",
-                    sex: "1"
-                },
-                {
-                    uid: "11181",
-                    aut_icon:
-                        "http://img.dianliaoapp.com/DEBUG/11181/picwall/1515464456345.png",
-                    status: "4",
-                    req_time: "2018-01-09 10:20:56",
-                    identity_card_icon: null,
-                    identity_card: null,
-                    name: null,
-                    pay_account: null,
-                    surplus_num: "0",
-                    type: "0",
-                    fail_reason: null,
-                    auth_time: null,
-                    auth_user: null,
-                    nickname: "娇羞的大魔王",
-                    sex: "1"
-                }
-            ],
+            listData: [],
             totalpage: null,
             formLabelWidth: "120px",
             listLoading: false,
@@ -294,18 +224,36 @@ export default {
                 pay_account: null,
                 aut_icon: null,
                 identity_card_icon: null,
+                uid: null,
             },
             clear: {
                 dialogVisible: false,
                 uid: null,
-            }
+            },
+            page: 1,
+            totalpage: null,
+            star: '0',
+            end: '20',
         };
     },
+    computed: {
+        onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+    },
     methods: {
+        handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+		},
         // 获取数据
         getData() {
             var _this = this;
-            let url = "/NewUser/getRealNameRecord";
+            _this.listLoading = true;
+            let url = "/NewUser/getRealName";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
@@ -316,7 +264,9 @@ export default {
             };
             allget(param, url)
                 .then(res => {
-                    // this.listData = res.data.data;
+                    _this.listLoading = false; 
+                    _this.listData = res.data.data;
+                    _this.totalpage = res.data.data.length;
                 })
                 .catch(err => {
                     console.log(err);
@@ -335,6 +285,7 @@ export default {
             this.passUid = row.uid;
         },
         surePass() {
+            var _this = this;
             let url = "/NewUser/passRealName";
             let param = {
                 uid: this.passUid,
@@ -391,6 +342,7 @@ export default {
             this.info.pay_account = row.pay_account;
             this.info.aut_icon = row.aut_icon;
             this.info.identity_card_icon = row.identity_card_icon;
+            this.info.uid = row.uid;
         },
         sureRevamp() {
             var _this = this;
@@ -432,7 +384,7 @@ export default {
                 .then(res => {
                     if (res.data.ret) {
                         baseConfig.successTipMsg(_this, res.data.msg);
-                        _this.info.dialogVisible = false;
+                        _this.clear.dialogVisible = false;
                         _this.getData();
                     } else {
                         baseConfig.errorTipMsg(_this, res.data.msg);
@@ -445,7 +397,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = searchHeight;
+        _this.tableHeight = searchPageHeight;
         _this.getData();
         _this.operate_user = store.state.user.name;
     }

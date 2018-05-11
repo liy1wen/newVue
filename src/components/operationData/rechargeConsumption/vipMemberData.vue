@@ -33,7 +33,7 @@
         </el-col>
         <!--用户的数据展示列表-->
         <template>
-            <el-table ref="tableHeight" :data="tabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+            <el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="date" label="日期/月份" width="90" sortable></el-table-column>
                 <el-table-column prop="total" label="总额" min-width="60"></el-table-column>
                 <el-table-column prop="silver" label="白银会员（40元/月）" min-width="60"></el-table-column>
@@ -47,6 +47,10 @@
             <el-dialog title="占比饼状图" :width="dialogWidth" :visible.sync="dialogVisible" @open="show">
                 <div class="chartLine" style="width: 100%;height: 500px;"></div>
             </el-dialog>
+            <!--翻页-->
+			<el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper"  :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
         </template>
     </section>
 </template>
@@ -54,7 +58,7 @@
 <script>
 /* 逻辑交互js内容 */
 import Event from "./../../../public_js/event.js";
-import { allget } from "../../../api/api";
+import { allget, officialAllet } from "../../../api/api";
 import store from "../../../vuex/store";
 import axios from "axios";
 import echarts from "echarts";
@@ -75,6 +79,10 @@ export default {
             channelData: {},
             channelId: null,
             chartLine: null,
+            page: 1,
+            totalpage: null,
+            star: '0',
+            end: '20',
             chartLineData: {
                 title: {
                     text: "男女占比和各vip占比",
@@ -142,7 +150,7 @@ export default {
                             { value: '', name: "白银" },
                             { value: '', name: "黄金" },
                             { value: '', name: "白金" },
-                            { value: '', name: "砖石" },
+                            { value: '', name: "钻石" },
                             { value: '', name: "至尊" },
                             { value: '', name: "圣尊" },
                         ]
@@ -151,7 +159,19 @@ export default {
             }
         };
     },
+    computed: {
+        onePageTabData() {
+			var _this = this;
+			return _this.tabData.slice(_this.star, _this.end);
+		},
+    },
     methods: {
+        handleCurrentChange(val) {
+            var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+        },
         // 搜索条件
         searchCondition() {
             var _this = this;
@@ -175,6 +195,9 @@ export default {
                     _this.listLoading = false;
                     if (res.data.ret) {
                         _this.tabData = res.data.list;
+                        _this.totalpage = res.data.list.length;
+                        // 这里是手动分页，接口参数没有page，固每次请求数据时可以将page重置
+                        _this.page = 1;
                         //动态加载表格中的数据 男女比例数据加载
                         for(var i = 0; i<res.data.sex.length; i++){
                             if(res.data.sex[i].sex == 2) {
@@ -225,7 +248,7 @@ export default {
     mounted() {
         var _this = this;
         this.$nextTick(function() {
-            _this.tableHeight = searchHeight;
+            _this.tableHeight = searchPageHeight;
             _this.getTableData();
         });
         _this.dialogWidth = lookWidth * 0.8 + "px"; //设置进行dialog的宽度进行设置为屏幕的80%

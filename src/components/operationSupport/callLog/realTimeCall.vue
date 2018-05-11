@@ -30,7 +30,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="time" label="日期"></el-table-column>
 				<el-table-column prop="day_best" label="当天最高峰"></el-table-column>
 				<el-table-column prop="a" label="00:00~00:59"></el-table-column>
@@ -58,17 +58,15 @@
 				<el-table-column prop="w" label="22:00~22:59"></el-table-column>
 				<el-table-column prop="x" label="23:00~23:59"></el-table-column>
 			</el-table>
-			<!-- 工具条 -->
-			<!-- <el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev, pager, next,jumper" :page-size="20" :total=1000 style="float:right; ">
-				</el-pagination>
-			</el-col> -->
+			<el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
 		</template>
 	</section>
 </template>
 
 <script>
-import { allget } from "../../../api/api";
+import { allget, officialAllet } from "../../../api/api";
 export default {
     data() {
         return {
@@ -79,32 +77,49 @@ export default {
             listData: [],
             formLabelWidth: "120px",
             listLoading: false,
-            type: ""
+			type: "",
+			page: 1,
+			totalpage: null,
+			star: '0',
+			end: '20',
         };
-    },
+	},
+	computed: {
+		onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+	},
     methods: {
+		handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+		},
         // 获取数据
         getData() {
-            var _this = this;
+			var _this = this;
+			_this.listLoading = true;
             let url = "/Base/getCallNum";
 			let param = _this.condition();
-			console.log(param)
             allget(param, url)
                 .then(res => {
+					_this.listLoading = false;
                     if (res.data.ret) {
-                        this.listData = res.data.data;
+						this.listData = res.data.data;
+						_this.page = 1;
+						_this.totalpage = res.data.data.length;
                     } else {
                         baseConfig.errorTipMsg(this, res.data.msg);
                     }
                 })
                 .catch(err => {
                     console.log(err);
-                    baseConfig.errorTipMsg(this, "error");
                 });
 		},
 		// 条件参数
 		condition() {
-			console.log(this.type)
 			if(this.type !== "" || this.type !== null){
 				return {
                 	date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
@@ -121,7 +136,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = pageHeight;
+        _this.tableHeight = searchPageHeight;
         _this.getData();
     }
 };

@@ -44,7 +44,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="onePageTabData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
 				<el-table-column prop="req_time" label="申请时间"></el-table-column>
 				<el-table-column prop="uid" label="UID"></el-table-column>
 				<el-table-column prop="nickname" label="昵称"></el-table-column>
@@ -61,7 +61,7 @@
                 </el-table-column>
 				<el-table-column prop="identity_card_icon" label="身份证照片">
                     <template slot-scope="scope">
-						<el-popover trigger="hover" placement="right">
+						<el-popover trigger="hover" v-if="scope.row.identity_card_icon" placement="right">
 							<img :src="scope.row.identity_card_icon" alt="" style="width:300px;height:400px;">
 							<div slot="reference" class="name-wrapper">
 								<img :src="scope.row.identity_card_icon" alt="" style="width:100px;height:100px;">
@@ -84,6 +84,10 @@
 				<el-table-column prop="auth_time" label="审核时间"></el-table-column>
 				<el-table-column prop="auth_user" label="审核人"></el-table-column>
 			</el-table>
+            <!--翻页-->
+			<el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
 		</template>
 	</section>
 </template>
@@ -105,13 +109,30 @@ export default {
             identity_card: null,
             status: null,
             find: null,
+            page: 1,
+            totalpage: null,
+            star: '0',
+            end: '20',
         };
     },
+    computed: {
+        onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+    },
     methods: {
+        handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+		},
         // 获取数据
         getData() {
-            var _this = this;
-            let url = "/NewUser/getRealName";
+			var _this = this;
+			_this.listLoading = true;
+            let url = "/NewUser/getRealNameRecord";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
@@ -122,7 +143,13 @@ export default {
             };
             allget(param, url)
                 .then(res => {
-                    this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						_this.listData = res.data.data;
+						_this.totalpage = res.data.data.length;
+					}else{
+						baseConfig.successTipMsg(_this, res.data.msg);
+					}
                 })
                 .catch(err => {
                     console.log(err);
@@ -138,7 +165,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = searchHeight;
+        _this.tableHeight = searchPageHeight;
         _this.getData();
     },
 };

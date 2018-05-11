@@ -26,7 +26,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
                 <template>
-                    <el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+                    <el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"  style="width: 100%;" :height="tableHeight">
                         <el-table-column prop="date" label="日期"></el-table-column>
                         <el-table-column prop="uid" label="UID"></el-table-column>
                         <el-table-column prop="username" label="账号"></el-table-column>
@@ -93,7 +93,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
                 <template>
-                    <el-table ref="tableHeight" :data="listData1" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+                    <el-table ref="tableHeight" :data="listData1" border fit highlight-current-row v-loading="listLoading1" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"  style="width: 100%;" :height="tableHeight">
                         <el-table-column prop="date" label="日期"></el-table-column>
                         <el-table-column prop="uid" label="UID"></el-table-column>
                         <el-table-column prop="username" label="账号"></el-table-column>
@@ -175,6 +175,7 @@ export default {
             listData: [],
             listData1: [],
             listLoading: false,
+            listLoading1: false,
             tableHeight: null,
             activeName: "first",
             formOne: {
@@ -208,6 +209,7 @@ export default {
         },
         getTbData(type) {
             var _this = this;
+            _this.listLoading = true;
             let url = "/Agent/getAgentDataList";
             if(type==0){
                 this.page = 0;
@@ -221,6 +223,7 @@ export default {
             };
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if (res.data.ret) {
                         this.listData = res.data.data;
                     } else {
@@ -233,6 +236,7 @@ export default {
         },
         getTbData1(type) {
             var _this = this;
+            _this.listLoading1 = true;
             if(type==0){
                 this.page = 0;
             }
@@ -249,6 +253,7 @@ export default {
                 : (param.uid1 = this.uid1);
             allget(param, url)
                 .then(res => {
+                    _this.listLoading1 = false;
                     if (res.data.ret) {
                         this.listData1 = res.data.data;
                     } else {
@@ -258,19 +263,6 @@ export default {
                 .catch(err => {
                     baseConfig.errorTipMsg(this, res.data.msg);
                 });
-
-            // 正式服测试数据
-            // url = 'https://manage.dianliaoapp.com/ydlManage/server/index.php/Agent/getAgentDataList?date_s=2018-04-08&date_e=2018-04-10&type=1&page=0';
-            // axios.get(url,param).then(res=>{
-            //     if (res.data.ret) {
-            //         this.listData1 = res.data.data;
-            //     } else {
-            //         baseConfig.errorTipMsg(this, res.data.msg);
-            //     }
-            // }).catch(err=>{
-            //     baseConfig.errorTipMsg(this, res.data.msg);
-            // })
-
         },
         // 获取明细列表  type为代理用户类型 ( 1一级 2二级 3三级 4已转付费代理 5推广用户)
         getDetailData(type, uid, date) {

@@ -35,13 +35,13 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+            <el-table :data="onePageTabData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
                 <el-table-column prop="time" label="封禁时间"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
                 <el-table-column prop="channel" label="渠道"></el-table-column>
                 <el-table-column prop="day" label="封号时长"></el-table-column>
-                <el-table-column prop="free_time" label="解封时间"></el-table-column>
+                <!-- <el-table-column prop="free_time" label="解封时间"></el-table-column> -->
                 <el-table-column prop="reason" label="原因"></el-table-column>
                 <el-table-column prop="operate_user" label="操作人"></el-table-column>
                 <el-table-column label="操作" min-width="120">
@@ -55,6 +55,9 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
         </template>
         <el-dialog title="封号" :visible.sync="dialogFormVisible">
             <el-form :model="reasonform">
@@ -86,7 +89,7 @@ export default {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-                startDate: [new Date() - 100 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
+                startDate: [new Date() - 1 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             listData: [],
             formLabelWidth: "120px",
@@ -104,13 +107,38 @@ export default {
                 value:""
             },
             nicknameObj: [],
+            page: 1,
+			totalpage: null,
+			star: '0',
+			end: '20',
         };
     },
+	computed: {
+		onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+	},
     methods: {
+		handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+        },
         // 获取数据
         getData() {
             var _this = this;
+            _this.listLoading = true;
             let url = "/NewUser/kickHistory";
+            // 强制设置时间限制
+            var timeInterval = this.formOne.startDate[1]-this.formOne.startDate[0];
+            var timeFixed = 14*24*60*60*1000;
+            if(timeInterval > timeFixed){
+                baseConfig.warningTipMsg(_this, "服务器表示压力很大，请把时间设置在15天以内");
+                _this.listLoading = false;
+                return;
+            }
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
@@ -121,13 +149,18 @@ export default {
             };
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if(res.data.ret){
                         this.listData = res.data.data;
+                        _this.totalpage = res.data.data.length;
+                        _this.page = 1;
                         for(var i = 0;i < res.data.data.length; i++){
                             var timeObj = {}; 
                             timeObj.value = res.data.data[i].nickname;
                             _this.nicknameObj.push(timeObj);
                         }
+                    }else{
+                        baseConfig.errorTipMsg(_this, err.data.msg);
                     }
                 })
                 .catch(err => {
@@ -184,7 +217,7 @@ export default {
         },
     },
     mounted() {
-        this.tableHeight = searchHeight;
+        this.tableHeight = searchPageHeight;
         var id = store.state.user.channelid.split(",");
         var name = store.state.user.channelname.split(",");
         for (var i = 0; i < id.length; i++) {

@@ -26,7 +26,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
 				<template>
-					<el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+					<el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"  style="width: 100%;" :height="tableHeight">
 						<el-table-column type="index" label="排名" center></el-table-column>
 						<el-table-column prop="uid" label="UID"></el-table-column>
 						<el-table-column prop="phone"  label="账号"></el-table-column>
@@ -68,7 +68,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
 				<template>
-					<el-table ref="tableHeight" :data="listData1" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+					<el-table ref="tableHeight" :data="listData1" border fit highlight-current-row v-loading="listLoading1" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"  style="width: 100%;" :height="tableHeight">
 						<el-table-column type="index" label="排名"></el-table-column>
 						<el-table-column prop="uid" label="UID"></el-table-column>
 						<el-table-column prop="username"  label="账号"></el-table-column>
@@ -95,6 +95,7 @@ export default {
             listData: [],
             listData1: [],
             listLoading: false,
+            listLoading1: false,
             tableHeight: null,
             activeName: "first",
             formOne: {
@@ -128,6 +129,7 @@ export default {
                 this.page = 0;
             }
             var _this = this;
+            _this.listLoading = true;
             let url = '/Agent/getAgentRankList';
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate1[0], 0),
@@ -137,10 +139,11 @@ export default {
                 type: 1,// 付费代理排行
             }
             allget(param, url).then(res => {
+                _this.listLoading = false;
                 if(res.data.ret){
                     this.listData = res.data.data;
                 }else{
-                    baseConfig.errorTipMsg(this, res.data.msg);
+                    baseConfig.warningTipMsg(this, res.data.msg);
                 }
             }).catch(err => {
                 console.log(err)
@@ -151,6 +154,7 @@ export default {
                 this.page1 = 0;
             }
             var _this = this;
+            _this.listLoading1 = true;
             let url = '/Agent/getAgentRankList';
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
@@ -161,6 +165,7 @@ export default {
             }
             this.uid1==null||this.uid1==""?delete param.uid1:param.uid1=this.uid1;
             allget(param, url).then(res => {
+                _this.listLoading1 = false;
                 if(res.data.ret){
                     this.listData1 = res.data.data;
                 }else{

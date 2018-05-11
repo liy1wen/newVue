@@ -29,7 +29,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;"  :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :height="tableHeight">
 				<el-table-column prop="date" label="日期"></el-table-column>
 				<el-table-column prop="uid"  label="用户UID"></el-table-column>
 				<el-table-column prop="nickname" label="昵称"></el-table-column>
@@ -47,7 +47,7 @@
 			</el-table>
 			<!-- 工具条 -->
 			<el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev, pager, next,jumper" :page-size="20" :total=1000  style="float:right; ">
+				<el-pagination layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="20" :total=1000  style="float:right; ">
 				</el-pagination>
 			</el-col>
 		</template>
@@ -67,21 +67,34 @@
 				formLabelWidth: '120px',
                 listLoading: false,
                 uid: null,
-                operate_user: null,
+				operate_user: null,
+				page: 0,
             }
         },
 		methods: {
+			//页面的页数
+			handleCurrentChange(val) {
+				this.page = val - 1;
+				this.getData();
+			},
 			// 获取数据
 			getData() {
 				var _this = this;
+				_this.listLoading = true;
 				let url = '/Anchor/getDayAnchorActionData';
 				let param ={
 					date: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                     uid: this.uid,
-                    operate_user: this.operate_user,
+					operate_user: this.operate_user,
+					page: this.page,
 				}
 				allget(param, url).then(res => {
-					this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						this.listData = res.data.data;
+					}else{
+						baseConfig.warningTipMsg(_this, res.data.msg);
+					}
 				}).catch(err => {
 					console.log(err)
 				})

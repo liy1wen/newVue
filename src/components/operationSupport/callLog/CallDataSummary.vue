@@ -31,7 +31,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="time" label="日期"></el-table-column>
 				<el-table-column prop="totalrandcall" label="随机通话次数"></el-table-column>
 				<el-table-column prop="totalrandtime" label="随机通话时间"></el-table-column>
@@ -49,11 +49,9 @@
 				<el-table-column prop="totaltime" label="总的时间"></el-table-column>
 				<el-table-column prop="totalmoney" label="总的消费"></el-table-column>
 			</el-table>
-			<!-- 工具条 -->
-			<!-- <el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev, pager, next,jumper" :page-size="20" :total=1000 style="float:right; ">
-				</el-pagination>
-			</el-col> -->
+			<el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
 		</template>
 	</section>
 </template>
@@ -71,17 +69,35 @@ export default {
             listData: [],
             formLabelWidth: "120px",
             listLoading: false,
-            searchType: "1"
+			searchType: "1",
+			page: 1,
+			totalpage: null,
+			star: '0',
+			end: '20',
         };
-    },
+	},
+	computed: {
+		onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+	},
     methods: {
+		handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+		},
         // 获取数据
         getData() {
-            var _this = this;
+			var _this = this;
+			_this.listLoading = true;
             let url = "/Record/getCallData";
             let param = _this.condition();
             allget(param, url)
                 .then(res => {
+					_this.listLoading = false;
                     if (res.data.ret) {
                         // 对数据进行处理 时间转换为天 时 分
                         for (var i = 0; i < res.data.data.length; i++) {
@@ -101,7 +117,8 @@ export default {
                                 res.data.data[i].totallistentime
                             );
                         }
-                        this.listData = res.data.data;
+						this.listData = res.data.data;
+						this.totalpage = res.data.data.length;
                     } else {
                         baseConfig.errorTipMsg(this, res.data.msg);
                     }
@@ -138,7 +155,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = pageHeight;
+        _this.tableHeight = searchPageHeight;
         _this.getData();
     }
 };

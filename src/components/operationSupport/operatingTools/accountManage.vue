@@ -13,7 +13,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="操作类型" :label-width="formLabelWidth">
-                    <el-select v-model="searchType" placeholder="请选择性别">
+                    <el-select v-model="searchType" placeholder="请选择操作类型" style="width:150px;">
                         <el-option label="全部" value=""></el-option>
                         <el-option label="注销" value="1"></el-option>
                         <el-option label="修改" value="2"></el-option>
@@ -23,7 +23,7 @@
                 <el-form-item class="search-span">
                     <el-button id="searchBtn" type="primary" @click="getData(1)">查询</el-button>
                 </el-form-item>
-                <el-form-item style="margin-left: 200px;">
+                <el-form-item>
                     <el-button id="handBinding" type="primary" @click="form.dialogFormVisible = true ">修改账号</el-button>
                     <el-button id="handBinding" type="primary" @click="logout.dialogVisible = true ">注销账号</el-button>
                     <el-button id="handBinding" type="primary" @click="register.dialogVisible = true ">注册账号</el-button>
@@ -33,7 +33,7 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
                 <el-table-column prop="operate_time" label="操作时间"></el-table-column>
                 <el-table-column prop="type" :formatter="agentCode" label="操作类型"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
@@ -162,6 +162,7 @@ export default {
         // 获取数据
         getData(type) {
             var _this = this;
+            _this.listLoading = true;
             let url = "/NewUser/getAccountChangeRecord";
             if (this.formOne.startDate == null) {
                 baseConfig.warningTipMsg(this, "请输入日期");
@@ -176,10 +177,14 @@ export default {
                 page: this.page,
                 type: this.searchType
             };
-            // 请求测试服
             allget(param, url)
                 .then(res => {
-                    this.listData = res.data.data;
+                    _this.listLoading = false;
+                    if(res.date.ret){
+                        _this.listData = res.data.data;
+                    }else{
+                        baseConfig.warningTipMsg(_this, res.data.msg);
+                    }
                 })
                 .catch(err => {
                     console.log(err);

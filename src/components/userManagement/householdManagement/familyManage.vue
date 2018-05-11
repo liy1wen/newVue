@@ -25,7 +25,7 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+            <el-table :data="listData" v-loading="listLoading" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="create_time" label="创建时间"></el-table-column>
                 <el-table-column prop="family_id" label="家族ID"></el-table-column>
                 <el-table-column prop="family_name" label="家族名称"></el-table-column>
@@ -55,6 +55,11 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!-- 工具条 -->
+            <el-col :span="24" class="toolbar">
+                <el-pagination layout="total,prev, pager, next,jumper" :page-size="20"  @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
+                </el-pagination>
+            </el-col>
         </template>
         <!-- Table -->
         <el-dialog title="家族详情" :visible.sync="dialogTableVisible" center>
@@ -163,7 +168,7 @@
 </template>
 
 <script>
-import { allget, officialAllet } from "../../../api/api";
+import { allget } from "../../../api/api";
 import axios from "axios";
 export default {
     data() {
@@ -173,6 +178,7 @@ export default {
                 startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             page: 0,
+            totalpage: 1000,
             listData: [],
             formLabelWidth: "120px",
             listLoading: false,
@@ -192,9 +198,16 @@ export default {
         };
     },
     methods: {
+        //页面的页数
+        handleCurrentChange(val) {
+            //服务器的第一页是0 所以 这里要 -1
+            this.page = val-1;
+            this.getData();
+        },
         // 获取数据
         getData(type) {
             var _this = this;
+            _this.listLoading = true;
             let url = "/Family/getFamilyData";
             if (this.formOne.startDate == null) {
                 baseConfig.warningTipMsg(this, "请输入日期");
@@ -207,9 +220,11 @@ export default {
             };
             allget(param, url)
                 .then(res => {
-                    console.log(res);
+                    _this.listLoading = false;
                     if (res.data.ret) {
                         this.listData = res.data.data;
+                    }else{
+                        baseConfig.successTipMsg(_this, res.data.msg);
                     }
                 })
                 .catch(err => {
@@ -242,6 +257,8 @@ export default {
                 .then(res => {
                     if (res.data.ret) {
                         _this.form = res.data.data[0];
+                    }else{
+                        baseConfig.successTipMsg(_this, res.data.msg);
                     }
                 })
                 .catch(err => {
@@ -260,6 +277,8 @@ export default {
                 .then(res => {
                     if (res.data.ret) {
                         _this.familyListData = res.data.data;
+                    }else{
+                        baseConfig.successTipMsg(_this, res.data.msg);
                     }
                 })
                 .catch(err => {
@@ -416,7 +435,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = searchHeight;
+        _this.tableHeight = searchPageHeight;
         this.getData();
     }
 };

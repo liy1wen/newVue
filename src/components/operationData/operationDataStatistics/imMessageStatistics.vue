@@ -27,7 +27,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
 				<template>
-					<el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+					<el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="uid" label="uid"></el-table-column>
 						<el-table-column prop="nickname" label="昵称"></el-table-column>
 						<el-table-column prop="sex" :formatter="judgeSex" label="性别"></el-table-column>
@@ -37,6 +37,9 @@
 						<el-table-column prop="reply_people" label="自己二次回复"></el-table-column>
 						<el-table-column prop="add_pond_time" label="入池时间"></el-table-column>
 					</el-table>
+                    <el-col :span="24" class="toolbar">
+                        <el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :current-page="page" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+                    </el-col>
 				</template>
             </el-tab-pane>
             <el-tab-pane label="打招呼数据详情" name="second">
@@ -62,7 +65,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
 				<template>
-					<el-table ref="tableHeight" :data="listData1" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+					<el-table ref="tableHeight" :data="onePageTabData1" border fit highlight-current-row v-loading="listLoading1" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="date" label="日期"></el-table-column>
 						<el-table-column prop="uid" label="uid"></el-table-column>
 						<el-table-column prop="match_num" label="匹配人数"></el-table-column>
@@ -70,6 +73,9 @@
 						<el-table-column prop="new_reply_num" label="对方回复"></el-table-column>
 						<el-table-column prop="reply_num" label="自己二次回应人数"></el-table-column>
 					</el-table>
+                    <el-col :span="24" class="toolbar">
+                        <el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange1" :current-page="page1" :page-size="20" :total="totalpage1" style="float:right;"></el-pagination>
+                    </el-col>
 				</template>
             </el-tab-pane>
         </el-tabs>
@@ -88,23 +94,58 @@ export default {
             listLoading: false,
             tableHeight: null,
             activeName: "first",
+			page: 1,
+			totalpage: null,
+			star: '0',
+            end: '20',
+            page1: 1,
+			totalpage1: null,
+			star1: '0',
+			end1: '20',
             formOne: {
-				startDate: [new Date() - 30 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
             },
+            listLoading: false,
+            listLoading1: false,
         };
     },
+	computed: {
+		onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+		onePageTabData1() {
+			var _this = this;
+			return _this.listData1.slice(_this.star1, _this.end1);
+		},
+	},
     methods: {
+		handleCurrentChange(val) {
+			var _this = this;
+            _this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+        },
+		handleCurrentChange1(val) {
+			var _this = this;
+			_this.page1 = val;
+			_this.star1 = (_this.page1-1)*20;
+			_this.end1 = _this.star1+20;
+		},
         getTbData() {
             var _this = this;
+            _this.listLoading = true;
             let url = '/User/sayHelloData';
             let param = {
                 sex: this.sex,
                 uid: this.uid,
             }
             allget(param, url).then(res => {
-                console.log(res)
+                _this.listLoading = false;
                 if(res.data.ret){
-                    this.listData = res.data.data;
+                    _this.listData = res.data.data;
+                    _this.totalpage = res.data.data.length;
+                    _this.page = 1;
                 }else{
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
@@ -114,6 +155,7 @@ export default {
         },
         getTbData1(){
             var _this = this;
+            _this.listLoading1 = true;
             let url = '/User/sayHelloInfo';
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
@@ -122,9 +164,11 @@ export default {
             }
             this.uid1==null||this.uid1==""?delete param.uid1:param.uid1=this.uid1;
             allget(param, url).then(res => {
-                console.log(res)
+                _this.listLoading1 = false;
                 if(res.data.ret){
                     this.listData1 = res.data.data;
+                    _this.totalpage1 = res.data.data.length;
+                    _this.page1 = 1;
                 }else{
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
@@ -138,7 +182,7 @@ export default {
         }
     },
     mounted() {
-        this.tableHeight = tabSearchHeight;
+        this.tableHeight = tabSearchPageHeight;
         this.getTbData();        
         this.getTbData1();        
     }

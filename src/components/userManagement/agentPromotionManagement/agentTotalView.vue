@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :height="tableHeight">
 				<el-table-column prop="date" label="日期"></el-table-column>
 				<el-table-column prop="normal_agent"  label="普通代理数量"></el-table-column>
 				<el-table-column prop="agent_join_num" label="付费代理数量"></el-table-column>
@@ -62,13 +62,13 @@
 		methods: {
 			//页面的页数
 			handleCurrentChange(val) {
-				//服务器的第一页是0 所以 这里要 -1
 				this.page = val-1;
 				this.getData();
 			},
 			// 获取数据
 			getData(type) {
 				var _this = this;
+				_this.listLoading = true;
 				if(type==0){
 					_this.page = 0;
 				}
@@ -79,7 +79,12 @@
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
 				}
 				allget(param, url).then(res => {
-					this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						this.listData = res.data.data;
+					}else{
+						baseConfig.warningTipMsg(_this, res.data.msg);
+					}
 				}).catch(err => {
 					console.log(err)
 				})

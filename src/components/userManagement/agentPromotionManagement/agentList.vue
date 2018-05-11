@@ -27,7 +27,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"  border fit highlight-current-row style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="operate_time" label="操作日期"></el-table-column>
 				<el-table-column prop="uid"  label="UID"></el-table-column>
 				<el-table-column prop="change_uid_list" label="被操作的uid"></el-table-column>
@@ -71,6 +71,7 @@
 			// 获取数据
 			getData(type) {
 				var _this = this;
+				_this.listLoading = true;
 				if(type==0){
 					_this.page = 0;
 				}
@@ -82,7 +83,12 @@
                     type: this.searchType,
 				}
 				allget(param, url).then(res => {
-					this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						this.listData = res.data.data;
+					}else{
+						baseConfig.warningTipMsg(_this, res.data.msg);
+					}
 				}).catch(err => {
 					console.log(err)
 				})

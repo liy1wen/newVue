@@ -11,7 +11,7 @@
 						<el-date-picker v-model="formOne.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
 					</div>
 				</el-form-item>
-                <el-form-item style="margin-left: 100px;">
+                <el-form-item>
 					<span>展示类型</span>
 					<el-select style="width: 150px;" v-model="searchType">
 						<el-option label="按日查询" value="1"></el-option>
@@ -33,7 +33,7 @@
 		</el-col>
 		<!--用户的数据展示列表-->
 		<template>
-			<el-table ref="tableHeight" :data="tabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+			<el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="day" label="日期/月份" width="90" sortable ></el-table-column>
 				<el-table-column prop="total" label="充值总额" min-width="60"></el-table-column>
 				<el-table-column prop="chat_gold" label="聊币充值金额" min-width="60"></el-table-column>
@@ -46,6 +46,10 @@
 			<el-dialog title="折线图" :width="dialogWidth"  :visible.sync="dialogVisible" @open="show">
                 <div class="chartLine"  style="width: 100%;height: 600px;"></div>
             </el-dialog>
+            <!--翻页-->
+			<el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
 		</template>
 	</section>
 </template>
@@ -53,7 +57,7 @@
 <script>
 /* 逻辑交互js内容 */
 import Event from './../../../public_js/event.js';
-import { allget } from '../../../api/api';
+import { allget, officialAllet } from '../../../api/api';
 import store from '../../../vuex/store';
 import axios from 'axios';
 import echarts from 'echarts';
@@ -71,6 +75,10 @@ export default {
 			formLabelWidth: '120px', // 设置dialog弹框的宽度
             dialogVisible: false,
             dialogWidth: null,
+            page: 1,
+            totalpage: null,
+            star: '0',
+            end: '20',
             channelData: {},
             channelId: null,
             chartLine: null,
@@ -119,8 +127,20 @@ export default {
                 ]
             },
 		};
-	},
+    },
+    computed: {
+        onePageTabData() {
+			var _this = this;
+			return _this.tabData.slice(_this.star, _this.end);
+		},
+    },
 	methods: {
+        handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+		},
 		// 搜索条件
 		searchCondition() {
 			var _this = this;
@@ -147,7 +167,6 @@ export default {
 					// 数据请求成功
                     _this.listLoading = false;
 					if(res.data.ret) {
-                        console.log(res.data.total)
                         res.data.total.day = "总计";
                         res.data.data.unshift(res.data.total);
                         // 清除小数点
@@ -160,7 +179,7 @@ export default {
                             res.data.data[i].enchashment = (+res.data.data[i].enchashment).toFixed(0);
                         }
                          _this.tabData = res.data.data;
-                        
+                        _this.totalpage = res.data.data.length;
                         // 根据获取数据，动态赋值折线图所需的数据
                         // 赋值前先清空
                         _this.chartLineData.xAxis[0].data = [];

@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;"  :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"  style="width: 100%;"  :height="tableHeight">
 				<el-table-column prop="date" label="日期"></el-table-column>
 				<el-table-column prop="new_anchor"  label="新增主播数"></el-table-column>
 				<el-table-column prop="total_anchor" label="累积主播数"></el-table-column>
@@ -31,10 +31,10 @@
 				<el-table-column prop="eavesdrop_chat_ticket" label="被偷听聊票"></el-table-column>
 			</el-table>
 			<!-- 工具条 -->
-			<el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev, pager, next,jumper" :page-size="20" :total=1000  style="float:right; ">
-				</el-pagination>
-			</el-col>
+				<!-- <el-col :span="24" class="toolbar">
+					<el-pagination layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="20" :total=1000  style="float:right; ">
+					</el-pagination>
+				</el-col> -->
 		</template>
     </section>
 </template>
@@ -51,19 +51,31 @@
 				listData: [],
 				formLabelWidth: '120px',
 				listLoading: false,
+				page: 0,
             }
         },
 		methods: {
+			handleCurrentChange(val) {
+				this.page = val - 1;
+				this.getData();
+			},
 			// 获取数据
 			getData() {
 				var _this = this;
+				_this.listLoading = true;
 				let url = '/Anchor/getAnchorDayTotalData';
 				let param ={
 					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
+					page: this.page,
 				}
 				allget(param, url).then(res => {
-					this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						this.listData = res.data.data;
+					}else{
+						baseConfig.warningTipMsg(_this,res.data.msg);
+					}
 				}).catch(err => {
 					console.log(err)
 				})
@@ -71,7 +83,7 @@
 		},
 		mounted() {
 			var _this = this;
-			_this.tableHeight = searchPageHeight;
+			_this.tableHeight = searchHeight;
 			_this.getData();
 		},
     }

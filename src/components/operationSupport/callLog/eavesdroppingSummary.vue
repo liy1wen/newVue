@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
 				<el-table-column prop="date" label="日期"></el-table-column>
 				<el-table-column prop="listen_times" label="偷听发起次数"></el-table-column>
 				<el-table-column prop="woman_listen_times" label="女方偷听发起次数"></el-table-column>
@@ -67,7 +67,7 @@ export default {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-				startDate: [new Date() - 2 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
             },
             listData: [],
             formLabelWidth: "120px",
@@ -78,10 +78,12 @@ export default {
         // 获取数据
         getData() {
             var _this = this;
+            _this.listLoading = true;
 			let param = _this.condition();
             let url = "/Record/getListenData";
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if (res.data.ret) {
                             for(var i = 0;i<res.data.data.length;i++){
                                 res.data.data[i].avg = baseConfig.changeTime(res.data.data[i].listen_long/res.data.data[i].listen_success_times);
@@ -109,7 +111,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = pageHeight;
+        _this.tableHeight = searchHeight;
         _this.getData();
     }
 };

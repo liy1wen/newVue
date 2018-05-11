@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="onePageTabData" border v-loading="listLoading" fit highlight-current-row style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="time" label="日期"></el-table-column>
 				<el-table-column prop="totalrandcallaa" label="AA通话次数"></el-table-column>
 				<el-table-column prop="totalnumaa" label="AA通话人数"></el-table-column>
@@ -99,42 +99,64 @@
                     </template>
                 </el-table-column>
 			</el-table>
+            <el-col :span="24" class="toolbar">
+				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+			</el-col>
 		</template>
 	</section>
 </template>
 
 <script>
-import { allget } from "../../../api/api";
-import axios from 'axios';
+import { allget, officialAllet } from "../../../api/api";
 
 export default {
     data() {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-				startDate: [new Date() - 2 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				startDate: [new Date() - 6 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
             },
             listData: [],
             formLabelWidth: "120px",
             listLoading: false,
+			page: 1,
+			totalpage: null,
+			star: '0',
+			end: '20',
         };
     },
+	computed: {
+		onePageTabData() {
+			var _this = this;
+			return _this.listData.slice(_this.star, _this.end);
+		},
+	},
     methods: {
+		handleCurrentChange(val) {
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
+		},
         // 获取数据
         getData() {
             var _this = this;
+            _this.listLoading = true;
 			let param = _this.condition();
             let url = "/Record/getRandCallData";
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if (res.data.ret) {
                         this.listData = res.data.data;
+						_this.page = 1;
+						_this.totalpage = res.data.data.length;
                     } else {
                         baseConfig.errorTipMsg(this, res.data.msg);
                     }
                 })
                 .catch(err => {
-                    baseConfig.errorTipMsg(this, "error");
+                    console.log(err);
                 });
 		},
 		// 条件参数
@@ -156,7 +178,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = pageHeight;
+        _this.tableHeight = searchPageHeight;
         _this.getData();
     }
 };

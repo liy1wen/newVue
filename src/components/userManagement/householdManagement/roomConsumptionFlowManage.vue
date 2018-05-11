@@ -31,7 +31,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
                 <template>
-                    <el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+                    <el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
                         <el-table-column prop="date" label="开启时间"></el-table-column>
                         <el-table-column prop="room_id" label="房间ID"></el-table-column>
                         <el-table-column prop="room_name" label="房间名称"></el-table-column>
@@ -77,7 +77,7 @@
                 </el-col>
                 <!--用户的数据展示列表-->
                 <template>
-                    <el-table ref="tableHeight" :data="listData1" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+                    <el-table ref="tableHeight" :data="listData1" border fit highlight-current-row v-loading="listLoading1" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
                         <el-table-column prop="date" label="月份"></el-table-column>
                         <el-table-column prop="room_id" label="房间ID"></el-table-column>
                         <el-table-column prop="room_name" label="房间名称"></el-table-column>
@@ -107,10 +107,11 @@ export default {
             listData: [],
             listData1: [],
             listLoading: false,
+            listLoading1: false,
             tableHeight: null,
             activeName: "first",
             formOne: {
-                startDate: [new Date() - 30 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+                startDate: [new Date() - 13 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
                 startDate1: [new Date() - 13 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             totalpage: null,
@@ -139,6 +140,7 @@ export default {
         },
         getTbData(type) {
             var _this = this;
+            _this.listLoading = true;
             let url = "/Family/getLiveBroadCastMoneyRecord";
             if(type==0){
                 this.page = 0;
@@ -153,6 +155,7 @@ export default {
             };
             allget(param, url)
                 .then(res => {
+                    _this.listLoading = false;
                     if (res.data.ret) {
                         this.listData = res.data.data;
                     } else {
@@ -165,6 +168,7 @@ export default {
         },
         getTbData1(type) {
             var _this = this;
+            _this.listLoading1 = true;
             if(type==0){
                 this.page = 0;
             }
@@ -182,6 +186,7 @@ export default {
                 : (param.uid1 = this.uid1);
             allget(param, url)
                 .then(res => {
+                    _this.listLoading1 = false;
                     if (res.data.ret) {
                         this.listData1 = res.data.data;
                     } else {

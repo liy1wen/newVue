@@ -19,7 +19,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="date" label="时间"></el-table-column>
 				<el-table-column prop="click_people"  label="录播人数"></el-table-column>
 				<el-table-column prop="new_people" label="成功发布录音人数" ></el-table-column>
@@ -70,13 +70,19 @@
 			// 获取数据
 			getData() {
 				var _this = this;
+				this.listLoading = true;
 				let url = '/Voice/getVoiceDayData';
 				let param ={
 					date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
 					date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
 				}
 				allget(param, url).then(res => {
-					this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						this.listData = res.data.data;
+					}else{
+						baseConfig.errorTipMsg(this, res.data.msg);
+					}
 				}).catch(err => {
 					console.log(err)
 				})

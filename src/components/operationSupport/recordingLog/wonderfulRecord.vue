@@ -26,7 +26,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+			<el-table :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="recommend_time" label="推荐时间" width="180"></el-table-column>
 				<el-table-column prop="id"  label="录音编码" width="100"></el-table-column>
 				<el-table-column label="录音音频" width="300">
@@ -93,6 +93,7 @@
 			// 获取数据
 			getData() {
 				var _this = this;
+				_this.listLoading = true;
 				let url = '/Voice/getHotVoiceList';
 				let param ={
 					page: this.page,
@@ -101,10 +102,15 @@
 					is_up_list: this.recordStatus,
 					price: this.recordStyle,
 					uid: this.uid,
-					id: this.audio_uid
+					id: this.audio_uid,
 				}
 				allget(param, url).then(res => {
-					this.listData = res.data.data;
+					_this.listLoading = false;
+					if(res.data.ret){
+						this.listData = res.data.data;
+					}else{
+						baseConfig.warningTipMsg(_this, res.data.msg);
+					}
 				}).catch(err => {
 					console.log(err)
 				})
