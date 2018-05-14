@@ -302,7 +302,6 @@ export default {
             } else {
                 delete param.code;
             }
-
             allget(param, url)
                 .then(res => {
                     if (res.data.ret) {
