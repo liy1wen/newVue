@@ -1,5 +1,5 @@
 <template>
-    <!-- 提现审核页面(二级) -->
+    <!-- 提现审核页面(一级 罗总) -->
     <section>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="formOne">
@@ -10,12 +10,25 @@
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <div class="block">
-                        <el-input placeholder="查询条件" v-model="formOne.find"></el-input>                        
-                    </div>
-                </el-form-item>
+					<span>uid</span>
+					<el-input style="width:100px;"  clearable placeholder="请输入uid" v-model="formOne.find">
+					</el-input>
+				</el-form-item>
+                <el-form-item>
+					<span>最大金额</span>
+					<el-input style="width:150px;" clearable placeholder="请输入金额" v-model="formOne.max_num">
+					</el-input>
+				</el-form-item>
+                <el-form-item>
+					<span>最小金额</span>
+					<el-input style="width:150px;" clearable placeholder="请输入金额" v-model="formOne.min_num">
+					</el-input>
+				</el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="getTableData">查询</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button style="margin-left:150px;" type="success" @click="onePass">一键提现</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -86,7 +99,7 @@
 						<el-input disabled v-model="addDialog.addtime" auto-complete="off"></el-input>
 					</el-form-item>
                     <el-form-item label="累计通话时长" :label-width="formLabelWidth">
-						<el-input disabled v-model="addDialog.accumulate_time" auto-complete="off"></el-input>
+						<el-input disabled v-model="addDialog.accumulate_time" auto-complete="off" ></el-input>
 					</el-form-item>
                     <el-form-item label="累计通话收益" :label-width="formLabelWidth">
 						<el-input disabled v-model="addDialog.call_ticket" auto-complete="off"></el-input>
@@ -137,6 +150,8 @@ export default {
             formOne: {
                 choiceDate: [new Date()-3*24*60*60*1000,new Date()],                
                 find: '',
+                min_num: '',
+                max_num: '',
                 tabData: [],
                 totalPage: null,
                 page: 0,
@@ -166,6 +181,12 @@ export default {
                 operation_name: '',
                 reason: '',
             },
+            Alipay: {
+                pay_account: '',
+                name: '',
+                id: '',
+                amount: '',
+            },
             listLoading: false,
             formLabelWidth: '120px',
         }
@@ -194,7 +215,7 @@ export default {
         getTableData() {
             var _this = this;
             _this.listLoading = true;
-            var url = '/NewMoney/getMoneyOutCheckFirst';
+            var url = '/NewMoney/getMoneyOutCheck';
             var params = _this.searchConditionOne();
             allget(params, url)
             .then(res => {
@@ -213,11 +234,13 @@ export default {
         Auditing(index, rows) { // 审核详情按钮
             var _this = this;
             index = index + (_this.formOne.page)*20; 
+            _this.Alipay.pay_account = rows[index].pay_account;
+            _this.Alipay.name = rows[index].name;
+            _this.Alipay.id = rows[index].id;
             var id = rows[index].id; 	
             var url = "/Money/getMoneyOutInfo";
             var params = {
                 id: id,
-                type: 1, // 传1就行
             };
             _this.addDialog.dialogShow = true;
             _this.addDialog.id = id;
@@ -228,6 +251,7 @@ export default {
                 _this.listLoading = false;                
                 if(res.data.ret) {
                     _this.addDialog.num = ((res.data.num-0)/100)+'元';
+                    _this.Alipay.amount = res.data.num;
                     _this.addDialog.uid = res.data.uid;
                     _this.addDialog.nickname = res.data.nickname;
                     if(res.data.aut_status==0 || res.data.aut_status==1 || res.data.aut_status==2 || res.data.aut_status==3) {
@@ -251,7 +275,6 @@ export default {
                     _this.addDialog.total_pay_money = ((res.data.total_pay_money-0)/100)+'元';
                     _this.addDialog.history_cash_times = res.data.history_cash_times;
                     _this.addDialog.history_cash_money = ((res.data.history_cash_money-0)/100)+'元';
-                    _this.addDialog.reason = '';
                 } else {
                     baseConfig.errorTipMsg(_this, res.data.msg);
                 }
@@ -270,6 +293,10 @@ export default {
                         'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
                     }
                 };
+                if(_this.addDialog.reason == "" || _this.addDialog.reason == null){
+                    baseConfig.warningTipMsg(_this, '请输入拒绝理由！');
+                    return;
+                }
                 formData.append('id', _this.addDialog.id);
                 formData.append('order_id', _this.addDialog.order_id);
                 formData.append('uid', _this.addDialog.uid);
@@ -297,17 +324,17 @@ export default {
                         'Content-Type': 'multipart/form-data'  //之前说的以表单传数据的格式来传递fromdata
                     }
                 };
-                formData.append('order_id', _this.addDialog.order_id);
-                formData.append('operation_name', _this.addDialog.operation_name);
-                axios.post(baseConfig.server+baseConfig.requestUrl+'/Money/getMoneyOutPassFirst', formData, config)
+                formData.append('out_biz_no', _this.addDialog.order_id);
+                formData.append('payee_account', _this.Alipay.pay_account);
+                formData.append('amount', _this.Alipay.amount/100);
+                formData.append('payee_real_name', _this.Alipay.name);
+                axios.post(baseConfig.server+baseConfig.requestUrl+'/Alipay/alipay_to_account', formData, config)
                 .then((res) => {
-                    if(res.data.ret) {
-                        baseConfig.successTipMsg(_this, '已成功通过！');
-                        _this.getTableData();
-                        _this.addDialog.dialogShow = false;
-                        _this.listLoading = false;  
+                    if(res.data.code == 10000) {
+                        outPass();
                     } else {
-                        baseConfig.errorTipMsg(_this, res.data.msg);
+                        baseConfig.errorTipMsg(_this, res.data.sub_msg);
+                        _this.listLoading = false;
                     }
                 })
                 .catch((error) => {
@@ -315,6 +342,64 @@ export default {
                 })
             }
         },
+        // 打款完成后通过
+        outPass() {
+            var _this = this;
+            var url = '/Money/getMoneyOutPass';
+            var params = {
+                order_id: _this.addDialog.order_id,
+                uid: _this.addDialog.uid,
+                id: _this.Alipay.id,
+                operation_name: _this.addDialog.operation_name,
+            }
+            allget(params, url)
+            .then(res => {
+                if(res.data.ret) {
+                    baseConfig.successTipMsg(_this, '已成功通过！');
+                    _this.getTableData();
+                    _this.addDialog.dialogShow = false;
+                    _this.listLoading = false; 
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch(function(error) {
+                baseConfig.errorTipMsg(_this, error);
+            })
+        },
+        // 一键通过
+        onePass() {
+            var _this = this;
+            var url = 'NewMoney/makeAllMoneyOutPass';
+            var params = {
+                date_s : baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0),
+                date_e : baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0),
+                find : _this.formOne.find,
+                min_num: _this.formOne.min_num*100,
+                max_num: _this.formOne.max_num*100,
+                operation_name: _this.addDialog.operation_name,
+            }
+            if(params.find == ""){
+                delete params.find;
+            }
+            if(params.min_num == ""){
+                delete params.min_num;
+            }
+            if(params.max_num == ""){
+                delete params.max_num;
+            }
+            allget(params, url)
+            .then(res => {
+                if(res.data.ret) {
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch(function(error) {
+                baseConfig.errorTipMsg(_this, error);
+            })
+        }
     },
     mounted() {
         var _this = this;

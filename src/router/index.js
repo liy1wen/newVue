@@ -105,7 +105,8 @@ import wonderfulRecord from '../components/operationSupport/recordingLog/wonderf
 import openCallManage from '../components/operationSupport/callLog/openCallManage.vue';//公开通话管理
 import callDataDetail from '../components/operationSupport/callLog/callDataDetail.vue';//通话记录明细
 // 3-5、财务管理
-import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理
+import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理（二级）
+import presentAuditReviewFirst from '../components/operationSupport/financialManagement/presentAuditReviewFirst.vue';//提现审核管理（一级）
 import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理
 import applicationMonyMg from '../components/operationSupport/financialManagement/applicationMonyMg.vue';//货币申请及记录
 // 运营支撑end
@@ -392,7 +393,8 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] },
                 children: [
-                    { path: '/operationSupport/financialManagement/presentAuditReview', component: presentAuditReview, name: '提现审核管理', hidden: false, meta: { role: ['T1', 'P1', 'O1'] } },
+                    { path: '/operationSupport/financialManagement/presentAuditReviewFirst', component: presentAuditReviewFirst, name: '提现审核管理(二次审核)', hidden: false, meta: { role: ['T1', 'P1', 'O1'] } },
+                    { path: '/operationSupport/financialManagement/presentAuditReview', component: presentAuditReview, name: '提现审核管理(运营)', hidden: false, meta: { role: ['T1', 'P1', 'O1'] } },
                     { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord', component: monetaryMembershipApplicationAndRecord, name: '货币、会员申请', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/financialManagement/applicationMonyMg', component: applicationMonyMg, name: '货币、会员申请审核', hidden: false, meta: { role: ['T1', 'P1'] } },
                 ],
@@ -410,7 +412,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/operatingTools/sendSystemNotification', component: sendSystemNotification, name: '发送系统通知', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/operatingTools/marqueeManagement', component: marqueeManagement, name: '跑马灯管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/operatingTools/activityNotificationManagement', component: activityNotificationManagement, name: '活动通知管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
-                    // { path: '/operationSupport/operatingTools/startPageManagement', component: startPageManagement, name: '启动页管理(开发中)', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    // { path: '/operationSupport/operatingTools/startPageManagement', component: startPageManagement, name: '启动页管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/operatingTools/sendMessageNotifications', component: sendMessageNotifications, name: '发送手机短信', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/operatingTools/adRestrictionParameters', component: adRestrictionParameters, name: '广告限制次数', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/operatingTools/accountManage', component: accountManage, name: '账号修改，注册', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    

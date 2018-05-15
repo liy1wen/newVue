@@ -126,7 +126,7 @@ export default {
         return {
             tableHeight: null,
             formOne: {
-                choiceDate: [new Date()-365*24*60*60*1000,new Date()],                
+                choiceDate: [new Date()-2*24*60*60*1000,new Date()],                
                 type: '0',
                 find: '',
                 tabData: [],
