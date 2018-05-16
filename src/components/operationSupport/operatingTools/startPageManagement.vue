@@ -51,7 +51,7 @@
                 <el-table-column prop="operation_name" label="操作" width="200">
                     <template slot-scope="scope">
                         <div v-if="scope.row.is_show == 0">
-                            <el-button type="primary" @click="cacelOneUserData(scope.$index, tabData)" size="small">编辑</el-button>
+                            <el-button type="primary" @click="editUserData(scope.$index, scope.row)" size="small">编辑</el-button>
                             <el-button type="primary" @click="setLine(scope.$index, scope.row, 1)" size="small">上线</el-button>
                             <el-button type="danger" @click="deleteData(scope.$index, scope.row)" size="small">删除</el-button>
                         </div>
@@ -63,14 +63,14 @@
                 </el-table-column>
             </el-table>
             <!-- 新加启动页 -->
-            <el-dialog title="启动页" :visible.sync="dialogShow">
+            <el-dialog title="新加启动页" :visible.sync="dialogShow">
                 <el-form :model="formData">
 
                     <el-form-item label="启动页名称" :label-width="formLabelWidth">
                         <el-input v-model="formData.title"></el-input>
                     </el-form-item>
                     <el-form-item label="图片上传" :label-width="formLabelWidth">
-                        <input class="filepic fileinput" @change="uploading($event, 1)" type="file">
+                        <input class="filepic fileinput" @change="uploading($event, 0)" type="file">
                         <img :src="formData.pic" style="width: 100px; height: auto;" />
                     </el-form-item>
                     <el-form-item label="目标系统" :label-width="formLabelWidth">
@@ -116,6 +116,60 @@
                     <el-button type="primary" @click.native.prevent="addPageSure(1)">确 定</el-button>
                 </div>
             </el-dialog>
+            <!-- 编辑启动页 -->
+            <el-dialog title="编辑启动页" :visible.sync="editData.dialogShow">
+                <el-form :model="editData">
+
+                    <el-form-item label="启动页名称" :label-width="formLabelWidth">
+                        <el-input v-model="editData.title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="图片上传" :label-width="formLabelWidth">
+                        <input class="filepic fileinput" @change="uploading($event, 1)" type="file">
+                        <img :src="editData.pic" style="width: 100px; height: auto;" />
+                    </el-form-item>
+                    <el-form-item label="目标系统" :label-width="formLabelWidth">
+                        <el-select v-model="editData.item">
+                            <el-option label="安卓" value="1"></el-option>
+                            <el-option label="ios" value="0"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="最高版本号" :label-width="formLabelWidth">
+                        <el-input v-model="editData.version_max" placeholder="请输入最高版本号" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="最低版本号" :label-width="formLabelWidth">
+                        <el-input v-model="editData.version_min" placeholder="请输入最低版本号" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="跳转类型" :label-width="formLabelWidth">
+                        <el-select v-model="editData.type">
+                            <el-option label="不跳转" value="0"></el-option>
+                            <el-option label="H5跳转" value="2"></el-option>
+                            <el-option label="应用内" value="1"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="H5链接" :label-width="formLabelWidth">
+                        <el-input v-model="editData.jump_url" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="排序ID" :label-width="formLabelWidth">
+                        <el-input v-model="editData.sort" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="上下线" :label-width="formLabelWidth">
+                        <el-select v-model="editData.is_show">
+                            <el-option label="上线" value="1"></el-option>
+                            <el-option label="下线" value="0"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="倒计时长（秒）" :label-width="formLabelWidth">
+                        <el-input v-model="editData.show_long_time" placeholder="请输入展示时长" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="页面跳转参数" :label-width="formLabelWidth">
+                        <el-input v-model="editData.page_param" placeholder="请输入跳转参数" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="sureEdit(0)">取 消</el-button>
+                    <el-button type="primary" @click.native.prevent="sureEdit(1)">确 定</el-button>
+                </div>
+            </el-dialog>
             <!-- 工具条 -->
             <el-col :span="24" class="toolbar">
                 <el-pagination layout="total,prev, pager, next,jumper" :page-size="20" @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
@@ -151,6 +205,22 @@ export default {
             dialogShow: false,
             formData: {
                 title: "",
+                file_pic: "",
+                pic: "",
+                item: "",
+                version_min: "",
+                version_max: "",
+                type: "",
+                jump_url: "",
+                sort: "",
+                is_show: "",
+                show_long_time: "",
+                page_param: ""
+            },
+            editData: {
+                dialogShow: false,
+                title: "",
+                file_pic: "",
                 pic: "",
                 item: "",
                 version_min: "",
@@ -239,7 +309,7 @@ export default {
                     console.log(error);
                 });
         },
-        // 上线
+        // 上下线
         setLine(index, rows, type) {
             var _this = this;
             var url = "/GlobalSet/upDownStartPage";
@@ -280,22 +350,24 @@ export default {
                     console.log(err);
                 });
         },
-        // 得到上传文件type(0->新增banner，1->编辑banner)
+        // 得到上传文件
         uploading(event, type) {
             var _this = this;
-            if (type == 0) {
-                _this.formData.pic = event.target.files[0]; //获取文件
+            if(type == 0){
                 var windowURL = window.URL || window.webkitURL; //创建图片文件的url
                 _this.formData.pic = windowURL.createObjectURL(
                     event.target.files[0]
                 );
-            } else if (type == 1) {
-                _this.formData.pic = event.target.files[0]; //获取文件
+                _this.formData.file_pic = event.target.files[0]; //获取文件
+            }else if(type ==1){
                 var windowURL = window.URL || window.webkitURL; //创建图片文件的url
-                _this.formData.pic = windowURL.createObjectURL(
+                _this.editData.pic = windowURL.createObjectURL(
                     event.target.files[0]
                 );
+                _this.editData.file_pic = event.target.files[0]; //获取文件
             }
+                console.log(event.target.files[0])
+                
         },
         // 添加启动页
         addPageSure(type) {
@@ -304,34 +376,133 @@ export default {
             if (type == 0) {
                 this.dialogShow = false;
             } else if (type == 1) {
-                var param = {
-                    title: this.formData.title,
-                    pic: this.formData.pic,
-                    item: this.formData.item,
-                    version_min: this.formData.version_min,
-                    version_max: this.formData.version_max,
-                    type: this.formData.type,
-                    jump_url: this.formData.jump_url,
-                    sort: this.formData.sort,
-                    is_show: this.formData.is_show,
-                    show_long_time: this.formData.show_long_time,
-                    page_param: this.formData.page_param
-                };
-                var url = "GlobalSet/addStartPage";
-                console.log(param)
-                allget(param, url)
-                    .then(res => {
-                        if (res.data.ret) {
-                            baseConfig.successTipMsg(_this, res.data.msg);
-                            _this.dialogShow = false;
-                            _this.getTableData();
-                        } else {
-                            baseConfig.errorTipMsg(_this, res.data.msg);
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                let formData = new FormData();
+				formData.append('title', _this.formData.title);
+				formData.append('jump_url', _this.formData.jump_url);
+				formData.append('type', _this.formData.type);
+				formData.append('sort', _this.formData.sort);
+				formData.append('is_show', _this.formData.is_show);
+				formData.append('item', _this.formData.item);
+				formData.append('version_min', _this.formData.version_min);
+				formData.append('version_max', _this.formData.version_max);
+				formData.append('show_long_time', _this.formData.show_long_time);
+				formData.append('page_param', _this.formData.page_param);
+				formData.append('pic', _this.formData.file_pic);
+				let config = {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+                };	
+                axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/addStartPage', formData, config)
+                .then(res =>{
+                    if(res.data.ret){
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                        _this.dialogShow = false;
+                        _this.getTableData();
+                        //完成后清空数据
+                        _this.formData.title = "";
+                        _this.formData.jump_url = "";
+                        _this.formData.type = "";
+                        _this.formData.sort = "";
+                        _this.formData.is_show = "";
+                        _this.formData.item = "";
+                        _this.formData.version_min = "";
+                        _this.formData.version_max = "";
+                        _this.formData.show_long_time = "";
+                        _this.formData.page_param = "";
+                    }else{
+                        baseConfig.warningTipMsg(_this, res.data.msg);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
+            }
+        },
+        // 编辑
+        editUserData(index, row){
+            this.editData.id = row.id;
+            this.editData.title = row.title;
+            this.editData.file_pic = row.image_url;
+            this.editData.pic = row.image_url;
+            this.editData.item = row.item;
+            this.editData.version_min = row.version_min;
+            this.editData.version_max = row.version_max;
+            this.editData.type = row.type;
+            this.editData.jump_url = row.jump_url;
+            this.editData.sort = row.sort;
+            this.editData.is_show = row.is_show;
+            this.editData.show_long_time = row.show_long_time;
+            this.editData.page_param = row.page_param;
+            this.editData.dialogShow = true;
+
+        },
+        sureEdit(type) {
+            var _this = this;
+            if(type == 0){
+                _this.editData.dialogShow = false;
+            }else if( type ==1){
+                let formData = new FormData();
+				formData.append('id', _this.editData.id);
+				formData.append('title', _this.editData.title);
+				formData.append('jump_url', _this.editData.jump_url);
+				formData.append('type', _this.editData.type);
+				formData.append('sort', _this.editData.sort);
+				formData.append('is_show', _this.editData.is_show);
+				formData.append('item', _this.editData.item);
+				formData.append('version_min', _this.editData.version_min);
+				formData.append('version_max', _this.editData.version_max);
+				formData.append('show_long_time', _this.editData.show_long_time);
+				formData.append('page_param', _this.editData.page_param);
+				formData.append('pic', _this.editData.file_pic);
+				let config = {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+                };	
+                console.log(_this.formData.file_pic)
+                axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/editStartPage', formData, config)
+                .then(res =>{
+                    if(res.data.ret){
+                         baseConfig.successTipMsg(_this, res.data.msg);
+                        this.editData.dialogShow = false;
+                        _this.getTableData();
+                    }else{
+                        baseConfig.warningTipMsg(_this, res.data.msg);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
+
+
+                // var url = '/GlobalSet/editStartPage';
+                // var params = {
+                //     id: this.editData.id,
+                //     pic: this.editData.file_pic,
+                //     title: this.editData.title,
+                //     jump_url: this.editData.jump_url,
+                //     type: this.editData.type,
+                //     sort: this.editData.sort,
+                //     is_show: this.editData.is_show,
+                //     item: this.editData.item,
+                //     version_min: this.editData.version_min,
+                //     version_max: this.editData.version_max,
+                //     show_long_time: this.editData.show_long_time,
+                //     page_param: this.editData.page_param,
+                // }
+                // console.log(params.pic)
+                // allget(params, url)
+                // .then(res => {
+                //     if (res.data.ret) {
+                //         baseConfig.successTipMsg(_this, res.data.msg);
+                //         this.editData.dialogShow = false;
+                //         _this.getTableData();
+                //     } else {
+                //         baseConfig.warningTipMsg(_this, res.data.msg);
+                //     }
+                // })
+                // .catch(err => {
+                //     console.log(err);
+                // });
             }
         }
     },
