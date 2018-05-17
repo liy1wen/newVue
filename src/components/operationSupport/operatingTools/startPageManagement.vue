@@ -472,37 +472,6 @@ export default {
                 }).catch(error => {
                     console.log(error);
                 })
-
-
-                // var url = '/GlobalSet/editStartPage';
-                // var params = {
-                //     id: this.editData.id,
-                //     pic: this.editData.file_pic,
-                //     title: this.editData.title,
-                //     jump_url: this.editData.jump_url,
-                //     type: this.editData.type,
-                //     sort: this.editData.sort,
-                //     is_show: this.editData.is_show,
-                //     item: this.editData.item,
-                //     version_min: this.editData.version_min,
-                //     version_max: this.editData.version_max,
-                //     show_long_time: this.editData.show_long_time,
-                //     page_param: this.editData.page_param,
-                // }
-                // console.log(params.pic)
-                // allget(params, url)
-                // .then(res => {
-                //     if (res.data.ret) {
-                //         baseConfig.successTipMsg(_this, res.data.msg);
-                //         this.editData.dialogShow = false;
-                //         _this.getTableData();
-                //     } else {
-                //         baseConfig.warningTipMsg(_this, res.data.msg);
-                //     }
-                // })
-                // .catch(err => {
-                //     console.log(err);
-                // });
             }
         }
     },

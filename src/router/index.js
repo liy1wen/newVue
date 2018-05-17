@@ -40,6 +40,7 @@ import GrabChatDataSummary from '../components/operationSupport/callLog/GrabChat
 import newRecordingAddList from '../components/operationSupport/callLog/newRecordingAddList.vue';//每日新增录音统计
 // 1-5运营数据统计
 import imMessageStatistics from '../components/operationData/operationDataStatistics/imMessageStatistics.vue';//IM消息统计
+import newUserCastDatalist from '../components/operationData/operationDataStatistics/newUserCastDatalist.vue';//新用户红包领取统计
 // 1-1渠道数据
 import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
 import channelDataList from '../components/operationData/channelData/channelDataList.vue';//分渠道数据
@@ -56,12 +57,19 @@ import openCloseList from '../components/userManagement/userInformationManagemen
 import recordingComplaints from '../components/userManagement/userInformationManagement/recordingComplaints.vue';//录音投诉管理
 import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
 import propRecordList from '../components/userManagement/userInformationManagement/propRecordList.vue';//道具流水
+import rechargeList from '../components/userManagement/userInformationManagement/rechargeList.vue';//充值排行榜
+import incomeList from '../components/userManagement/userInformationManagement/incomeList.vue';//收入排行榜
+import newUserRedPackage from '../components/userManagement/userInformationManagement/newUserRedPackage.vue';// 新用户红包领取查询
+
 // 2-2家族管理
 import familyManage from '../components/userManagement/householdManagement/familyManage.vue';//家族查询
 import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
 import roomConsumptionFlow from '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue';//房间消费流水
 import changeFamilyGrade from '../components/userManagement/householdManagement/changeFamilyGrade.vue';//修改家族等级
-import familyDissolve from '../components/userManagement/householdManagement/familyDissolve.vue';// 
+import familyDissolve from '../components/userManagement/householdManagement/familyDissolve.vue';// 家族解散
+import blacklist from '../components/userManagement/householdManagement/blacklist.vue';//黑名单
+import familyHonourList from '../components/userManagement/householdManagement/familyHonourList.vue';// 家族荣耀榜单
+import roomDataInfo from '../components/userManagement/householdManagement/roomDataInfo.vue';//房间详细数据
 
 // 2-3代理推广管理
 import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
@@ -282,6 +290,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] },
                 children: [
+                    { path: '/operationData/operationDataStatistics/newUserCastDatalist', component: newUserCastDatalist, name: '新用户红包领取统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/operationDataStatistics/user', component: user, name: '分享页数据统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/operationDataStatistics/im', component: imMessageStatistics, name: 'IM消息统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                 ],
@@ -326,9 +335,10 @@ export const asyncRouterMap = [
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '货币流水查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '礼物赠送查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/propRecordList', component: propRecordList, name: '道具流水查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/newUserRedPackage', component: newUserRedPackage, name: '新用户红包领取查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '用户登录查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '充值排行榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '收入排行榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/rechargeList', component: rechargeList, name: '充值排行榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/incomeList', component: incomeList, name: '收入排行榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/girlsRanking', component: girlsRanking, name: '女性魅力值', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                 ],
             },
@@ -342,10 +352,13 @@ export const asyncRouterMap = [
                 children: [
                     { path: '/userManagement/householdManagement/familyManage', component: familyManage, name: '家族查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/userManagement/householdManagement/roomDataInfo', component: roomDataInfo, name: '房间详细数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/userManagement/householdManagement/familyHonourList', component: familyHonourList, name: '家族荣耀榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/userManagement/householdManagement/roomConsumptionFlow', component: roomConsumptionFlow, name: '房间消费流水', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/userManagement/householdManagement/blacklist', component: blacklist, name: '黑名单', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/familyDissolve', component: familyDissolve, name: '解散家族', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
-                    { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/changeFamilyGrade', component: changeFamilyGrade, name: '修改家族等级', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                 ],
             },
             {
@@ -394,7 +407,7 @@ export const asyncRouterMap = [
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] },
                 children: [
                     { path: '/operationSupport/financialManagement/presentAuditReviewFirst', component: presentAuditReviewFirst, name: '提现审核管理(二次审核)', hidden: false, meta: { role: ['T1', 'P1', 'O1'] } },
-                    { path: '/operationSupport/financialManagement/presentAuditReview', component: presentAuditReview, name: '提现审核管理(运营)', hidden: false, meta: { role: ['T1', 'P1', 'O1'] } },
+                    { path: '/operationSupport/financialManagement/presentAuditReview', component: presentAuditReview, name: '提现审核管理(运营)', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord', component: monetaryMembershipApplicationAndRecord, name: '货币、会员申请', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/financialManagement/applicationMonyMg', component: applicationMonyMg, name: '货币、会员申请审核', hidden: false, meta: { role: ['T1', 'P1'] } },
                 ],
