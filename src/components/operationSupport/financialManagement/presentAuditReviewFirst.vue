@@ -1,5 +1,5 @@
 <template>
-    <!-- 提现审核页面(一级 罗总) -->
+    <!-- 提现审核页面(二次审核) -->
     <section>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="formOne">
@@ -15,13 +15,13 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <span>最大金额</span>
-                    <el-input style="width:150px;" clearable placeholder="请输入金额" v-model="formOne.max_num">
+                    <span>最大金额(元)</span>
+                    <el-input style="width:110px;" clearable placeholder="请输入金额" v-model="formOne.max_num">
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <span>最小金额</span>
-                    <el-input style="width:150px;" clearable placeholder="请输入金额" v-model="formOne.min_num">
+                    <span>最小金额(元)</span>
+                    <el-input style="width:110px;" clearable placeholder="请输入金额" v-model="formOne.min_num">
                     </el-input>
                 </el-form-item>
                 <el-form-item>
@@ -67,66 +67,114 @@
         </template>
         <el-dialog title="审核详情" :visible.sync="addDialog.dialogShow">
             <el-form :model="addDialog">
-                <el-form-item label="本次提现" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.num" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="账号" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.uid" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="昵称" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.nickname" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="是否认证" :label-width="formLabelWidth">
-                    <el-select disabled v-model="addDialog.status">
-                        <el-option label="未认证" value="0"></el-option>
-                        <el-option label="认证中" value="1"></el-option>
-                        <el-option label="审核通过" value="2"></el-option>
-                        <el-option label="审核未通过" value="3"></el-option>
-                        <el-option label="参数错误请不要打款" value="4"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="性别" :label-width="formLabelWidth">
-                    <el-select disabled v-model="addDialog.sex">
-                        <el-option label="男" value="1"></el-option>
-                        <el-option label="女" value="2"></el-option>
-                        <el-option label="性别不明" value="3"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="注册渠道" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.channel" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="注册时间" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.addtime" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="累计通话时长" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.accumulate_time" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="累计通话收益" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.call_ticket" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="累计礼物收益" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.gift_ticket" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="累计其它收益" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.other_ticket" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="随机通话次数" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.rand_num" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="好友通话次数" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.friend_num" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="累计充值金额" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.total_pay_money" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="历史提现次数" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.history_cash_times" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="历史提现金额" :label-width="formLabelWidth">
-                    <el-input disabled v-model="addDialog.history_cash_money" auto-complete="off"></el-input>
-                </el-form-item>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="本次提现" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.num" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="账号" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.uid" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="昵称" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.nickname" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="是否认证" :label-width="formLabelWidth">
+                            <el-select disabled v-model="addDialog.status">
+                                <el-option label="未认证" value="0"></el-option>
+                                <el-option label="认证中" value="1"></el-option>
+                                <el-option label="审核通过" value="2"></el-option>
+                                <el-option label="审核未通过" value="3"></el-option>
+                                <el-option label="参数错误请不要打款" value="4"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="性别" :label-width="formLabelWidth">
+                            <el-select disabled v-model="addDialog.sex">
+                                <el-option label="男" value="1"></el-option>
+                                <el-option label="女" value="2"></el-option>
+                                <el-option label="性别不明" value="3"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="注册渠道"  :label-width="formLabelWidth">
+                            <el-input disabled style="width:200px;" v-model="addDialog.channel" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="注册时间" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.addtime" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="累计通话时长" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.accumulate_time" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                         <el-form-item label="累计通话收益" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.call_ticket" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="累计礼物收益" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.gift_ticket" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                         <el-form-item label="累计其它收益" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.other_ticket" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="随机通话次数" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.rand_num" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="好友通话次数" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.friend_num" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="累计充值金额" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.total_pay_money" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="历史提现次数" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.history_cash_times" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="历史提现金额" :label-width="formLabelWidth">
+                            <el-input disabled v-model="addDialog.history_cash_money" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-form-item label="拒绝原因" :label-width="formLabelWidth">
-                    <el-input v-model="addDialog.reason" auto-complete="off"></el-input>
+                    <el-input v-model="addDialog.reason" placeholder="如果拒绝请输入拒绝原因！" auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -228,8 +276,8 @@ export default {
                 0
             );
             obj.find = _this.formOne.find;
-            obj.min_num = _this.formOne.min_num;
-            obj.max_num = _this.formOne.max_num;
+            obj.min_num = _this.formOne.min_num*100;
+            obj.max_num = _this.formOne.max_num*100;
             return obj;
         },
         getTableData() {
@@ -333,6 +381,7 @@ export default {
                     _this.addDialog.reason == null
                 ) {
                     baseConfig.warningTipMsg(_this, "请输入拒绝理由！");
+                    _this.listLoading = false;
                     return;
                 }
                 formData.append("id", _this.addDialog.id);
@@ -387,6 +436,9 @@ export default {
                     )
                     .then(res => {
                         if (res.data.code == 10000) {
+                            _this.addDialog.dialogShow = false;
+                            _this.listLoading = false;
+                            baseConfig.errorTipMsg(_this,"审核成功！");
                             outPass();
                         } else {
                             baseConfig.errorTipMsg(_this, res.data.sub_msg);
@@ -454,7 +506,7 @@ export default {
                 .then(res => {
                     if (res.data.ret) {
                         baseConfig.successTipMsg(_this, res.data.msg);
-                        _this.dialogVisible = true;
+                        _this.dialogVisible = false;
                     } else {
                         baseConfig.errorTipMsg(_this, res.data.msg);
                     }

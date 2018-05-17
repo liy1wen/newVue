@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { allget, officialAllet } from "../../../api/api.js";
+import { allget } from "../../../api/api.js";
 export default {
     data() {
         return {
