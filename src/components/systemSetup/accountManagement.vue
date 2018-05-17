@@ -99,10 +99,10 @@
                     <el-input disabled v-model="editDialog.id" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="账号" :label-width="formLabelWidth">
-                    <el-input v-model="editDialog.user_name" auto-complete="off"></el-input>
+                    <el-input disabled v-model="editDialog.user_name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="用户名" :label-width="formLabelWidth">
-                    <el-input v-model="editDialog.real_name" auto-complete="off"></el-input>
+                    <el-input disabled v-model="editDialog.real_name" auto-complete="off"></el-input>
                 </el-form-item>
                 <!-- <el-form-item label="密码" :label-width="formLabelWidth">
                     <el-input v-model="editDialog.pass_word" auto-complete="off"></el-input>
