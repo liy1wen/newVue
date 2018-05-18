@@ -61,6 +61,9 @@ import rechargeList from '../components/userManagement/userInformationManagement
 import incomeList from '../components/userManagement/userInformationManagement/incomeList.vue';//收入排行榜
 import newUserRedPackage from '../components/userManagement/userInformationManagement/newUserRedPackage.vue';// 新用户红包领取查询
 import giftGiveRecord from '../components/userManagement/userInformationManagement/giftGiveRecord.vue';//礼物赠送查询
+import userCurrencyDetailQuery from '../components/userManagement/userInformationManagement/userCurrencyDetailQuery.vue';//用户货币明细查询
+import banImEiIpRecord from '../components/userManagement/userInformationManagement/banImEiIpRecord.vue';//设备及ip封禁管理
+import userQueryList from '../components/userManagement/userInformationManagement/userQueryList.vue';//用户信息查询
 
 // 2-2家族管理
 import familyManage from '../components/userManagement/householdManagement/familyManage.vue';//家族查询
@@ -325,16 +328,16 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C'] },
                 children: [
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '用户信息查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '置顶网红管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    // { path: '/userManagement/userInformationManagement/userQueryList', component: userQueryList, name: '用户信息查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C'] } },                                        
+                    // { path: '/userManagement/userInformationManagement/user', component: user, name: '置顶网红管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/idReview', component: idReview, name: '用户认证审核（可操作）', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/idReviewList', component: idReviewList, name: '用户认证审核列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/userComplaintsList', component: userComplaintsList, name: '用户投诉处理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/openCloseList', component: openCloseList, name: '账号封禁记录（可解禁）', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/recordingComplaints', component: recordingComplaints, name: '录音投诉处理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '设备及IP封禁管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
-                    { path: '/userManagement/userInformationManagement/user', component: user, name: '货币流水查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
-                    // { path: '/userManagement/userInformationManagement/giftGiveRecord', component: giftGiveRecord, name: '礼物赠送查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/banImEiIpRecord', component: banImEiIpRecord, name: '设备及IP封禁管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/userCurrencyDetailQuery', component: userCurrencyDetailQuery, name: '货币流水查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/giftGiveRecord', component: giftGiveRecord, name: '礼物赠送查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/propRecordList', component: propRecordList, name: '道具流水查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/newUserRedPackage', component: newUserRedPackage, name: '新用户红包领取查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/user', component: user, name: '用户登录查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        

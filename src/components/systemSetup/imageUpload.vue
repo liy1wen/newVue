@@ -76,7 +76,7 @@ export default {
             // 跳转到空页面，进行传参进行跳转到空组建里面，将需要返回的路由页面链接进行传值
             _this.$router.replace({
                 path: '/empty', 
-                query: {from: '/operationSupport/operatingTools/imageUpload'},
+                query: {from: 'systemSetup/imageUpload'},
             });
         },
         // 复制到剪切板的功能

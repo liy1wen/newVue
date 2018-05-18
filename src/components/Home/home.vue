@@ -32,17 +32,13 @@
         </el-menu>
         <!-- 个人信息展示组件 -->
 		<oneUserContent></oneUserContent>
-        <!-- 左侧的导航栏 -->
-        <!--  -->
+        <!-- 路由容器 -->
         <el-col :span="24" class="content-all-wrapper">
             <transition name="el-fade-in-linear" mode="out-in" >
-                <router-view  class="nav-view">
-
-                </router-view>
+                <router-view  class="nav-view"></router-view>
             </transition>
         </el-col>
     </el-row>
-
 </template>
 
 <script>
@@ -76,7 +72,10 @@ export default {
         _this.$nextTick(function(){
             // 进行页面刷新时，得到地址栏的路径，进行配置默认展示为相应地址栏的的路由页面，将上面的导航栏的设置默认选中
             var strPath = location.href;
-            var index = strPath.indexOf('#/');
+            if(strPath.indexOf('http://')==0) {
+                strPath = strPath.substring(strPath.indexOf('http://')+7, strPath.length);
+            }
+            var index = strPath.indexOf('/');
             strPath = strPath.substring(index+1,strPath.length);
             for(var i=0; i<_this.indexPathArr.length; i++) {
                 if(strPath.indexOf(_this.indexPathArr[i])!=-1) {

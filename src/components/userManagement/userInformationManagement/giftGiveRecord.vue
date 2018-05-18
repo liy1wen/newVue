@@ -13,21 +13,21 @@
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <span>领取情况</span>
-                    <el-select v-model="status">
+                    <span>赠送类型：</span>
+                    <el-select v-model="type">
                         <el-option label="全部" value=""></el-option>
-                        <el-option label="未领取" value="0"></el-option>
-                        <el-option label="已领取" value="1"></el-option>
+                        <el-option label="赠送他人" value="1"></el-option>
+                        <el-option label="被赠送" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <span>UID</span>
+                    <span>UID：</span>
                     <el-input style="width:150px;" clearable placeholder="请输入uid" v-model="uid">
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <span>物品名称</span>
-                    <el-input style="width:150px;" clearable placeholder="请输入物品名称" v-model="name">
+                    <span>礼品名称：</span>
+                    <el-input style="width:150px;" clearable placeholder="请输入物品名称" v-model="gift_name">
                     </el-input>
                 </el-form-item>
                 <el-form-item class="search-span" style="float:right;">
@@ -38,14 +38,13 @@
         <!-- 用户的数据展示列表 -->
         <template>
             <el-table :data="listData" v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
-                <el-table-column prop="create_time" label="时间"></el-table-column>
+                <el-table-column prop="time" label="时间"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
                 <el-table-column prop="name" label="礼物名称"></el-table-column>
-                <el-table-column prop="price" :formatter="judgeStatus" label="价格"></el-table-column>
+                <el-table-column prop="price" label="价格"></el-table-column>
                 <el-table-column prop="give_uid" label="对方UID"></el-table-column>
                 <el-table-column prop="give_nickname" label="对方昵称"></el-table-column>
-                <el-table-column prop="time" label="时间"></el-table-column>
             </el-table>
             <!-- 工具条 -->
             <el-col :span="24" class="toolbar">
@@ -67,8 +66,8 @@ export default {
                 startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             listData: [],
-            status: "",
-            name: "",
+            type: "",
+            gift_name: "",
             uid: "",
             formLabelWidth: "120px",
             listLoading: false,
@@ -77,13 +76,6 @@ export default {
         };
     },
     methods: {
-        judgeStatus(row){
-            if(row.status==0){
-                return "未领取";
-            }else if(row.status==1){
-                return "已领取";
-            }
-        },
         //页面的页数
         handleCurrentChange(val) {
             //服务器的第一页是0 所以 这里要 -1
@@ -102,8 +94,8 @@ export default {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
                 uid: this.uid,
-                name: this.name,
-                status: this.status,
+                gift_name: this.gift_name,
+                type: this.type,
                 page: this.page,
             };
             allget(param, url)

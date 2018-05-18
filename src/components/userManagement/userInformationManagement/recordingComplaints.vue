@@ -12,6 +12,10 @@
 						</el-date-picker>
 					</div>
 				</el-form-item>
+                <el-form-item>
+                    <span>UID:</span>
+                    <el-input style="width:120px;" v-model="uid" placeholder="请输入UID" clearable></el-input>
+				</el-form-item>
 				<el-form-item class="search-span" style="float:right;">
 					<el-button id="searchBtn" type="primary" @click="getData()">查询</el-button>
 				</el-form-item>
@@ -78,6 +82,7 @@ export default {
             formLabelWidth: "120px",
             listLoading: false,
             formLabelWidth: "120px",
+            uid: "",
             operate_user: null,
             ignoreDialog: false,
             ignoreId: null,
@@ -110,6 +115,7 @@ export default {
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
+                uid: _this.uid,
             };
             allget(param, url)
                 .then(res => {

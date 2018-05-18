@@ -478,7 +478,7 @@ export default {
         // 一键通过
         onePass() {
             var _this = this;
-            var url = "NewMoney/makeAllMoneyOutPass";
+            var url = "/NewMoney/makeAllMoneyOutPass";
             var params = {
                 date_s: baseConfig.changeDateTime(
                     _this.formOne.choiceDate[0],

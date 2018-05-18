@@ -251,8 +251,12 @@ export default {
 			var _this = this;
 			// 拿取相应的地址栏后面的路由
 			var strPath = location.href;
-            var index = strPath.indexOf('#/');
-            strPath = strPath.substring(index+1,strPath.length);
+            if(strPath.indexOf('http://')==0) {
+                strPath = strPath.substring(strPath.indexOf('http://')+7, strPath.length);
+            }
+            var index = strPath.indexOf('/');
+			strPath = strPath.substring(index+1,strPath.length);
+			console.log(strPath);
             // 跳转到空页面，进行传参进行跳转到空组建里面，将需要返回的路由页面链接进行传值
             _this.$router.replace({
                 path: '/empty', 
