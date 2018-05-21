@@ -21,7 +21,7 @@
                 </el-form-item>
                 <el-form-item>
                     <span>UID</span>
-                    <el-input style="width:100px;" placeholder="请输入内容" v-model="find" clearable>
+                    <el-input style="width:120px;" placeholder="请输入内容" v-model="find" clearable>
                     </el-input>
                 </el-form-item>
                 <el-form-item>
@@ -147,6 +147,15 @@ export default {
                 channel: this.channelId.join(","),
                 nickname: this.nickname,
             };
+            console.log(param.find)
+            if( param.find != "" && param.find != null ){
+                console.log(1234)
+                delete param.date_s;
+                delete param.date_e;
+                delete param.operate_user;
+                delete param.channel;
+                delete param.nickname;
+            }
             allget(param, url)
                 .then(res => {
                     _this.listLoading = false;
@@ -223,9 +232,9 @@ export default {
         for (var i = 0; i < id.length; i++) {
             this.channelData[id[i]] = name[i];
         }
-        this.getData();
         this.operate_user = store.state.user.name;
         this.restaurants = this.loadAll();
+        this.getData();
     }
 };
 </script>

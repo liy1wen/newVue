@@ -512,7 +512,7 @@ export default {
                     }
                 })
                 .catch(function(error) {
-                    baseConfig.errorTipMsg(_this, error);
+                    console.log(error);
                 });
         }
     },

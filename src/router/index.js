@@ -328,7 +328,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C'] },
                 children: [
-                    // { path: '/userManagement/userInformationManagement/userQueryList', component: userQueryList, name: '用户信息查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/userQueryList', component: userQueryList, name: '用户信息查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C'] } },                                        
                     // { path: '/userManagement/userInformationManagement/user', component: user, name: '置顶网红管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/idReview', component: idReview, name: '用户认证审核（可操作）', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/idReviewList', component: idReviewList, name: '用户认证审核列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
