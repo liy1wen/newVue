@@ -20,10 +20,10 @@ export default {
         }
     },
     filters:{
-        // 没有名字定义为超级管理员，其它的全部是管理员+name
+        // 没有名字定义为超管员，其它的全部是管理员+name
         name: function(name) {
             if(name=='admin'){
-                return '超级管理员';
+                return '超管员';
             }else {
                 return '管理员'+name; 
             }

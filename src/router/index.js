@@ -138,6 +138,7 @@ import imageUpload from '../components/systemSetup/imageUpload.vue';//图片上�
 import globalParameter from '../components/systemSetup/globalParameter.vue';//全局参数
 import modifyThePassword from '../components/systemSetup/modifyThePassword.vue';//密码修改
 import accountManagement from '../components/systemSetup/accountManagement.vue';//账号管理
+import commonPages from '../components/systemSetup/commonPages.vue';//全局参数
 // 系统设置end
 
 // 留存测试填充数据
@@ -522,9 +523,9 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] },
                 children: [
+                    // { path: '/systemSetup/commonPages', component: commonPages, name: '常用页面', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] } },
                     { path: '/systemSetup/accountManagement', component: accountManagement, name: '账号管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'P1'] } },
                     { path: '/systemSetup/modifyThePassword', component: modifyThePassword, name: '修改密码', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] } },
-                    { path: '/systemSetup/globalParameter', component: globalParameter, name: '全局参数', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1'] } },
                     { path: '/systemSetup/imageUpload', component: imageUpload, name: '图片上传', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2'] } },
                 ],
             },

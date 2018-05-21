@@ -51,7 +51,7 @@ export default {
             sysUserName: '',
             sysUserAvatar: 'http://imgtu.5011.net/uploads/content/20170410/2880121491810236.jpg',
             indexPath: '', // 页面刷新时，直接页面路由的跳转，设置默认打开的页面 
-            indexPathArr: ['/operationData', '/operationSupport', '/anchorManager', '/systemManagement', '/systemSetting'], // 设置home上面导航栏的默认路由集合
+            indexPathArr: ['/operationData', '/userManagement', '/operationSupport', '/activities', '/systemSetup'], // 设置home上面导航栏的默认路由集合
             // routes:"",
             uidFind: '', //uid的查询信息
         };
@@ -70,16 +70,14 @@ export default {
     mounted:function(){
         var _this = this;
         _this.$nextTick(function(){
-            // 进行页面刷新时，得到地址栏的路径，进行配置默认展示为相应地址栏的的路由页面，将上面的导航栏的设置默认选中
             var strPath = location.href;
             if(strPath.indexOf('http://')==0) {
                 strPath = strPath.substring(strPath.indexOf('http://')+7, strPath.length);
             }
             var index = strPath.indexOf('/');
-            strPath = strPath.substring(index+1,strPath.length);
+            strPath = strPath.substring(index, strPath.length);
             for(var i=0; i<_this.indexPathArr.length; i++) {
                 if(strPath.indexOf(_this.indexPathArr[i])!=-1) {
-                    // 设置当前地址栏截取的地址为选中状态，存在为包含的关系，这里设置是顶部的位置地址栏进行设置
                     _this.indexPath = _this.indexPathArr[i];
                     break;
                 }

@@ -37,7 +37,6 @@ export default {
                     return  data;
                 }
             }) 
-            //console.log(data[0].children[0].children);
             return data[0].children[0].children;
         }
     },
@@ -53,15 +52,12 @@ export default {
         var _this = this;
         this.$nextTick(function() {
             _this.$refs.leftnav.style.height = leftNavHeight +'px';
-            // 进行页面刷新时，得到地址栏的路径，进行配置默认展示为相应地址栏的的路由页面
-            // 将左边的路由表的选中的状态和右边页面刷新的结果的相对应起来
             var strPath = location.href;
             if(strPath.indexOf('http://')==0) {
                 strPath = strPath.substring(strPath.indexOf('http://')+7, strPath.length);
             }
             var index = strPath.indexOf('/');
-            strPath = strPath.substring(index+1,strPath.length);
-            // console.log(strPath);
+            strPath = strPath.substring(index, strPath.length);
             _this.indexPath = strPath;
 		})
     },

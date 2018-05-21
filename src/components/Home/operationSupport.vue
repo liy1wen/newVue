@@ -58,16 +58,13 @@ export default {
     mounted() {
         var _this = this;
         this.$nextTick(function() {
-            _this.$refs.leftnav.style.height = leftNavHeight +'px'; // 默认设置为左边导航栏的高度自适应
-            // 进行页面刷新时，得到地址栏的路径，进行配置默认展示为相应地址栏的的路由页面
-            // 将左边的路由表的选中的状态和右边页面刷新的结果的相对应起来
+            _this.$refs.leftnav.style.height = leftNavHeight +'px';
             var strPath = location.href;
             if(strPath.indexOf('http://')==0) {
                 strPath = strPath.substring(strPath.indexOf('http://')+7, strPath.length);
             }
             var index = strPath.indexOf('/');
-            strPath = strPath.substring(index+1,strPath.length);
-            console.log('运营支撑'+strPath);
+            strPath = strPath.substring(index, strPath.length);
             _this.indexPath = strPath;
 		})
     },
