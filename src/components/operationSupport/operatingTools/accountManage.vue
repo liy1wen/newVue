@@ -180,7 +180,7 @@ export default {
             allget(param, url)
                 .then(res => {
                     _this.listLoading = false;
-                    if(res.date.ret){
+                    if(res.data.ret){
                         _this.listData = res.data.data;
                     }else{
                         baseConfig.warningTipMsg(_this, res.data.msg);

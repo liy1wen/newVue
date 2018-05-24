@@ -101,19 +101,19 @@ export default {
                     if (res.data.ret) {
                         // 对数据进行处理 时间转换为天 时 分
                         for (var i = 0; i < res.data.data.length; i++) {
-                            res.data.data[i].totalrandtime = _this.time(
+                            res.data.data[i].totalrandtime = baseConfig.changeTime(
                                 res.data.data[i].totalrandtime
                             );
-                            res.data.data[i].totalredtime = _this.time(
+                            res.data.data[i].totalredtime = baseConfig.changeTime(
                                 res.data.data[i].totalredtime
                             );
-                            res.data.data[i].totalfriendtime = _this.time(
+                            res.data.data[i].totalfriendtime = baseConfig.changeTime(
                                 res.data.data[i].totalfriendtime
                             );
-                            res.data.data[i].totaltime = _this.time(
+                            res.data.data[i].totaltime = baseConfig.changeTime(
                                 res.data.data[i].totaltime
                             );
-                            res.data.data[i].totallistentime = _this.time(
+                            res.data.data[i].totallistentime = baseConfig.changeTime(
                                 res.data.data[i].totallistentime
                             );
                         }

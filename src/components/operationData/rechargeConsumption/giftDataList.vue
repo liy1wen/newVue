@@ -1,5 +1,5 @@
 <template>
-    <!-- 充值金额统计 -->
+    <!-- 礼物数据统计 -->
     <!-- dom结构内容 -->
     <section>
         <!-- 工具条/头部的搜索条件搜索 -->
@@ -26,7 +26,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item style="margin-left: 100px;">
-                    <el-button type="primary" @click="chartLineShow">饼状图</el-button>
+                    <!-- <el-button type="primary" @click="chartLineShow">饼状图</el-button> -->
                     <el-button type="primary" @click="getTableData">查询</el-button>
                 </el-form-item>
             </el-form>
@@ -34,40 +34,20 @@
         <!--用户的数据展示列表-->
         <template>
             <el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-                <el-table-column prop="date" label="日期/月份" sortable></el-table-column>
-                <el-table-column  label="总人次（男/女/总）">
-                    <template slot-scope="scope">
-                        <p>{{+scope.row.man_num+(+scope.row.woman_num)}}</p>   
-                    </template>
-                </el-table-column>
-                <el-table-column prop="silver" label="总人数（男/女/总）">
-                    <template slot-scope="scope">
-                        <p>{{+scope.row.man_people+(+scope.row.woman_people)}}</p>   
-                    </template>
-                </el-table-column>
-                <el-table-column prop="total" label="总额(元)">
-                    <template slot-scope="scope">
-                        <p>{{scope.row.total/100}}</p>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="ten" label="10元"></el-table-column>
-                <el-table-column prop="thirty" label="30元"></el-table-column>
-                <el-table-column prop="hundred" label="100元"></el-table-column>
-                <el-table-column prop="two_hundred" label="200元"></el-table-column>
-                <el-table-column prop="five_hundred" label="500元"></el-table-column>
-                <el-table-column prop="thousand" label="1000元"></el-table-column>
-                <el-table-column prop="two_thousand" label="2000元"></el-table-column>
-                <el-table-column prop="three_thousand" label="3000元"></el-table-column>
-                <el-table-column prop="five_thousand" label="5000元"></el-table-column>
-                <el-table-column prop="ten_thousand" label="10000元"></el-table-column>
+                <!-- <el-table-column prop="date" label="日期/月份" w   idth="90" sortable></el-table-column> -->
+                <el-table-column prop="id" label="礼物id" min-width="60"></el-table-column>
+                <el-table-column prop="name" label="名字" min-width="60"></el-table-column>
+                <el-table-column prop="price" label="价格" min-width="60"></el-table-column>
+                <el-table-column prop="num" label="送出礼物数量" min-width="60"></el-table-column>
+                <el-table-column prop="chat_gold" label="消耗总聊币" min-width="60"></el-table-column>
             </el-table>
             <!-- 折线图 -->
-            <el-dialog title="占比饼状图" :width="dialogWidth" :visible.sync="dialogVisible" @open="show">
+            <!-- <el-dialog title="占比饼状图" :width="dialogWidth" :visible.sync="dialogVisible" @open="show">
                 <div class="chartLine" style="width: 100%;height: 500px;"></div>
-            </el-dialog>
+            </el-dialog> -->
             <!--翻页-->
 			<el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+				<el-pagination layout="total,prev,pager,next,jumper"  :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
 			</el-col>
         </template>
     </section>
@@ -86,7 +66,7 @@ export default {
             tableHeight: null, // table展示的页面的高度多少
             // 搜索条件的组装字段
             formOne: {
-                choiceDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
+                choiceDate: [new Date() - 15 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             searchType: "0",
             listLoading: false, //动画加载时显示的动画
@@ -94,17 +74,17 @@ export default {
             formLabelWidth: "120px", // 设置dialog弹框的宽度
             dialogVisible: false,
             dialogWidth: null,
+            channelData: {},
+            channelId: null,
+            chartLine: null,
             page: 1,
             totalpage: null,
             star: '0',
             end: '20',
-            channelData: {},
-            channelId: null,
-            chartLine: null,
             chartLineData: {
                 title: {
-                    text: "男女占比和各充值金额占比",
-                    subtext: "男女人数占比 及 各充值金额占比",
+                    text: "男女占比和各vip占比",
+                    subtext: "（搜索日期内)男女人数占比 及 VIP占比",
                     x: "center"
                 },
                 tooltip: {
@@ -118,16 +98,12 @@ export default {
                     data: [
                         "男",
                         "女",
-                        "10元",
-                        "30元",
-                        "100元",
-                        "200元",
-                        "500元",
-                        "1000元",
-                        "2000元",
-                        "3000元",
-                        "5000元",
-                        "10000元",
+                        "白银",
+                        "黄金",
+                        "铂金",
+                        "钻石",
+                        "至尊",
+                        "圣尊",
                     ]
                 },
                 toolbox: {
@@ -154,7 +130,7 @@ export default {
                 calculable: true,
                 series: [
                     {
-                        name: "男女人次占比",
+                        name: "男女占比",
                         type: "pie",
                         radius: "55%",
                         center: ["25%", "60%"],
@@ -164,21 +140,17 @@ export default {
                         ],
                     },
                     {
-                        name: "各充值金额占比饼状图",
+                        name: "vip占比",
                         type: "pie",
                         radius: "55%",
                         center: ["75%", "60%"],
                         data: [
-                            { value: '', name: "10元" },
-                            { value: '', name: "30元" },
-                            { value: '', name: "100元" },
-                            { value: '', name: "200元" },
-                            { value: '', name: "500元" },
-                            { value: '', name: "1000元" },
-                            { value: '', name: "2000元" },
-                            { value: '', name: "3000元" },
-                            { value: '', name: "5000元" },
-                            { value: '', name: "10000元" },
+                            { value: '', name: "白银" },
+                            { value: '', name: "黄金" },
+                            { value: '', name: "白金" },
+                            { value: '', name: "钻石" },
+                            { value: '', name: "至尊" },
+                            { value: '', name: "圣尊" },
                         ]
                     }
                 ]
@@ -193,11 +165,11 @@ export default {
     },
     methods: {
         handleCurrentChange(val) {
-			var _this = this;
+            var _this = this;
 			_this.page = val;
 			_this.star = (_this.page-1)*20;
 			_this.end = _this.star+20;
-		},
+        },
         // 搜索条件
         searchCondition() {
             var _this = this;
@@ -212,7 +184,7 @@ export default {
         getTableData() {
             var _this = this;
             _this.listLoading = true;
-            var url = "/NewMoney/getRechargeCountData";
+            var url = "/Gift/getSendGiftDataNewDetailed";
             var params = _this.searchCondition();
             
             // 进行get请求，(请求参数params, 请求地址url)
@@ -220,42 +192,9 @@ export default {
                 .then(res => {
                     _this.listLoading = false;
                     if (res.data.ret) {
-                        _this.tabData = res.data.list;
-                        _this.totalpage = res.data.list.length;
-                        // 这里是手动分页，接口参数没有page，固每次请求数据时可以将page重置
-                        _this.page = 1;
-                        //动态加载表格中的数据 男女比例数据加载
-                        for(var i = 0; i<res.data.sex.length; i++){
-                            if(res.data.sex[i].sex == 2) {
-                                _this.chartLineData.series[0].data[1].value = res.data.sex[i].sex_num;
-                            }else if(res.data.sex[i].sex == 1) {
-                                _this.chartLineData.series[0].data[0].value = res.data.sex[i].sex_num;
-                            }
-                        }
-                        //动态加载表格中的数据 会员比例数据加载
-                        for(var i = 0; i<res.data.money.length; i++) {
-                            if(res.data.money[i].total_fee == 10) {
-                                _this.chartLineData.series[1].data[0].value = res.data.money[i].money_num;// 10元
-                            }else if(res.data.money[i].total_fee == 30) {
-                                _this.chartLineData.series[1].data[1].value = res.data.money[i].money_num;// 30元
-                            }else if(res.data.money[i].total_fee == 100) {
-                                _this.chartLineData.series[1].data[2].value = res.data.money[i].money_num;// 100元
-                            }else if(res.data.money[i].total_fee == 200) {
-                                _this.chartLineData.series[1].data[3].value = res.data.money[i].money_num;// 200元
-                            }else if(res.data.money[i].total_fee == 500) {
-                                _this.chartLineData.series[1].data[4].value = res.data.money[i].money_num;// 500元
-                            }else if(res.data.money[i].total_fee == 1000) {
-                                _this.chartLineData.series[1].data[5].value = res.data.money[i].money_num;// 1000元
-                            }else if(res.data.money[i].total_fee == 2000) {
-                                _this.chartLineData.series[1].data[6].value = res.data.money[i].money_num;// 2000元
-                            }else if(res.data.money[i].total_fee == 3000) {
-                                _this.chartLineData.series[1].data[7].value = res.data.money[i].money_num;// 3000元
-                            }else if(res.data.money[i].total_fee == 5000) {
-                                _this.chartLineData.series[1].data[8].value = res.data.money[i].money_num;// 5000元
-                            }else if(res.data.money[i].total_fee == 10000) {
-                                _this.chartLineData.series[1].data[9].value = res.data.money[i].money_num;// 10000元
-                            }
-                        }
+                        _this.tabData = res.data.data;
+                        _this.totalpage = res.data.data.length;
+                        
                     } else {
                         // 返回ret==0，非正常数据
                         baseConfig.errorTipMsg(_this, res.data.msg);

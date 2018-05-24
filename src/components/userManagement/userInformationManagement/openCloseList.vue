@@ -147,7 +147,6 @@ export default {
                 channel: this.channelId.join(","),
                 nickname: this.nickname,
             };
-            console.log(param.find)
             if( param.find != "" && param.find != null ){
                 console.log(1234)
                 delete param.date_s;

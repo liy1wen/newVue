@@ -51,7 +51,7 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
+			<el-table :data="onePageTabData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
 				<el-table-column prop="id" label="投诉ID"></el-table-column>
 				<el-table-column prop="time" label="投诉时间"></el-table-column>
 				<el-table-column prop="uid" label="投诉人"></el-table-column>
@@ -170,7 +170,7 @@ export default {
     },
 	computed: {
 		onePageTabData() {
-			var _this = this;
+            var _this = this;
 			return _this.listData.slice(_this.star, _this.end);
 		},
 	},
@@ -179,7 +179,7 @@ export default {
 			var _this = this;
 			_this.page = val;
 			_this.star = (_this.page-1)*20;
-			_this.end = _this.star+20;
+            _this.end = _this.star+20;
         },
         // 获取图片
         changeData(val){

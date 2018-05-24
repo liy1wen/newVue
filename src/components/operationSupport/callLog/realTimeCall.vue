@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { allget, officialAllet } from "../../../api/api";
+import { allget } from "../../../api/api";
 export default {
     data() {
         return {

@@ -26,33 +26,13 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
+            <el-table :data="onePageTabData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
                 <el-table-column prop="time" label="日期"></el-table-column>
-                <el-table-column prop="annotation" label="渠道名称"></el-table-column>
-                <el-table-column prop="device" label="设备激活"></el-table-column>
-                <el-table-column prop="register" label="注册"></el-table-column>
-                <!-- <el-table-column prop="channel" label="渠道"></el-table-column> -->
-                <el-table-column prop="active" label="日活跃用户数"></el-table-column>
-                <el-table-column prop="ACCU" label="平均在线时长">
-                    <template slot-scope="scope">
-                        <div slot="reference" class="name-wrapper">
-                            <P>{{timeTransform(scope.row.ACCU)}}</P>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="consume_user" label="付费用户"></el-table-column>
-                <el-table-column prop="total_fee" label="充值金额"></el-table-column>
-                <el-table-column prop="first_consume_user" label="首日付费用户"></el-table-column>
-                <el-table-column prop="first_consume_amount" label="首日付费金额"></el-table-column>
-                <el-table-column prop="register_rate" label="注册转化率"></el-table-column>
-                <el-table-column prop="register_contrast" label="男女注册比"></el-table-column>
-                <el-table-column prop="register_channel_contrast" label="渠道占比"></el-table-column>
-                <el-table-column prop="PCU" label="最高在线人数"></el-table-column>
-                <el-table-column prop="ACU" label="平均在线人数"></el-table-column>
-                <el-table-column prop="consume_rate" label="日付费率"></el-table-column>
-                <el-table-column prop="first_consume_rate" label="首日付费率"></el-table-column>
-                <el-table-column prop="ARPPU" label="付费ARPPU值"></el-table-column>
-                <el-table-column prop="ARPU" label="活跃ARPU值"></el-table-column>
+                <el-table-column prop="share" label="分享总次数"></el-table-column>
+                <el-table-column prop="share_click" label="H5页总点击次数"></el-table-column>
+                <el-table-column prop="share_click_people" label="H5页面点击人数"></el-table-column>
+                <el-table-column prop="share_listen" label="播放次数"></el-table-column>
+                <el-table-column prop="share_down" label="下载app按钮点击数"></el-table-column>
             </el-table>
             <!-- 工具条 -->
             <el-col :span="24" class="toolbar">
@@ -70,7 +50,7 @@ export default {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-                startDate: [new Date() - 1 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
+                startDate: [new Date() - 15 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             listData: [],
             formLabelWidth: "120px",
@@ -87,7 +67,7 @@ export default {
     computed:{
 		onePageTabData() {
 			var _this = this;
-			return _this.tabData.slice(_this.star, _this.end);
+			return _this.listData.slice(_this.star, _this.end);
 		},
 	},
     methods: {
@@ -101,7 +81,7 @@ export default {
         getData() {
             var _this = this;
             _this.listLoading = true;
-            let url = "/Base/comprehensiveDataByChannel";
+            let url = "/Voice/getShareHotVoiceLog";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
@@ -112,16 +92,16 @@ export default {
                     _this.listLoading = false;
                     if (res.data.ret) {
                         // 数据处理
-                        var dataList = [];
-                        for(var i = 0; i < res.data.total_data.length; i++){
-                            dataList.push(res.data.total_data[i])
-                            for(var j = 0; j < res.data.channel_data.length; j++){
-                                if(res.data.total_data[i].time == res.data.channel_data[j].time){
-                                    dataList.push(res.data.channel_data[j]);
-                                }
-                            }
-                        }
-                        this.listData = dataList;
+                        // var dataList = [];
+                        // for(var i = 0; i < res.data.total_data.length; i++){
+                        //     dataList.push(res.data.total_data[i])
+                        //     for(var j = 0; j < res.data.channel_data.length; j++){
+                        //         if(res.data.total_data[i].time == res.data.channel_data[j].time){
+                        //             dataList.push(res.data.channel_data[j]);
+                        //         }
+                        //     }
+                        // }
+                        this.listData = res.data.data;
                         this.totalpage = this.listData.length;
                     } else {
                         baseConfig.errorTipMsg(this, res.data.msg);
