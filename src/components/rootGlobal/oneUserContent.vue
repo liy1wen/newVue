@@ -4,7 +4,7 @@
 		<!--用户详情的弹出框  -->
 		<el-dialog title="用户详情" :visible.sync="dialogVisible" size="large">
 			<el-row  v-loading="isgetuser" element-loading-text="拼命加载中" :gutter="20">
-				<el-col :span="24" style="height: auto; background: red;">
+				<el-col :span="24" v-if="userinfo.photo_wall" style="height: auto; background: red;">
 					相册：
 					<div class="grid-content" style="overflow: auto;height: auto;">
 						<el-col :span="4" v-for="(o, index) in allimg" :key="o" style="float: left; margin:2px 0;">
@@ -125,7 +125,7 @@ export default {
 		allimg() {
 			var _this = this;
 			return _this.userinfo.photo_wall;
-		},
+		},	
 		allVoiceData() {
 			var _this = this;
 			return _this.userinfo.voice_data;
@@ -140,7 +140,8 @@ export default {
 			let url = '/NewUser/getUserInfo';// /User/getUserInfo
 			let data ={ uid: uid, };
 			allget(data, url).then(data => {
-                console.log(data.data);
+				// console.log(data.data);
+				// console.log(data.data.data[0].photo_wall)
 				if (data.data.ret) {
 					_this.userinfo = data.data.data[0];
 					_this.dialogVisible = true;
@@ -161,7 +162,7 @@ export default {
         Event.$on('show-one-user', function(obj){
             // console.log('监听到了'+obj.uid);   
             // 监听展示事件，进行状态设置为true，然后拉取出用户的个人数据
-            // _this.dialogVisible = true;
+			// _this.dialogVisible = true;
             _this.getuserinfo(obj.uid);
         });
 	},

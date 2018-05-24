@@ -94,7 +94,7 @@
 </template>
 
 <script>
-	import { allget, officialAllet} from '../../../api/api';
+	import { allget } from '../../../api/api';
 	import axios from 'axios';
     import store from "../../../vuex/store";
     export default {

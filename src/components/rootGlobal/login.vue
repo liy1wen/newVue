@@ -69,7 +69,7 @@ export default {
                                 });
                                 // 用户保存密码在cookie中，下次直接登录
                                 if(_this.checked==false) {
-                                    baseConfig.removeCookie('loginParams');
+                                    baseConfig.setCookie('loginParams', '', 0);
                                 } else if(_this.checked==true) {
                                     baseConfig.setCookie('loginParams', JSON.stringify(loginParams), 7);
                                 }

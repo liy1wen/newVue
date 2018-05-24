@@ -64,44 +64,93 @@
                                 <el-button size="mini" type="primary" @click="userDetail(scope.$index, scope.row)">用户详情</el-button>
                             </el-col>
                             <el-col :span="6" v-if="scope.row.status == 0">
-                                <el-button size="mini" type="primary" @click="userDetail(scope.$index, scope.row)">封号</el-button>
+                                <el-button size="mini" type="primary" @click="title(scope.$index, scope.row)">封号</el-button>
                             </el-col>
                             <el-col :span="6" v-if="scope.row.status == 0">
-                                <el-button size="mini" type="primary" @click="userDetail(scope.$index, scope.row)">踢下线</el-button>
+                                <el-button size="mini" type="primary" @click="plDown(scope.$index, scope.row)">踢下线</el-button>
                             </el-col>
                             <el-col :span="6" v-else-if="scope.row.status == 1">
-                                <el-button size="mini" type="warning" @click="userDetail(scope.$index, scope.row)">解封</el-button>
+                                <el-button size="mini" type="warning" @click="Unlock(scope.$index, scope.row)">解封</el-button>
                             </el-col>
                             <el-col :span="6" v-if="scope.row.is_up_list == 0">
-                                <el-button size="mini" type="primary" @click="userDetail(scope.$index, scope.row)">上榜</el-button>
+                                <el-button size="mini" type="primary" @click="upList(scope.$index, scope.row)">上榜</el-button>
                             </el-col>
                             <el-col :span="6" v-else-if="scope.row.is_up_list == 1">
-                                <el-button size="mini" type="primary" @click="userDetail(scope.$index, scope.row)">下榜</el-button>
+                                <el-button size="mini" type="primary" @click="downList(scope.$index, scope.row)">下榜</el-button>
                             </el-col>
                         </el-row>
                     </template>
                 </el-table-column>
             </el-table>
+            <el-dialog title="封禁账号" :visible.sync="titleInfo.dialogFormVisible" >
+                <el-form :model="titleInfo">
+                    <el-form-item label="封号时长" :label-width="formLabelWidth">
+                        <el-select v-model="titleInfo.day" placeholder="请选择封号时长">
+                            <el-option label="1天" value="1"></el-option>
+                            <el-option label="3天" value="3"></el-option>
+                            <el-option label="5天" value="5"></el-option>
+                            <el-option label="7天" value="7"></el-option>
+                            <el-option label="15天" value="15"></el-option>
+                            <el-option label="30天" value="30"></el-option>
+                            <el-option label="永远封号" value="0"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="封号原因" :label-width="formLabelWidth">
+                        <el-input v-model="titleInfo.reason" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="titleInfo.dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="sureTitle">确 定</el-button>
+                </div>
+            </el-dialog>
+            <el-dialog title="解封账号" :visible.sync="UnlockInfo.dialogFormVisible" >
+                <el-form :model="UnlockInfo">
+                    
+                    <el-form-item label="解封原因" :label-width="formLabelWidth">
+                        <el-input v-model="UnlockInfo.reason" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="UnlockInfo.dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="srueUnlock">确 定</el-button>
+                </div>
+            </el-dialog>
+            <el-dialog title="踢下线" :visible.sync="plDownInfo.dialogFormVisible" >
+                <el-form :model="plDownInfo">
+                    
+                    <el-form-item label="踢掉原因" :label-width="formLabelWidth">
+                        <el-input v-model="plDownInfo.reason" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="plDownInfo.dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="sureplDown">确 定</el-button>
+                </div>
+            </el-dialog>
             <el-col :span="24" class="toolbar">
                 <el-pagination layout="total,prev, pager, next,jumper" :page-size="20" @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
                 </el-pagination>
             </el-col>
+            <!-- 个人信息展示组件 -->
+            <!-- <oneUserContent></oneUserContent> -->
         </template>
     </section>
 </template>
 
 <script>
+import Event from "./../../../public_js/event";
 import { allget } from "../../../api/api";
 import store from "../../../vuex/store";
 export default {
     data() {
         return {
-            tableHeight: null, 
+            tableHeight: null,
             formOne: {
-                startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] 
+                startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()]
             },
             formTwo: {
-                startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] 
+                startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()]
             },
             recordStatus: "",
             listData: [],
@@ -109,10 +158,26 @@ export default {
             listLoading: false,
             uid: "",
             operate_user: null,
-            page: 0,            // 分页
+            page: 0, // 分页
             totalpage: 1000,
-            channelData: {},    // 渠道数据
+            channelData: {}, // 渠道数据
             channelId: null,
+            titleInfo: {
+                dialogFormVisible: false,
+                uid: "",
+                reason: "",
+                day: "",
+            },
+            UnlockInfo: {
+                dialogFormVisible: false,
+                uid: "",
+                reason: "",
+            },
+            plDownInfo: {
+                dialogFormVisible: false,
+                uid: "",
+                reason: "",
+            }
         };
     },
     methods: {
@@ -146,17 +211,31 @@ export default {
             var _this = this;
             _this.listLoading = true;
             let url = "/User/getUser";
-            if(type == 0){
+            if (type == 0) {
                 _this.page = 0;
             }
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                date_ls: baseConfig.changeDateTime(this.formTwo.startDate[0], 0),
-                date_le: baseConfig.changeDateTime(this.formTwo.startDate[1], 0),
-                uid: _this.uid,
-                page: _this.page,
+                date_ls: baseConfig.changeDateTime(
+                    this.formTwo.startDate[0],
+                    0
+                ),
+                date_le: baseConfig.changeDateTime(
+                    this.formTwo.startDate[1],
+                    0
+                ),
+                find: _this.uid,
+                page: _this.page
             };
+            // 如果输入uid  取消其他搜索参数
+            if(param.find != "" && param.find != null){
+                delete param.date_s;
+                delete param.date_e;
+                delete param.date_ls;
+                delete param.date_le;
+                delete param.page;
+            }
             allget(param, url)
                 .then(res => {
                     _this.listLoading = false;
@@ -167,8 +246,157 @@ export default {
                     }
                 })
                 .catch(err => {
-                    baseConfig.errorTipMsg(_this, err.data.msg);
+                    console.log(err);
                 });
+        },
+        // 用户详情
+        userDetail(index, rows) {
+            var _this = this;
+            Event.$emit("show-one-user", {
+                uid: rows.uid
+            });
+        },
+        // 封号
+        title(index, rows) {
+            this.titleInfo.uid = rows.uid; 
+            this.titleInfo.dialogFormVisible = true;
+            // var url = '/'
+        },
+        sureTitle(){
+            var _this = this;
+            var url = "/User/kickUser";
+            var param = {
+                uid: this.titleInfo.uid,
+                day: this.titleInfo.day,
+                reason: this.titleInfo.reason,
+                operate_user: this.operate_user
+            }
+            if(param.reason == "" || param.reason == null){
+                baseConfig.warningTipMsg(this, "封人家总得有个原因吧！");
+                return;
+            }
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(this, res.data.msg);
+                        _this.getData();
+                        this.titleInfo.uid = "";
+                        this.titleInfo.day = "1";
+                        this.titleInfo.reason = "";
+                        this.titleInfo.dialogFormVisible = false;
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        // 解封
+        Unlock(index, row){
+            this.UnlockInfo.dialogFormVisible = true;
+            this.UnlockInfo.uid = row.uid;
+        },
+        srueUnlock(){
+            var _this = this;
+            var url = '/User/freeUser';
+            var param = {
+                uid: this.UnlockInfo.uid,
+                reason: this.UnlockInfo.reason,
+                operate_user: this.operate_user,
+            }
+            if(param.reason == "" || param.reason == null){
+                baseConfig.warningTipMsg(_this, "请输入解封原因！");
+                return;
+            }
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(this, res.data.msg);
+                        _this.getData();
+                        this.UnlockInfo.uid = "";
+                        this.UnlockInfo.reason = "";
+                        this.UnlockInfo.dialogFormVisible = false;
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        // 踢下线
+        plDown(index, row) {
+            this.plDownInfo.uid = row.uid; 
+            this.plDownInfo.dialogFormVisible = true;
+        },
+        sureplDown() {
+            var _this = this;
+            var url = '/User/kickUserDown';
+            var param = {
+                uid: this.plDownInfo.uid,
+                reason: this.plDownInfo.reason,
+                operate_user: this.operate_user,
+            }
+            if(param.reason == "" || param.reason == null){
+                baseConfig.warningTipMsg(_this, "请输入踢掉原因");
+            }
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(this, res.data.msg);
+                        _this.getData();
+                        this.plDownInfo.uid = "";
+                        this.plDownInfo.reason = "";
+                        this.plDownInfo.dialogFormVisible = false;
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        // 上榜
+        upList(index, row) {
+            var _this = this;
+            var url = '/Test/upMoneyOrCharm';
+            var param = {
+                uid: row.uid,
+            }
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                        _this.getData();
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        // 下榜
+        downList(index, row){
+            var _this = this;
+            var url = '/Test/downMoneyOrCharm';
+            var param = {
+                uid: row.uid,
+            }
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                        _this.getData();
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
         }
     },
     mounted() {
@@ -177,8 +405,8 @@ export default {
         _this.getData();
         _this.operate_user = store.state.user.name;
         var id = store.state.user.channelid.split(",");
-        var name = store.state.user.channelname.split(","); 
-        for(var i = 0; i<id.length; i++){
+        var name = store.state.user.channelname.split(",");
+        for (var i = 0; i < id.length; i++) {
             this.channelData[id[i]] = name[i];
         }
     }

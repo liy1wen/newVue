@@ -196,7 +196,7 @@
 <script>
 /* 逻辑交互js内容 */
 import Event from "./../../../public_js/event.js";
-import { allget, officialAllet } from "../../../api/api";
+import { allget } from "../../../api/api";
 import store from "../../../vuex/store";
 import axios from "axios";
 export default {
@@ -438,8 +438,8 @@ export default {
                         if (res.data.code == 10000) {
                             _this.addDialog.dialogShow = false;
                             _this.listLoading = false;
+                            _this.outPass();
                             baseConfig.errorTipMsg(_this,"审核成功！");
-                            outPass();
                         } else {
                             baseConfig.errorTipMsg(_this, res.data.sub_msg);
                             _this.listLoading = false;
@@ -512,7 +512,7 @@ export default {
                     }
                 })
                 .catch(function(error) {
-                    baseConfig.errorTipMsg(_this, error);
+                    console.log(error);
                 });
         }
     },
