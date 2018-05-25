@@ -256,7 +256,7 @@ export default {
                 strPath = strPath.substring(strPath.indexOf('http://')+7, strPath.length);
             }
             var index = strPath.indexOf('/');
-            strPath = strPath.substring(index+1,strPath.length);
+            strPath = strPath.substring(index, strPath.length);
             // 跳转到空页面，进行传参进行跳转到空组建里面，将需要返回的路由页面链接进行传值
             _this.$router.replace({
                 path: '/empty', 

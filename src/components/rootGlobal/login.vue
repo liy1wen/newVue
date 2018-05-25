@@ -2,10 +2,10 @@
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="0px" class="demo-ruleForm login-container">
     <h3 class="title">系统登录</h3>
     <el-form-item prop="account">
-        <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号"></el-input>
+        <el-input autofocus type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号" @keyup.native.enter="handleSubmit"></el-input>
     </el-form-item>
     <el-form-item prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off" placeholder="密码"></el-input>
+        <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off" placeholder="密码" @keyup.native.enter="handleSubmit"></el-input>
     </el-form-item>
     <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
     <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="listLoading">登录</el-button>
@@ -102,6 +102,7 @@ export default {
                 } else {}
                 if(JSON.parse(baseConfig.getCookie('loginParams')).password) {
                     _this.ruleForm.checkPass = JSON.parse(baseConfig.getCookie('loginParams')).password;
+
                 } else {}
             }
         })
