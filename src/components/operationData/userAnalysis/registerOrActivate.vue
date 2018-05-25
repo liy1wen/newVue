@@ -5,7 +5,7 @@
         <!-- 工具条/头部的搜索条件搜索 -->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px; over-flow:hidden;">
             <el-form :inline="true" :model="formOne">
-                <el-form-item>
+                <el-form-item style="z-index: 999;">
                     <div class="block">
                         <span class="registerTime">日期</span>
                         <el-date-picker v-model="formOne.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
@@ -288,10 +288,12 @@ export default {
 #total_data {
     width: 50%;
     height: 30px;
-    border: 1px solid red;
 }
 .el-row {
     /* margin-bottom: 20px; */
+    z-index: 999;
+    /* border: 1px solid red; */
+    height: 0px;
 }
 .el-col {
     /* border-radius: 4px; */

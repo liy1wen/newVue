@@ -31,6 +31,7 @@ import vipMemberData from '../components/operationData/rechargeConsumption/vipMe
 import rechargeCount from '../components/operationData/rechargeConsumption/rechargeCount';//充值金额统计
 import giftDataList from '../components/operationData/rechargeConsumption/giftDataList.vue';//礼物数据统计
 import chatCurrencyStatistics from '../components/operationData/rechargeConsumption/chatCurrencyStatistics.vue';//聊币数据统计
+import chatTicketStatistics from '../components/operationData/rechargeConsumption/chatTicketStatistics.vue';//聊票数据统计
 
 // 1-4通话数据统计
 import callDataSummary from '../components/operationSupport/callLog/CallDataSummary.vue';//通话数据汇总
@@ -267,7 +268,7 @@ export const asyncRouterMap = [
                     { path: '/operationData/rechargeConsumption/dailyRealTimeRecharge', component: dailyRealTimeRecharge, name: '分时充值详情', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/payUserDataList', component: payUserDataList, name: '付费用户数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/chatCurrencyStatistics', component: chatCurrencyStatistics, name: '聊币数据统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
-                    { path: '/operationData/rechargeConsumption/user', component: user, name: '聊票数据统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
+                    { path: '/operationData/rechargeConsumption/chatTicketStatistics', component: chatTicketStatistics, name: '聊票数据统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/giftDataList', component: giftDataList, name: '礼物数据统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/vipMemberData', component: vipMemberData, name: 'VIP会员充值数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/rechargeCount', component: rechargeCount, name: '充值金额统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    

@@ -192,8 +192,8 @@ export default {
 						_this.chartLineData.name = '留存数据';
 						_this.chartLineData.series = [[], [], [], [], [], []];
 						_this.chartLineData.xAxis = [];
-						for(var j=0; j<betweenData.length; j++) {
-							_this.chartLineData.xAxis.push(res.data.data[j].date);
+						for(var j = betweenData.length - 1; j >= 0; j --) {
+							_this.chartLineData.xAxis.push(res.data.data[j].date.slice(5,10));
 							_this.chartLineData.series[0].push((res.data.data[j].rate*100).toFixed(2));
 							_this.chartLineData.series[1].push((res.data.data[j].rate2*100).toFixed(2));
 							_this.chartLineData.series[2].push((res.data.data[j].rate3*100).toFixed(2));
