@@ -4,7 +4,7 @@
         <!-- 左侧的导航栏 -->
         <div class="left_active" ref="leftnav">
             <!-- 循环相应的路由表生成左侧的路由表一级路由表 -->
-            <el-menu :default-active="indexPath" class="el-menu-vertical-demo " @open="handleOpen" @close="handleClose" theme="dark" router>
+            <el-menu :default-active="indexPath" class="el-menu-vertical-demo " @open="handleOpen" @close="handleClose" router>
                 <!-- 判断进行设置了为hidden: true;不进行展示 -->                
                 <el-menu-item v-for="(item, indexs) in dataView" :key="indexs" :index="item.path" v-show="!item.hidden">
                     <i :class="item.iconCls"></i>
