@@ -185,7 +185,7 @@ export default {
                         _this.chartLineData.xAxis[0].data = [];
                         _this.chartLineData.series[0].data = [];
                         for(var i = res.data.data.length-1; i > 0; i--){
-                            _this.chartLineData.xAxis[0].data.push(_this.tabData[i].day); // 横坐标
+                            _this.chartLineData.xAxis[0].data.push(_this.tabData[i].day.slice(5,10)); // 横坐标
                             _this.chartLineData.series[0].data.push(_this.tabData[i].total); // 充值总额
                         }
 					} else {
