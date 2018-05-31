@@ -2,7 +2,7 @@
     <!-- 聊票数据统计 -->
     <!-- dom结构内容 -->
     <section>
-       <div>还在开发中，莫慌！！！雪碧也不错。</div>  
+       <div>还在开发中，</div>  
        
     </section>
 </template>
