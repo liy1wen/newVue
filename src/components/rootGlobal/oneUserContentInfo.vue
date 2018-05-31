@@ -140,7 +140,7 @@
                                         <el-button type="text" class="button" @click="deleteAll(1,userinfo.uid,index)" size="mini">删除</el-button>
                                     </div>
                                 </div>
-                                <div v-if="userinfo.voice_data">
+                                <div v-if="!userinfo.voice_data">
                                     这个用户<br>
                                     暂时还没有录音！
                                 </div>
