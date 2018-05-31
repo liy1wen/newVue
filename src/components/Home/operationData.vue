@@ -4,7 +4,7 @@
     <el-row>
         <div class="left_active" ref="leftnav">
             <!-- 循环相应的路由表生成左侧的路由表二级路由表 -->
-            <el-menu :default-active="indexPath" class="el-menu-vertical-demo " @open="handleOpen" @close="handleClose" theme="dark" unique-opened router>
+            <el-menu :default-active="indexPath" class="el-menu-vertical-demo " @open="handleOpen" @close="handleClose" unique-opened router>
                 <div v-for="(item, indexs) in dataView">
                     <el-submenu :index="indexs+''">
                         <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>

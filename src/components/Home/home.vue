@@ -1,7 +1,7 @@
 <template lang="html">
     <el-row class="container">
         <!-- 头部的导航栏 -->
-        <el-menu theme="dark" :default-active="indexPath" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
+        <el-menu :default-active="indexPath" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
             <!-- 前面的logo -->
             <div class="el_logo">
                 <div class="logo"></div>
