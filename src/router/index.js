@@ -151,41 +151,10 @@ import commonPages from '../components/systemSetup/commonPages.vue';//全局参�
 // 留存测试填充数据
 import user from '../components/User/richText.vue';//文章编辑
 
-
-// 系统设置 
-
 // 把router 引用进入vue
 Vue.use(VueRouter);
 // 定义出现的权限判断
-//T1->所有页面
-//T2->除去运营支撑-财务管理-提现审核、货币申请审核、充值配置列表
-//P1->所有页面
-//P2->除去运营支撑-财务管理-提现审核、货币申请审核、充值配置列表；系统设置-账号管理、全局参数、图片上传
-//O1->除去系统设置-账号管理、全局参数、图片上传
-//O2->除去运营支撑-财务管理-提现审核、货币申请审核、充值配置列表；系统设置-账号管理、全局参数、图片上传
-/*
-M ->
-    运营数据-所有页面
-    用户管理-用户信息管理-用户信息查询
-    用户管理-代理推广管理所有页面
-    运营支撑-运营工具-版本更新管理
-    运营支撑-财务管理-充值流水查询、提现记录
-    系统设置-修改密码
-*/
-/*
-C ->
-    用户管理-用户信息管理下所有页面
-    用户管理-家族管理-除解散家族、修改家族等级、家族后台账号管理之外的所有页面
-    用户管理-代理推广管理-除代理绑定查询之外的所有页面
-    运营支撑-财务管理-充值流水查询、提现记录
-    运营支撑-通话日志、录音日志下所有页面
-    系统设置-修改密码
-*/ 
-/*
-G ->
-    运营数据-渠道数据-分渠道数据
-    系统设置-修改密码
-*/ 
+// T1、T2、P1、P2、O1、O2、M、C、G
 // 所有权限通用路由表
 // 如首页和登录页和一些不用权限的公共页面
 export const constantRouterMap = [
@@ -214,7 +183,8 @@ export const constantRouterMap = [
 ];
 // 实例化vue的时候只挂载constantRouterMap
 export default new VueRouter({
-    mode: 'history',
+    // 默认不开启history的模式，进行相应的hash模式
+    // mode: 'history',
     routes: constantRouterMap,
 });
 // 异步挂载的路由
@@ -531,7 +501,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] },
                 children: [
-                    { path: '/systemSetup/commonPages', component: commonPages, name: '常用页面', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] } },
+                    // { path: '/systemSetup/commonPages', component: commonPages, name: '常用页面', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] } },
                     { path: '/systemSetup/accountManagement', component: accountManagement, name: '账号管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'P1'] } },
                     { path: '/systemSetup/modifyThePassword', component: modifyThePassword, name: '修改密码', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] } },
                     { path: '/systemSetup/imageUpload', component: imageUpload, name: '图片上传', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2'] } },

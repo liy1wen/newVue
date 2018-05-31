@@ -1,7 +1,7 @@
 <template lang="html">
     <el-row class="container">
         <!-- 头部的导航栏 -->
-        <el-menu :default-active="indexPath" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
+        <el-menu theme="dark" :default-active="indexPath" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
             <!-- 前面的logo -->
             <div class="el_logo">
                 <div class="logo"></div>
@@ -67,12 +67,30 @@ export default {
     components: {
         oneUserContent,
 	},
-    mounted:function(){
+    mounted: function(){
         var _this = this;
         _this.$nextTick(function(){
             var strPath = location.href;
             if(strPath.indexOf('http://')==0) {
-                strPath = strPath.substring(strPath.indexOf('http://')+7, strPath.length);
+                strPath = strPath.substring(strPath.indexOf('#/')+1, strPath.length);
+            }
+            var index = strPath.indexOf('/');
+            strPath = strPath.substring(index, strPath.length);
+            for(var i=0; i<_this.indexPathArr.length; i++) {
+                if(strPath.indexOf(_this.indexPathArr[i])!=-1) {
+                    _this.indexPath = _this.indexPathArr[i];
+                    break;
+                }
+            }
+        })
+    },
+    updated() {
+        // home的路由直接切换的更新操作
+        var _this = this;
+        _this.$nextTick(function(){
+            var strPath = location.href;
+            if(strPath.indexOf('http://')==0) {
+                strPath = strPath.substring(strPath.indexOf('#/')+1, strPath.length);
             }
             var index = strPath.indexOf('/');
             strPath = strPath.substring(index, strPath.length);
@@ -284,5 +302,25 @@ export default {
 }
 .el-dialog__body{
     padding-top: 10px !important;
+}
+.el-menu--horizontal{
+    background-color: #324157 !important;	
+	border-bottom: none !important;
+}
+.el-menu--horizontal>.el-menu-item{
+	color: #bfcbd9 !important;
+}
+.el-menu--horizontal>.el-menu-item.is-active{
+	color: #409EFF !important;
+	border-bottom: 5px solid transparent !important;	
+	background-color: #324157 !important;	
+}
+.el-menu--horizontal>.el-menu-item.is-active:hover{
+	color: #409EFF !important;	
+}
+.el-menu--horizontal>.el-menu-item:hover{
+	background-color: #324157 !important;
+	color: #bfcbd9 !important;
+	border-bottom: 5px solid #409EFF !important;
 }
 </style>

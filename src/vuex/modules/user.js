@@ -10,7 +10,14 @@ const user = {
         router: [],
         channelid: '',
         channelname: '',
-        token: "",
+        token: '',
+        allroute: [
+            '/operationData/userAnalysis/heldOutData', 
+            '/userManagement/userInformationManagement/userQueryList',
+            '/operationSupport/operatingTools/bannerManagement',
+            '/activities/roomTopManagement',
+            '/systemSetup/modifyThePassword',
+        ],
     },
     mutations: {
         SET_NAME: (state, name) => {
@@ -33,7 +40,10 @@ const user = {
         },
         SET_CHANNELNAME: (state, channelname) => {
             state.channelname = channelname;
-        }
+        },
+        SET_ALL_ROLES: (state, allroute) => {
+            state.allroute = allroute;
+        },
     },
     actions: {
         // 获取用户信息，请求接口数据，将信息保存在user中
@@ -43,47 +53,9 @@ const user = {
                 try {
                     allget({ user_name: ueserInfo.username, pass_word: md5(ueserInfo.password), }, url)
                     .then((res) => {
-                        if (res.data.ret) {
-                            // 定义出现的权限判断
-                            //T1->所有页面
-                            //T2->除去运营支撑-财务管理-提现审核、货币申请审核、充值配置列表
-                            //P1->所有页面
-                            //P2->除去运营支撑-财务管理-提现审核、货币申请审核、充值配置列表；系统设置-账号管理、全局参数、图片上传
-                            //O1->除去系统设置-账号管理、全局参数、图片上传
-                            //O2->除去运营支撑-财务管理-提现审核、货币申请审核、充值配置列表；系统设置-账号管理、全局参数、图片上传
-                            /*
-                            M ->
-                                运营数据-所有页面
-                                用户管理-用户信息管理-用户信息查询
-                                用户管理-代理推广管理所有页面
-                                运营支撑-运营工具-版本更新管理
-                                运营支撑-财务管理-充值流水查询、提现记录
-                                系统设置-修改密码
-                            */
-                            /*
-                            C ->
-                                用户管理-用户信息管理下所有页面
-                                用户管理-家族管理-除解散家族、修改家族等级、家族后台账号管理之外的所有页面
-                                用户管理-代理推广管理-除代理绑定查询之外的所有页面
-                                运营支撑-财务管理-充值流水查询、提现记录
-                                运营支撑-通话日志、录音日志下所有页面
-                                系统设置-修改密码
-                            */ 
-                            /*
-                            G ->
-                                运营数据-渠道数据-分渠道数据
-                                系统设置-修改密码
-                            */ 
-                            // 页面的权限
-                            /*
-                                page_auth_code
-                                0->无页面的操作权限
-                                1->有页面的操作权限
-                            */  
+                        if(res.data.ret) {
                             var arr = [];
-                            if(res.data.data.auth_code==0) { 
-                                // 无权限，不进行处理 
-                            } 
+                            if(res.data.data.auth_code==0) { /* 无权限，不进行处理 */ } 
                             else if(res.data.data.auth_code==1) { arr.push('T1'); }
                             else if(res.data.data.auth_code==2) { arr.push('T2'); }
                             else if(res.data.data.auth_code==3) { arr.push('P1'); }
@@ -93,30 +65,28 @@ const user = {
                             else if(res.data.data.auth_code==7) { arr.push('M'); }
                             else if(res.data.data.auth_code==8) { arr.push('C'); }
                             else if(res.data.data.auth_code==9) { arr.push('G'); }
-                            // commit('SET_ROLES', ['T1']);// 测试设置不同的权限
-                            commit('SET_ROLES', arr);
+                            commit('SET_ROLES', arr); // 可以在这里设置角色测试
                             commit('SET_USER', res.data.data.user_name);
                             commit('SET_NAME', res.data.data.real_name);
                             commit('SET_CHANNELID', res.data.data.channel_id_list);
                             commit('SET_CHANNELNAME', res.data.data.channel_name_list);
-                            commit('SET_TOKEN', '1248jsug1245875');
+                            commit('SET_TOKEN', 'youwodianliaodoudou');
                             resolve(res);
                         } else {
+                            baseConfig.warningTipMsg(ueserInfo.obj, res.data.msg);
                             resolve(res);
                         }
                     });
-                } catch (e) {
+                } catch(e) {
                     console.log(e);
-                } finally {
-
-                }
+                } finally {  }
             }).catch(e => {
                 reject(e);
             });
         },
         // 证明
         GetInfoId({ commit, state }) {
-            commit('SET_TOKEN', '1248jsug1245875');
+            commit('SET_TOKEN', 'youwodianliaodoudou');
         },
         // 登出
         LogOut({ commit, state }) {
@@ -145,7 +115,30 @@ const user = {
                 Cookies.set('Admin-Token', role);
                 resolve();
             });
-        }
+        },
+        // 保存用户在每一个版块的当前的路由,明天上午进行相应的值的替换计算，
+        // 如果是路由跳转的地方进行拿取相应的值，之前的路由的大地址进行的切换，进行相应的改变
+        // 在跳转成功之后进行相应的发起改变相应的值
+        ChangeOneRoute({ commit }, param) {
+            return new Promise(resolve => {
+                console.log(param);
+                var arr = state.allroute;
+                if(param.indexOf('/operationData')==0) {
+                    arr[0] = param;
+                } else if(param.indexOf('/userManagement')==0) {
+                    arr[1] = param;                    
+                } else if(param.indexOf('/operationSupport')==0) {
+                    arr[2] = param;                    
+                } else if(param.indexOf('/activities')==0) {
+                    arr[3] = param;                    
+                } else if(param.indexOf('/systemSetup')==0) {
+                    arr[4] = param;                    
+                }
+                commit('SET_ALL_ROLES', arr);
+                Cookies.set('Admin-Token', role);
+                resolve();
+            });
+        },
     }
 };
 export default user;

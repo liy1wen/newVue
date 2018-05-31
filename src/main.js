@@ -47,6 +47,9 @@ router.beforeEach((to, from, next) => {
                     twoParam = to.meta.role;                    
                 }
                 if(hasPermission(store.getters.roles, twoParam)) {
+                    // if() {
+
+                    // }
                     next();
                 } else {
                     // 跳转返回直接进行返回之前的页面

@@ -53,6 +53,7 @@ export default {
                     var loginParams = {
                         username: _this.ruleForm.account,
                         password: _this.ruleForm.checkPass,
+                        obj: _this,
                     };
                     if (store.getters.roles.length === 0) {//判断当前用户是否已拉取完user信息
                         store.dispatch('GetInfo', loginParams)//拉取user
@@ -71,13 +72,16 @@ export default {
                                 if(_this.checked==false) {
                                     baseConfig.setCookie('loginParams', '', 0);
                                 } else if(_this.checked==true) {
-                                    baseConfig.setCookie('loginParams', JSON.stringify(loginParams), 7);
+                                    // 在这里进行存入到cookie里面的时候只保存对应的账号、密码
+                                    baseConfig.setCookie('loginParams', JSON.stringify({ username: loginParams.username, password: loginParams.password, }), 7);
                                 }
                                 // 完成登录操作，跳转到hello的组建
-                                _this.$router.push({ path: '/hello', });
                                 _this.listLoading = false;
+                                _this.$router.push({ path: '/hello', });
                             } else {
                                 _this.listLoading = false;
+                                // 重新进入到登录页面
+                                _this.$router.push({ path: '/login', });
                             }
                         })
                         .catch((error) => {
