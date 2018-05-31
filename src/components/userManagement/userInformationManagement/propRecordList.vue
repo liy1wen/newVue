@@ -93,7 +93,7 @@ export default {
             if(type==0){
                 _this.page = 0;
             }
-            let url = "/NewUser/getUserPropRecord";
+            let url = "/NewUser/getPropRecord";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),

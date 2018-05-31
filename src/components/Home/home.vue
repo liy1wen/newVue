@@ -16,6 +16,7 @@
             <!-- 加上uid查询的功能 -->
             <div class="uidFind">
                 <input v-model="uidFind" placeholder="请输入uid进行查询" />
+                <!-- <div @click="goToShowUidContent()">用户详情</div> -->
                 <div @click="goToShowUidContent()">用户详情</div>
             </div>
             <!-- 用户头像、用户简介 -->
@@ -31,7 +32,8 @@
             </el-col>
         </el-menu>
         <!-- 个人信息展示组件 -->
-		<oneUserContent></oneUserContent>
+		<!-- <oneUserContent></oneUserContent> -->
+        <oneUserContentInfo></oneUserContentInfo>
         <!-- 路由容器 -->
         <el-col :span="24" class="content-all-wrapper">
             <transition name="el-fade-in-linear" mode="out-in" >
@@ -44,6 +46,7 @@
 <script>
 import Event from './../../public_js/event.js';
 import oneUserContent from './../rootGlobal/oneUserContent.vue'; // 个人信息内容弹窗
+import oneUserContentInfo from './../rootGlobal/oneUserContentInfo.vue';
 import store from '../../vuex/store';
 export default {
      data() {
@@ -66,6 +69,7 @@ export default {
     },
     components: {
         oneUserContent,
+        oneUserContentInfo,
 	},
     mounted: function(){
         var _this = this;

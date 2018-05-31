@@ -1,5 +1,5 @@
 <template>
-	<!-- 通话记录明细 -->
+	<!-- 抢聊通话明细 -->
 	<!-- dom结构内容 -->
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
@@ -12,19 +12,14 @@
 						</el-date-picker>
 					</div>
 				</el-form-item>
-                <el-form-item style="margin-left: 50px;">
-					<span>通话类型</span>
-					<el-select style="width: 120px;" v-model="callType">
-						<el-option label="全部" value=""></el-option>
-						<el-option label="AA通话" value="1"></el-option>
-						<el-option label="AB通话" value="5"></el-option>
-						<el-option label="网红通话" value="3"></el-option>
-						<el-option label="好友通话" value="2"></el-option>
-					</el-select>
+                <el-form-item>
+					<span>接受者：</span>
+					<el-input style="width:150px;" placeholder="请输入接收者uid" v-model="uid_res" clearable>
+                    </el-input>
 				</el-form-item>
                 <el-form-item>
-					<span>UID/账号/昵称：</span>
-					<el-input style="width:100px;" placeholder="请输入内容" v-model="uid" clearable>
+					<span>发起者：</span>
+					<el-input style="width:150px;" placeholder="请输入请求者的uid" v-model="uid_req" clearable>
                     </el-input>
 				</el-form-item>
 				<el-form-item class="search-span" style="float:right;">
@@ -35,25 +30,23 @@
 		<!-- 用户的数据展示列表 -->
 		<template>
 			<el-table :data="listData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-				<el-table-column prop="chat_id" label="通话ID"></el-table-column>
-				<el-table-column prop="chat_type" label="通话类型">
+				<el-table-column prop="create_time" label="日期"></el-table-column>
+				<el-table-column prop="use_time" label="通话时长">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <p v-if="scope.row.chat_type==1||scope.row.chat_type==5||scope.row.chat_type==8">随机</p>
-                            <p v-else-if="scope.row.chat_type==2">好友</p>
-                            <p v-else-if="scope.row.chat_type==3">网红</p>									
-                            <p v-else-if="scope.row.chat_type==6">抢聊</p>									
+                            <P>{{timeTransform(scope.row.use_time)}}</P>
                         </div>
                     </template>
                 </el-table-column>
-				<el-table-column prop="start_time" label="通话开始时间"></el-table-column>
-				<el-table-column prop="end_time" label="通话结束时间"></el-table-column>
-				<el-table-column prop="use_time" label="通话时长"></el-table-column>
-				<el-table-column prop="uid_req" label="发起者UID"></el-table-column>
-				<el-table-column prop="uid_res" label="接受者UID"></el-table-column>
-				<!-- <el-table-column prop="gift" label="礼物流水"></el-table-column> -->
-				<!-- <el-table-column prop="listen" label="偷听流水"></el-table-column> -->
-				<!-- <el-table-column prop="num" label="偷听次数"></el-table-column> -->
+				<el-table-column prop="uid" label="发起者id"></el-table-column>
+				<el-table-column prop="competition_uid" label="接受者id"></el-table-column>
+				<el-table-column prop="topic" label="话题" width="200"></el-table-column>
+				<el-table-column prop="price" label="价格"></el-table-column>
+				<el-table-column prop="city" label="城市"></el-table-column>
+				<el-table-column prop="cost" label="通话流水"></el-table-column>
+				<el-table-column prop="listen" label="偷听流水"></el-table-column>
+				<el-table-column prop="gift" label="礼物流水"></el-table-column>
+				<el-table-column prop="total" label="总流水"></el-table-column>
 			</el-table>
             <!--翻页-->
 			<el-col :span="24" class="toolbar">
@@ -65,7 +58,6 @@
 
 <script>
 import { allget } from "../../../api/api";
-import axios from 'axios';
 export default {
     data() {
         return {
@@ -76,10 +68,10 @@ export default {
             listData: [],
             formLabelWidth: "120px",
             listLoading: false,
-            callType: null,
-            uid: null,
             totalpage: 1000,
             page: 0,
+            uid_res: '',
+            uid_req: '',
         };
     },
     methods: {
@@ -93,26 +85,22 @@ export default {
             var _this = this;
             _this.listLoading = true;
 			let param = _this.condition();
-            let url = "/Record/getCall";
-            // this.uid==null||this.uid==""?delete param.uid:param.uid=this.uid;
-            this.callType==null||this.callType==""?delete param.callType:param.chat_type=this.callType;
+            let url = "/Record/getChatOrderInfo";
             if(type==0){
                 _this.page = 0;
             }
+            console.log(param)
             allget(param, url)
                 .then(res => {
                     _this.listLoading = false;
                     if (res.data.ret) {
-                            for(var i = 0;i<res.data.data.length;i++){
-                                res.data.data[i].avg = baseConfig.changeTime(res.data.data[i].listen_long/res.data.data[i].listen_success_times);
-                            }
                         this.listData = res.data.data;
                     } else {
                         baseConfig.errorTipMsg(this, res.data.msg);
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.log(err); 
                 });
 		},
 		// 条件参数
@@ -120,11 +108,17 @@ export default {
             return {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                chat_type: this.callType,
-                find: this.uid,
+                uid_res: this.uid_res,
+                uid_req: this.uid_req,
                 page: this.page,
             };
         },
+        // 时间转换
+        timeTransform(oldValue){
+            return baseConfig.changeTime(oldValue);
+        },
+        
+        
     },
     mounted() {
         var _this = this;
