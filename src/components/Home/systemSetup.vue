@@ -64,7 +64,7 @@ export default {
             }
             var index = strPath.indexOf('/');
             strPath = strPath.substring(index, strPath.length);
-            _this.indexPath = '/systemSetup/accountManagement';
+            _this.indexPath = strPath;
 		})
     },
     updated() {
