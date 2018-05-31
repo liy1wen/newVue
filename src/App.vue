@@ -210,5 +210,9 @@ body {
 .el-menu-vertical-demo{
 	width: 100%;
 }
+/* 弹出dialog添加上背景色 */ 
+.el-dialog__wrapper{
+	background-color: rgba(0, 134, 139, 0.5);
+}
 </style>
 

@@ -103,6 +103,7 @@ import randomNickname from '../components/operationSupport/appContentManagement/
 import randomSignature from '../components/operationSupport/appContentManagement/randomSignature.vue';//随机签名
 import registeredUserGreeting from '../components/operationSupport/appContentManagement/registeredUserGreeting.vue';//注册用户招呼语
 import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/revenueSuspensionWindow.vue';//收益悬浮窗
+import userTabsManage from '../components/operationSupport/appContentManagement/userTabsManage.vue';//首页标签管理
 // 3-2、运营工具
 import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
 import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
@@ -120,9 +121,11 @@ import recordShareManage from '../components/operationSupport/recordingLog/recor
 import systemRack from '../components/operationSupport/recordingLog/systemRack.vue';//录音下榜列表
 import tapeSharingData from '../components/operationSupport/recordingLog/tapeSharingData.vue';//分享页推荐录音列表
 import wonderfulRecord from '../components/operationSupport/recordingLog/wonderfulRecord.vue';//录音精彩内容
+import voiceTabManage from '../components/operationSupport/recordingLog/voiceTabManage.vue';//录音标签日志
 // 3-4、通话日志
 import openCallManage from '../components/operationSupport/callLog/openCallManage.vue';//公开通话管理
 import callDataDetail from '../components/operationSupport/callLog/callDataDetail.vue';//通话记录明细
+import GrabChatCallDetails from '../components/operationSupport/callLog/GrabChatCallDetails.vue';//抢聊通话明细
 // 3-5、财务管理
 import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理（二级）
 import presentAuditReviewFirst from '../components/operationSupport/financialManagement/presentAuditReviewFirst.vue';//提现审核管理（一级）
@@ -454,7 +457,7 @@ export const asyncRouterMap = [
                 children: [
                     { path: '/operationSupport/callLog/callDataDetail', component: callDataDetail, name: '通话记录明细', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/operationSupport/callLog/openCallManage', component: openCallManage, name: '公开通话管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
-                    { path: '/operationSupport/callLog/user', component: user, name: '抢聊通话明细', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/operationSupport/callLog/GrabChatCallDetails', component: GrabChatCallDetails, name: '抢聊通话明细', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                 ],
             },
             {
@@ -469,8 +472,8 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/recordingLog/wonderfulRecord', component: wonderfulRecord, name: '精选录音列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/operationSupport/recordingLog/tapeSharingData', component: tapeSharingData, name: '分享页推荐列表管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/operationSupport/recordingLog/systemRack', component: systemRack, name: '录音下榜列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
-                    { path: '/operationSupport/recordingLog/user', component: user, name: '录音标签管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
-                    { path: '/operationSupport/recordingLog/recordShareManage', component: recordShareManage, name: '录音分享卡片', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/operationSupport/recordingLog/voiceTabManage', component: voiceTabManage, name: '录音标签管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    // { path: '/operationSupport/recordingLog/recordShareManage', component: recordShareManage, name: '录音分享卡片', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                 ],
             },
             {
@@ -481,7 +484,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] },
                 children: [
-                    { path: '/operationSupport/appContentManagement/user', component: user, name: '首页标签管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/operationSupport/appContentManagement/userTabsManage', component: userTabsManage, name: '首页标签管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/appContentManagement/revenueSuspensionWindow', component: revenueSuspensionWindow, name: '收益悬浮窗', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/appContentManagement/barrageTopicManagement', component: barrageTopicManagement, name: '弹幕话题管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/appContentManagement/registeredUserGreeting', component: registeredUserGreeting, name: '注册用户招呼语', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },

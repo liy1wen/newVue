@@ -34,7 +34,7 @@
                     <div class="grid-content bg-purple">设备激活：{{totleTableData.total_device}}</div>
                 </el-col>
                 <el-col :span="9">
-                    <div class="grid-content bg-purple-light">新增注册：{{totleTableData.total_device}}</div>
+                    <div class="grid-content bg-purple-light">新增注册：{{totleTableData.total_register}}</div>
                 </el-col>
             </el-row>
             <el-row>

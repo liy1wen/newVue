@@ -32,12 +32,14 @@
                 <!--用户的数据展示列表-->
                 <template>
                     <el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
-                        <el-table-column prop="start_time" label="开启时间"></el-table-column>
+                        <el-table-column prop="create_time" label="开启时间"></el-table-column>
                         <el-table-column prop="room_id" label="房间ID"></el-table-column>
                         <el-table-column prop="room_name" label="房间名称"></el-table-column>
-                        <el-table-column prop="family_name" label="所属家族"></el-table-column>
+                        <!-- <el-table-column prop="family_name" label="所属家族"></el-table-column> -->
+                        <el-table-column prop="room_intro" label="房间公告"></el-table-column>
                         <el-table-column prop="owner_uid" label="族长UID"></el-table-column>
-                        <el-table-column prop="owner_nickname" label="族长昵称"></el-table-column>
+                        <el-table-column prop="nickname" label="创建者昵称"></el-table-column>
+                        <!-- <el-table-column prop="owner_nickname" label="族长昵称"></el-table-column> -->
                         <el-table-column prop="room_background_pic" label="房间背景图">
                             <template slot-scope="scope">
                                 <el-popover trigger="hover" placement="left">
@@ -49,14 +51,24 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="room_status" :formatter="judgeRoom" label="房间状态"></el-table-column>
-                        <el-table-column prop="use_time" label="单次时长"></el-table-column>
-                        <el-table-column prop="total_use_time" label="累计时长"></el-table-column>
-                        <el-table-column prop="this_money" label="单次流水（聊币）"></el-table-column>
-                        <el-table-column prop="total_money" label="累计流水（聊币）"></el-table-column>
-                        <el-table-column prop="this_man" label="消费人次"></el-table-column>
-                        <el-table-column prop="total_man" label="累计消费人次"></el-table-column>
-                        <el-table-column prop="total_num" label="用户进入数量"></el-table-column>
-                        <el-table-column prop="all_total_num" label="用户累计数量"></el-table-column>
+                        <!-- <el-table-column prop="use_time" label="单次时长"></el-table-column> -->
+                        <el-table-column prop="pit_rate" label="入坑率"></el-table-column>
+
+                        <!-- <el-table-column prop="total_use_time" label="累计时长"></el-table-column> -->
+                        <!-- <el-table-column prop="this_money" label="单次流水（聊币）"></el-table-column> -->
+                        <!-- <el-table-column prop="total_money" label="累计流水（聊币）"></el-table-column> -->
+                        <!-- <el-table-column prop="this_man" label="消费人次"></el-table-column> -->
+                        <!-- <el-table-column prop="total_man" label="累计消费人次"></el-table-column> -->
+                        <!-- <el-table-column prop="total_num" label="用户进入数量"></el-table-column> -->
+                        <!-- <el-table-column prop="all_total_num" label="用户累计数量"></el-table-column> -->
+
+                        <el-table-column prop="last_open_time" label="最后直播时间"></el-table-column>
+                        <el-table-column prop="total_honour" label="热力值"></el-table-column>
+                        <el-table-column prop="num" label="直播次数"></el-table-column>
+                        <el-table-column prop="total_time" label="直播时长"></el-table-column>
+                        <el-table-column prop="total_cost_money" label="累积消费金额"></el-table-column>
+                        <el-table-column prop="total_cost_num" label="累积消费次数"></el-table-column>
+                        <el-table-column prop="total_cost_people" label="累积消费人数"></el-table-column>
                         <el-table-column prop="room_status" label="操作" width="130px">
                             <template slot-scope="scope">
                                 <el-button size="small" type="danger" @click="deleteBgImg(scope.$index, scope.row)">删除背景图</el-button>
@@ -67,6 +79,8 @@
                                     <el-button size="small" type="primary" style="margin-top: 2px;" @click="openRoomModal(scope.$index, scope.row)">开启房间</el-button>
                                 </div>
                                 <el-button size="small" type="primary" style="margin-top: 2px;" @click="editRoom(scope.$index, scope.row)">编辑房间ID</el-button>
+                                <el-button size="small" type="primary" style="margin-top: 2px;" @click="changeName(scope.$index, scope.row)">改房名</el-button>
+                                <el-button size="small" type="primary" style="margin-top: 2px;" @click="changeIntro(scope.$index, scope.row)">改公告</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -117,6 +131,35 @@
                         <span slot="footer" class="dialog-footer">
                             <el-button @click="editFormInfo.dialogShow = false">取 消</el-button>
                             <el-button type="primary" @click="sureEditRoom">确 定</el-button>
+                        </span>
+                    </el-dialog>
+                    <!-- 改房间名 -->
+                    <el-dialog title="改房间名" :visible.sync="changeFormNameInfo.dialogShow" center>
+                        <el-form :model="changeFormNameInfo">
+                            <div>
+                                <span>你将要改名的房间：</span>{{changeFormNameInfo.old_room_name}}</div>
+                            <el-form-item label="房间名" width="120px">
+                                <el-input v-model="changeFormNameInfo.room_name" style="width: 300px;" auto-complete="off"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="changeFormNameInfo.dialogShow = false">取 消</el-button>
+                            <el-button type="primary" @click="sureChangeRoomName">确 定</el-button>
+                        </span>
+                    </el-dialog>
+                    <!-- 改房间公告 -->
+                    <!-- 该房间名 -->
+                    <el-dialog title="改房间公告" :visible.sync="changeFormIntroInfo.dialogShow" center>
+                        <el-form :model="changeFormIntroInfo">
+                            <div>
+                                <span>你将要改公告的房间：</span>{{changeFormIntroInfo.room_name}}</div>
+                            <el-form-item label="房间公告" width="120px">
+                                <el-input v-model="changeFormIntroInfo.room_intro" style="width: 300px;" auto-complete="off"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="changeFormIntroInfo.dialogShow = false">取 消</el-button>
+                            <el-button type="primary" @click="sureChangeIntroName">确 定</el-button>
                         </span>
                     </el-dialog>
                 </template>
@@ -210,6 +253,18 @@ export default {
                 editRoomName: "", // 编辑房间name
                 yun_xin_room_id: "" // 编辑房间云信id
             },
+            changeFormNameInfo: {
+                dialogShow: false,
+                old_room_name: "",
+                room_name: "",
+                yun_xin_room_id: "",
+            },
+            changeFormIntroInfo: {
+                dialogShow: false,
+                room_name: "",
+                yun_xin_room_id: "",
+                room_intro: "",
+            },
             roomName: null, // 房间名
             yun_xin_room_id: null, //云信id
             type: null, // 关闭类型
@@ -233,7 +288,7 @@ export default {
         getTbData() {
             var _this = this;
             _this.listLoading = true;
-            let url = "/Family/getLiveBroadCastInfo";
+            let url = "/NewFamily/getLiveBroadCastInfo";
             let param = {
                 date_s: baseConfig.changeDateTime(
                     this.formOne.startDate1[0],
@@ -263,7 +318,7 @@ export default {
         getTbData1() {
             var _this = this;
             _this.listLoading1 = true;
-            let url = "/Family/getLiveBroadCastKickRecord";
+            let url = "/NewFamily/getLiveBroadCastKickRecord";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
@@ -308,7 +363,7 @@ export default {
         // 删除背景图
         deleteBgImg(index, row) {
             var _this = this;
-            let url = "/Family/delRoomLiveBroadCastBackGround";
+            let url = "/NewFamily/delRoomLiveBroadCastBackGround";
             let param = {
                 yun_xin_room_id: row.yun_xin_room_id
             };
@@ -318,6 +373,8 @@ export default {
                 } else {
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
+            }).catch(err => {
+                console.log(err);
             });
         },
         // before-close
@@ -337,7 +394,7 @@ export default {
         // 确认开启房间
         sureOpenRoom() {
             var _this = this;
-            let url = "/Family/closeOrOpenLiveBroadCastRoomId";
+            let url = "/NewFamily/closeOrOpenLiveBroadCastRoomId";
             let param = {
                 yun_xin_room_id: this.yun_xin_room_id,
                 type: 2, // 打开房间
@@ -352,6 +409,8 @@ export default {
                 } else {
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
+            }).catch(err => {
+                console.log(err);
             });
         },
         // 关闭房间
@@ -363,7 +422,7 @@ export default {
         // 确定关闭或者封禁房间
         sureCloseRoom() {
             var _this = this;
-            let url = "/Family/closeOrOpenLiveBroadCastRoomId";
+            let url = "/NewFamily/closeOrOpenLiveBroadCastRoomId";
             let param = {
                 yun_xin_room_id: this.yun_xin_room_id,
                 type: this.radio, // 关闭或者封禁房间
@@ -378,6 +437,8 @@ export default {
                 } else {
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
+            }).catch(err => {
+                console.log(err);
             });
         },
         // 编辑房间
@@ -390,7 +451,7 @@ export default {
         // 确认编辑房间
         sureEditRoom() {
             var _this = this;
-            let url = "/Family/editLiveBroadCastRoomId";
+            let url = "/NewFamily/editLiveBroadCastRoomId";
             let param = {
                 yun_xin_room_id: _this.editFormInfo.yun_xin_room_id,
                 room_id: this.editFormInfo.editRoomId
@@ -403,7 +464,67 @@ export default {
                 } else {
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
+            }).catch(err => {
+                console.log(err)
             });
+        },
+        // 更改房间名
+        changeName(index, row) {
+            this.changeFormNameInfo.dialogShow = true;
+            this.changeFormNameInfo.old_room_name = row.room_name;
+            this.changeFormNameInfo.room_name = row.room_name;
+            this.changeFormNameInfo.yun_xin_room_id = row.yun_xin_room_id;
+        },
+        // 确定更改房间名
+        sureChangeRoomName() {
+            var _this = this;
+            var url = '/NewFamily/editOtherLiveBroadCastData';
+            var param = {
+                yun_xin_room_id: this.changeFormNameInfo.yun_xin_room_id,
+                room_name: this.changeFormNameInfo.room_name
+            }
+            allget(param, url).then(res => {
+                if(res.data.ret){
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                    _this.changeFormNameInfo.dialogShow = false;
+                    _this.getTbData();
+                }else{
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        // 更改房间公告
+        changeIntro(index, row) {
+            this.changeFormIntroInfo.dialogShow = true;
+            this.changeFormIntroInfo.room_name = row.room_name;
+            this.changeFormIntroInfo.yun_xin_room_id = row.yun_xin_room_id;
+            this.changeFormIntroInfo.room_intro = row.room_intro;
+        },
+        // 确定更改房间公告
+        sureChangeIntroName() {
+            var _this = this;
+            var url = '/NewFamily/editOtherLiveBroadCastData';
+            var param = {
+                yun_xin_room_id: this.changeFormIntroInfo.yun_xin_room_id,
+                room_intro: this.changeFormIntroInfo.room_intro
+            }
+            if(param.room_intro == '' || param.room_intro == null) {
+                baseConfig.warningTipMsg(_this, "请输入房间公告！");
+                return;
+            }
+            allget(param, url).then(res => {
+                if(res.data.ret){
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                    _this.changeFormIntroInfo.dialogShow = false;
+                    _this.getTbData();
+                }else{
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            }).catch(err => {
+                console.log(err);
+            })
         }
     },
     mounted() {

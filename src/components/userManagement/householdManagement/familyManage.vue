@@ -115,7 +115,7 @@
                         </el-form-item>
                         <el-form-item label="家族名称" :label-width="formLabelWidth">
                             <el-input v-model="form.family_name" @focus="judgeChange(0)" @blur="familyChange(0)" style="width:200px;" auto-complete="off"></el-input>
-                            <p style="margin: 0;font-size:12px;height:20px;color:red;"># 输入完成后，点击输入框外即完成修改！</p>
+                            <p style="margin: 0;font-size:12px;height:20px;color:red;"># 输入完成后，点击输入框外即可完成修改！</p>
                         </el-form-item>
                         <el-form-item label="创建者UID" :label-width="formLabelWidth">
                             <el-input v-model="form.owner_uid" :disabled="true" style="width:200px;" auto-complete="off"></el-input>
@@ -134,11 +134,11 @@
                         </el-form-item>
                         <el-form-item label="家族介绍" :label-width="formLabelWidth">
                             <el-input v-model="form.intro" @focus="judgeChange(2)" @blur="familyChange(2)" style="width:200px;" auto-complete="off"></el-input>
-                            <p style="margin: 0;font-size:12px;height:20px;color:red;"># 输入完成后，点击输入框外即完成修改！</p>
+                            <p style="margin: 0;font-size:12px;height:20px;color:red;"># 输入完成后，点击输入框外即可完成修改！</p>
                         </el-form-item>
                         <el-form-item label="家族公告" :label-width="formLabelWidth">
                             <el-input v-model="form.notice" @focus="judgeChange(3)" @blur="familyChange(3)" style="width:200px;" auto-complete="off"></el-input>
-                            <p style="margin: 0;font-size:12px;height:20px;color:red;"># 输入完成后，点击输入框外即完成修改！</p>
+                            <p style="margin: 0;font-size:12px;height:20px;color:red;"># 输入完成后，点击输入框外即可完成修改！</p>
                         </el-form-item>
                         <el-form-item label="创建时间" :label-width="formLabelWidth">
                             <el-input v-model="form.create_time" :disabled="true" style="width:200px;" auto-complete="off"></el-input>
