@@ -1,5 +1,5 @@
 <template>
-<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="0px" class="demo-ruleForm login-container">
+<el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="0px" class="demo-ruleForm login-container">
     <h3 class="title">系统登录</h3>
     <el-form-item prop="account">
         <el-input autofocus type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号" @keyup.native.enter="handleSubmit"></el-input>
@@ -20,26 +20,10 @@ import en_md from '../../public_js/md5.js';
 export default {
     data() {
         return {
-            listLoading: false,
-            ruleForm: {//登录的账号、密码
+            listLoading: false, //登录时的状态
+            ruleForm: {
                 account: '',
                 checkPass: ''
-            },
-            rules: {//验证的规则
-                account: [
-                    {
-                        required: true,
-                        message: '请输入账号',
-                        trigger: 'blur'
-                    },
-                ],
-                checkPass: [
-                    {
-                        required: true,
-                        message: '请输入密码',
-                        trigger: 'blur'
-                    },
-                ],
             },
             checked: true,
         };
@@ -55,39 +39,48 @@ export default {
                         password: _this.ruleForm.checkPass,
                         obj: _this,
                     };
-                    if (store.getters.roles.length === 0) {//判断当前用户是否已拉取完user信息
-                        store.dispatch('GetInfo', loginParams)//拉取user
-                        .then((res) => {//res为得到请求登录接口之后的结果
-                            if(res.data.ret) {
-                                // 去触发生成动态权限
-                                var roles = store.state.user.roles;
-                                store.dispatch('GenerateRoutes', { roles })
-                                .then(() => { // 生成可访问的路由表
-                                    router.addRoutes(store.getters.addRouters);           
-                                })
-                                .catch((error) => {
-                                    console.log(error);
-                                });
-                                // 用户保存密码在cookie中，下次直接登录
-                                if(_this.checked==false) {
-                                    baseConfig.setCookie('loginParams', '', 0);
-                                } else if(_this.checked==true) {
-                                    // 在这里进行存入到cookie里面的时候只保存对应的账号、密码
-                                    baseConfig.setCookie('loginParams', JSON.stringify({ username: loginParams.username, password: loginParams.password, }), 7);
+                    if(loginParams.username=="") {
+                        baseConfig.warningTipMsg(_this, '登录账号不能为空啦~');
+                        _this.listLoading = false;
+                    }
+                    else if(loginParams.password=="") {
+                        baseConfig.warningTipMsg(_this, '登录密码不能为空啦~');
+                        _this.listLoading = false;
+                    }
+                    else {
+                        //进行登录的操作
+                        if (store.getters.roles.length === 0) {
+                            store.dispatch('GetInfo', loginParams)
+                            .then((res) => {
+                                if(res.data.ret) {
+                                    // 去触发生成动态权限
+                                    var roles = store.state.user.roles;
+                                    store.dispatch('GenerateRoutes', { roles })
+                                    .then(() => { // 生成可访问的路由表
+                                        router.addRoutes(store.getters.addRouters);           
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
+                                    // 用户保存密码在cookie中，下次直接登录
+                                    if(_this.checked==false) {
+                                        baseConfig.setCookie('loginParams', '', 0);
+                                    } else if(_this.checked==true) {
+                                        // 在这里进行存入到cookie里面的时候只保存对应的账号、密码
+                                        baseConfig.setCookie('loginParams', JSON.stringify({ username: loginParams.username, password: loginParams.password, }), 7);
+                                    }
+                                    // 完成登录操作，跳转到hello的组建
+                                    _this.listLoading = false;
+                                    _this.$router.push({ path: '/hello', });
+                                } else {
+                                    _this.listLoading = false;
                                 }
-                                // 完成登录操作，跳转到hello的组建
+                            })
+                            .catch((error) => {
                                 _this.listLoading = false;
-                                _this.$router.push({ path: '/hello', });
-                            } else {
-                                _this.listLoading = false;
-                                // 重新进入到登录页面
-                                _this.$router.push({ path: '/login', });
-                            }
-                        })
-                        .catch((error) => {
-                            _this.listLoading = false;
-                            console.log(error);
-                        });
+                                console.log(error);
+                            });
+                        } else {}
                     }
                 } else {
                     _this.listLoading = false;
@@ -116,7 +109,7 @@ export default {
 
 <style lang="css" scoped>
   .login-container {
-    /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
+    /* box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02); */
     /* position: absolute;
     top: 40%;
     left: 45%;
@@ -125,7 +118,7 @@ export default {
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box;
-     margin: 180px auto; 
+    margin: 180px auto; 
     width: 350px;
     padding: 35px 35px 15px 35px;
     background: #fff;

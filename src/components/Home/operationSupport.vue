@@ -76,7 +76,6 @@ export default {
 		})
     },
     updated() {
-        console.log('运营支撑、updated');        
         var _this = this;
         var strPath = location.href;
         if(strPath.indexOf('http://')==0) {

@@ -68,7 +68,6 @@ export default {
 		})
     },
     updated() {
-        console.log('系统设置、updated');
         var _this = this;
         var strPath = location.href;
         if(strPath.indexOf('http://')==0) {

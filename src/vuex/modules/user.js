@@ -80,7 +80,8 @@ const user = {
                 } catch(e) {
                     console.log(e);
                 } finally {  }
-            }).catch(e => {
+            })
+            .catch(e => {
                 reject(e);
             });
         },
@@ -120,24 +121,25 @@ const user = {
         // 如果是路由跳转的地方进行拿取相应的值，之前的路由的大地址进行的切换，进行相应的改变
         // 在跳转成功之后进行相应的发起改变相应的值
         ChangeOneRoute({ commit }, param) {
-            return new Promise(resolve => {
-                console.log(param);
-                var arr = state.allroute;
-                if(param.indexOf('/operationData')==0) {
-                    arr[0] = param;
-                } else if(param.indexOf('/userManagement')==0) {
-                    arr[1] = param;                    
-                } else if(param.indexOf('/operationSupport')==0) {
-                    arr[2] = param;                    
-                } else if(param.indexOf('/activities')==0) {
-                    arr[3] = param;                    
-                } else if(param.indexOf('/systemSetup')==0) {
-                    arr[4] = param;                    
+            return new Promise((resolve, reject) => {
+                var arr = param.data;
+                if(param.path.indexOf('/operationData')==0) {
+                    arr[0] = param.path;
+                } else if(param.path.indexOf('/userManagement')==0) {
+                    arr[1] = param.path;                    
+                } else if(param.path.indexOf('/operationSupport')==0) {
+                    arr[2] = param.path;                    
+                } else if(param.path.indexOf('/activities')==0) {
+                    arr[3] = param.path;                    
+                } else if(param.path.indexOf('/systemSetup')==0) {
+                    arr[4] = param.path;                    
                 }
                 commit('SET_ALL_ROLES', arr);
-                Cookies.set('Admin-Token', role);
-                resolve();
-            });
+                resolve('成功');
+            })
+            .catch((error) => {
+                reject(error);
+            }); 
         },
     }
 };

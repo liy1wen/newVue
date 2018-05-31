@@ -67,7 +67,6 @@ export default {
 		})
     },
     updated() {
-        console.log('活动专区、updated');        
         var _this = this;
         var strPath = location.href;
         if(strPath.indexOf('http://')==0) {

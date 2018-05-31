@@ -47,11 +47,32 @@ router.beforeEach((to, from, next) => {
                     twoParam = to.meta.role;                    
                 }
                 if(hasPermission(store.getters.roles, twoParam)) {
-                    // if() {
-
-                    // }
-                    next();
-                } else {
+                    // 在这里进行判断相应的如果只是进行了几个大的tab切换时进行相应的选择默认
+                    // 大的版块的进行保存相应的路由信息的
+                    if(to.path=='/operationData') {
+                        next({ path:  store.getters.allroute[0]});                        
+                    } else if(to.path=='/userManagement') {
+                        next({ path:  store.getters.allroute[1]});                                                
+                    } else if(to.path=='/operationSupport') {
+                        next({ path:  store.getters.allroute[2]});                        
+                    } else if(to.path=='/activities') {
+                        next({ path:  store.getters.allroute[3]});                        
+                    } else if(to.path=='/systemSetup') {
+                        next({ path:  store.getters.allroute[4]});                        
+                    } else if( to.path.indexOf('/operationData')==0 || to.path.indexOf('/userManagement')==0 || to.path.indexOf('/operationSupport')==0 || to.path.indexOf('/activities')==0 || to.path.indexOf('/systemSetup')==0 ){
+                        store.dispatch('ChangeOneRoute', {path: to.path, data: store.getters.allroute})
+                        .then((res) => {
+                            // console.log(res);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                        next();
+                    } else {
+                        // 不在大板块里面的路由进行随机的更换的
+                        next();                        
+                    }
+                } else { 
                     // 跳转返回直接进行返回之前的页面
                     next({ path: '/401' });
                 }
