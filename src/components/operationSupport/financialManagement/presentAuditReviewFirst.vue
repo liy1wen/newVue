@@ -314,6 +314,7 @@ export default {
             _this.addDialog.dialogShow = true;
             _this.addDialog.id = id;
             _this.addDialog.order_id = rows[index].order_id;
+            _this.addDialog.uid = rows[index].uid;
             _this.listLoading = true;
             allget(params, url)
                 .then(res => {
@@ -321,7 +322,7 @@ export default {
                     if (res.data.ret) {
                         _this.addDialog.num = (res.data.num - 0) / 100 + "元";
                         _this.Alipay.amount = res.data.num;
-                        _this.addDialog.uid = res.data.uid;
+                        // _this.addDialog.uid = res.data.uid;
                         _this.addDialog.nickname = res.data.nickname;
                         if (
                             res.data.aut_status == 0 ||
