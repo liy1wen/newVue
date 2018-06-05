@@ -234,28 +234,29 @@ export default {
                         }
                         //动态加载表格中的数据 会员比例数据加载
                         for(var i = 0; i<res.data.money.length; i++) {
-                            if(res.data.money[i].total_fee == 10) {
-                                _this.chartLineData.series[1].data[0].value = res.data.money[i].money_num;// 10元
-                            }else if(res.data.money[i].total_fee == 30) {
-                                _this.chartLineData.series[1].data[1].value = res.data.money[i].money_num;// 30元
-                            }else if(res.data.money[i].total_fee == 100) {
-                                _this.chartLineData.series[1].data[2].value = res.data.money[i].money_num;// 100元
-                            }else if(res.data.money[i].total_fee == 200) {
-                                _this.chartLineData.series[1].data[3].value = res.data.money[i].money_num;// 200元
-                            }else if(res.data.money[i].total_fee == 500) {
-                                _this.chartLineData.series[1].data[4].value = res.data.money[i].money_num;// 500元
-                            }else if(res.data.money[i].total_fee == 1000) {
-                                _this.chartLineData.series[1].data[5].value = res.data.money[i].money_num;// 1000元
-                            }else if(res.data.money[i].total_fee == 2000) {
-                                _this.chartLineData.series[1].data[6].value = res.data.money[i].money_num;// 2000元
+                            if(res.data.money[i].total_fee == 1000) {
+                                _this.chartLineData.series[1].data[0].value = res.data.money[i].money_num/100;// 10元
                             }else if(res.data.money[i].total_fee == 3000) {
-                                _this.chartLineData.series[1].data[7].value = res.data.money[i].money_num;// 3000元
-                            }else if(res.data.money[i].total_fee == 5000) {
-                                _this.chartLineData.series[1].data[8].value = res.data.money[i].money_num;// 5000元
+                                _this.chartLineData.series[1].data[1].value = res.data.money[i].money_num/100;// 30元
                             }else if(res.data.money[i].total_fee == 10000) {
-                                _this.chartLineData.series[1].data[9].value = res.data.money[i].money_num;// 10000元
+                                _this.chartLineData.series[1].data[2].value = res.data.money[i].money_num/100;// 100元
+                            }else if(res.data.money[i].total_fee == 20000) {
+                                _this.chartLineData.series[1].data[3].value = res.data.money[i].money_num/100;// 200元
+                            }else if(res.data.money[i].total_fee == 50000) {
+                                _this.chartLineData.series[1].data[4].value = res.data.money[i].money_num/100;// 500元
+                            }else if(res.data.money[i].total_fee == 100000) {
+                                _this.chartLineData.series[1].data[5].value = res.data.money[i].money_num/100;// 1000元
+                            }else if(res.data.money[i].total_fee == 200000) {
+                                _this.chartLineData.series[1].data[6].value = res.data.money[i].money_num/100;// 2000元
+                            }else if(res.data.money[i].total_fee == 300000) {
+                                _this.chartLineData.series[1].data[7].value = res.data.money[i].money_num/100;// 3000元
+                            }else if(res.data.money[i].total_fee == 500000) {
+                                _this.chartLineData.series[1].data[8].value = res.data.money[i].money_num/100;// 5000元
+                            }else if(res.data.money[i].total_fee == 1000000) {
+                                _this.chartLineData.series[1].data[9].value = res.data.money[i].money_num/100;// 10000元
                             }
                         }
+                        console.log(_this.chartLineData.series)
                     } else {
                         // 返回ret==0，非正常数据
                         baseConfig.errorTipMsg(_this, res.data.msg);
