@@ -177,6 +177,14 @@ var baseConfig = {
 		}
 		return newobj;
 	},
+	// 数组的深拷贝
+	copyArr(arr) {
+		let res = [];
+		for (let i=0; i<arr.length; i++) {
+		 	res.push(arr[i]);
+		}
+		return res;
+	},
 	// 对日期时间的格式进行转换时间格式化，type==0->日期，type==1->日期时间,type==2->（年-月）
 	changeDateTime(data, type) {
 		var date = new Date(data);

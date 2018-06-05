@@ -649,7 +649,6 @@ export default {
         },
         // 编辑渠道的取消确定操作（添加）
         channelAddDialogBtn(type) {
-            console.log(1111);
             var _this = this;
             if(type==0) {//取消的操作
                 _this.channelAddDialog.dialogShow = false;
