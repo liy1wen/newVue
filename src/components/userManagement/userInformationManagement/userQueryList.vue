@@ -5,34 +5,46 @@
         <!-- 工具条/头部的搜索条件搜索 -->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true">
-                <el-form-item>
-                    <div class="block">
-                        <span class="registerTime">注册日期</span>
-                        <el-date-picker style="width: 300px;" v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
-                        </el-date-picker>
-                    </div>
-                </el-form-item>
-                <el-form-item>
-                    <div class="block">
-                        <span class="registerTime">登陆日期</span>
-                        <el-date-picker style="width: 300px;" v-model="formTwo.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
-                        </el-date-picker>
-                    </div>
-                </el-form-item>
-                <el-form-item>
-                    <span>渠道</span>
-                    <el-select v-model="channelId" multiple filterable collapse-tags style="margin-left: 20px;" placeholder="请选择">
-                        <el-option v-for="(item, key) of channelData" :key="item" :label="item" :value="key">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <span>UID:</span>
-                    <el-input style="width:120px;" v-model="uid" placeholder="请输入UID" clearable></el-input>
-                </el-form-item>
-                <el-form-item class="search-span" style="float:right;">
-                    <el-button id="searchBtn" type="primary" @click="getData(0)">查询</el-button>
-                </el-form-item>
+                <el-row>
+                    <el-col :span="6">
+                        <el-form-item>
+                            <div class="block">
+                                <span class="registerTime">注册日期</span>
+                                <el-date-picker style="width: 300px;" v-model="formOne.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
+                                </el-date-picker>
+                            </div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item>
+                            <div class="block">
+                                <span class="registerTime">登陆日期</span>
+                                <el-date-picker style="width: 300px;" v-model="formTwo.startDate" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
+                                </el-date-picker>
+                            </div>
+                        </el-form-item>
+                        </el-col>
+                    <el-col :span="4">
+                        <el-form-item>
+                            <span>渠道</span>
+                            <el-select v-model="channelId" multiple filterable collapse-tags style="margin-left: 20px;" placeholder="请选择">
+                                <el-option v-for="(item, key) of channelData" :key="item" :label="item" :value="key">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item>
+                            <span>UID</span>
+                            <el-input style="width: 150px;" v-model="uid" placeholder="请输入UID" clearable></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item class="search-span" style="float:right;">
+                            <el-button id="searchBtn" type="primary" @click="getData(0)">查询</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>  
             </el-form>
         </el-col>
         <!-- 用户的数据展示列表 -->

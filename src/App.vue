@@ -214,5 +214,13 @@ body {
 .el-dialog__wrapper{
 	background-color: rgba(0, 134, 139, 0.5);
 }
+/* 将左边导航栏对应的li设置为40px，将对应的上下padding设置为0 */ 
+.el-menu-item-group__title{
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+.el-menu-item-group{
+	height: 38px !important; line-height: 38px !important;
+}
 </style>
 
