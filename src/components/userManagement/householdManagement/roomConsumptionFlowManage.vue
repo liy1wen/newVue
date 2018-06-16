@@ -6,7 +6,7 @@
             <el-tab-pane label="日统计数据" name="first">
                 <!-- 日统计数据 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>
@@ -52,7 +52,7 @@
             <el-tab-pane label="月统计数据" name="second">
                 <!-- 月统计数据 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>

@@ -4,7 +4,7 @@
     <section>
         <!-- 工具条/头部的搜索条件搜索 -->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true">
+            <el-form :inline="true" style="overflow: hidden;">
                 <el-form-item>
                     <span>渠道</span>
                     <el-select v-model="channelId" multiple filterable collapse-tags style="margin-left: 20px;" placeholder="请选择">
@@ -124,7 +124,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = searchPageHeight;
+        _this.tableHeight = baseConfig.lineNumber(searchPageHeight);
         _this.getData();
         var id = store.state.user.channelid.split(",");
         var name = store.state.user.channelname.split(","); 

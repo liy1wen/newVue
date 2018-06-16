@@ -171,7 +171,7 @@ export default {
 	mounted() {
 		var _this = this;
 		this.$nextTick(function() {
-			_this.tableHeight = pageHeight; // 固定table的自适应的高度
+			_this.tableHeight = baseConfig.lineNumber(pageHeight); // 固定table的自适应的高度
 			_this.getTableData(); // 一开始加载table表的数据
 		})
 	}

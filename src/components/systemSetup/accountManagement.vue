@@ -2,7 +2,7 @@
     <!-- 账号管理 -->
     <section>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true">
+            <el-form :inline="true" style="overflow: hidden;">
                 <el-form-item>
                     <el-button type="primary" @click="addDialog.dialogShow=true;">添加账号</el-button>
                     <el-button type="primary" @click="permissionDialog.dialogShow=true;">组别权限简介</el-button>
@@ -680,7 +680,7 @@ export default {
     mounted() {
         var _this = this;
         _this.$nextTick(function() {
-            _this.tableHeight = searchPageHeight;
+            _this.tableHeight = baseConfig.lineNumber(searchPageHeight);
             _this.getTableData();
             _this.getAllChannel();
         });

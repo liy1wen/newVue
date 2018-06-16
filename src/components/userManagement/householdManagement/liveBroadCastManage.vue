@@ -6,7 +6,7 @@
             <el-tab-pane label="房间数据统计" name="first">
                 <!-- 房间数据统计 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>
@@ -167,7 +167,7 @@
             <el-tab-pane label="房间封禁记录" name="second">
                 <!-- 房间封禁记录 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>

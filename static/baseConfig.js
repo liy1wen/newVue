@@ -1,27 +1,3 @@
-/* 进行适配整个屏幕高度，对左边的导航的路由表的内容进行自适应，对整个tableHeight的高度进行自适应 */ 
-/*
-	tab切换的高度40px(tab)-4
-	搜索条件的高度60px(search)+3
-	底部翻页的高度52px(page)
-*/ 
-// 在展示的区域中，什么都没有，定义为初始的高度()
-var lookHeight = document.documentElement.clientHeight || document.body.clientHeight;
-var lookWidth = document.documentElement.clientWidth || document.body.clientWidth;
-var leftNavHeight = lookHeight - 60; 
-// 在展示的区域中，只有一个tab切换(tab)
-var tabHeight = lookHeight - 100; 
-// 在展示的区域中，只有一个搜索条件(search)
-var searchHeight = lookHeight - 120;
-// 在展示的区域中，只有一个翻页工具(page)
-var pageHeight = lookHeight - 112;
-// 在展示的区域中，一个tab切换、一个搜索条件(tab-search)
-var tabSearchHeight = lookHeight - 162;
-// 在展示的区域中，一个tab切换、一个翻页工具(tab-page)
-var tabPageHeight = lookHeight - 152;
-// 在展示的区域中，一个搜索条件、一个翻页工具(search-page)
-var searchPageHeight = lookHeight - 173; //处理减去相应的火狐的兼容多减去1px
-// 在展示的区域中，一个tab切换、一个搜索条件、一个翻页工具(tab-search-page)
-var tabSearchPageHeight = lookHeight - 214; 
 /* 公共的方法引用 */
 var baseConfig = {
 	khserver: "http://test-app-h.dianliaoapp.com",
@@ -64,7 +40,27 @@ var baseConfig = {
             showClose: true, // 显示关闭按钮
 			duration: 0, // 设置为0，让用户自己去关闭掉
         });
-    },
+	},
+	// 每一次进入到页面要自身加上判断进行相应的切换
+	// 进行的搜索条件框高度的自适应一行还是二行
+	// 正常的拥有了当前的直接写在el-form写在最上面第一个
+	// 或者直接没有直接进行return出去的
+	lineNumber(num) {
+		var formHeight;
+		if(document.getElementsByClassName('el-form')[0]) {
+			formHeight = document.getElementsByClassName('el-form')[0].offsetHeight;
+		} else {
+			console.log(11111);
+			return num;
+		}
+		if(formHeight<80) {
+			console.log(222222);
+			return num;
+        } else {
+			console.log(333333);
+            return  num - 50;
+        }
+	},
     // 设置cookie
 	setCookie(name, value, expireDay) {
 		expireDay = expireDay || 1;

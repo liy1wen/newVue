@@ -6,7 +6,7 @@
             <el-tab-pane label="付费代理排行" name="first">
                 <!-- 付费代理排行 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>
@@ -48,7 +48,7 @@
             <el-tab-pane label="普通代理排行" name="second">
                 <!-- 普通代理排行 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>

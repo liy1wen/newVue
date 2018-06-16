@@ -3,7 +3,7 @@
 	<section>
 		<!--查询条件-->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true" :model="filters">
+			<el-form :inline="true" style="overflow: hidden;" :model="filters">
 				<el-form-item>
 					<div class="block">
 						<span class="registerTime">日期</span>
@@ -246,16 +246,7 @@ export default {
 		_this.$nextTick(function(){
 			_this.getUser();
 			// 进行高度自适应
-			var formHeight = document.getElementsByClassName('el-form')[0].offsetHeight;
-			if(formHeight<80) {
-				// 默认为一行时：
-				// 进行设置高度自适应
-				_this.tableHeight = searchPageHeight;
-			} else {
-				// 最高为两行显示：
-				// 进行设置高度自适应
-				_this.tableHeight = searchPageHeight - 46;
-			}
+			_this.tableHeight = baseConfig.lineNumber(searchPageHeight);
 		})
 	}
 };

@@ -4,7 +4,7 @@
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true">
+			<el-form :inline="true" style="overflow: hidden;">
                 <el-form-item>
 					<el-button type="primary" @click="dialogFormVisible=true;">新增标签</el-button>
 				</el-form-item>
@@ -204,7 +204,7 @@ export default {
 	mounted() {
 		var _this = this;
 		this.$nextTick(function() {
-			_this.tableHeight = searchPageHeight;
+			_this.tableHeight = baseConfig.lineNumber(searchPageHeight);
 			_this.getTableData();
 		})
 	}

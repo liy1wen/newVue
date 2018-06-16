@@ -7,7 +7,7 @@
 			<!-- Banner条记录查询 -->
 			<el-tab-pane label="普通会员数据" name="first" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formOne">
+					<el-form :inline="true" style="overflow: hidden;" :model="formOne">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">日期</span>
@@ -58,7 +58,7 @@
 			<!-- Banner条记录管理 -->
 			<el-tab-pane label="至尊会员数据" name="second" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formTwo">
+					<el-form :inline="true" style="overflow: hidden;" :model="formTwo">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">日期</span>
@@ -209,8 +209,8 @@ export default {
 	mounted() {
 		var _this = this;
 		_this.$nextTick(function() {
-			_this.tableHeight = tabSearchPageHeight;
-			_this.tabSearchHeight = tabSearchHeight;			
+			_this.tableHeight = baseConfig.lineNumber(tabSearchPageHeight);
+			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);			
 			_this.getTableOne();
 			_this.getTableTwo();
 		})

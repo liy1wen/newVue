@@ -108,7 +108,7 @@ export default {
 	mounted() {
 		var _this = this;
 		_this.$nextTick(function() {
-            _this.tableHeight = searchPageHeight; // 固定table的自适应的高度
+            _this.tableHeight = baseConfig.lineNumber(searchPageHeight); // 固定table的自适应的高度
             _this.formOne.userid = store.state.user.user;
 		});
 	},

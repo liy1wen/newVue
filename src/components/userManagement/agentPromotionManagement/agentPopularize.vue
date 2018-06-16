@@ -6,7 +6,7 @@
             <el-tab-pane label="普通代理数据列表" name="first">
                 <!-- 普通代理数据列表 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>
@@ -73,7 +73,7 @@
             <el-tab-pane label="付费代理数据列表" name="second">
                 <!-- 付费代理数据列表 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>

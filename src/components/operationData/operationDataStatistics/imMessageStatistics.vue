@@ -6,7 +6,7 @@
             <el-tab-pane label="打招呼数据汇总" name="first">
                 <!-- 打招呼数据汇总 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <span>性别</span>
                             <el-select style="width: 200px;" v-model="sex">
@@ -45,7 +45,7 @@
             <el-tab-pane label="打招呼数据详情" name="second">
                 <!-- 打招呼数据详情 -->
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>

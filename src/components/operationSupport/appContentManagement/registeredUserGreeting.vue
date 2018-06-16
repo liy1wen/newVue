@@ -27,7 +27,7 @@
 		</div>
 		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true" :model="formOne">
+			<el-form :inline="true" style="overflow: hidden;" :model="formOne">
 				<el-form-item>
 					<span>性别</span>
 					<el-select v-model="formOne.sexValue">
@@ -282,7 +282,7 @@ export default {
 	mounted() {
 		var _this = this;
 		this.$nextTick(function() {
-			_this.tableHeight = searchPageHeight;
+			_this.tableHeight = baseConfig.lineNumber(searchPageHeight);
 			_this.getTableData();
 		})
 	}

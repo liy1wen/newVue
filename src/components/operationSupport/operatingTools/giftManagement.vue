@@ -7,7 +7,7 @@
 			<!-- 普通礼物 -->
 			<el-tab-pane label="普通礼物" name="first" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formOne">
+					<el-form :inline="true" style="overflow: hidden;" :model="formOne">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">注册时间</span>
@@ -120,7 +120,7 @@
 			<!-- 活动礼物 -->
 			<el-tab-pane label="活动礼物" name="second" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formTwo">
+					<el-form :inline="true" style="overflow: hidden;" :model="formTwo">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">注册时间</span>
@@ -233,7 +233,7 @@
 			<!-- 房间礼物 -->
 			<el-tab-pane label="房间礼物" name="three" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formTwo">
+					<el-form :inline="true" style="overflow: hidden;" :model="formTwo">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">注册时间</span>
@@ -355,7 +355,7 @@
 			<!-- 标签管理 -->
 			<el-tab-pane label="标签管理" name="four" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formFour">
+					<el-form :inline="true" style="overflow: hidden;" :model="formFour">
 						<el-form-item>
 							<el-button type="primary" @click="formFour.addDialogShow=true;">新增标签</el-button>
 						</el-form-item>
@@ -1413,8 +1413,8 @@ export default {
 	mounted() {
 		var _this = this;
 		this.$nextTick(function() {
-			_this.tableHeight = tabSearchPageHeight;
-			_this.tabSearchHeight = tabSearchHeight;
+			_this.tableHeight = baseConfig.lineNumber(tabSearchPageHeight);
+			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);
 			_this.getTableNormalGiftData();
 			_this.getTableActivityGiftData();
 			_this.getTableRoomGiftData();

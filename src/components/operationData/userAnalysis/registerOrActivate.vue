@@ -4,7 +4,7 @@
     <section>
         <!-- 工具条/头部的搜索条件搜索 -->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px; over-flow:hidden;">
-            <el-form :inline="true" :model="formOne">
+            <el-form :inline="true" style="overflow: hidden;" :model="formOne">
                 <el-form-item style="z-index: 999;">
                     <div class="block">
                         <span class="registerTime">日期</span>
@@ -271,8 +271,8 @@ export default {
         var _this = this;
         var lookHeight =
             document.documentElement.clientHeight || document.body.clientHeight;
-        var windowHeight = lookHeight - 270;
-        _this.tableHeight = windowHeight;
+        var windowHeight = lookHeight - 286;
+        _this.tableHeight = baseConfig.lineNumber(windowHeight);
         _this.getTableData();
         var id = store.state.user.channelid.split(",");
         var name = store.state.user.channelname.split(",");
@@ -295,9 +295,9 @@ export default {
     /* border: 1px solid red; */
     height: 0px;
 }
-.el-col {
-    /* border-radius: 4px; */
-}
+/* .el-col {
+    border-radius: 4px;
+} */
 .bg-purple-dark {
     background: #99a9bf;
 }

@@ -9,7 +9,7 @@
             </el-tab-pane>
             <el-tab-pane label="分享唱片查询">
                 <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                    <el-form :inline="true">
+                    <el-form :inline="true" style="overflow: hidden;">
                         <el-form-item>
                             <div class="block">
                                 <span class="registerTime">日期</span>
@@ -171,7 +171,7 @@ export default {
     },
     mounted() {
         var _this = this;
-        _this.tableHeight = tabSearchPageHeight;
+        _this.tableHeight = baseConfig.lineNumber(tabSearchPageHeight);
         _this.getData();
     },
     updated() {

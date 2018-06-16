@@ -4,7 +4,7 @@
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true">
+			<el-form :inline="true" style="overflow: hidden;">
                 <el-form-item>
 					<el-button type="primary" @click="formTwo.dialogVisible=true;">添加新参数</el-button>
 				</el-form-item>
@@ -170,7 +170,7 @@ export default {
 	mounted() {
 		var _this = this;
 		_this.$nextTick(function() {
-			_this.tableHeight = searchPageHeight; // 固定table的自适应的高度
+			_this.tableHeight = baseConfig.lineNumber(searchPageHeight); // 固定table的自适应的高度
 			_this.getTableData(); // 一开始加载table表的数据
 		})
 	}

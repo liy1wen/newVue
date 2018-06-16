@@ -7,7 +7,7 @@
 			<!-- 家族活动数据统计 -->
 			<el-tab-pane label="家族活动数据统计" name="first" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formOne">
+					<el-form :inline="true" style="overflow: hidden;" :model="formOne">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">日期</span>
@@ -41,7 +41,7 @@
 			<!-- 家族活动列表 -->
 			<el-tab-pane label="家族活动列表" name="second" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formTwo">
+					<el-form :inline="true" style="overflow: hidden;" :model="formTwo">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">日期</span>
@@ -419,8 +419,8 @@ export default {
 	mounted() {
 		var _this = this;
 		this.$nextTick(function() {
-			_this.tableHeight = tabSearchPageHeight;
-			_this.tabSearchHeight = tabSearchHeight;			
+			_this.tableHeight = baseConfig.lineNumber(tabSearchPageHeight);
+			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);
 			_this.getTableFind();
 			_this.getTableManage();
 		})

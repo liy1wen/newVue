@@ -4,7 +4,7 @@
 	<section>
         <!-- 工具条/头部的搜索条件搜索 -->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true">
+			<el-form :inline="true" style="overflow: hidden;">
 				<el-form-item>
 					<div class="block">
 						<span class="registerTime">日期</span>
@@ -102,7 +102,7 @@
 		},
 		mounted() {
 			var _this = this;
-			_this.tableHeight = searchPageHeight;
+			_this.tableHeight = baseConfig.lineNumber(searchPageHeight);
 			_this.getData();
 		},
     }

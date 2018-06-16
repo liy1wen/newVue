@@ -19,6 +19,7 @@ import empty from '../components/rootGlobal/empty.vue';//空组建进行页面�
 // 运营数据start
 // 1-1综合概述
 // 1-2用户分析
+import syntheticData from '../components/operationData/comprehensiveOverview/syntheticData.vue';//综合数据
 import registerOrActivate from '../components/operationData/userAnalysis/registerOrActivate.vue';//激活与注册
 import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
 import onlineDistribute from '../components/operationData/userAnalysis/onlineDistribute.vue';//在线时长分布
@@ -208,7 +209,7 @@ export const asyncRouterMap = [
                 hidden: false,
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] },
                 children: [
-                    { path: '/operationData/comprehensiveOverview/user', component: user, name: '综合数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },
+                    { path: '/operationData/comprehensiveOverview/syntheticData', component: syntheticData, name: '综合数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },
                 ],
             },
             {

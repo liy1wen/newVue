@@ -4,7 +4,7 @@
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true">
+			<el-form :inline="true" style="overflow: hidden;">
 				<el-form-item label="模糊搜索">
 					<el-input v-model="find" auto-complete="off"></el-input>
 				</el-form-item>
@@ -335,7 +335,7 @@ export default {
 	mounted() {
 		var _this = this;
 		this.$nextTick(function() {
-			_this.tableHeight = searchPageHeight; // 固定table的自适应的高度
+			_this.tableHeight = baseConfig.lineNumber(searchPageHeight); // 固定table的自适应的高度
 			_this.getTableData(); // 一开始加载table表的数据
 			_this.formTwo.operation_name = store.state.user.name; // 操作用户的昵称			
 		})

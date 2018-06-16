@@ -92,7 +92,7 @@
 			</el-tab-pane>
 			<el-tab-pane label="操作记录管理" name="second" :style="{ height:  tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" :model="formOne">
+					<el-form :inline="true" style="overflow: hidden;" :model="formOne">
 						<el-form-item>
 							<span>任务状态</span>
 							<el-select v-model="formOne.status">
@@ -451,9 +451,9 @@ export default {
 	mounted() {
 		var _this = this;
 		this.$nextTick(function() {
-			_this.tabHeight = tabHeight;
-			_this.tableHeight = tabSearchPageHeight;
-			_this.tabSearchHeight = tabSearchHeight;
+			_this.tabHeight = baseConfig.lineNumber(tabHeight);
+			_this.tableHeight = baseConfig.lineNumber(tabSearchPageHeight);
+			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);
 			_this.getTableData();
 		})
 	}

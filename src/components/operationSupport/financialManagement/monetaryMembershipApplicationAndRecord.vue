@@ -1,7 +1,7 @@
 <template>
     <section>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" :model="formOne">
+            <el-form :inline="true" style="overflow: hidden;" :model="formOne">
                 <el-form-item>
                     <div class="block">
                         <span class="dataTime">日期</span>
@@ -232,7 +232,7 @@ export default {
     mounted() {
         var _this = this;
         _this.$nextTick(function() {
-            _this.tableHeight = searchPageHeight;
+            _this.tableHeight = baseConfig.lineNumber(searchPageHeight);
             _this.addDialog.operation_name = store.state.user.name;
             _this.getTableData();
         })
