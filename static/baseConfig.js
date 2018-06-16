@@ -50,14 +50,11 @@ var baseConfig = {
 		if(document.getElementsByClassName('el-form')[0]) {
 			formHeight = document.getElementsByClassName('el-form')[0].offsetHeight;
 		} else {
-			console.log(11111);
 			return num;
 		}
 		if(formHeight<80) {
-			console.log(222222);
 			return num;
         } else {
-			console.log(333333);
             return  num - 50;
         }
 	},
