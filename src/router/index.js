@@ -507,6 +507,7 @@ export const asyncRouterMap = [
                 children: [
                     // { path: '/systemSetup/commonPages', component: commonPages, name: '常用页面', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] } },
                     { path: '/systemSetup/accountManagement', component: accountManagement, name: '账号管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'P1'] } },
+                    { path: '/systemSetup/globalParameter', component: globalParameter, name: '全局参数', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'P1', 'O1'] } },
                     { path: '/systemSetup/modifyThePassword', component: modifyThePassword, name: '修改密码', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M', 'C', 'G'] } },
                     { path: '/systemSetup/imageUpload', component: imageUpload, name: '图片上传', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2'] } },
                 ],
