@@ -1,4 +1,5 @@
 <template>
+<!-- 不进行引用，直接在本地文件中进行相应的自己创建当应的文件 -->
 <!-- 折线图的图形 dom结构内容 -->
 	<section class="chart-container">
 		<el-dialog title="折线图" :width="dialogWidth" :visible.sync="dialogVisible" @open="show()" size="large">
@@ -92,9 +93,7 @@ export default {
         show() {
             var _this = this;
             _this.$nextTick(function() {
-                console.log(11111);
                 // document.getElementsByClassName('chartLine')[0].innerHTML = '';
-                console.log(document.getElementsByClassName('chartLine')[0].innerHTML);
                 _this.chartLine = echarts.init(document.getElementsByClassName('chartLine')[0]);
                 _this.chartLineShow(_this.chartData);
             }); 

@@ -85,8 +85,11 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<!-- 折线图组建 -->
-			<chartLine></chartLine>
+			<!-- 24时实时折线图 -->
+			<el-dialog title="小时实时折线图" :width="dialogChartOne.dialogWidth" :visible.sync="dialogChartOne.dialogVisible" @open="showOne" size="large">
+				<!-- style="width: 100%;height: 600px;" -->
+				<div class="chartLineOne" style="width: 100%;height: 600px;"></div>
+			</el-dialog>
 			<!--工具条-->
 			<el-col :span="24" class="toolbar">
 				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
@@ -97,11 +100,11 @@
 
 <script>
 /* 逻辑交互js内容 */
+import echarts from 'echarts';
 import Event from './../../../public_js/event.js';
 import { allget } from '../../../api/api';
 import store from '../../../vuex/store';
 import axios from 'axios';
-import chartLine from '../../rootGlobal/chartLine.vue'; // 折线图
 export default {
 	data() {
 		return {
@@ -125,10 +128,14 @@ export default {
 				xAxis: [],
 				series: [[], [], [], [], [], []],
 			}, 
+			// 折线图的弹框
+			dialogChartOne: {
+				chartLine: null,
+				dialogVisible: false, //控制弹窗的显示隐藏
+				chartData: null,
+				dialogWidth: '',
+			},
 		};
-	},
-	components: {
-        chartLine,
 	},
 	computed:{
 		// 对某一页码展示某一页的数据，对返回的所有的数据进行切割处理，对当前的页码显示20条当前页码的数据
@@ -210,6 +217,78 @@ export default {
 				})
 			}
 		},
+		// 折现图的关闭显示
+		showOne() {
+            var _this = this;
+            _this.$nextTick(function() {
+				_this.dialogChartOne.chartLine = echarts.init(document.querySelector('.chartLineOne'));
+				var arrData = _this.chartLineData;
+				var series = [];
+				for(var i=0; i<arrData.legend.length; i++) {
+					series.push({
+						name: arrData.legend[i],
+						type: 'line',
+						// stack: '总量', 这个设置总量的累加效果
+						smooth: true,  //这句就是让曲线变平滑的 
+						data: (arrData.series[i])
+					});
+				}
+                _this.dialogChartOne.chartLine.setOption({
+					title: {
+						text: arrData.name
+					},
+					tooltip: {
+						trigger: 'axis',
+						formatter:function(params) {    
+							var relVal = params[0].name;    
+							for(var i = 0, l = params.length; i < l; i++) {    
+								relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value+arrData.unit;    
+							}    
+							return relVal;    
+						}   
+					},
+					legend: {
+						data: arrData.legend
+					},
+					grid: { //设置canvas的位置
+						left: '3%',
+						right: '4%',
+						bottom: '3%',
+						top: 40,
+						containLabel: true
+					},
+					xAxis: {
+						type: 'category',
+						boundaryGap: false,
+						data: arrData.xAxis,
+						splitArea : {
+							show: true,
+							areaStyle:{
+								color:['rgba(144,238,144,0.3)','rgba(135,200,250,0.3)']
+							}
+						},
+					},
+					yAxis: {
+						type: 'value',
+						axisLabel : {
+							show: true,
+							interval: 'auto',    // {number}
+							rotate: -20,
+							margin: 10,
+							formatter: '{value}'+arrData.unit,
+							textStyle: {
+								color: '#1e90ff',
+								fontFamily: 'sans-serif',
+								fontSize: 12,
+								fontStyle: 'italic',
+								fontWeight: 'bold'
+							}
+						},
+					},
+					series: series
+				});
+            }); 
+		},
 		// 得到当前的渠道号
 		getChannel() {
 			var _this = this;
@@ -228,62 +307,21 @@ export default {
 		},
 		// 折线图展示
 		chartLineShow() {
-			var _this = this;
-			Event.$emit('show-chart-line', {
-				data: _this.chartLineData,
-			});
+			var _this = this;	
+			_this.dialogChartOne.dialogVisible = true;
 		},
 	},
 	mounted() {
 		var _this = this;
-		this.$nextTick(function() {
+		_this.$nextTick(function() {
 			_this.tableHeight = baseConfig.lineNumber(searchPageHeight);
 			_this.getChannel();
 			_this.getTableData();
 		})
+		_this.dialogChartOne.dialogWidth = lookWidth*0.8+'px';
 	}
 };
 </script>
 
 <style lang="css" scoped>
-/* 页面样式css内容 */
-.excelBox{
-	width: 500px; height: 270px; margin-left: -150px; background: #f1f7ff;
-	position: absolute; left: 50%; top: 15%; z-index: 1000;
-}
-p{ margin: 0; }
-.excelBox>p{
-	width: 100%; height: 50px; line-height: 50px; font-weight: bold;
-	background: #e3efff; text-align: center;
-}
-.excelBox .excelInput{
-	width: 100%; height: 60px;
-}
-.excelBox .select{
-	width: 100%; height: 80px;
-}
-.excelBox .excelInput p,
-.excelBox .select p{
-	width: 100%; height: 36px; text-indent: 20px; line-height: 36px;
-}
-.excelBox .excelInput input{
-    width: 300px; display: block; margin: 0 auto;
-}
-.excelBox .select>div{
-	width: 300px; display: block; margin: 0 auto;
-}
-.btns{
-    width: 100%; height: 50px;
-}
-.btns button{
-    width: 80px; height: 40px; text-align: center; line-height: 40px;
-    border: none; border-radius: 5px;
-    background-color: #78B2FF; margin-top: 20px; color: #fff;
-}
-.btns button:nth-of-type(1){
-    margin-left: 150px; cursor: pointer;
-}
-.btns button:nth-of-type(2){
-    margin-left: 50px; cursor: pointer;
-}
 </style>

@@ -223,9 +223,35 @@ var baseConfig = {
 			timeString = day + "天" + hour + "时" + minute + "分" + second + "秒";
 		}
 		return timeString;
- 	},
+	 },
+	//  获取两个日期之间相应之间的日期数组
+	getAllDate(begin, end) {
+		var arr = [];
+		var ab = begin.split("-");
+		var ae = end.split("-");
+		var db = new Date();
+		db.setUTCFullYear(ab[0], ab[1]-1, ab[2]);
+		var de = new Date();
+		de.setUTCFullYear(ae[0], ae[1]-1, ae[2]);
+		var unixDb = db.getTime();
+		var unixDe = de.getTime();
+		for(var k=unixDb; k<=unixDe;) {
+			arr.push((new Date(parseInt(k))).format());
+			k = k + 24 * 60 * 60 * 1000;
+		}
+		return arr;
+	},
 };
-// console.log(location.href);
+// 给加上一个日期格式的原型方法
+Date.prototype.format = function() {
+	var s = '';
+	var mouth = (this.getMonth() + 1) >= 10 ? (this.getMonth() + 1) : ('0' + (this.getMonth() + 1));
+	var day = this.getDate() >= 10 ? this.getDate() : ('0' + this.getDate());
+	s += this.getFullYear() + '-';  
+	s += mouth + "-";
+	s += day;
+	return(s);
+};
 // 进行正式服、测试服区分
 if (location.href.indexOf('http://new-manage.dianliaoapp.com')=='0') {
 	baseConfig.khserver = 'https://app-h.dianliaoapp.com';

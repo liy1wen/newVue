@@ -121,6 +121,7 @@ export default {
                 series: [
                     {
                         name:'充值总额',
+						smooth: true,
                         type:'line',
                         data:[]
                     }

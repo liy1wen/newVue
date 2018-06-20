@@ -1,4 +1,5 @@
 <template>
+<!-- 在别的地方不进行引用使用，只是作为模板进行展示，单独的功能的模块展示 -->
 <!-- 折线图的图形 dom结构内容 -->
 	<section class="chart-container">
 		<el-dialog title="饼状图" :width="dialogWidth" :visible.sync="dialogVisible" @open="show()" size="large">
@@ -30,7 +31,7 @@ export default {
                 title: {
                     text: arrData.title,
                     subtext: arrData.sub_title,
-                    x: 'center',
+                    x: 'left',
                 },
                 tooltip: {
                     trigger: 'item',
@@ -38,7 +39,7 @@ export default {
                 },
                 legend: {
                     orient: 'vertical',
-                    left: 'left',
+                    left: 'right',
                     data: arrData.name,
                 },
                 series: [{

@@ -69,12 +69,23 @@
             </el-table>
 		</template>
 		<!-- 饼状图组建 -->
-		<chartPie></chartPie>
+		<!-- <chartPie></chartPie> -->
+		<!-- 产出占比图 -->
+		<el-dialog title="饼状图" :width="dialogChartPieOne.dialogWidth" :visible.sync="dialogChartPieOne.dialogVisible" @open="showOne()" size="large">
+            <div class="chartPieOne" style="width: 100%; height: 600px;"></div>
+            <p style="color: red; font-size: 20px; font-family: '微软雅黑';">总量数值为：{{dialogChartPieOne.total_num}}</p>
+		</el-dialog>
+		<!-- 消耗占比图 -->
+		<el-dialog title="饼状图" :width="dialogChartPieTwo.dialogWidth" :visible.sync="dialogChartPieTwo.dialogVisible" @open="showTwo()" size="large">
+            <div class="chartPieTwo" style="width: 100%; height: 600px;"></div>
+            <p style="color: red; font-size: 20px; font-family: '微软雅黑';">总量数值为：{{dialogChartPieTwo.total_num}}</p>
+		</el-dialog>
 	</section>
 </template>
 
 <script>
 /* 逻辑交互js内容 */
+import echarts from 'echarts';
 import Event from './../../../public_js/event.js';
 import { allget } from '../../../api/api';
 import store from '../../../vuex/store';
@@ -97,10 +108,21 @@ export default {
 			formLabelWidth: '120px', // 设置dialog弹框的宽度
 			chartPieDataOne: [],
 			chartPieDataTwo: [],
+			dialogChartPieOne: {
+				dialogVisible: false, //控制弹窗的显示隐藏
+				chartPie: null,
+				chartData: null,
+				dialogWidth: '',
+				total_num: '11111',
+			},
+			dialogChartPieTwo: {
+				dialogVisible: false, //控制弹窗的显示隐藏
+				chartPie: null,
+				chartData: null,
+				dialogWidth: '',
+				total_num: '11111',
+			},
 		};
-	},
-	components: {
-        chartPie,
 	},
 	methods: {
 		// 搜索条件
@@ -226,7 +248,6 @@ export default {
 								finalData[w][arrName[v]] = arrDate[w].arr[v].num;
 							}
 						}
-						console.log(finalData);
 						_this.expendData = finalData;
 						// ********************
 						// table数据格式的处理结束
@@ -324,15 +345,105 @@ export default {
 		// 饼状图展示
 		chartPieShowOne() {
 			var _this = this;
-			Event.$emit('show-chart-pie', {
-				data: _this.chartPieDataOne,
-			});
+			_this.dialogChartPieOne.dialogVisible = true;
 		},
 		chartPieShowTwo() {
 			var _this = this;
-			Event.$emit('show-chart-pie', {
-				data: _this.chartPieDataTwo,
-			});
+			_this.dialogChartPieTwo.dialogVisible = true;
+		},
+		showOne() {
+			var _this = this;
+			_this.$nextTick(function() {
+				_this.dialogChartPieOne.chartPie = echarts.init(document.getElementsByClassName('chartPieOne')[0]);
+				var arrData = _this.chartPieDataOne;
+                _this.dialogChartPieOne.total_num = arrData.total;
+				_this.dialogChartPieOne.chartPie.setOption({
+					title: {
+						text: arrData.title,
+						subtext: arrData.sub_title,
+						x: 'left',
+					},
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)",
+					},
+					legend: {
+						orient: 'vertical',
+						left: 'right',
+						data: arrData.name,
+					},
+					series: [{
+						name: arrData.content,
+						type: 'pie',
+						radius: '70%',
+						center: ['50%', '60%'],
+						data: arrData.data,
+						itemStyle: {
+							normal:{
+								label:{
+									show: true,
+									formatter: '{b} : {c} \n ({d}%)',
+								},
+								labelLine:{
+									show: true,
+								}
+							},
+							emphasis: {
+								shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							},
+						},
+					}],
+				});
+			});	
+		},
+		showTwo() {
+			var _this = this;
+			_this.$nextTick(function() {
+				_this.dialogChartPieTwo.chartPie = echarts.init(document.getElementsByClassName('chartPieTwo')[0]);
+				var arrData = _this.chartPieDataTwo;
+				_this.dialogChartPieTwo.total_num = arrData.total;
+				_this.dialogChartPieTwo.chartPie.setOption({
+					title: {
+						text: arrData.title,
+						subtext: arrData.sub_title,
+						x: 'left',
+					},
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)",
+					},
+					legend: {
+						orient: 'vertical',
+						left: 'right',
+						data: arrData.name,
+					},
+					series: [{
+						name: arrData.content,
+						type: 'pie',
+						radius: '70%',
+						center: ['50%', '60%'],
+						data: arrData.data,
+						itemStyle: {
+							normal:{
+								label:{
+									show: true,
+									formatter: '{b} : {c} \n ({d}%)',
+								},
+								labelLine:{
+									show: true,
+								}
+							},
+							emphasis: {
+								shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							},
+						},
+					}],
+				});
+			});	
 		},
 		// 获得两个相邻日期的中间日期
 		getDate(day1, day2) {
@@ -417,10 +528,12 @@ export default {
 	},
 	mounted() {
 		var _this = this;
-		this.$nextTick(function() {
+		_this.$nextTick(function() {
 			_this.tableHeight = baseConfig.lineNumber(searchHeight);
 			_this.getTableData();
 		})
+		_this.dialogChartPieOne.dialogWidth = lookWidth*0.8+'px';
+		_this.dialogChartPieTwo.dialogWidth = lookWidth*0.8+'px';
 	}
 };
 </script>
