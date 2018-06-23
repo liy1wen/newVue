@@ -142,6 +142,7 @@ import loveActivityManage from '../components/activities/loveActivityManage.vue'
 import interactionInfo from '../components/activities/interactionInfo.vue';//黑色情人节互动信息
 import rechargeTheCrowdManagement from '../components/activities/rechargeTheCrowdManagement.vue';//充值众筹管理
 import youthDay from '../components/activities/youthDay.vue'; // 五四活动
+import wordCupManagement from '../components/activities/wordCupManagement.vue'; // 世界杯活动
 // 活动专区end
 // 5、系统设置
 // 系统设置start
@@ -487,6 +488,7 @@ export const asyncRouterMap = [
                     { path: '/activities/roomTopManagement', component: roomTopManagement, name: '家族置顶', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/activities/rechargeTheCrowdManagement', component: rechargeTheCrowdManagement, name: '充值众筹活动管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/activities/youthDay', component: youthDay, name: '五四活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
+                    { path: '/activities/wordCupManagement', component: wordCupManagement, name: '世界杯活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                 ],
             },
         ],
