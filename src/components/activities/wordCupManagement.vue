@@ -90,7 +90,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="发放比例" :label-width="formLabelWidth">
-					<el-input v-model="formTwo.grant_rate" auto-complete="off"></el-input>	
+					<el-input v-model="formTwo.grant_rate" placeholder="请填写小数（0.8）" auto-complete="off"></el-input>	
 				</el-form-item>
 				<el-form-item label="A队比分" :label-width="formLabelWidth">
 					<el-input v-model="formTwo.score_A" auto-complete="off"></el-input>	
@@ -138,7 +138,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="发放比例" :label-width="formLabelWidth">
-					<el-input v-model="newData.grant_rate" auto-complete="off"></el-input>	
+					<el-input v-model="newData.grant_rate" placeholder="请填写小数（0.8）" auto-complete="off"></el-input>	
 				</el-form-item>
 				
 			</el-form>
