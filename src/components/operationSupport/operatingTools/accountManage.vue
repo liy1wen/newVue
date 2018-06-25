@@ -218,7 +218,7 @@ export default {
                 phone: this.form.phone,
                 operate_user: this.operate_user
             };
-            if(!(/^1(3|4|5|7|8)\d{9}$/.test(param.phone))){ 
+            if(!(/0?(13|14|15|17|18|19)[0-9]{9}/.test(param.phone))){ 
                 baseConfig.warningTipMsg(this, '手机号码有误，请重填');
                 return false; 
             } 
@@ -286,7 +286,7 @@ export default {
                 baseConfig.warningTipMsg(this, "请输入手机号码！");
                 return;
             }
-            if(!(/^1(3|4|5|7|8)\d{9}$/.test(param.phone))){ 
+            if(!(/0?(13|14|15|17|18|19)[0-9]{9}/.test(param.phone))){ 
                 baseConfig.warningTipMsg(this, '手机号码有误，请重填');
                 return; 
             }
