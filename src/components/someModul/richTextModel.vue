@@ -1,7 +1,9 @@
 <template>
+    <!-- 不进行这样的使用 -->
+    <!-- 富文本编辑器组建 -->
     <div>     
-    <quill-editor ref="myTextEditor" v-model="content" :options="editorOption"></quill-editor>
-    <div class="html ql-editor" v-html="content"></div>
+        <quill-editor ref="myTextEditor" v-model="content" :options="editorOption"></quill-editor>
+        <div class="html ql-editor" v-html="content"></div>
     </div>
 </template>
 

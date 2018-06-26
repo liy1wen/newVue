@@ -116,6 +116,7 @@ import sendMessageNotifications from '../components/operationSupport/operatingTo
 import sendSystemNotification from '../components/operationSupport/operatingTools/sendSystemNotification.vue';//发送系统通知
 import accountManage from '../components/operationSupport/operatingTools/accountManage.vue'; // 账号修改，注册
 import activityFloatWindow from '../components/operationSupport/operatingTools/activityFloatWindow.vue';//活动浮窗
+import articleManagement from '../components/operationSupport/operatingTools/articleManagement.vue';//文章管理
 // 3-3、录音日志
 import DailyAdditions from '../components/operationSupport/recordingLog/DailyAdditions.vue';//每日新增录音明细
 import recordShareManage from '../components/operationSupport/recordingLog/recordShareManage.vue';//录音分享卡片
@@ -150,7 +151,7 @@ import imageUpload from '../components/systemSetup/imageUpload.vue';//图片上�
 import globalParameter from '../components/systemSetup/globalParameter.vue';//全局参数
 import modifyThePassword from '../components/systemSetup/modifyThePassword.vue';//密码修改
 import accountManagement from '../components/systemSetup/accountManagement.vue';//账号管理
-import commonPages from '../components/systemSetup/commonPages.vue';//全局参数
+import commonPages from '../components/systemSetup/commonPages.vue';//常用页面配置
 // 系统设置end
 
 // 留存测试填充数据
@@ -417,6 +418,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/operatingTools/adRestrictionParameters', component: adRestrictionParameters, name: '广告限制次数', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/operatingTools/accountManage', component: accountManage, name: '账号修改，注册', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/operationSupport/operatingTools/activityFloatWindow', component: activityFloatWindow, name: '活动浮窗', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
+                    { path: '/operationSupport/operatingTools/articleManagement', component: articleManagement, name: '文章管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                 ],
             },
             {
