@@ -39,17 +39,17 @@ export default {
 			},
 			// 编辑器配置相对应的图片的提交上传
 			editorOption: {
-				modules: {
-                    imageImport: true,
-                    imageResize: {
-                        displaySize: true
-                    }
-                }
+				// modules: {
+                //     imageImport: true,
+                //     imageResize: {
+                //         displaySize: true
+                //     }
+                // }
 			},
-			imageImport: true,
-            imageResize: {
-                displaySize: true
-            },
+			// imageImport: true,
+            // imageResize: {
+            //     displaySize: true
+            // },
 		};
 	},
 	computed: {
@@ -58,8 +58,8 @@ export default {
 		}
 	},
 	mounted() {
-		//初始化对应拿取相对应的值
-
+		// 初始化对应拿取相对应的值
+		// 进行拿取出对应的值
 
 	},
 	methods: {

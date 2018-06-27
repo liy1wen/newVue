@@ -261,8 +261,9 @@ export default {
 			_this.formTwo.team_B_icon = row.team_B_icon;
 			_this.formTwo.start_time = row.start_time;
 			_this.formTwo.option_num = row.option_num;
-			_this.formTwo.score_A = row.score_A;
-			_this.formTwo.score_B = row.score_B;
+			// 没有将比分传过来的
+			_this.formTwo.score_A = '';
+			_this.formTwo.score_B = '';
 			_this.formTwo.grant_rate = row.grant_rate;
 		},
 		// 确定修改的内容
