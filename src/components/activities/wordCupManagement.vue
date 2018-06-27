@@ -37,6 +37,7 @@
 				<el-table-column prop="bonus_C" label="平局应援数" sortable ></el-table-column>
 				<el-table-column prop="bonus_B" label="B队应援数" sortable ></el-table-column>
 				<el-table-column prop="total_bonus" label="总应援数" sortable ></el-table-column>
+				<el-table-column prop="fake_data" label="假数据" sortable ></el-table-column>
 				<el-table-column prop="result" label="比赛结果" sortable >
 					<template slot-scope="scope">
 						<div v-if="scope.row.result">{{scope.row.result}}</div>
@@ -91,6 +92,9 @@
 				</el-form-item>
 				<el-form-item label="发放比例" :label-width="formLabelWidth">
 					<el-input v-model="formTwo.grant_rate" placeholder="请填写小数（0.8）" auto-complete="off"></el-input>	
+				</el-form-item>
+				<el-form-item label="假数据" :label-width="formLabelWidth">
+					<el-input v-model="formTwo.fake_data" placeholder="请填写整数" auto-complete="off"></el-input>	
 				</el-form-item>
 				<el-form-item label="A队比分" :label-width="formLabelWidth">
 					<el-input v-model="formTwo.score_A" auto-complete="off"></el-input>	
@@ -179,6 +183,7 @@ export default {
 				score_B: "",
 				grant_rate: "",
 				status: '',
+				fake_data: 0,
 			},
 			newData:{
 				team_A: "",
@@ -265,6 +270,7 @@ export default {
 			_this.formTwo.score_A = '';
 			_this.formTwo.score_B = '';
 			_this.formTwo.grant_rate = row.grant_rate;
+			_this.formTwo.fake_data = row.fake_data;
 		},
 		// 确定修改的内容
 		addSure(type){
@@ -301,6 +307,7 @@ export default {
 				formData.append('team_B_icon', _this.formTwo.file_B);
 				formData.append('score_A', _this.formTwo.score_A);
 				formData.append('score_B', _this.formTwo.score_B);
+				formData.append('fake_data', _this.formTwo.fake_data);
 				axios.post(baseConfig.server+baseConfig.requestUrl+url, formData, config)		
 					.then(res => {
 						// 数据请求成功
