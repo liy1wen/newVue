@@ -24,10 +24,6 @@
 <script>
 import axios from 'axios';
 import { quillEditor } from "vue-quill-editor"; //调用编辑器
-import { ImageImport } from '../someModul/ImageImport.js';
-import { ImageResize } from '../someModul/ImageResize.js';
-Quill.register('modules/imageImport', ImageImport);
-Quill.register('modules/imageResize', ImageResize);
 export default {
 	data() {
 		return {
@@ -38,18 +34,7 @@ export default {
 				content: "",
 			},
 			// 编辑器配置相对应的图片的提交上传
-			editorOption: {
-				// modules: {
-                //     imageImport: true,
-                //     imageResize: {
-                //         displaySize: true
-                //     }
-                // }
-			},
-			// imageImport: true,
-            // imageResize: {
-            //     displaySize: true
-            // },
+			editorOption: {},
 		};
 	},
 	computed: {
