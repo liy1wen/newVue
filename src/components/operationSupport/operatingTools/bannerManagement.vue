@@ -222,11 +222,17 @@
 					<el-form-item label="接听电话uid" :label-width="formLabelWidth">
 						<el-input v-model="bannerNewloading.params.res_uid" auto-complete="off"></el-input>
 					</el-form-item>
+					<el-form-item label="显示开始时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.show_s_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="显示结束时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerNewloading.params.show_e_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
+					</el-form-item>
 					<el-form-item label="直播通话开始时间" :label-width="formLabelWidth">
-						<el-input v-model="bannerNewloading.params.start_time" auto-complete="off"></el-input>
+						<el-input v-model="bannerNewloading.params.start_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="直播通话结束时间" :label-width="formLabelWidth">
-						<el-input v-model="bannerNewloading.params.end_time" auto-complete="off"></el-input>
+						<el-input v-model="bannerNewloading.params.end_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="跳转链接" :label-width="formLabelWidth">
 						<el-input v-model="bannerNewloading.params.jump_url" auto-complete="off"></el-input>
@@ -294,11 +300,17 @@
 					<el-form-item label="接听电话uid" :label-width="formLabelWidth">
 						<el-input v-model="bannerEditorloading.params.res_uid" auto-complete="off"></el-input>
 					</el-form-item>
+					<el-form-item label="显示开始时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.show_s_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="显示结束时间" :label-width="formLabelWidth">
+						<el-input v-model="bannerEditorloading.params.show_e_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
+					</el-form-item>
 					<el-form-item label="直播通话开始时间" :label-width="formLabelWidth">
-						<el-input v-model="bannerEditorloading.params.start_time" auto-complete="off"></el-input>
+						<el-input v-model="bannerEditorloading.params.start_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="直播通话结束时间" :label-width="formLabelWidth">
-						<el-input v-model="bannerEditorloading.params.end_time" auto-complete="off"></el-input>
+						<el-input v-model="bannerEditorloading.params.end_time" placeholder="2018-01-01 01:01:01" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="跳转链接" :label-width="formLabelWidth">
 						<el-input v-model="bannerEditorloading.params.jump_url" auto-complete="off"></el-input>
@@ -374,6 +386,8 @@ export default {
 					page_param: '',
 					show_type: '0',
 					is_show: '1',
+					show_s_time: '',
+					show_e_time: '',
 				},
 			},
 			bannerEditorloading: {
@@ -394,6 +408,8 @@ export default {
 					page_param: '',
 					show_type: '',
 					is_show: '',
+					show_s_time: '',
+					show_e_time: '',
 				},
 			},
 			listLoading: false, //动画加载时显示的动画
@@ -527,6 +543,8 @@ export default {
 				formData.append('show_type', _this.bannerNewloading.params.show_type);
 				formData.append('is_show', _this.bannerNewloading.params.is_show);
 			  	formData.append('pic', _this.bannerNewloading.file_pic); //提交的新增图标的文件
+			  	formData.append('show_s_time', _this.bannerNewloading.show_s_time);
+			  	formData.append('show_e_time', _this.bannerNewloading.show_e_time);
 				let config = {
 					headers: {
 						'Content-Type': 'multipart/form-data'
@@ -590,6 +608,16 @@ export default {
 			_this.bannerEditorloading.params.show_type = rows[index].show_type;
 			_this.bannerEditorloading.params.is_show = rows[index].is_show;
 			_this.bannerEditorloading.src_pic = rows[index].image_url;
+			if(rows[index].show_s_time==null||rows[index].show_s_time=='null') {//为null时特殊处理
+				_this.bannerEditorloading.show_s_time = '';
+			} else {
+				_this.bannerEditorloading.show_s_time = rows[index].show_s_time;
+			}
+			if(rows[index].show_e_time==null||rows[index].show_e_time=='null') {//为null时特殊处理
+				_this.bannerEditorloading.show_e_time = '';
+			} else {
+				_this.bannerEditorloading.show_e_time = rows[index].show_e_time;
+			}
 			_this.bannerEditorloading.dialogShow = true;
 		},
 		// 确定进行修改的
@@ -617,6 +645,8 @@ export default {
 				formData.append('show_type', _this.bannerEditorloading.params.show_type);
 				formData.append('is_show', _this.bannerEditorloading.params.is_show);
 			  	formData.append('pic', _this.bannerEditorloading.file_pic); //提交的新增图标的文件
+			  	formData.append('show_s_time', _this.bannerEditorloading.show_s_time);
+			  	formData.append('show_e_time', _this.bannerEditorloading.show_e_time);
 				let config = {
 					headers: {
 						'Content-Type': 'multipart/form-data'
