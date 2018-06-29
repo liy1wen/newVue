@@ -135,7 +135,7 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="jump_url" label="跳转地址" min-width="200"></el-table-column>
+						<el-table-column prop="jump_url" label="跳转地址" min-width="150"></el-table-column>
 						<el-table-column prop="page_param" label="跳转参数" width="50"></el-table-column>
 						<el-table-column label="跳转类型" width="80">
 							<template slot-scope="scope">
@@ -163,6 +163,8 @@
 								</div>
 							</template>
 						</el-table-column>
+						<el-table-column prop="show_s_time" label="显示开始时间" width="80"></el-table-column>
+						<el-table-column prop="show_e_time" label="显示结束时间" width="80"></el-table-column>
 						<el-table-column prop="req_uid" label="拨打电话Uid" width="50"></el-table-column>
 						<el-table-column prop="res_uid" label="接听电话Uid" width="50"></el-table-column>
 						<el-table-column prop="start_time" label="直播通话开始时间" width="80"></el-table-column>
@@ -543,8 +545,8 @@ export default {
 				formData.append('show_type', _this.bannerNewloading.params.show_type);
 				formData.append('is_show', _this.bannerNewloading.params.is_show);
 			  	formData.append('pic', _this.bannerNewloading.file_pic); //提交的新增图标的文件
-			  	formData.append('show_s_time', _this.bannerNewloading.show_s_time);
-			  	formData.append('show_e_time', _this.bannerNewloading.show_e_time);
+			  	formData.append('show_s_time', _this.bannerNewloading.params.show_s_time);
+			  	formData.append('show_e_time', _this.bannerNewloading.params.show_e_time);
 				let config = {
 					headers: {
 						'Content-Type': 'multipart/form-data'
@@ -609,14 +611,14 @@ export default {
 			_this.bannerEditorloading.params.is_show = rows[index].is_show;
 			_this.bannerEditorloading.src_pic = rows[index].image_url;
 			if(rows[index].show_s_time==null||rows[index].show_s_time=='null') {//为null时特殊处理
-				_this.bannerEditorloading.show_s_time = '';
+				_this.bannerEditorloading.params.show_s_time = '';
 			} else {
-				_this.bannerEditorloading.show_s_time = rows[index].show_s_time;
+				_this.bannerEditorloading.params.show_s_time = rows[index].show_s_time;
 			}
 			if(rows[index].show_e_time==null||rows[index].show_e_time=='null') {//为null时特殊处理
-				_this.bannerEditorloading.show_e_time = '';
+				_this.bannerEditorloading.params.show_e_time = '';
 			} else {
-				_this.bannerEditorloading.show_e_time = rows[index].show_e_time;
+				_this.bannerEditorloading.params.show_e_time = rows[index].show_e_time;
 			}
 			_this.bannerEditorloading.dialogShow = true;
 		},
@@ -645,8 +647,8 @@ export default {
 				formData.append('show_type', _this.bannerEditorloading.params.show_type);
 				formData.append('is_show', _this.bannerEditorloading.params.is_show);
 			  	formData.append('pic', _this.bannerEditorloading.file_pic); //提交的新增图标的文件
-			  	formData.append('show_s_time', _this.bannerEditorloading.show_s_time);
-			  	formData.append('show_e_time', _this.bannerEditorloading.show_e_time);
+			  	formData.append('show_s_time', _this.bannerEditorloading.params.show_s_time);
+			  	formData.append('show_e_time', _this.bannerEditorloading.params.show_e_time);
 				let config = {
 					headers: {
 						'Content-Type': 'multipart/form-data'
