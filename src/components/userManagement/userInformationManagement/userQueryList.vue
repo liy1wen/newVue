@@ -34,7 +34,7 @@
                     <el-form-item class="search-span" style="float:right;">
                         <el-button id="searchBtn" type="primary" @click="getData(0)">查询</el-button>
                     </el-form-item>
-                </el-row>  
+                </el-row>
             </el-form>
         </el-col>
         <!-- 用户的数据展示列表 -->
@@ -54,37 +54,44 @@
                         </el-popover>
                     </template>
                 </el-table-column>
+                <el-table-column prop="level" label="等级"></el-table-column>
                 <el-table-column prop="sex" :formatter="judgeSex" label="性别"></el-table-column>
                 <el-table-column prop="address" label="城市"></el-table-column>
                 <el-table-column prop="lasttime" label="最近登录时间"></el-table-column>
                 <el-table-column prop="status" :formatter="judgeStatus" label="状态"></el-table-column>
                 <el-table-column prop="is_online" :formatter="judgeOnline" label="是否在线"></el-table-column>
-                <el-table-column label="操作" width="300">
+                <el-table-column label="操作" width="350">
                     <template slot-scope="scope">
                         <el-row>
-                            <el-col :span="6">
+                            <el-col :span="4">
                                 <el-button size="mini" type="primary" @click="userDetail(scope.$index, scope.row)">用户详情</el-button>
                             </el-col>
-                            <el-col :span="6" v-if="scope.row.status == 0">
-                                <el-button size="mini" type="primary" @click="title(scope.$index, scope.row)">封号</el-button>
+                            <el-col :span="4" v-if="scope.row.status == 0">
+                                <el-button size="mini" type="danger" @click="title(scope.$index, scope.row)">封号</el-button>
                             </el-col>
-                            <el-col :span="6" v-if="scope.row.status == 0">
+                            <el-col :span="4" v-if="scope.row.status == 0">
                                 <el-button size="mini" type="primary" @click="plDown(scope.$index, scope.row)">踢下线</el-button>
                             </el-col>
-                            <el-col :span="6" v-else-if="scope.row.status == 1">
+                            <el-col :span="4" v-else-if="scope.row.status == 1">
                                 <el-button size="mini" type="warning" @click="Unlock(scope.$index, scope.row)">解封</el-button>
                             </el-col>
-                            <el-col :span="6" v-if="scope.row.is_up_list == 0">
+                            <el-col :span="4" v-if="scope.row.is_up_list == 0">
                                 <el-button size="mini" type="primary" @click="upList(scope.$index, scope.row)">上榜</el-button>
                             </el-col>
-                            <el-col :span="6" v-else-if="scope.row.is_up_list == 1">
+                            <el-col :span="4" v-else-if="scope.row.is_up_list == 1">
                                 <el-button size="mini" type="primary" @click="downList(scope.$index, scope.row)">下榜</el-button>
+                            </el-col>
+                            <el-col :span="4">
+                                <el-button size="mini" type="info" @click="prop(scope.$index, scope.row)">道具</el-button>
+                            </el-col>
+                            <el-col :span="4">
+                                <el-button size="mini" type="primary" @click="resetPass(scope.$index, scope.row)">重置密码</el-button>
                             </el-col>
                         </el-row>
                     </template>
                 </el-table-column>
             </el-table>
-            <el-dialog title="封禁账号" :visible.sync="titleInfo.dialogFormVisible" >
+            <el-dialog title="封禁账号" :visible.sync="titleInfo.dialogFormVisible">
                 <el-form :model="titleInfo">
                     <el-form-item label="封号时长" :label-width="formLabelWidth">
                         <el-select v-model="titleInfo.day" placeholder="请选择封号时长">
@@ -106,9 +113,9 @@
                     <el-button type="primary" @click="sureTitle">确 定</el-button>
                 </div>
             </el-dialog>
-            <el-dialog title="解封账号" :visible.sync="UnlockInfo.dialogFormVisible" >
+            <el-dialog title="解封账号" :visible.sync="UnlockInfo.dialogFormVisible">
                 <el-form :model="UnlockInfo">
-                    
+
                     <el-form-item label="解封原因" :label-width="formLabelWidth">
                         <el-input v-model="UnlockInfo.reason" auto-complete="off"></el-input>
                     </el-form-item>
@@ -118,9 +125,9 @@
                     <el-button type="primary" @click="srueUnlock">确 定</el-button>
                 </div>
             </el-dialog>
-            <el-dialog title="踢下线" :visible.sync="plDownInfo.dialogFormVisible" >
+            <el-dialog title="踢下线" :visible.sync="plDownInfo.dialogFormVisible">
                 <el-form :model="plDownInfo">
-                    
+
                     <el-form-item label="踢掉原因" :label-width="formLabelWidth">
                         <el-input v-model="plDownInfo.reason" auto-complete="off"></el-input>
                     </el-form-item>
@@ -130,6 +137,23 @@
                     <el-button type="primary" @click="sureplDown">确 定</el-button>
                 </div>
             </el-dialog>
+            <!-- 道具列表 -->
+            <el-dialog title="道具列表" :visible.sync="propInfo.dialogFormVisible">
+                <el-table :data="propInfo.data" style="width: 100%">
+                    <el-table-column prop="prop_id" label="道具id" width="180"></el-table-column>
+                    <el-table-column prop="name" label="道具名称" width="180"></el-table-column>
+                    <el-table-column prop="status" :formatter="judgeGiftStatus" label="状态"></el-table-column>
+                </el-table>
+            </el-dialog>
+            <!-- 重置密码二次确认 -->
+            <el-dialog title="重置密码" :visible.sync="resetPassword.dialogFormVisible" center width="30%">
+                <span>你确定要重置密码？</span>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="resetPassword.dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="sureReset">确 定</el-button>
+                </span>
+            </el-dialog>
+
             <el-col :span="24" class="toolbar">
                 <el-pagination layout="total,prev, pager, next,jumper" :page-size="20" @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
                 </el-pagination>
@@ -168,17 +192,28 @@ export default {
                 dialogFormVisible: false,
                 uid: "",
                 reason: "",
-                day: "",
+                day: ""
             },
             UnlockInfo: {
                 dialogFormVisible: false,
                 uid: "",
-                reason: "",
+                reason: ""
             },
             plDownInfo: {
                 dialogFormVisible: false,
                 uid: "",
-                reason: "",
+                reason: ""
+            },
+            propInfo: {
+                dialogFormVisible: false,
+                data: [],
+                prop_id: "",
+                name: "",
+                status: ""
+            },
+            resetPassword: {
+                dialogFormVisible: false,
+                uid: "",
             }
         };
     },
@@ -186,7 +221,7 @@ export default {
         judgeSex(row) {
             if (row.sex == 1) {
                 return "男";
-            } else if (row.sex == 2) {
+            } else {
                 return "女";
             }
         },
@@ -204,6 +239,15 @@ export default {
                 return "离线";
             }
         },
+        judgeGiftStatus(row) {
+            if (row.status == 0) {
+                return "可以使用";
+            } else if (row.status == 1) {
+                return "即将可用";
+            } else if (row.status == 2) {
+                return "已失效";
+            }
+        },
         handleCurrentChange(val) {
             this.page = val - 1;
             this.getData();
@@ -212,7 +256,7 @@ export default {
         getData(type) {
             var _this = this;
             _this.listLoading = true;
-            let url = "/User/getUser";
+            let url = "/NewUser/getUser";
             if (type == 0) {
                 _this.page = 0;
             }
@@ -231,7 +275,7 @@ export default {
                 page: _this.page
             };
             // 如果输入uid  取消其他搜索参数
-            if(param.find != "" && param.find != null){
+            if (param.find != "" && param.find != null) {
                 delete param.date_s;
                 delete param.date_e;
                 delete param.date_ls;
@@ -248,7 +292,7 @@ export default {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
         },
         // 用户详情
@@ -260,11 +304,11 @@ export default {
         },
         // 封号
         title(index, rows) {
-            this.titleInfo.uid = rows.uid; 
+            this.titleInfo.uid = rows.uid;
             this.titleInfo.dialogFormVisible = true;
             // var url = '/'
         },
-        sureTitle(){
+        sureTitle() {
             var _this = this;
             var url = "/User/kickUser";
             var param = {
@@ -272,8 +316,8 @@ export default {
                 day: this.titleInfo.day,
                 reason: this.titleInfo.reason,
                 operate_user: this.operate_user
-            }
-            if(param.reason == "" || param.reason == null){
+            };
+            if (param.reason == "" || param.reason == null) {
                 baseConfig.warningTipMsg(this, "封人家总得有个原因吧！");
                 return;
             }
@@ -291,23 +335,23 @@ export default {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
         },
         // 解封
-        Unlock(index, row){
+        Unlock(index, row) {
             this.UnlockInfo.dialogFormVisible = true;
             this.UnlockInfo.uid = row.uid;
         },
-        srueUnlock(){
+        srueUnlock() {
             var _this = this;
-            var url = '/User/freeUser';
+            var url = "/User/freeUser";
             var param = {
                 uid: this.UnlockInfo.uid,
                 reason: this.UnlockInfo.reason,
-                operate_user: this.operate_user,
-            }
-            if(param.reason == "" || param.reason == null){
+                operate_user: this.operate_user
+            };
+            if (param.reason == "" || param.reason == null) {
                 baseConfig.warningTipMsg(_this, "请输入解封原因！");
                 return;
             }
@@ -324,23 +368,23 @@ export default {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
         },
         // 踢下线
         plDown(index, row) {
-            this.plDownInfo.uid = row.uid; 
+            this.plDownInfo.uid = row.uid;
             this.plDownInfo.dialogFormVisible = true;
         },
         sureplDown() {
             var _this = this;
-            var url = '/User/kickUserDown';
+            var url = "/User/kickUserDown";
             var param = {
                 uid: this.plDownInfo.uid,
                 reason: this.plDownInfo.reason,
-                operate_user: this.operate_user,
-            }
-            if(param.reason == "" || param.reason == null){
+                operate_user: this.operate_user
+            };
+            if (param.reason == "" || param.reason == null) {
                 baseConfig.warningTipMsg(_this, "请输入踢掉原因");
             }
             allget(param, url)
@@ -356,16 +400,16 @@ export default {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
         },
         // 上榜
         upList(index, row) {
             var _this = this;
-            var url = '/Test/upMoneyOrCharm';
+            var url = "/Test/upMoneyOrCharm";
             var param = {
-                uid: row.uid,
-            }
+                uid: row.uid
+            };
             allget(param, url)
                 .then(res => {
                     if (res.data.ret) {
@@ -376,16 +420,16 @@ export default {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
         },
         // 下榜
-        downList(index, row){
+        downList(index, row) {
             var _this = this;
-            var url = '/Test/downMoneyOrCharm';
+            var url = "/Test/downMoneyOrCharm";
             var param = {
-                uid: row.uid,
-            }
+                uid: row.uid
+            };
             allget(param, url)
                 .then(res => {
                     if (res.data.ret) {
@@ -396,9 +440,53 @@ export default {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
-
+        },
+        // 道具
+        prop(index, row) {
+            var _this = this;
+            this.propInfo.dialogFormVisible = true;
+            var url = "/NewUser/getUserPropList";
+            var param = {
+                uid: row.uid
+            };
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        _this.propInfo.data = res.data.data;
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        },
+        // 重置密码
+        resetPass(index, row){
+            var _this = this;
+            _this.resetPassword.dialogFormVisible = true;
+            _this.resetPassword.uid = row.uid;
+        },
+        sureReset(){
+            var _this = this;
+            var url = '/NewUser/resetPassword';
+            var param = {
+                uid: _this.resetPassword.uid,
+            }
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        _this.resetPassword.dialogFormVisible = false;
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                });
         }
     },
     mounted() {

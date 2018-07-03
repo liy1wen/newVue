@@ -13,7 +13,7 @@
 				</el-form-item>
 				<el-form-item>
 					<span>置顶状态</span>
-					<el-select v-model="formOne.type">
+					<el-select style="width: 120px;" v-model="formOne.type">
 						<el-option label="全部" value="0"></el-option>
 						<el-option label="即将开始" value="1"></el-option>
 						<el-option label="进行中" value="2"></el-option>
@@ -21,10 +21,17 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-input placeholder="家族ID" v-model="formOne.family_id" auto-complete="off"></el-input>
+					<span>置顶类型</span>
+					<el-select style="width: 120px;" v-model="formOne.choice">
+						<el-option label="精选" value="1"></el-option>
+						<el-option label="推荐" value="2"></el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-input placeholder="家族名称" v-model="formOne.room_name" auto-complete="off"></el-input>
+					<el-input placeholder="房间ID" style="width: 120px;" v-model="formOne.room_id" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-input placeholder="房间名称" style="width: 120px;" v-model="formOne.room_name" auto-complete="off"></el-input>
 				</el-form-item>
                 <el-form-item>
 					<el-button type="primary" @click="dialogFormVisible=true;">添加房间置顶计划</el-button>
@@ -34,9 +41,9 @@
 		</el-col>
 		<!--用户的数据展示列表-->
 		<template>
-			<el-table ref="tableHeight" :data="tabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+			<el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="id" label="ID" width="80" sortable ></el-table-column>
-				<el-table-column prop="family_id" label="家族ID" width="80" sortable ></el-table-column>
+				<el-table-column prop="room_id" label="家族ID" width="80" sortable ></el-table-column>
 				<el-table-column prop="room_name" label="家族名称" width="250" sortable ></el-table-column>
 				<el-table-column prop="position" label="位置" width="80" sortable ></el-table-column>
 				<el-table-column prop="start_time" label="开始时间" min-width="100" sortable ></el-table-column>
@@ -59,14 +66,21 @@
 			</el-table>
 			<!--工具条-->
 			<el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" :current-page="page+1" style="float:right;"></el-pagination>
+				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
 			</el-col>
 		</template>
 		<!-- 新增--对应的dialog -->
-		<el-dialog title="新增公告" :visible.sync="dialogFormVisible">
+		<el-dialog title="新增房间置顶" :visible.sync="dialogFormVisible">
 			<el-form :model="formTwo">
+				<el-form-item>
+					<span style="display: inline-block;margin: 0 10px 0 60px;">置顶类型</span>
+					<el-select style="width: 120px;" v-model="formTwo.choice">
+						<el-option label="精选" value="1"></el-option>
+						<el-option label="推荐" value="2"></el-option>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="房间ID" :label-width="formLabelWidth">
-					<el-input v-model="formTwo.family_id" auto-complete="off"></el-input>
+					<el-input v-model="formTwo.room_id" auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="置顶位置" :label-width="formLabelWidth">
 					<el-select v-model="formTwo.position">
@@ -109,38 +123,51 @@ export default {
 			operate_user: '', // 当前进入的用户
 			// 搜索条件的组装字段
 			formOne: {
+				choice: "",
 				choiceDate: [new Date()-30*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				type: '0', 
-				family_id: '',
+				room_id: '',
 				room_name: '',
 			},
 			formTwo: {
+				choice: "",
 				choiceDate: [new Date(), new Date()],
-				family_id: '',
+				room_id: '',
 				position: '1',
 			},
 			listLoading: false, //动画加载时显示的动画
 			tabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 			totalpage: null, //下方工具条的总页数 
-			page: 0, //现在数据展示的页数
+			page: 1, //现在数据展示的页数
+			star: '0', //每一页的开始数据
+			end: '20', //每一页的结束数据
 			dialogFormVisible: false, // 控制dialog弹框的显示和隐藏
 			formLabelWidth: '130px', // 设置dialog弹框的宽度
 		};
 	},
+	computed:{
+		// 对某一页码展示某一页的数据，对返回的所有的数据进行切割处理，对当前的页码显示20条当前页码的数据
+		onePageTabData() {
+			var _this = this;
+			return _this.tabData.slice(_this.star, _this.end);
+		},
+	},
 	methods: {
 		// 下方页数进行翻页的页码时
 		handleCurrentChange(val) {
-			var _this = this;
 			// val指的是当前点击是第一页
-			_this.page = val-1;
-			_this.getTableData();
+			var _this = this;
+			_this.page = val;
+			_this.star = (_this.page-1)*20;
+			_this.end = _this.star+20;
 		},
 		// 搜索条件
 		searchCondition() {
 			var _this = this;
 			var obj = {};
 			obj.type = _this.formOne.type;
-			obj.family_id = _this.formOne.family_id;
+			obj.choice = _this.formOne.choice;
+			obj.room_id = _this.formOne.room_id;
 			obj.room_name = _this.formOne.room_name;
 			obj.date_s = baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0);
 			obj.date_e = baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0);
@@ -159,7 +186,8 @@ export default {
 				_this.listLoading = true;
 				// 进行添加的操作
 				let formData = new FormData();
-				formData.append('family_id', _this.formTwo.family_id);
+				formData.append('room_id', _this.formTwo.room_id);
+				formData.append('choice', _this.formTwo.choice);
 				formData.append('position', _this.formTwo.position);
 				formData.append('start_time', baseConfig.changeDateTime(_this.formTwo.choiceDate[0], 1));
 				formData.append('end_time', baseConfig.changeDateTime(_this.formTwo.choiceDate[1], 1));
@@ -168,8 +196,8 @@ export default {
 						'Content-Type': 'multipart/form-data'
 					}
 				};
-				if(formData.get('family_id')!='') {
-					axios.post(baseConfig.server+baseConfig.requestUrl+'/Family/addRoomSortPlan', formData, config)
+				if(formData.get('room_id')!='') {
+					axios.post(baseConfig.server+baseConfig.requestUrl+'/NewFamily/addRoomSortPlan', formData, config)
 					.then((res) => {
 						_this.listLoading = false;	
 						_this.dialogFormVisible = false;					
@@ -192,7 +220,7 @@ export default {
 		getTableData() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/Family/getRoomSortPlan';
+			var url = '/NewFamily/getRoomSortPlan';
 			var params = _this.searchCondition();
 			// 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 			if(params==null) {
@@ -220,7 +248,7 @@ export default {
 		cancelTop(index, rows) {
 			var _this = this;
 			var id = rows[index].id;
-			var url = '/Family/cancelRoomSortPlan';
+			var url = '/NewFamily/cancelRoomSortPlan';
 			var params = {
 				id: id,
 			};

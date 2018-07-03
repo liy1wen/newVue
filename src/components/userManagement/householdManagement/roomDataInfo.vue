@@ -14,7 +14,7 @@
                 </el-form-item>
                 <el-form-item>
                     <span>展示类型</span>
-                    <el-select style="width: 150px;" v-model="type" @change="getData(0)">
+                    <el-select style="width: 130px;" v-model="type" @change="getData(0)">
                         <el-option label="按单次" value="0"></el-option>
                         <el-option label="按日期分日展示" value="1"></el-option>
                         <el-option label="按日期合计展示" value="2"></el-option>
@@ -22,18 +22,26 @@
                 </el-form-item>
                 <el-form-item>
                     <span>房间ID</span>
-                    <el-input style="width:130px;" clearable placeholder="输入房间id" v-model="family_id">
+                    <el-input style="width:90px;" clearable placeholder="房间id" v-model="room_id">
                     </el-input>
                 </el-form-item>
                 <el-form-item>
                     <span>族长UID</span>
-                    <el-input style="width:130px;" clearable placeholder="输入族长UID" v-model="owner_uid">
+                    <el-input style="width:90px;" clearable placeholder="族长UID" v-model="owner_uid">
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <span>家族名称</span>
-                    <el-input style="width:130px;" clearable placeholder="输入家族名称" v-model="family_name">
+                    <span>房间名称</span>
+                    <el-input style="width:90px;" clearable placeholder="房间名称" v-model="room_name">
                     </el-input>
+                </el-form-item>
+                <el-form-item>
+                    <span>房间类型</span>
+                    <el-select style="width: 90px;" v-model="room_type">
+                        <el-option label="全部" value=""></el-option>
+                        <el-option label="家族房间" value="0"></el-option>
+                        <el-option label="个人房间" value="1"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item class="search-span" style="float:right;">
                     <el-button id="searchBtn" type="primary" @click="getData(0)">查询</el-button>
@@ -47,6 +55,7 @@
                 <el-table-column prop="date" label="时间"></el-table-column>
                 <el-table-column prop="room_id" label="房间ID"></el-table-column>
                 <el-table-column prop="room_name" label="房间名称"></el-table-column>
+                <el-table-column prop="label_name" label="功能标签"></el-table-column>
                 <el-table-column prop="family_id" label="所属家族"></el-table-column>
                 <el-table-column prop="owner_uid" label="族长UID"></el-table-column>
                 <el-table-column prop="room_status" :formatter="judgeStatus" label="当前房间状态"></el-table-column>
@@ -80,7 +89,21 @@
                 <el-table-column prop="total_honour" label="消费(聊币)"></el-table-column>
                 <el-table-column prop="cost_num" label="消费人次"></el-table-column>
                 <el-table-column prop="cost_people" label="消费人数"></el-table-column>
+                <el-table-column label="补贴">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <el-button type="primary" size="mini" @click="checkSubsidy(scope.row.room_name,scope.row.yun_xin_room_id)">补贴</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
             </el-table>
+            <!-- 补贴 -->
+            <el-dialog title="补贴" :visible.sync="dialogShow" center>
+                <el-form :model="subsidy_info">
+                    <div>
+                        <span>  </span>{{subsidy_info.name}} 房间的补贴为：{{subsidy_info.num}}</div>
+                </el-form>
+            </el-dialog>
             <!-- 工具条 -->
             <el-col :span="24" class="toolbar">
                 <el-pagination layout="total,prev, pager, next,jumper" :page-size="20" @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
@@ -105,9 +128,15 @@ export default {
             page: 0,
             totalpage: 1000,
             type: "0",
-            family_id: "",
-            family_name: "",
-            owner_uid: ""
+            room_id: "",
+            room_name: "",
+            owner_uid: "",
+            room_type: "",
+            dialogShow: false,
+            subsidy_info: {
+                name: "",
+                num: "",
+            }
         };
     },
     methods: {
@@ -131,11 +160,12 @@ export default {
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                family_name: this.family_name,
-                family_id: this.family_id,
+                room_name: this.room_name,
+                room_id: this.room_id,
                 owner_uid: this.owner_uid,
                 type: this.type,
-                page: this.page
+                page: this.page,
+                room_type: this.room_type,
             };
             if(param.family_id=="" || param.family_id==null){
                 delete param.family_id;
@@ -168,6 +198,28 @@ export default {
                 return "封禁";
             }
         },
+        // 查看补贴
+        checkSubsidy(name,yunid){
+            var _this = this;
+            this.subsidy_info.name = name; 
+            this.dialogShow = true;
+            var url = '/NewFamily/getRoomSubsidyData';
+            var param = {
+                date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
+                date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
+                yun_xin_room_id: yunid,
+            }
+            allget(param, url).then(res => {
+                if(res.data.ret){
+                    this.subsidy_info.num = res.data.num; 
+                    this.subsidy_info.num = this.subsidy_info.num == null ? 0 : this.subsidy_info.num;
+                }else{
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     },
     mounted() {
         var _this = this;

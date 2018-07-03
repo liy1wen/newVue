@@ -52,6 +52,8 @@
 									<p v-else-if="scope.row.position==10">IOS消息界面广告</p>									
 									<p v-else-if="scope.row.position==11">安卓首页界面广告</p>									
 									<p v-else-if="scope.row.position==12">IOS首页界面广告</p>									
+									<p v-else-if="scope.row.position==13">安卓首页顶部界面广告</p>									
+									<p v-else-if="scope.row.position==14">IOS首页顶部界面广告</p>									
 								</div>
 							</template>
 						</el-table-column>
@@ -123,6 +125,8 @@
 									<p v-else-if="scope.row.position==10">IOS消息界面广告</p>									
 									<p v-else-if="scope.row.position==11">安卓首页界面广告</p>									
 									<p v-else-if="scope.row.position==12">IOS首页界面广告</p>									
+									<p v-else-if="scope.row.position==13">安卓首页顶部界面广告</p>									
+									<p v-else-if="scope.row.position==14">IOS首页顶部界面广告</p>									
 								</div>
 							</template>
 						</el-table-column>
@@ -195,6 +199,8 @@
 							<el-option label="IOS消息界面广告" value="10"></el-option>
 							<el-option label="安卓首页界面广告" value="11"></el-option>
 							<el-option label="IOS首页界面广告" value="12"></el-option>
+							<el-option label="安卓首页顶部界面广告" value="13"></el-option>
+							<el-option label="IOS首页顶部界面广告" value="14"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="banner排序" :label-width="formLabelWidth">
@@ -267,6 +273,8 @@
 							<el-option label="IOS消息界面广告" value="10"></el-option>
 							<el-option label="安卓首页界面广告" value="11"></el-option>
 							<el-option label="IOS首页界面广告" value="12"></el-option>
+							<el-option label="安卓首页顶部界面广告" value="13"></el-option>
+							<el-option label="IOS首页顶部界面广告" value="14"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="banner排序" :label-width="formLabelWidth">

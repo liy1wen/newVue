@@ -33,6 +33,7 @@ import rechargeCount from '../components/operationData/rechargeConsumption/recha
 import giftDataList from '../components/operationData/rechargeConsumption/giftDataList.vue';//礼物数据统计
 import chatCurrencyStatistics from '../components/operationData/rechargeConsumption/chatCurrencyStatistics.vue';//聊币数据统计
 import chatTicketStatistics from '../components/operationData/rechargeConsumption/chatTicketStatistics.vue';//聊票数据统计
+import roomSubsidyTotal from '../components/operationData/rechargeConsumption/roomSubsidyTotal.vue';//房间补贴统计
 
 // 1-4通话数据统计
 import callDataSummary from '../components/operationSupport/callLog/CallDataSummary.vue';//通话数据汇总
@@ -71,6 +72,8 @@ import giftGiveRecord from '../components/userManagement/userInformationManageme
 import userCurrencyDetailQuery from '../components/userManagement/userInformationManagement/userCurrencyDetailQuery.vue';//用户货币明细查询
 import banImEiIpRecord from '../components/userManagement/userInformationManagement/banImEiIpRecord.vue';//设备及ip封禁管理
 import userQueryList from '../components/userManagement/userInformationManagement/userQueryList.vue';//用户信息查询
+import answers from '../components/userManagement/userInformationManagement/answers.vue';//注册答题明细
+import taskDataList from '../components/userManagement/userInformationManagement/taskDataList.vue';//任务进度查询 
 
 // 2-2家族管理
 import familyManage from '../components/userManagement/householdManagement/familyManage.vue';//家族查询
@@ -81,6 +84,9 @@ import familyDissolve from '../components/userManagement/householdManagement/fam
 import blacklist from '../components/userManagement/householdManagement/blacklist.vue';//黑名单
 import familyHonourList from '../components/userManagement/householdManagement/familyHonourList.vue';// 家族荣耀榜单
 import roomDataInfo from '../components/userManagement/householdManagement/roomDataInfo.vue';//房间详细数据
+import roomSubsidy from '../components/userManagement/householdManagement/roomSubsidy.vue';// 房间流水补贴
+import roomCheck from '../components/userManagement/householdManagement/roomCheck.vue';//房间考核日志
+import changeRoomGrade from '../components/userManagement/householdManagement/changeRoomGrade.vue';//修改房间等级
 
 // 2-3代理推广管理
 import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
@@ -105,6 +111,7 @@ import randomSignature from '../components/operationSupport/appContentManagement
 import registeredUserGreeting from '../components/operationSupport/appContentManagement/registeredUserGreeting.vue';//注册用户招呼语
 import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/revenueSuspensionWindow.vue';//收益悬浮窗
 import userTabsManage from '../components/operationSupport/appContentManagement/userTabsManage.vue';//首页标签管理
+import roomTabsManage from '../components/operationSupport/appContentManagement/roomTabsManage.vue';//房间标签管理
 // 3-2、运营工具
 import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
 import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
@@ -117,6 +124,7 @@ import sendSystemNotification from '../components/operationSupport/operatingTool
 import accountManage from '../components/operationSupport/operatingTools/accountManage.vue'; // 账号修改，注册
 import activityFloatWindow from '../components/operationSupport/operatingTools/activityFloatWindow.vue';//活动浮窗
 import articleManagement from '../components/operationSupport/operatingTools/articleManagement.vue';//文章管理
+import propList from '../components/operationSupport/operatingTools/propList.vue';//礼物列表
 // 3-3、录音日志
 import DailyAdditions from '../components/operationSupport/recordingLog/DailyAdditions.vue';//每日新增录音明细
 import recordShareManage from '../components/operationSupport/recordingLog/recordShareManage.vue';//录音分享卡片
@@ -249,6 +257,9 @@ export const asyncRouterMap = [
                     { path: '/operationData/rechargeConsumption/giftDataList', component: giftDataList, name: '礼物数据统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/vipMemberData', component: vipMemberData, name: 'VIP会员充值数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/rechargeCount', component: rechargeCount, name: '充值金额统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
+                    { path: '/operationData/rechargeConsumption/roomSubsidyTotal', component: roomSubsidyTotal, name: '房间补贴统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
+                    
+
                 ],
             },
             {
@@ -328,6 +339,9 @@ export const asyncRouterMap = [
                     { path: '/userManagement/userInformationManagement/rechargeList', component: rechargeList, name: '充值排行榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/incomeList', component: incomeList, name: '收入排行榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/girlsRanking', component: girlsRanking, name: '女性魅力值', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/answers', component: answers, name: '注册答题明细', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/taskDataList', component: taskDataList, name: '任务进度查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    
                 ],
             },
             {
@@ -339,14 +353,19 @@ export const asyncRouterMap = [
                 meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] },
                 children: [
                     { path: '/userManagement/householdManagement/familyManage', component: familyManage, name: '家族查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
-                    { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
-                    { path: '/userManagement/householdManagement/roomDataInfo', component: roomDataInfo, name: '房间详细数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/userManagement/householdManagement/familyHonourList', component: familyHonourList, name: '家族荣耀榜', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
-                    { path: '/userManagement/householdManagement/roomConsumptionFlow', component: roomConsumptionFlow, name: '房间消费流水', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/userManagement/householdManagement/blacklist', component: blacklist, name: '黑名单', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/familyDissolve', component: familyDissolve, name: '解散家族', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/changeFamilyGrade', component: changeFamilyGrade, name: '修改家族等级', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/roomDataInfo', component: roomDataInfo, name: '房间详细数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/userManagement/householdManagement/roomConsumptionFlow', component: roomConsumptionFlow, name: '房间消费流水', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    { path: '/userManagement/householdManagement/roomSubsidy', component: roomSubsidy, name: '房间流水补贴', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/roomCheck', component: roomCheck, name: '房间考核日志', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/roomTopManagement', component: roomTopManagement, name: '房间置顶管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/changeRoomGrade', component: changeRoomGrade, name: '修改房间等级', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    
                 ],
             },
             {
@@ -419,6 +438,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/operatingTools/accountManage', component: accountManage, name: '账号修改，注册', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/operationSupport/operatingTools/activityFloatWindow', component: activityFloatWindow, name: '活动浮窗', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/operationSupport/operatingTools/articleManagement', component: articleManagement, name: '文章管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/operationSupport/operatingTools/propList', component: propList, name: '道具列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                 ],
             },
             {
@@ -466,6 +486,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/appContentManagement/randomLabel', component: randomLabel, name: '随机用户标签', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/appContentManagement/randomNickname', component: randomNickname, name: '随机用户昵称', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/appContentManagement/randomSignature', component: randomSignature, name: '随机用户签名', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/operationSupport/appContentManagement/roomTabsManage', component: roomTabsManage, name: '房间标签管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                 ],
             },
         ],
@@ -487,7 +508,7 @@ export const asyncRouterMap = [
                     { path: '/activities/familyBackstageBackstage', component: familyBackstageBackstage, name: '家族嗨场', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/activities/loveActivityManage', component: loveActivityManage, name: '情人节活动数据统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/activities/interactionInfo', component: interactionInfo, name: '黑色情人节互动信息', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
-                    { path: '/activities/roomTopManagement', component: roomTopManagement, name: '家族置顶', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/activities/roomTopManagement', component: roomTopManagement, name: '房间置顶', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/activities/rechargeTheCrowdManagement', component: rechargeTheCrowdManagement, name: '充值众筹活动管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/activities/youthDay', component: youthDay, name: '五四活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/activities/wordCupManagement', component: wordCupManagement, name: '世界杯活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    

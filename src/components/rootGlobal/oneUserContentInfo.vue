@@ -42,6 +42,7 @@
                                     <div v-if="userinfo.sex==2">性别：<span>女</span></div>
                                 </el-col>
                                 <el-col :span="12" class="grid-info" v-if="userinfo.city"><div>城市：<span>{{userinfo.city}}</span></div></el-col>
+                                <el-col :span="12" class="grid-info"><div>等级：<span>{{userinfo.level}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>渠道：<span>{{userinfo.annotation}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>vip等级：<span>{{userinfo.vip_level}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>注册时间：<span>{{userinfo.addtime}}</span></div></el-col>
@@ -99,6 +100,8 @@
                                 <el-col :span="12" class="grid-info" v-if="userinfo.pay_account"><div>支付宝账号：<span>{{userinfo.pay_account}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info" v-if="userinfo.family_name"><div>家族名称：<span>{{userinfo.family_name}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>好评分：<span>{{userinfo.evaluate_score}}</span></div></el-col>
+                                <el-col :span="12" class="grid-info"><div>魅力值等级：<span>{{userinfo.charm_level}}</span></div></el-col>
+                                <el-col :span="12" class="grid-info"><div>财富值等级：<span>{{userinfo.money_level}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>魅力值:<span>{{userinfo.charm_score}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>粉丝数：<span>{{userinfo.fans}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>关注数：<span>{{userinfo.follow}}</span></div></el-col>

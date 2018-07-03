@@ -19,7 +19,7 @@
 			<el-col :span="24" class="toolbar">
 				<el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
 			</el-col>
-			<!-- 编辑修改--对应的dialog -->
+			<!-- 编辑修改 对应的dialog -->
 			<el-dialog title="编辑修改" :visible.sync="formOne.dialogVisible">
 				<el-form :model="formOne">
 					<el-form-item label="ID" :label-width="formLabelWidth">
@@ -31,39 +31,85 @@
 					<el-form-item v-if="formOne.id==37" label="图片地址" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.home_h5_img" auto-complete="off"></el-input>
 					</el-form-item>
-                    <el-form-item v-if="formOne.id!=37" label="图片地址" :label-width="formLabelWidth">
+                    <el-form-item v-else-if="formOne.id==119 || formOne.id==120 || formOne.id==121 || formOne.id==122" label="图片地址" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.room_h5_img" auto-complete="off"></el-input>
 					</el-form-item>
+					<el-form-item v-else-if="formOne.id==128 || formOne.id==129 || formOne.id==130" label="图片地址" :label-width="formLabelWidth">
+						<el-input v-model="formOne.values.my_room_h5_img" auto-complete="off"></el-input>
+					</el-form-item>
+
 					<el-form-item v-if="formOne.id==37" label="跳转地址" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.home_h5_jump_url" auto-complete="off"></el-input>
 					</el-form-item>
-                    <el-form-item v-if="formOne.id!=37" label="跳转地址" :label-width="formLabelWidth">
+                    <el-form-item v-else-if="formOne.id==119 || formOne.id==120 || formOne.id==121 || formOne.id==122" label="跳转地址" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.room_h5_jump_url" auto-complete="off"></el-input>
 					</el-form-item>
+					<el-form-item v-else-if="formOne.id==128 || formOne.id==129 || formOne.id==130" label="跳转地址" :label-width="formLabelWidth">
+						<el-input v-model="formOne.values.my_room_h5_jump_url" auto-complete="off"></el-input>
+					</el-form-item>
+
 					<el-form-item v-if="formOne.id==37" label="跳转方式" :label-width="formLabelWidth">
-						<el-input v-model="formOne.values.home_h5_jump_type" auto-complete="off"></el-input>
-                        
+						<!-- <el-input v-model="formOne.values.home_h5_jump_type" auto-complete="off"></el-input> -->
+						<el-select v-model="formOne.values.home_h5_jump_type">
+							<el-option label="应用内H5" value="2"></el-option>
+							<el-option label="外部浏览器" value="3"></el-option>
+						</el-select>
 					</el-form-item>
-                    <el-form-item v-if="formOne.id!=37" label="跳转方式" :label-width="formLabelWidth">
-						<el-input v-model="formOne.values.room_h5_jump_type" auto-complete="off"></el-input>
+                    <el-form-item v-else-if="formOne.id==119 || formOne.id==120 || formOne.id==121 || formOne.id==122" label="跳转方式" :label-width="formLabelWidth">
+						<!-- <el-input v-model="formOne.values.room_h5_jump_type" auto-complete="off"></el-input> -->
+						<el-select v-model="formOne.values.room_h5_jump_type">
+							<el-option label="应用内H5" value="2"></el-option>
+							<el-option label="外部浏览器" value="3"></el-option>
+						</el-select>
 					</el-form-item>
+					<el-form-item v-else-if="formOne.id==128 || formOne.id==129 || formOne.id==130" label="跳转方式" :label-width="formLabelWidth">
+						<!-- <el-input v-model="formOne.values.my_room_h5_jump_type" auto-complete="off"></el-input> -->
+						<el-select v-model="formOne.values.my_room_h5_jump_type">
+							<el-option label="应用内H5" value="2"></el-option>
+							<el-option label="外部浏览器" value="3"></el-option>
+						</el-select>
+					</el-form-item>
+
 					<el-form-item v-if="formOne.id==37" label="标题" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.home_h5_jump_title" auto-complete="off"></el-input>
 					</el-form-item>
-                    <el-form-item v-if="formOne.id!=37" label="标题" :label-width="formLabelWidth">
+                    <el-form-item v-else-if="formOne.id==119 || formOne.id==120 || formOne.id==121 || formOne.id==122" label="标题" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.room_h5_jump_title" auto-complete="off"></el-input>
 					</el-form-item>
+					<el-form-item v-else-if="formOne.id==128 || formOne.id==129 || formOne.id==130" label="标题" :label-width="formLabelWidth">
+						<el-input v-model="formOne.values.my_room_h5_jump_title" auto-complete="off"></el-input>
+					</el-form-item>
+
 					<el-form-item v-if="formOne.id==37" label="分享内容" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.home_h5_share_content" auto-complete="off"></el-input>
 					</el-form-item>
-                    <el-form-item v-if="formOne.id!=37" label="分享内容" :label-width="formLabelWidth">
+                    <el-form-item v-else-if="formOne.id==119 || formOne.id==120 || formOne.id==121 || formOne.id==122" label="分享内容" :label-width="formLabelWidth">
 						<el-input v-model="formOne.values.room_h5_share_content" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item v-if="formOne.id==37" label="是否显示" :label-width="formLabelWidth">
-						<el-input v-model="formOne.values.home_h5_is_show" auto-complete="off"></el-input>
+					<el-form-item v-else-if="formOne.id==128 || formOne.id==129 || formOne.id==130" label="分享内容" :label-width="formLabelWidth">
+						<el-input v-model="formOne.values.my_room_h5_share_content" auto-complete="off"></el-input>
 					</el-form-item>
-                    <el-form-item v-if="formOne.id!=37" label="是否显示" :label-width="formLabelWidth">
-						<el-input v-model="formOne.values.room_h5_is_show" auto-complete="off"></el-input>
+
+					<el-form-item v-if="formOne.id==37" label="是否显示" :label-width="formLabelWidth">
+						<!-- <el-input v-model="formOne.values.home_h5_is_show" auto-complete="off"></el-input> -->
+						<el-select v-model="formOne.values.home_h5_is_show">
+							<el-option label="显示" value="1"></el-option>
+							<el-option label="不显示" value="0"></el-option>
+						</el-select>
+					</el-form-item>
+                    <el-form-item v-else-if="formOne.id==119 || formOne.id==120 || formOne.id==121 || formOne.id==122" label="是否显示" :label-width="formLabelWidth">
+						<!-- <el-input v-model="formOne.values.room_h5_is_show" auto-complete="off"></el-input> -->
+						<el-select v-model="formOne.values.room_h5_is_show">
+							<el-option label="显示" value="1"></el-option>
+							<el-option label="不显示" value="0"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item v-else-if="formOne.id==128 || formOne.id==129 || formOne.id==130" label="是否显示" :label-width="formLabelWidth">
+						<!-- <el-input v-model="formOne.values.my_room_h5_is_show" auto-complete="off"></el-input> -->
+						<el-select v-model="formOne.values.my_room_h5_is_show">
+							<el-option label="显示" value="1"></el-option>
+							<el-option label="不显示" value="0"></el-option>
+						</el-select>
 					</el-form-item>
 					<el-form-item label="描述" :label-width="formLabelWidth">
 						<el-input type="textarea" autosize v-model="formOne.desc" auto-complete="off"></el-input>
@@ -97,16 +143,22 @@ export default {
 				values: {
 					home_h5_img: '',
 					room_h5_img: '',
+					my_room_h5_img: '',
 					home_h5_jump_url: '',
 					room_h5_jump_url: '',
+					my_room_h5_jump_url: '',
 					home_h5_jump_type: '',
 					room_h5_jump_type: '',
+					my_room_h5_jump_type: '',
 					home_h5_jump_title: '',
 					room_h5_jump_title: '',
+					my_room_h5_jump_title: '',
 					home_h5_share_content: '',
 					room_h5_share_content: '',
+					my_room_h5_share_content: '',
 					home_h5_is_show: '',
 					room_h5_is_show: '',
+					my_room_h5_is_show: '',
 				},
 			},
 			listLoading: false, //动画加载时显示的动画
@@ -152,7 +204,10 @@ export default {
                             res.data.data[i].id==119  ||
                             res.data.data[i].id==120  ||
                             res.data.data[i].id==121  ||
-                            res.data.data[i].id==122 
+                            res.data.data[i].id==122  ||
+                            res.data.data[i].id==128  ||
+                            res.data.data[i].id==129  ||
+                            res.data.data[i].id==130  
                             ) {
                               _this.tabData.push(res.data.data[i]);  
                         } 
@@ -181,6 +236,12 @@ export default {
 				_this.formOne.values.room_h5_jump_title = '';
 				_this.formOne.values.room_h5_share_content = '';
 				_this.formOne.values.room_h5_is_show = '';
+				_this.formOne.values.my_room_h5_img = '';
+				_this.formOne.values.my_room_h5_jump_url = '';
+				_this.formOne.values.my_room_h5_jump_type = '';
+				_this.formOne.values.my_room_h5_jump_title = '';
+				_this.formOne.values.my_room_h5_share_content = '';
+				_this.formOne.values.my_room_h5_is_show = '';
 				_this.formOne.values.home_h5_img = aa.home_h5_img;
 				_this.formOne.values.home_h5_jump_url = aa.home_h5_jump_url;
 				_this.formOne.values.home_h5_jump_type = aa.home_h5_jump_type;
@@ -195,12 +256,38 @@ export default {
 				_this.formOne.values.home_h5_jump_title = '';
 				_this.formOne.values.home_h5_share_content = '';
 				_this.formOne.values.home_h5_is_show = '';
+				_this.formOne.values.my_room_h5_img = '';
+				_this.formOne.values.my_room_h5_jump_url = '';
+				_this.formOne.values.my_room_h5_jump_type = '';
+				_this.formOne.values.my_room_h5_jump_title = '';
+				_this.formOne.values.my_room_h5_share_content = '';
+				_this.formOne.values.my_room_h5_is_show = '';
                 _this.formOne.values.room_h5_img = aa.room_h5_img;
 				_this.formOne.values.room_h5_jump_url = aa.room_h5_jump_url;
 				_this.formOne.values.room_h5_jump_type = aa.room_h5_jump_type;
 				_this.formOne.values.room_h5_jump_title = aa.room_h5_jump_title;
 				_this.formOne.values.room_h5_share_content = aa.room_h5_share_content;
 				_this.formOne.values.room_h5_is_show = aa.room_h5_is_show;
+			}else if(_this.formOne.id==128||_this.formOne.id==129||_this.formOne.id==130){
+				var aa = JSON.parse(rows[index].value);
+				_this.formOne.values.room_h5_img = '';
+				_this.formOne.values.room_h5_jump_url = '';
+				_this.formOne.values.room_h5_jump_type = '';
+				_this.formOne.values.room_h5_jump_title = '';
+				_this.formOne.values.room_h5_share_content = '';
+				_this.formOne.values.room_h5_is_show = '';
+				_this.formOne.values.home_h5_img = '';
+				_this.formOne.values.home_h5_jump_url = '';
+				_this.formOne.values.home_h5_jump_type = '';
+				_this.formOne.values.home_h5_jump_title = '';
+				_this.formOne.values.home_h5_share_content = '';
+				_this.formOne.values.home_h5_is_show = '';
+				_this.formOne.values.my_room_h5_img = aa.my_room_h5_img;
+				_this.formOne.values.my_room_h5_jump_url = aa.my_room_h5_jump_url;
+				_this.formOne.values.my_room_h5_jump_type = aa.my_room_h5_jump_type;
+				_this.formOne.values.my_room_h5_jump_title = aa.my_room_h5_jump_title;
+				_this.formOne.values.my_room_h5_share_content = aa.my_room_h5_share_content;
+				_this.formOne.values.my_room_h5_is_show = aa.my_room_h5_is_show;
 			}
 			_this.formOne.dialogVisible = true; // 点击了编辑修改显示dialog框
 		},
@@ -235,7 +322,17 @@ export default {
                         room_h5_is_show: _this.formOne.values.room_h5_is_show,
                     }
 					_this.formOne.value = JSON.stringify(obj);
-                }
+                }else if(_this.formOne.id==128||_this.formOne.id==129||_this.formOne.id==130){
+					var obj = {
+                        my_room_h5_img: _this.formOne.values.my_room_h5_img,
+                        my_room_h5_jump_url: _this.formOne.values.my_room_h5_jump_url,
+                        my_room_h5_jump_type: _this.formOne.values.my_room_h5_jump_type,
+                        my_room_h5_jump_title: _this.formOne.values.my_room_h5_jump_title,
+                        my_room_h5_share_content: _this.formOne.values.my_room_h5_share_content,
+                        my_room_h5_is_show: _this.formOne.values.my_room_h5_is_show,
+					}
+					_this.formOne.value = JSON.stringify(obj);
+				}
 			  	formData.append('value', _this.formOne.value);				
 				let config = {
 					headers: {

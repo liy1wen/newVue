@@ -24,6 +24,14 @@
                             <el-input style="width:100px;" placeholder="请输入内容" v-model="owner_uid" clearable>
                             </el-input>
                         </el-form-item>
+                        <el-form-item>
+                            <span>展示类型</span>
+                            <el-select style="width: 100px;" v-model="room_type">
+                                <el-option label="全部" value=""></el-option>
+                                <el-option label="家族房间" value="0"></el-option>
+                                <el-option label="个人房间" value="1"></el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item style="float:right;margin-right: 100px;">
                             <el-button type="primary" @click="getTbData">查询</el-button>
                         </el-form-item>
@@ -35,8 +43,19 @@
                         <el-table-column prop="create_time" label="开启时间"></el-table-column>
                         <el-table-column prop="room_id" label="房间ID"></el-table-column>
                         <el-table-column prop="room_name" label="房间名称"></el-table-column>
-                        <!-- <el-table-column prop="family_name" label="所属家族"></el-table-column> -->
+                        <el-table-column prop="level" label="等级"></el-table-column>
+                        <el-table-column prop="room_pic" label="展示图">
+                            <template slot-scope="scope">
+                                <el-popover trigger="hover" placement="left">
+                                    <img :src="scope.row.room_pic" alt="" style="width: 300px; height: auto;">
+                                    <div slot="reference" class="name-wrapper">
+                                        <img :src="scope.row.room_pic" alt="" style="width: 100px; height: auto;">
+                                    </div>
+                                </el-popover>
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="room_intro" label="房间公告"></el-table-column>
+                        <el-table-column prop="room_type" :formatter="judgeRoom" label="房间类型"></el-table-column>
                         <el-table-column prop="owner_uid" label="族长UID"></el-table-column>
                         <el-table-column prop="nickname" label="创建者昵称"></el-table-column>
                         <!-- <el-table-column prop="owner_nickname" label="族长昵称"></el-table-column> -->
@@ -45,12 +64,12 @@
                                 <el-popover trigger="hover" placement="left">
                                     <img :src="scope.row.room_background_pic" alt="" style="width: 300px; height: auto;">
                                     <div slot="reference" class="name-wrapper">
-                                        <img :src="scope.row.room_background_pic" alt="" style="width: 100px; height: auto;">
+                                        <img :src="scope.row.room_background_pic" alt="" style="width: 100px; height: 150px;">
                                     </div>
                                 </el-popover>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="room_status" :formatter="judgeRoom" label="房间状态"></el-table-column>
+                        <!-- <el-table-column prop="room_status" :formatter="judgeRoom" label="房间状态"></el-table-column>  -->
                         <!-- <el-table-column prop="use_time" label="单次时长"></el-table-column> -->
                         <el-table-column prop="pit_rate" label="入坑率"></el-table-column>
 
@@ -69,18 +88,25 @@
                         <el-table-column prop="total_cost_money" label="累积消费金额"></el-table-column>
                         <el-table-column prop="total_cost_num" label="累积消费次数"></el-table-column>
                         <el-table-column prop="total_cost_people" label="累积消费人数"></el-table-column>
-                        <el-table-column prop="room_status" label="操作" width="130px">
-                            <template slot-scope="scope">
-                                <el-button size="small" type="danger" @click="deleteBgImg(scope.$index, scope.row)">删除背景图</el-button>
-                                <div v-if="scope.row.room_status==0">
-                                    <el-button size="small" type="danger" style="margin-top: 2px;" @click="closeRoomModal(scope.$index, scope.row)">关闭房间</el-button>
+                        <el-table-column prop="room_status" label="操作" width='130px;' fixed="right">
+                            <template slot-scope="scope" style="width: 300px;">
+                                <el-button size="mini" type="danger" @click="deleteBgImg(scope.$index, scope.row)">删除背景图</el-button>
+                                <el-button size="mini" type="danger" @click="deleteRoomPic(scope.$index, scope.row)">删除展示图</el-button>
+                                <div v-if="scope.row.room_status==0" style="display: inline-block;">
+                                    <el-button size="mini" type="danger" style="margin-top: 2px;" @click="closeRoomModal(scope.$index, scope.row)">关闭房间</el-button>
                                 </div>
-                                <div v-else-if="scope.row.room_status==1">
-                                    <el-button size="small" type="primary" style="margin-top: 2px;" @click="openRoomModal(scope.$index, scope.row)">开启房间</el-button>
+                                <div v-else-if="scope.row.room_status==1" style="display: inline-block;">
+                                    <el-button size="mini" type="primary" style="margin-top: 2px;" @click="openRoomModal(scope.$index, scope.row)">开启房间</el-button>
                                 </div>
-                                <el-button size="small" type="primary" style="margin-top: 2px;" @click="editRoom(scope.$index, scope.row)">编辑房间ID</el-button>
-                                <el-button size="small" type="primary" style="margin-top: 2px;" @click="changeName(scope.$index, scope.row)">改房名</el-button>
-                                <el-button size="small" type="primary" style="margin-top: 2px;" @click="changeIntro(scope.$index, scope.row)">改公告</el-button>
+                                <div v-if="scope.row.room_status==2" style="display: inline-block;">
+                                    <el-button size="mini" type="danger" style="margin-top: 2px;" @click="deblockRoomModal(scope.$index, scope.row)">解封房间</el-button>
+                                </div>
+                                <div v-else style="display: inline-block;">
+                                    <el-button size="mini" type="primary" style="margin-top: 2px;" @click="benRoomModal(scope.$index, scope.row)">封禁房间</el-button>
+                                </div>
+                                <el-button size="mini" type="primary" style="margin-top: 2px;" @click="editRoom(scope.$index, scope.row)">编辑房间ID</el-button>
+                                <el-button size="mini" type="primary" style="margin-top: 2px;" @click="changeName(scope.$index, scope.row)">改房名</el-button>
+                                <el-button size="mini" type="primary" style="margin-top: 2px;" @click="changeIntro(scope.$index, scope.row)">改公告</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -162,6 +188,39 @@
                             <el-button type="primary" @click="sureChangeIntroName">确 定</el-button>
                         </span>
                     </el-dialog>
+                    <!-- 封禁房间 -->
+                    <el-dialog title="封禁房间" :visible.sync="deblockInfo.dialogShow" center>
+                        <el-form :model="deblockInfo">
+                            <span>封禁时长：</span>
+                            <el-select style="width: 120px;margin: 0 0 10px 8px;" v-model="deblockInfo.day">
+                                <el-option label="1天" value="1"></el-option>
+                                <el-option label="5天" value="5"></el-option>
+                                <el-option label="7天" value="7"></el-option>
+                                <el-option label="15天" value="15"></el-option>
+                                <el-option label="30天" value="30"></el-option>
+                                <el-option label="永久封禁" value=""></el-option>
+                            </el-select>
+                            <el-form-item label="封禁原因：" width="120px">
+                                <el-input v-model="deblockInfo.reason" style="width: 400px;" auto-complete="off"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="deblockInfo.dialogShow = false">取 消</el-button>
+                            <el-button type="primary" @click="sureBen">确 定</el-button>
+                        </span>
+                    </el-dialog>
+                    <!-- 解封房间 -->
+                    <el-dialog title="解封房间" :visible.sync="noBlockInfo.dialogShow" center>
+                        <el-form :model="noBlockInfo">
+                            <el-form-item label="解封原因：" width="120px">
+                                <el-input v-model="noBlockInfo.reason" style="width: 400px;" auto-complete="off"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="noBlockInfo.dialogShow = false">取 消</el-button>
+                            <el-button type="primary" @click="sureDeblock">确 定</el-button>
+                        </span>
+                    </el-dialog>
                 </template>
             </el-tab-pane>
             <el-tab-pane label="房间封禁记录" name="second">
@@ -226,6 +285,7 @@ export default {
             listLoading1: false,
             tableHeight: null,
             activeName: "first",
+            room_type: "",
             formOne: {
                 startDate: [new Date() - 13 * 24 * 60 * 60 * 1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
                 startDate1: [new Date() - 13 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
@@ -265,6 +325,17 @@ export default {
                 yun_xin_room_id: "",
                 room_intro: "",
             },
+            deblockInfo: {
+                dialogShow: false,  
+                yun_xin_room_id: "",
+                day: "",
+                reason: "",
+            },
+            noBlockInfo: {
+                dialogShow: false,
+                yun_xin_room_id: "",
+                reason: "",
+            },
             roomName: null, // 房间名
             yun_xin_room_id: null, //云信id
             type: null, // 关闭类型
@@ -300,8 +371,11 @@ export default {
                 ),
                 room_id: this.room_id,
                 owner_uid: this.owner_uid,
-                page: this.page
+                page: this.page,
+                room_type: this.room_type,
             };
+            param.room_type == "" ? delete(param.room_type) : param.room_type = param.room_type;
+            console.log(param)
             allget(param, url)
                 .then(res => {
                     _this.listLoading = false;
@@ -342,14 +416,7 @@ export default {
                     console.log(err);
                 });
         },
-        // 判断男女
-        judgeRoom(row) {
-            if (row.room_status == 0) {
-                return "公开";
-            } else if (row.room_status == 1) {
-                return "已关门";
-            }
-        },
+        
         // 判断状态
         judgeState(row) {
             if (row.status == 0) {
@@ -359,6 +426,31 @@ export default {
             } else if (row.status == 2) {
                 return "打开";
             }
+        },
+        judgeRoom(row) {
+            if(row.room_type == 0){
+                return "家族房间";
+            }else if(row.room_type == 1){
+                return "个人房间";
+            }
+        },
+        // 删除展示图片
+        deleteRoomPic(index, row) {
+            var _this = this;
+            let url = "/NewFamily/delRoomLiveBroadCastRoomPic";
+            let param = {
+                yun_xin_room_id: row.yun_xin_room_id
+            };
+            allget(param, url).then(res => {
+                if (res.data.ret) {
+                    baseConfig.successTipMsg(this, res.data.msg);
+                    _this.getTbData();
+                } else {
+                    baseConfig.errorTipMsg(this, res.data.msg);
+                }
+            }).catch(err => {
+                console.log(err);
+            });
         },
         // 删除背景图
         deleteBgImg(index, row) {
@@ -370,6 +462,7 @@ export default {
             allget(param, url).then(res => {
                 if (res.data.ret) {
                     baseConfig.successTipMsg(this, res.data.msg);
+                    _this.getTbData();
                 } else {
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
@@ -434,6 +527,62 @@ export default {
                     baseConfig.successTipMsg(this, res.data.msg);
                     _this.closeFormInfo.dialogShow = false;
                     _this.getTbData();
+                } else {
+                    baseConfig.errorTipMsg(this, res.data.msg);
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+        },
+        // 封禁房间
+        benRoomModal(index, row){
+            this.deblockInfo.dialogShow = true;
+            this.deblockInfo.yun_xin_room_id = row.yun_xin_room_id;
+        },
+        sureBen(){
+            var _this = this;
+            var url = 'NewFamily/closeOrOpenLiveBroadCastRoomId';
+            var param = {
+                yun_xin_room_id: this.deblockInfo.yun_xin_room_id,
+                type: 1,
+                day: this.deblockInfo.day,
+                reason: this.deblockInfo.reason,
+                operate_user: this.operate_user,     
+            }
+            allget(param, url).then(res => {
+                if (res.data.ret) {
+                    baseConfig.successTipMsg(this, res.data.msg);
+                    _this.deblockInfo.dialogShow = false;
+                    _this.getTbData();
+                    _this.deblockInfo.day = "";
+                    _this.deblockInfo.reason = "";
+                } else {
+                    baseConfig.errorTipMsg(this, res.data.msg);
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+        },
+        // 解封房间
+        deblockRoomModal(index, row){
+            this.noBlockInfo.dialogShow = true;
+            this.noBlockInfo.yun_xin_room_id = row.yun_xin_room_id;
+        },
+        sureDeblock(){
+            var _this = this;
+            var url = 'NewFamily/closeOrOpenLiveBroadCastRoomId';
+            var param = {
+                yun_xin_room_id: this.noBlockInfo.yun_xin_room_id,
+                type: 2,
+                reason: this.noBlockInfo.reason,
+                operate_user: this.operate_user,     
+            }
+            allget(param, url).then(res => {
+                if (res.data.ret) {
+                    baseConfig.successTipMsg(this, res.data.msg);
+                    _this.noBlockInfo.dialogShow = false;
+                    _this.getTbData();
+                    _this.noBlockInfo.reason = "";
                 } else {
                     baseConfig.errorTipMsg(this, res.data.msg);
                 }
