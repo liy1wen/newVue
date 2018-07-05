@@ -22,6 +22,7 @@
                         <el-option label="钻石" value="6"></el-option>
                         <el-option label="至尊" value="7"></el-option>
                         <el-option label="圣尊" value="8"></el-option>
+                        <el-option label="道具" value="9"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -39,7 +40,7 @@
                 <el-table-column prop="time" label="申请时间"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
-                <el-table-column prop="type" label="货币类型">
+                <el-table-column prop="type" label="赠送类型">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <p v-if="scope.row.type==1">聊币</p>
@@ -50,9 +51,11 @@
                             <p v-else-if="scope.row.type==6">钻石</p>
                             <p v-else-if="scope.row.type==7">至尊</p>
                             <p v-else-if="scope.row.type==8">圣尊</p>
+                            <p v-else-if="scope.row.type==9">{{scope.row.prop_name}}</p>
                         </div>
                     </template>
                 </el-table-column>
+                <!-- <el-table-column prop="name" label="道具"></el-table-column> -->
                 <el-table-column prop="num" label="申请数量"></el-table-column>
                 <el-table-column prop="operation_name" label="申请人"></el-table-column>
                 <el-table-column prop="operation_reason" label="申请原由"></el-table-column>
@@ -122,6 +125,7 @@ export default {
             formLabelWidth: "120px",
             passDialogVisible: false,
             refuseDialogVisible: false,
+            operation_name: null,
             passData: {
                 uid: null,
                 id: null,
@@ -164,7 +168,7 @@ export default {
         getTableData() {
             var _this = this;
             _this.listLoading = true;
-            var url = "/Money/agreeSendMoneyTo";
+            var url = "/NewMoney/agreeSendMoneyTo";
             var params = _this.searchConditionOne();
             allget(params, url)
                 .then(res => {
@@ -204,7 +208,7 @@ export default {
                 type: this.passData.type,
                 num: this.passData.num,
             }
-            var url = '/Money/sendMoneyToSuccess';
+            var url = '/NewMoney/sendMoneyToSuccess';
             allget(params, url)
                 .then(res=>{
                     if(res.data.ret) {
@@ -221,14 +225,15 @@ export default {
         },
         refuse(index, row) {
             this.refuseDialogVisible = true;
-            this.passData.num = row[index].num;
+            this.passData.id = row[index].id;
         },
         sureRefuse() {
             var _this = this;
             var params = {
-                num: this.passData.num,
+                id: this.passData.id,
+                operation_name: this.operation_name,
             }
-            var url = '/Money/sendMoneyToFail';
+            var url = '/NewMoney/sendMoneyToFail';
             allget(params, url)
                 .then(res=>{
                     if(res.data.ret) {
@@ -249,6 +254,7 @@ export default {
         _this.$nextTick(function() {
             _this.tableHeight = baseConfig.lineNumber(searchPageHeight);
             _this.getTableData();
+            _this.operation_name = store.state.user.name; // 操作用户的昵称
         });
     }
 };

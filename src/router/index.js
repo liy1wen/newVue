@@ -24,6 +24,8 @@ import registerOrActivate from '../components/operationData/userAnalysis/registe
 import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
 import onlineDistribute from '../components/operationData/userAnalysis/onlineDistribute.vue';//在线时长分布
 import avgUserTime from '../components/operationData/userAnalysis/avgUserTime.vue';//人均使用时长
+import levelSpread from '../components/operationData/userAnalysis/levelSpread.vue';//等级分布
+import dayTaskData from '../components/operationData/userAnalysis/dayTaskData.vue';//每日任务统计
 // 1-3充值与消费
 import financialDaily from '../components/operationData/rechargeConsumption/financialDaily.vue';//财务日报
 import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
@@ -74,6 +76,7 @@ import banImEiIpRecord from '../components/userManagement/userInformationManagem
 import userQueryList from '../components/userManagement/userInformationManagement/userQueryList.vue';//用户信息查询
 import answers from '../components/userManagement/userInformationManagement/answers.vue';//注册答题明细
 import taskDataList from '../components/userManagement/userInformationManagement/taskDataList.vue';//任务进度查询 
+import levelRecordList from '../components/userManagement/userInformationManagement/levelRecordList.vue';//等级流水查询 
 
 // 2-2家族管理
 import familyManage from '../components/userManagement/householdManagement/familyManage.vue';//家族查询
@@ -87,6 +90,7 @@ import roomDataInfo from '../components/userManagement/householdManagement/roomD
 import roomSubsidy from '../components/userManagement/householdManagement/roomSubsidy.vue';// 房间流水补贴
 import roomCheck from '../components/userManagement/householdManagement/roomCheck.vue';//房间考核日志
 import changeRoomGrade from '../components/userManagement/householdManagement/changeRoomGrade.vue';//修改房间等级
+import roomOfficialTabList from '../components/userManagement/householdManagement/roomOfficialTabList.vue';//官方标签列表
 
 // 2-3代理推广管理
 import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
@@ -111,7 +115,7 @@ import randomSignature from '../components/operationSupport/appContentManagement
 import registeredUserGreeting from '../components/operationSupport/appContentManagement/registeredUserGreeting.vue';//注册用户招呼语
 import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/revenueSuspensionWindow.vue';//收益悬浮窗
 import userTabsManage from '../components/operationSupport/appContentManagement/userTabsManage.vue';//首页标签管理
-import roomTabsManage from '../components/operationSupport/appContentManagement/roomTabsManage.vue';//房间标签管理
+import roomTabsManageTest from '../components/operationSupport/appContentManagement/roomTabsManageTest.vue';//房间标签管理
 // 3-2、运营工具
 import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
 import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
@@ -141,6 +145,7 @@ import presentAuditReview from '../components/operationSupport/financialManageme
 import presentAuditReviewFirst from '../components/operationSupport/financialManagement/presentAuditReviewFirst.vue';//提现审核管理（一级）
 import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理
 import applicationMonyMg from '../components/operationSupport/financialManagement/applicationMonyMg.vue';//货币申请及记录
+import vipPackageList from '../components/operationSupport/financialManagement/vipPackageList.vue';//VIP会员配置列表
 // 运营支撑end
 
 // 4、活动专区
@@ -239,6 +244,9 @@ export const asyncRouterMap = [
                     { path: '/operationData/userAnalysis/avgUserTime', component: avgUserTime, name: '人均使用时长', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/userAnalysis/user', component: user, name: '使用频率', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/userAnalysis/onlineDistribute', component: onlineDistribute, name: '在线时长分布', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
+                    { path: '/operationData/userAnalysis/levelSpread', component: levelSpread, name: '等级分布查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
+                    // { path: '/operationData/userAnalysis/dayTaskData', component: dayTaskData, name: '每日任务统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
+                     
                 ],
             },
             {
@@ -341,6 +349,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/userInformationManagement/girlsRanking', component: girlsRanking, name: '女性魅力值', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/answers', component: answers, name: '注册答题明细', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     { path: '/userManagement/userInformationManagement/taskDataList', component: taskDataList, name: '任务进度查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
+                    { path: '/userManagement/userInformationManagement/levelRecordList', component: levelRecordList, name: '等级流水查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },                                        
                     
                 ],
             },
@@ -365,6 +374,8 @@ export const asyncRouterMap = [
                     { path: '/userManagement/householdManagement/roomCheck', component: roomCheck, name: '房间考核日志', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/roomTopManagement', component: roomTopManagement, name: '房间置顶管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/changeRoomGrade', component: changeRoomGrade, name: '修改房间等级', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/roomOfficialTabList', component: roomOfficialTabList, name: '官方标签列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    
                     
                 ],
             },
@@ -417,6 +428,8 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/financialManagement/presentAuditReview', component: presentAuditReview, name: '提现审核管理(运营)', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord', component: monetaryMembershipApplicationAndRecord, name: '货币、会员申请', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/financialManagement/applicationMonyMg', component: applicationMonyMg, name: '货币、会员申请审核', hidden: false, meta: { role: ['T1', 'P1'] } },
+                    { path: '/operationSupport/financialManagement/vipPackageList', component: vipPackageList, name: '会员配置列表', hidden: false, meta: { role: ['T1', 'P1'] } },
+                    
                 ],
             },
             {
@@ -486,7 +499,8 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/appContentManagement/randomLabel', component: randomLabel, name: '随机用户标签', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/appContentManagement/randomNickname', component: randomNickname, name: '随机用户昵称', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/appContentManagement/randomSignature', component: randomSignature, name: '随机用户签名', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
-                    { path: '/operationSupport/appContentManagement/roomTabsManage', component: roomTabsManage, name: '房间标签管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/operationSupport/appContentManagement/roomTabsManageTest', component: roomTabsManageTest, name: '房间标签管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    
                 ],
             },
         ],

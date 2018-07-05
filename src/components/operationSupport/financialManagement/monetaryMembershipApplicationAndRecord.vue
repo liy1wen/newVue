@@ -20,6 +20,7 @@
                         <el-option label="钻石" value="6"></el-option>
                         <el-option label="至尊" value="7"></el-option>
                         <el-option label="圣尊" value="8"></el-option>
+                        <el-option label="道具" value="9"></el-option>
                     </el-select>
                 </el-form-item>                
                 <el-form-item>
@@ -29,6 +30,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="addDialog.dialogShow=true;">赠送</el-button>
+                    <el-button type="primary" @click="propData.dialogShow=true;">道具赠送</el-button>
                     <el-button type="primary" @click="getTableData">查询</el-button>
                 </el-form-item>
             </el-form>
@@ -58,9 +60,18 @@
                             <p v-else-if="scope.row.type==6">钻石</p>
                             <p v-else-if="scope.row.type==7">至尊</p>
                             <p v-else-if="scope.row.type==8">圣尊</p>
+                            <p v-else-if="scope.row.type==9">
+                                {{countProp(scope.row.prop_id)}}
+                            </p>
                         </div>
                     </template>
                 </el-table-column>
+                <!-- <el-table-column label="道具名称" width="100" sortable>
+                    <template slot-scope="scope">
+                        <p>{{countProp(scope.row.prop_id)}}</p>
+                    </template>
+                </el-table-column> -->
+                <el-table-column prop="num" label="赠送数量" sortable></el-table-column>
                 <el-table-column prop="operation_reason" label="赠送理由" min-width="200" sortable></el-table-column>
                 <el-table-column label="状态" width="100" sortable>
                     <template slot-scope="scope">
@@ -78,40 +89,76 @@
             </el-col>
         </template>
         <el-dialog title="赠送申请" :visible.sync="addDialog.dialogShow">
-				<el-form :model="addDialog">
-					<el-form-item label="uid" :label-width="formLabelWidth">
-						<el-input v-model="addDialog.uid" auto-complete="off"></el-input>
-					</el-form-item>
-                    <el-form-item label="类型" :label-width="formLabelWidth">
-						<el-select v-model="addDialog.type">
-							<el-option label="聊币" value="1"></el-option>
-							<el-option label="聊票" value="2"></el-option>
-							<el-option label="白银" value="3"></el-option>
-							<el-option label="黄金" value="4"></el-option>
-							<el-option label="铂金" value="5"></el-option>
-							<el-option label="钻石" value="6"></el-option>
-							<el-option label="至尊" value="7"></el-option>
-							<el-option label="圣尊" value="8"></el-option>
-						</el-select>
-					</el-form-item>
-                    <el-form-item label="加减" :label-width="formLabelWidth">
-						<el-select v-model="addDialog.add_sub">
-							<el-option label="加" value="0"></el-option>
-							<el-option label="减" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="数量" :label-width="formLabelWidth">
-						<el-input v-model="addDialog.num" placeholder="聊币聊票为数量，会员为月份" auto-complete="off"></el-input>						
-					</el-form-item>
-					<el-form-item label="赠送理由" :label-width="formLabelWidth">
-						<el-input v-model="addDialog.operation_reason" auto-complete="off"></el-input>						
-					</el-form-item>
-				</el-form>
-				<div slot="footer" class="dialog-footer">
-					<el-button @click.native.prevent="sendAdd(0)">取 消</el-button>
-					<el-button type="primary" @click.native.prevent="sendAdd(1)">确 定</el-button>
-				</div>
-			</el-dialog>
+            <el-form :model="addDialog">
+                <el-form-item label="uid" :label-width="formLabelWidth">
+                    <el-input v-model="addDialog.uid" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="类型" :label-width="formLabelWidth">
+                    <el-select v-model="addDialog.type">
+                        <el-option label="聊币" value="1"></el-option>
+                        <el-option label="聊票" value="2"></el-option>
+                        <el-option label="白银" value="3"></el-option>
+                        <el-option label="黄金" value="4"></el-option>
+                        <el-option label="铂金" value="5"></el-option>
+                        <el-option label="钻石" value="6"></el-option>
+                        <el-option label="至尊" value="7"></el-option>
+                        <el-option label="圣尊" value="8"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="加减" :label-width="formLabelWidth">
+                    <el-select v-model="addDialog.add_sub">
+                        <el-option label="加" value="0"></el-option>
+                        <el-option label="减" value="1"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="数量" :label-width="formLabelWidth">
+                    <el-input v-model="addDialog.num" placeholder="聊币聊票为数量，会员为月份" auto-complete="off"></el-input>						
+                </el-form-item>
+                <el-form-item label="赠送理由" :label-width="formLabelWidth">
+                    <el-input v-model="addDialog.operation_reason" auto-complete="off"></el-input>						
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native.prevent="sendAdd(0)">取 消</el-button>
+                <el-button type="primary" @click.native.prevent="sendAdd(1)">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 道具赠送 -->
+        <el-dialog title="道具赠送" :visible.sync="propData.dialogShow">
+            <el-form :model="propData">
+                <el-form-item label="uid" :label-width="formLabelWidth">
+                    <el-input v-model="propData.uid" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="道具列表" :label-width="formLabelWidth">
+                    <el-select v-model="propData.prop_id">
+                        <el-option v-for="item in propData.propList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="道具失效类型" :label-width="formLabelWidth">
+                    <el-select v-model="propData.prescription_type">
+                        <el-option label="永久有效" value="0"></el-option>
+                        <el-option label="指定时间" value="1"></el-option>
+                        <el-option label="领取后" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="道具数量" :label-width="formLabelWidth">
+                    <el-input v-model="propData.num" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item v-if="propData.prescription_type == 1" label="指定时间" :label-width="formLabelWidth">
+                    <el-date-picker v-model="propData.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
+                </el-form-item>
+                <el-form-item v-if="propData.prescription_type == 2" label="有效时间(分钟)" :label-width="formLabelWidth">
+                    <el-input v-model="propData.time_out" auto-complete="off"></el-input>						
+                </el-form-item>
+                <el-form-item label="赠送理由" :label-width="formLabelWidth">
+                    <el-input v-model="propData.operation_reason" auto-complete="off"></el-input>						
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native.prevent="sendPropAdd(0)">取 消</el-button>
+                <el-button type="primary" @click.native.prevent="sendPropAdd(1)">确 定</el-button>
+            </div>
+        </el-dialog>
     </section>
 </template>
 
@@ -144,6 +191,18 @@ export default {
                 operation_name: '',
                 operation_reason: '',
             },
+            propData:{
+                dialogShow: false,
+                uid: "",
+                prop_id: "",
+                num: "",
+                propList: [],
+                prescription_type: "",
+                choiceDate: [new Date(),new Date()],
+                time_out: null,
+                operation_reason: "",
+            },
+            propList:{},
             listLoading: false,
             formLabelWidth: '120px',
         }
@@ -152,9 +211,12 @@ export default {
         onePageData() {
             var _this = this;
             return _this.formOne.tabData.slice(_this.formOne.star, _this.formOne.end);
-        }
+        },
     },
     methods:{
+        countProp(id){
+            return this.propList[id];
+        },
         oneHandleCurrentChange(val) {
             var _this = this;
             _this.formOne.page = val;
@@ -173,7 +235,7 @@ export default {
         getTableData() {
             var _this = this;
             _this.listLoading = true;
-            var url = '/Money/findSendMoneyTo';
+            var url = '/NewMoney/findSendMoneyTo';
             var params = _this.searchConditionOne();
             allget(params, url)
             .then(res => {
@@ -228,14 +290,78 @@ export default {
                 })
             }
         },
+        sendPropAdd(type) {
+            var _this = this;
+            if(type==0){
+                _this.propData.dialogShow = false;
+            }else if(type==1){
+                var url = '/NewMoney/SendMoneyToYou';
+                var param = {
+                    uid: _this.propData.uid,
+                    type: 9,  //道具特有
+                    operation_name: _this.addDialog.operation_name,
+                    operation_reason: _this.propData.operation_reason,
+                    prop_id: _this.propData.prop_id,
+                    num: _this.propData.num,
+                    prescription_type: _this.propData.prescription_type,
+                    start_time:baseConfig.changeDateTime(_this.propData.choiceDate[0], 0),
+                    end_time: baseConfig.changeDateTime(_this.propData.choiceDate[1], 0),
+                    time_out: _this.propData.time_out,
+                }
+                if(param.prescription_type == 0){
+                    delete param.start_time;
+                    delete param.end_time;
+                    delete param.time_out;
+                }else if(param.prescription_type == 1){
+                    delete param.time_out;
+                }else if(param.prescription_type == 2){
+                    delete param.start_time;
+                    delete param.end_time;
+                }
+                allget(param, url).then(res=>{
+                    if(res.data.ret){
+                        console.log(res.data);
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                        _this.propData.dialogShow = false;
+                    }else{
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                        _this.propData.dialogShow = false;
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
+        },
+        getPropData(){
+            var _this = this;
+            var url = '/NewProp/getPropList';
+            allget("", url).then(res => {
+                if(res.data.ret){
+                    _this.propData.propList = res.data.data;
+                    for(var i = 0; i < res.data.data.length; i++){
+                        _this.propList[res.data.data[i].id] =  res.data.data[i].name;
+                    }
+                    _this.getTableData();
+                }else{
+                    baseConfig.normalTipMsg(_this, "道具列表获取失败！");
+                }
+            }).catch(error=>{
+                console.log(error);
+            })
+        }
     },
     mounted() {
         var _this = this;
         _this.$nextTick(function() {
             _this.tableHeight = baseConfig.lineNumber(searchPageHeight);
             _this.addDialog.operation_name = store.state.user.name;
-            _this.getTableData();
+            _this.getPropData();
+            
         })
+    },
+    created() {
+        this.getPropData();
     }
+    
 }
 </script>
