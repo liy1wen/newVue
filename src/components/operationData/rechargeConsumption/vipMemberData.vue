@@ -36,12 +36,18 @@
             <el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="date" label="日期/月份" width="90" sortable></el-table-column>
                 <el-table-column prop="total" label="总额" min-width="60"></el-table-column>
-                <el-table-column prop="silver" label="白银会员（40元/月）" min-width="60"></el-table-column>
-                <el-table-column prop="gold" label="黄金会员（110元/3月）" min-width="60"></el-table-column>
-                <el-table-column prop="platinum" label="铂金会员（190元/6月）" min-width="60"></el-table-column>
-                <el-table-column prop="diamond" label="钻石会员（330元/年）" min-width="60"></el-table-column>
-                <el-table-column prop="supreme" label="至尊会员（1688元/年）" min-width="60"></el-table-column>
-                <el-table-column prop="damngod" label="圣尊会员（30000元/年）" min-width="60"></el-table-column>
+                <el-table-column prop="experience_total" label="体验会员" min-width="60"></el-table-column>
+                <el-table-column prop="diamond_total" label="钻石会员" min-width="60"></el-table-column>
+                <el-table-column prop="diamond_one" label="1个月" min-width="60"></el-table-column>
+                <el-table-column prop="diamond_three" label="3个月" min-width="60"></el-table-column>
+                <el-table-column prop="diamond_six" label="6个月" min-width="60"></el-table-column>
+                <el-table-column prop="diamond_twelve" label="12个月" min-width="60"></el-table-column>
+                <el-table-column prop="supreme_total" label="至尊会员" min-width="60"></el-table-column>
+                <el-table-column prop="supreme_one" label="1个月" min-width="60"></el-table-column>
+                <el-table-column prop="supreme_three" label="3个月 " min-width="60"></el-table-column>
+                <el-table-column prop="supreme_six" label="6个月" min-width="60"></el-table-column>
+                <el-table-column prop="supreme_twelve" label="12个月" min-width="60"></el-table-column>
+                <el-table-column prop="damn_god_total" label="圣尊会员" min-width="60"></el-table-column>
             </el-table>
             <!-- 折线图 -->
             <el-dialog title="占比饼状图" :width="dialogWidth" :visible.sync="dialogVisible" @open="show">
@@ -100,12 +106,10 @@ export default {
                     data: [
                         "男",
                         "女",
-                        "白银",
-                        "黄金",
-                        "铂金",
-                        "钻石",
-                        "至尊",
-                        "圣尊",
+                        "体验会员",
+                        "钻石会员",
+                        "至尊会员",
+                        "圣尊会员",
                     ]
                 },
                 toolbox: {
@@ -147,12 +151,10 @@ export default {
                         radius: "55%",
                         center: ["75%", "60%"],
                         data: [
-                            { value: '', name: "白银" },
-                            { value: '', name: "黄金" },
-                            { value: '', name: "白金" },
-                            { value: '', name: "钻石" },
-                            { value: '', name: "至尊" },
-                            { value: '', name: "圣尊" },
+                            { value: '', name: "体验会员" },
+                            { value: '', name: "钻石会员" },
+                            { value: '', name: "至尊会员" },
+                            { value: '', name: "圣尊会员" },
                         ]
                     }
                 ]
@@ -208,18 +210,14 @@ export default {
                         }
                         //动态加载表格中的数据 会员比例数据加载
                         for(var i = 0; i<res.data.vip.length; i++) {
-                            if(res.data.vip[i].vip_month == 1) {
-                                _this.chartLineData.series[1].data[0].value = res.data.vip[i].total;// 白银
-                            }else if(res.data.vip[i].vip_month == 3) {
-                                _this.chartLineData.series[1].data[1].value = res.data.vip[i].total;// 黄金
-                            }else if(res.data.vip[i].vip_month == 6) {
-                                _this.chartLineData.series[1].data[2].value = res.data.vip[i].total;// 铂金
-                            }else if(res.data.vip[i].vip_month == 12) {
-                                _this.chartLineData.series[1].data[3].value = res.data.vip[i].total;// 钻石
-                            }else if(res.data.vip[i].vip_month == 13) {
-                                _this.chartLineData.series[1].data[4].value = res.data.vip[i].total;// 至尊
-                            }else if(res.data.vip[i].vip_month == 14) {
-                                _this.chartLineData.series[1].data[5].value = res.data.vip[i].total;// 黄金
+                            if(res.data.vip[i].vip_level == 3) {
+                                _this.chartLineData.series[1].data[0].value = res.data.vip[i].total;// 体验会员
+                            }else if(res.data.vip[i].vip_level == 4) {
+                                _this.chartLineData.series[1].data[1].value = res.data.vip[i].total;// 钻石会员
+                            }else if(res.data.vip[i].vip_level == 5) {
+                                _this.chartLineData.series[1].data[2].value = res.data.vip[i].total;// 至尊会员
+                            }else if(res.data.vip[i].vip_level == 6) {
+                                _this.chartLineData.series[1].data[3].value = res.data.vip[i].total;// 圣尊会员
                             }
                         }
                     } else {
