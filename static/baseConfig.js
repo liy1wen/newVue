@@ -6,6 +6,7 @@ var baseConfig = {
 	sourceServer: "http://dianliaotools.oss-cn-shenzhen.aliyuncs.com",
 	recruitShareIcon: "http://dianliaotools.oss-cn-shenzhen.aliyuncs.com/common/logo.png",//推荐主播分享icon地址
 	wechatShareUrl: "http://test-manage.dianliaoapp.com/client/dev/wechat/baseApi/wechatApi.php",// 微信分享接口地址
+	serverStatus: false,
     // 正常删除、正常其它的信息提示
     normalTipMsg(obj, content) {
         obj.$message({
@@ -254,6 +255,7 @@ Date.prototype.format = function() {
 };
 // 进行正式服、测试服区分
 if (location.href.indexOf('http://new-manage.dianliaoapp.com')=='0') {
+	baseConfig.serverStatus = true;
 	baseConfig.khserver = 'https://app-h.dianliaoapp.com';
 	baseConfig.server = 'https://manage.dianliaoapp.com';
 	baseConfig.wechatShareUrl = 'https://manage.dianliaoapp.com/client/dev/wechat/baseApi/wechatApi.php';

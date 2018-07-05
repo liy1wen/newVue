@@ -3,14 +3,14 @@
 	<!-- dom结构内容 -->
 	<section>
 		<!-- 工具条/头部的搜索条件搜索 -->
-		<el-tabs v-model="activeName2" type="border-card" @tab-click="handleClick">
+		<el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
 			<el-tab-pane label="文章管理" name="one" :style="{ height:  tabSearchHeight+'px' }">
 				<!--用户的数据展示列表-->
 				<template>
 					<el-table ref="tableHeightAddTab" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-						<el-table-column prop="add_time" label="添加时间" width="50"></el-table-column>
+						<el-table-column prop="add_time" label="添加时间" width="200"></el-table-column>
 						<el-table-column prop="id" label="文章ID" width="100"></el-table-column>
-						<el-table-column prop="title" label="标题" width="100"></el-table-column>
+						<el-table-column prop="title" label="标题" width="150"></el-table-column>
 						<el-table-column label="封面图" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
@@ -18,25 +18,18 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column label="链接" width="100">
+						<el-table-column label="链接" width="300">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<a style="color: red;" :href="'http://manage.dianliaoapp.com/client/dev/explain/article.php?id='+scope.row.id" target="_blank">{{scope.row.title}}</a>
+									<a v-if="serverStatus==false" style="color: red;" :href="'http://test-manage.dianliaoapp.com/client/dev/explain/article.php?id='+scope.row.id" target="_blank">{{scope.row.title}}</a>
+									<a v-else style="color: red;" :href="'http://manage.dianliaoapp.com/client/dev/explain/article.php?id='+scope.row.id" target="_blank">{{scope.row.title}}</a>
 								</div>
-							</template>
-						</el-table-column>
-						<el-table-column label="操作" width="100">
-							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row)" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.$index, scope.row)" size="small">上架</el-button>
-								<el-button v-if="scope.row.status=='1'" plain @click.native.prevent="undercarriage(scope.$index, scope.row)" size="small">下架</el-button>
 							</template>
 						</el-table-column>
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.$index, tabData)" size="small">上架</el-button>
-								<el-button v-if="scope.row.status=='1'" plain @click.native.prevent="undercarriage(scope.$index, tabData)" size="small">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row)" size="small">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, scope.row)" size="small">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -46,88 +39,20 @@
 					</el-col>
 				</template>
 			</el-tab-pane>
-			<el-tab-pane label="文章编辑" name="two" :style="{ height: tabHeight+ 'px' }">
-				<el-form :label-position="labelPosition" class="demo-ruleForm" label-width="120px" :model="formLabelAlign" style="padding-left: 30px;">
-					<el-form-item label="任务名称" style="padding-top: 30px;">
-						<el-input v-model="formLabelAlign.name"></el-input>
+			<el-tab-pane label="编辑修改" name="two" :style="{ height: tabHeight+ 'px' }">
+				<el-form :label-position="labelPosition" class="demo-ruleForm" label-width="120px" :model="formLabelChange" style="padding-left: 30px;">
+					<el-form-item label="文章主题" style="padding-top: 30px;">
+						<el-input v-model="formLabelChange.title"></el-input>
 					</el-form-item>
-					<el-form-item label="任务图标">
-						<el-input v-model="formLabelAlign.icon"></el-input>
+					<el-form-item label="封面图">
+				        <!--图片文件上传、图片的展示-->
+						<input id="fileinput" @change="uploading($event)" type="file">
+				        <img :src="src"/>
 					</el-form-item>
-					<el-form-item label="任务描述">
-						<el-input type="textarea" v-model="formLabelAlign.desc"></el-input>
-					</el-form-item>
-					<el-form-item label="任务类型">
-						<el-select v-model="formLabelAlign.type" placeholder="请选择活动区域">
-							<el-option label="一次性类型" value="0"></el-option>
-							<el-option label="每日任务" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="奖励类型">
-						<el-select v-model="formLabelAlign.reward_type">
-							<el-option label="聊币" value="0"></el-option>
-							<el-option label="好评分" value="1"></el-option>
-							<el-option label="聊票" value="2"></el-option>
-							<el-option label="无" value="3"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="奖励数量">
-						<el-input v-model="formLabelAlign.reward"></el-input>
-					</el-form-item>
-					<el-form-item label="跳转类型">
-						<el-select v-model="choice_url" :change="choiceUrlValue(choice_url)">
-							<el-option label="无" value="0"></el-option>
-							<el-option label="H5链接" value="1"></el-option>
-							<el-option label="应用内" value="2"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="H5跳转地址" v-if="formLabelAlign.jump_h5_show">
-						<el-input v-model="formLabelAlign.jump_url"></el-input>
-					</el-form-item>
-					<el-form-item label="IOS链接地址" v-if="formLabelAlign.jump_app_show">
-						<el-select v-model="formLabelAlign.ios_link">
-							<el-option label="首页" value="VOIHomeVC"></el-option>
-							<el-option label="发现页" value="VOIFindUserVC"></el-option>
-							<el-option label="修改资料页" value="VOIEditUserInfoVC"></el-option>
-							<el-option label="抢聊大厅页" value="VOIRushChatVC"></el-option>
-							<el-option label="发起抢聊页" value="VOIBegChatVC"></el-option>
-							<el-option label="我的页面" value="VOIMineVC"></el-option>
-							<el-option label="我的奖金页" value="VOIMyRewardVC"></el-option>
-							<el-option label="分享给好友" value="VOIShareView"></el-option>
-							<el-option label="会员中心" value="VOIVipCenterVC"></el-option>
-							<el-option label="通话设置页" value="VOIConfigChargeVC"></el-option>
-							<el-option label="我要上首页-选择频道页" value="VOIMarkVC"></el-option>
-							<el-option label="家族页" value="VOIFamilyListVC"></el-option>
-							<el-option label="排行榜-土豪榜" value="VOIRankingVC_Wealth"></el-option>
-							<el-option label="排行榜-魅力榜" value="VOIRankingVC_Charm"></el-option>
-							<el-option label="一键语聊" value="VOIRadarVC_OneKeyChat"></el-option>
-							<el-option label="偷听学聊" value="VOIRadarVC_EavesdropLearnChat"></el-option>
-							<el-option label="做任务赚聊币" value="VOIChatCoinVC"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="安卓链接地址" v-if="formLabelAlign.jump_app_show">
-						<el-select v-model="formLabelAlign.android_link">
-							<el-option label="首页" value="FirstMainActivity"></el-option>
-							<el-option label="发现页" value="SearchUserActivity"></el-option>
-							<el-option label="修改资料页" value="ModifyUserInfoActivity"></el-option>
-							<el-option label="抢聊大厅页" value="GrabOrderFragment"></el-option>
-							<el-option label="发起抢聊页" value="SendOrderFragment"></el-option>
-							<el-option label="我的页面" value="FirstMyFragment"></el-option>
-							<el-option label="我的奖金页" value="MyAwardActivity"></el-option>
-							<el-option label="分享给好友" value="ShareDialog"></el-option>
-							<el-option label="会员中心" value="VipCenterActivateActivity"></el-option>
-							<el-option label="通话设置页" value="CallingPriceActivity"></el-option>
-							<el-option label="我要上首页-选择频道页" value="SelectTopChannelActivity"></el-option>
-							<el-option label="家族页" value="FamilyLobbyActivity"></el-option>
-							<el-option label="排行榜-土豪榜" value="WealthRankFragment"></el-option>
-							<el-option label="排行榜-魅力榜" value="CharmRankFragment"></el-option>
-							<el-option label="一键语聊" value="ConversationMatchActivity"></el-option>
-							<el-option label="偷听学聊" value="EavesdropMatchActivity"></el-option>
-							<el-option label="做任务赚聊币" value="TaskActivity"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="排序">
-						<el-input v-model="formLabelAlign.sort"></el-input>
+					<el-form-item label="内容">
+						<div class="edit_container">
+							<quill-editor class="editer" v-model="formLabelChange.content" ref="myQuillEditor" :options="editorOption" @ready="onEditorReady($event)"></quill-editor>
+						</div>
 					</el-form-item>
 				</el-form>
 				<el-button type="primary" style="margin-left: 50px; margin-top: 30px;" @click="sendToTask()">确定发送</el-button>
@@ -145,25 +70,17 @@ import axios from 'axios';
 export default {
 	data() {
 		return {
+			serverStatus: false,
 			tabHeight: null, // tab展示的页面的高度多少，第一页中对应高度
 			tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
 			tabSearchHeight: null, //对应tab-plane的高度
 			labelPosition: 'left', // 设置任务设置页面的提示位置
 			// form表单中的对应的字段
-			formLabelAlign: {
+			formLabelChange: {
 				id: '',
-				name: '',
-				icon: '',
-				type: '',
-				android_link: '',
-				ios_link: '',
-				desc: '',
-				reward_type: '',
-				reward: '',
-				jump_url: '',
-				jump_h5_show: false, //H5跳转地址是否进行显示
-				jump_app_show: false, //应用内跳转地址是否进行显示
-				sort: '',
+				pic: '',
+				title: '',
+				content: '',
 			},
 			choice_url: '', //配合上面的任务设置的form表单进行配置，在任务设置中的跳转类型
 			listLoading: false, //动画加载时显示的动画
@@ -172,7 +89,7 @@ export default {
 			page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
 			star: '0', //每一页的开始数据
 			end: '20', //每一页的结束数据
-			activeName2: 'one', // 设置为tab切换栏的选中不同的状态(one、two、three)
+			activeName: 'one', // 设置为tab切换栏的选中不同的状态(one、two、three)
 		};
 	},
 	computed:{
@@ -212,71 +129,38 @@ export default {
 		// 编辑修改某一条随机昵称
 		changeOneUserData(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 拿出对应内容的中value值	
-			_this.activeName2 = 'first'; // 跳转到任务设置页面
-			_this.formLabelAlign = rows[index]; // 对数据结构进行组装
-			_this.formLabelAlign = {
-				id: rows[index].id,
-				name: rows[index].name,
-				icon: rows[index].icon,
-				type: rows[index].type,
-				android_link: rows[index].android_link,
-				ios_link: rows[index].ios_link,
-				desc: rows[index].desc,
-				reward_type: rows[index].reward_type,
-				reward: rows[index].reward,
-				jump_url: rows[index].jump_url,
+			var id = rows.id;	
+
+			_this.activeName = '';
+			_this.formLabelChange = {
+				id: rows.id,
+				name: rows.name,
+				icon: rows.icon,
+				type: rows.type,
+				android_link: rows.android_link,
+				ios_link: rows.ios_link,
+				desc: rows.desc,
+				reward_type: rows.reward_type,
+				reward: rows.reward,
+				jump_url: rows.jump_url,
 				jump_h5_show: false, //H5跳转地址是否进行显示
 				jump_app_show: false, //应用内跳转地址是否进行显示
 				sort: rows[index].sort,
 			};
-			// 对相应的选择跳转类型进行显示
-			if((_this.formLabelAlign.jump_url==null&&_this.formLabelAlign.ios_link==null&&_this.formLabelAlign.android_link==null)||(_this.formLabelAlign.jump_url==''&&_this.formLabelAlign.ios_link==''&&_this.formLabelAlign.android_link=='')) {
-				_this.choice_url = '0'; // 选择的为无
-			} else if(_this.formLabelAlign.jump_url!=null&&_this.formLabelAlign.jump_url!='') {
-				_this.choice_url = '1'; // 选择的是h5跳转的链接
-			} else {
-				_this.choice_url = '2'; // 其他为应用内的
-			}
 		},
-		// 上架的操作
-		grounding(index, rows) {
+		// 删除的操作
+		deleteOneUserData(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 拿出对应内容的中value值	
-			var url = 'Marquee/upDownRevenueFloatingWindowData';
+			var id = rows.id;	
+			var url = 'Anchor/delArticle';
 			var params = {
 				id: id,
-				status: 1, //进行上架
 			};
 			allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
 				// 数据请求成功
 				if(res.data.ret) {
-					baseConfig.successTipMsg(_this, '上架成功！');
-					_this.tabData[index].status = 1;
-				} else {
-					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
-				}
-			}).catch(function(error){
-				console.log(error);
-			})
-		},
-		// 下架的操作
-		undercarriage(index, rows) {
-			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 拿出对应内容的中value值	
-			var url = 'Marquee/upDownRevenueFloatingWindowData';
-			var params = {
-				id: id,
-				status: 0, //进行上架
-			};
-			allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
-				// 数据请求成功
-				if(res.data.ret) {
-					baseConfig.successTipMsg(_this, '下架成功！');
-					_this.tabData[index].status = 0;					
+					baseConfig.successTipMsg(_this, '删除成功');
+					_this.getTableData();
 				} else {
 					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
 				}
@@ -287,77 +171,9 @@ export default {
 		// 当tab状态栏切换到tab时候进行id...等信息进行清零
 		handleClick(tab, event) {
 			var _this = this;
-			if(tab.label=='任务设置') {
-				_this.choice_url = '';
-				_this.formLabelAlign = {
-					id: '',
-					name: '',
-					icon: '',
-					type: '',
-					android_link: '',
-					ios_link: '',
-					desc: '',
-					reward_type: '',
-					reward: '',
-					jump_url: '',
-					jump_h5_show: false, //H5跳转地址是否进行显示
-					jump_app_show: false, //应用内跳转地址是否进行显示
-					sort: '',
-				};
-			} 
 		},
-		// 设置为select跳转类型进行监听choiceUrlValue
-		choiceUrlValue(value) {
-			var _this = this;
-			if(value=='0') { // 0->无；1->H5链接；2->应用内
-				_this.formLabelAlign.android_link = '';
-				_this.formLabelAlign.ios_link = '';
-				_this.formLabelAlign.jump_url = '';
-				_this.formLabelAlign.jump_h5_show = false;
-				_this.formLabelAlign.jump_app_show = false;
-			} else if(value=='1') {
-				_this.formLabelAlign.android_link = '';
-				_this.formLabelAlign.ios_link = '';
-				_this.formLabelAlign.jump_h5_show = true;
-				_this.formLabelAlign.jump_app_show = false;
-			} else if(value=='2') {
-				_this.formLabelAlign.jump_url = '';
-				_this.formLabelAlign.jump_h5_show = false;
-				_this.formLabelAlign.jump_app_show = true;				
-			} else {
-				//console.log('为空时，不进行处理'); //当跳转类型为空字符窜时，不进行处理
-			}
-		},
-		// 设置任务发送设置，新增、编辑的确定发送，不同的状态进行不同属性的删减
-		sendToTask() {
-			var _this = this;
-			var params = baseConfig.deepCopy(_this.formLabelAlign);
-			var url = '';
-			delete params.jump_h5_show;
-			delete params.jump_app_show;
-			if(_this.formLabelAlign.id=='') { // 新增发送
-				delete params.id;
-				url = '/Marquee/addRevenueFloatingWindowData';				
-			} else { // 编辑修改
-				url = '/Marquee/editRevenueFloatingWindowData';
-			}
-			_this.sendGoServer(url, params);
-		},
-		// 对服务器的接口进行接口请求，新增、编辑修改
-		sendGoServer(url, params) {
-			var _this = this;
-			allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
-				// 数据请求成功
-				if(res.data.ret) {
-					baseConfig.successTipMsg(_this, '编辑修改成功！');
-					_this.getTableData();
-					_this.activeName2 = 'second';
-				} else {
-					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
-				}
-			}).catch(function(error){
-				console.log(error);
-			})
+		onEditorReady(editor) {
+			console.log(editor);
 		},
 	},
 	mounted() {
@@ -367,6 +183,9 @@ export default {
 			_this.tableHeight = baseConfig.lineNumber(tabPageHeight);
 			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);
 			_this.getTableData();
+			if(baseConfig.serverStatus==true) {
+				_this.serverStatus = true;
+			}
 		})
 	}
 };
