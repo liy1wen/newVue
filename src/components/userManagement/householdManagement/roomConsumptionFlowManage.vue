@@ -141,7 +141,7 @@ export default {
         getTbData(type) {
             var _this = this;
             _this.listLoading = true;
-            let url = "/Family/getLiveBroadCastMoneyRecord";
+            let url = "/NewFamily/getLiveBroadCastMoneyRecord";
             if(type==0){
                 this.page = 0;
             }
@@ -172,7 +172,7 @@ export default {
             if(type==0){
                 this.page = 0;
             }
-            let url = "/Family/getLiveBroadCastMoneyRecord";
+            let url = "/NewFamily/getLiveBroadCastMoneyRecord";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),

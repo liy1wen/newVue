@@ -43,13 +43,19 @@
 		<template>
 			<el-table ref="tableHeight" :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 				<el-table-column prop="id" label="ID" width="80" sortable ></el-table-column>
-				<el-table-column prop="room_id" label="家族ID" width="80" sortable ></el-table-column>
-				<el-table-column prop="room_name" label="家族名称" width="250" sortable ></el-table-column>
+				<el-table-column prop="room_id" label="家族ID" ></el-table-column>
+				<el-table-column prop="room_name" label="家族名称" ></el-table-column>
+				<el-table-column prop="choice" label="置顶类型" >
+					<template slot-scope="scope">
+						<p v-if="scope.row.choice == 1">精选</p>
+						<p v-else-if="scope.row.choice == 2">推荐</p>
+					</template>
+				</el-table-column>
 				<el-table-column prop="position" label="位置" width="80" sortable ></el-table-column>
-				<el-table-column prop="start_time" label="开始时间" min-width="100" sortable ></el-table-column>
-				<el-table-column prop="end_time" label="结束时间" min-width="100" sortable ></el-table-column>
-				<el-table-column prop="create_time" label="操作时间" min-width="100" sortable ></el-table-column>
-				<el-table-column label="状态" width="150" sortable >
+				<el-table-column prop="start_time" label="开始时间" min-width="100" ></el-table-column>
+				<el-table-column prop="end_time" label="结束时间" min-width="100" ></el-table-column>
+				<el-table-column prop="create_time" label="操作时间" min-width="100" ></el-table-column>
+				<el-table-column label="状态" width="150" >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
 							<p v-if="scope.row.status==0">取消置顶</p>
@@ -171,6 +177,7 @@ export default {
 			obj.room_name = _this.formOne.room_name;
 			obj.date_s = baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0);
 			obj.date_e = baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0);
+			obj.choice == "" ? delete obj.choice : obj.choice = obj.choice;
 			return obj; // return出组装好的搜索条件
 		},
 		// 确定了新增传递过来对应的内容值(val对应的值：0->取消，1->确认)

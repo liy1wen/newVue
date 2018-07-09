@@ -1,5 +1,5 @@
 <template>
-    <!-- 每日任务统计 -->
+    <!-- 成就任务统计 -->
     <!-- dom结构内容 -->
     <section>
         <!-- 工具条/头部的搜索条件搜索 -->
@@ -12,20 +12,11 @@
                         </el-date-picker>
                     </div>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="width: 200px;">
                     <span>渠道</span>
-                    <el-select v-model="channelId" style="width:120px;"   placeholder="请选择">
+                    <el-select v-model="channelId"  style="width:120px;"  placeholder="请选择">
                         <el-option v-for="(item, key) of channelData" :key="item" :label="item" :value="key">
                         </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <span>用户类型</span>
-                    <el-select v-model="type" style="width:120px;"  placeholder="请选择">
-                        <el-option label="全部" value="0"> </el-option>
-                        <el-option label="付费" value="1"> </el-option>
-                        <el-option label="活跃" value="2"> </el-option>
-                        <el-option label="新用户" value="3"> </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item class="search-span" style="float:right;">
@@ -35,7 +26,7 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <table cellspacing="0" cellpadding="0"   border="1"  >
+            <table cellspacing="0" cellpadding="0"   border="1">
                 <thead>
                     <tr v-html="thead_html">
                     </tr>
@@ -57,7 +48,7 @@ import store from "../../../vuex/store";
 export default {
     data() {
         return {
-            tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
+            tableHeight: null, 
             tableWidth: null,
             formOne: {
                 startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
@@ -75,7 +66,6 @@ export default {
             tbody_html: "",
             channelData: {}, // 渠道数据
             channelId: null, // 渠道数据
-            type: null,      // 用户类型
         };
     },
     methods: {
@@ -94,7 +84,7 @@ export default {
 			}
             var _this = this;
             _this.listLoading = true;
-            let url = "/NewLevel/getDayTaskData";
+            let url = "/NewLevel/getAchieveTaskData";
             if (this.formOne.startDate == null) {
                 baseConfig.warningTipMsg(this, "请输入日期");
                 return;
@@ -103,7 +93,6 @@ export default {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
                 channel: this.channelId,
-                type: this.type,
             };
             allget(param, url)
                 .then(res => {
@@ -132,7 +121,6 @@ export default {
                             }
                         }
                         
-                        // console.log(newData)
                         // 计算数据内总共用到的 总任务数
                         var all_ob = [];
                         for(var i = 0;i<newData.length;i++){
@@ -147,14 +135,9 @@ export default {
                         _this.all_ob = all_ob.sort();
                         
                         // 动态生成table表头
-                        // console.log(all_ob);
                         this.thead_html = "<th>日期</th>";
-                        if(this.taskList == {}){
-                            console.log(1)
-                            this.taskList = baseConfig.getStorage("taskListLocal", false);
-                        }
                         for(var i = 0;i<this.all_ob.length;i++){
-                            this.thead_html += "<th class='d_thead' style='font-size: 20px;'>"+ this.taskList[this.all_ob[i]] +"</th>";
+                            this.thead_html += "<th class='d_thead' style='font-size: 14px;'>"+ this.taskList[this.all_ob[i]] +"</th>";
                         }
 
                         /*根据上一步整合的数据，判断哪些标签没有数值，没有数值的赋值为0*/
@@ -206,8 +189,6 @@ export default {
                         var p = res.data.data[i].id;
                         _this.taskList[p] = res.data.data[i].desc;
                     }
-                        var tls = JSON.stringify(_this.taskList);
-                        baseConfig.setStorage("taskListLocal", tls, false);
                 }else{
                     baseConfig.errorTipMsg(_this, res.data.msg);
                 }
