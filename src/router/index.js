@@ -22,7 +22,7 @@ import empty from '../components/rootGlobal/empty.vue';//空组建进行页面�
 import syntheticData from '../components/operationData/comprehensiveOverview/syntheticData.vue';//综合数据
 import registerOrActivate from '../components/operationData/userAnalysis/registerOrActivate.vue';//激活与注册
 import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
-import onlineDistribute from '../components/operationData/userAnalysis/onlineDistribute.vue';//在线时长分布
+// import onlineDistribute from '../components/operationData/userAnalysis/onlineDistribute.vue';//在线时长分布
 import avgUserTime from '../components/operationData/userAnalysis/avgUserTime.vue';//人均使用时长
 import levelSpread from '../components/operationData/userAnalysis/levelSpread.vue';//等级分布
 import dayTaskData from '../components/operationData/userAnalysis/dayTaskData.vue';//每日任务统计
