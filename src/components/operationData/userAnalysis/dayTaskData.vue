@@ -149,10 +149,6 @@ export default {
                         // 动态生成table表头
                         // console.log(all_ob);
                         this.thead_html = "<th>日期</th>";
-                        if(this.taskList == {}){
-                            console.log(1)
-                            this.taskList = baseConfig.getStorage("taskListLocal", false);
-                        }
                         for(var i = 0;i<this.all_ob.length;i++){
                             this.thead_html += "<th class='d_thead' style='font-size: 20px;'>"+ this.taskList[this.all_ob[i]] +"</th>";
                         }
@@ -202,12 +198,14 @@ export default {
             var url = '/NewLevel/getTaskIdList';
             allget("",url).then(res => {
                 if(res.data.ret){
+                    var n_obj = {};
                     for(var i = 0;i<res.data.data.length;i++){
                         var p = res.data.data[i].id;
-                        _this.taskList[p] = res.data.data[i].desc;
+                        n_obj[p] = res.data.data[i].desc;
                     }
-                        var tls = JSON.stringify(_this.taskList);
-                        baseConfig.setStorage("taskListLocal", tls, false);
+                    var tls = JSON.stringify(n_obj);
+                    baseConfig.setStorage("taskListLocal", tls, false);
+                    _this.taskList = JSON.parse(baseConfig.getStorage("taskListLocal", false));
                 }else{
                     baseConfig.errorTipMsg(_this, res.data.msg);
                 }
