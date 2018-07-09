@@ -32,28 +32,28 @@
                 <el-table-column label="聊票产出">
                     <el-table-column prop="one" label="通话获得" width="80"></el-table-column>
                     <el-table-column prop="two" label="礼物获得" width="80"></el-table-column>
-                    <el-table-column prop="four" label="后台赠送" width="80"></el-table-column>
-                    <el-table-column prop="five" label="系统赠送" width="80"></el-table-column>
-                    <el-table-column prop="six" label="活动获得" min-width="80"></el-table-column>
-                    <el-table-column prop="seven" label="被偷听获得" min-width="80"></el-table-column>
-                    <el-table-column prop="eight" label="被解锁用户信息获得" min-width="80"></el-table-column>
-                    <el-table-column prop="nine" label="私密通话获得" min-width="80"></el-table-column>
-                    <el-table-column prop="one_zero" label="切换关门通话获得" width="80"></el-table-column>
-                    <el-table-column prop="one_one" label="打赏录音获得" width="80"></el-table-column>
-                    <el-table-column prop="one_two" label="偷听录音获得" width="80"></el-table-column>
-                    <el-table-column prop="one_three" label="微信分享获得" width="80"></el-table-column>
-                    <el-table-column prop="one_four" label="随机通话加速获得" min-width="80"></el-table-column>
-                    <el-table-column prop="one_five" label="代理获得" min-width="80"></el-table-column>
-                    <el-table-column prop="one_six" label="发消息消费（聊票）获得" min-width="80"></el-table-column>
-                    <el-table-column prop="one_seven" label="代理活动获得" min-width="80"></el-table-column>
-                    <el-table-column prop="one_eight" label="家族内礼物获得" min-width="80"></el-table-column>
-                    <el-table-column prop="one_nine" label="家族内抢礼物红包获得" min-width="80"></el-table-column>
-                    <el-table-column prop="two_zero" label="一对一转盘获得" min-width="80"></el-table-column>
-                    <el-table-column prop="two_one" label="直播间内礼物获得" min-width="80"></el-table-column>
-                    <el-table-column prop="two_two" label="直播间内抢礼物红包获得" min-width="80"></el-table-column>
-                    <el-table-column prop="two_three" label="平台奖励获得" min-width="80"></el-table-column>
-                    <el-table-column prop="two_four" label="好友赠送道具获得" min-width="80"></el-table-column>
-                    <el-table-column prop="three" label="系统赠送道具获得" width="80"></el-table-column>                    
+                    <el-table-column prop="three" label="后台赠送" width="80"></el-table-column>
+                    <el-table-column prop="four" label="系统赠送" width="80"></el-table-column>
+                    <el-table-column prop="five" label="活动获得" min-width="80"></el-table-column>
+                    <el-table-column prop="six" label="被偷听获得" min-width="80"></el-table-column>
+                    <el-table-column prop="seven" label="被解锁用户信息获得" min-width="80"></el-table-column>
+                    <el-table-column prop="eight" label="私密通话获得" min-width="80"></el-table-column>
+                    <el-table-column prop="nine" label="切换关门通话获得" width="80"></el-table-column>
+                    <el-table-column prop="one_zero" label="打赏录音获得" width="80"></el-table-column>
+                    <el-table-column prop="one_one" label="偷听录音获得" width="80"></el-table-column>
+                    <el-table-column prop="one_two" label="微信分享获得" width="80"></el-table-column>
+                    <el-table-column prop="one_three" label="随机通话加速获得" min-width="80"></el-table-column>
+                    <el-table-column prop="one_four" label="代理获得" min-width="80"></el-table-column>
+                    <el-table-column prop="one_five" label="发消息消费（聊票）获得" min-width="80"></el-table-column>
+                    <el-table-column prop="one_six" label="代理活动获得" min-width="80"></el-table-column>
+                    <el-table-column prop="one_seven" label="家族内礼物获得" min-width="80"></el-table-column>
+                    <el-table-column prop="one_eight" label="家族内抢礼物红包获得" min-width="80"></el-table-column>
+                    <el-table-column prop="one_nine" label="一对一转盘获得" min-width="80"></el-table-column>
+                    <el-table-column prop="two_zero" label="直播间内礼物获得" min-width="80"></el-table-column>
+                    <el-table-column prop="two_one" label="直播间内抢礼物红包获得" min-width="80"></el-table-column>
+                    <el-table-column prop="two_two" label="平台奖励获得" min-width="80"></el-table-column>
+                    <el-table-column prop="two_three" label="好友赠送道具获得" min-width="80"></el-table-column>
+                    <el-table-column prop="two_four" label="系统赠送道具获得" width="80"></el-table-column>                    
                 </el-table-column>
                 <el-table-column label="聊票消耗">
                     <el-table-column prop="two_five" label="提现" min-width="80"></el-table-column>
@@ -233,7 +233,7 @@ export default {
 							for(var v=0; v<arrDate[w].arr.length; v++) {
 								finalData[w][arrName[v]] = arrDate[w].arr[v].num;
 							}
-                        }
+						}
 						_this.expendData = finalData;
 						// ********************
 						// table数据格式的处理结束
