@@ -28,14 +28,18 @@
         <!-- 用户的数据展示列表 -->
         <template>
             <el-table :data="onePageTabData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
-                <el-table-column prop="date" label="日期"></el-table-column>
+                <template v-for="col in cols">
+                    <el-table-column :prop="col.prop" :label="col.label" :key="col.prop"></el-table-column>
+                </template>
+                
+                <!-- <el-table-column prop="date" label="日期"></el-table-column>
                 <el-table-column prop="1" label="推荐"></el-table-column>
                 <el-table-column prop="2" label="相亲"></el-table-column>
                 <el-table-column prop="3" label="娱乐"></el-table-column>
                 <el-table-column prop="4" label="电台"></el-table-column>
                 <el-table-column prop="5" label="同城"></el-table-column>
                 <el-table-column prop="6" label="开黑"></el-table-column>
-                <el-table-column prop="7" label="其他"></el-table-column>
+                <el-table-column prop="7" label="其他"></el-table-column> -->
             </el-table>
             <!--工具条-->
             <el-col :span="24" class="toolbar">
@@ -65,7 +69,8 @@ export default {
             totalpage: null,  
 			page: 1,  
 			star: '0',  
-			end: '20',  
+            end: '20',
+            cols: [],  
         };
     },
     
@@ -137,6 +142,14 @@ export default {
                                     newData[i][cap_p] = "0";
                                 }
                             }
+                        }
+                        // 对newData this.propList处理得到 cols
+                        this.cols = [{prop: 'date', label: '日期'}];
+                        for(var i = 0; i<_this.propList.length;i++){
+                            this.cols.push({
+                                prop: _this.propList[i].position,
+                                label: _this.propList[i].label_name,
+                            })
                         }
                         this.listData = newData;
                         this.totalpage = newData.length;

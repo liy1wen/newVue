@@ -48,8 +48,8 @@
 				<el-table-column prop="name" label="任务名称" ></el-table-column>
 				<el-table-column prop="desc" label="描述" min-width="200" ></el-table-column>
 				<el-table-column prop="finish_num" label="完成进度" ></el-table-column>
-				<el-table-column prop="date" label="时间" ></el-table-column>
 				<el-table-column prop="task_num" label="任务量" ></el-table-column>
+				<el-table-column prop="date" label="时间" ></el-table-column>
 				<el-table-column prop="reward_type" label="奖励类型" >
 					<template slot-scope="scope">
 						<p v-if="scope.row.reward_type == 0">聊币</p>
