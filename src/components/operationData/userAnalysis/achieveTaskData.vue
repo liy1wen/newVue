@@ -26,12 +26,12 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <table cellspacing="0" cellpadding="0"   border="1">
-                <thead>
-                    <tr v-html="thead_html">
+            <table cellspacing="0" cellpadding="0"   border="1" style="border: 1px solid #EBEEF5;">
+                <thead  style="background:#E3EFFF;">
+                    <tr v-html="thead_html"  style="height:40px;line-height:40px;color: #909399;">
                     </tr>
                 </thead>
-                <tbody v-html="tbody_html" class="data_tbody">
+                <tbody v-html="tbody_html" class="data_tbody" style="color: #606266;font-size: 14px;">
                      
                 </tbody>
             </table>
@@ -135,6 +135,7 @@ export default {
                         _this.all_ob = all_ob.sort();
                         
                         // 动态生成table表头
+                        _this.taskList = JSON.parse(baseConfig.getStorage("taskListLocal", false));
                         this.thead_html = "<th>日期</th>";
                         for(var i = 0;i<this.all_ob.length;i++){
                             this.thead_html += "<th class='d_thead' style='font-size: 14px;'>"+ this.taskList[this.all_ob[i]] +"</th>";
@@ -166,7 +167,7 @@ export default {
                                     td_html += '<td>'+ newData[i][key] +'</td>'
                                 }
                             }
-                            tr_html += "<tr style='height:40px;'>" + td_html + "</tr>";
+                            tr_html += "<tr style='height:50px;color: #606266;font-size: 14px;'>" + td_html + "</tr>";
                         t_body_html += tr_html;           
                         }     
                         _this.tbody_html = t_body_html;
@@ -192,7 +193,7 @@ export default {
                     }
                     var tls = JSON.stringify(n_obj);
                     baseConfig.setStorage("taskListLocal", tls, false);
-                    _this.taskList = JSON.parse(baseConfig.getStorage("taskListLocal", false));
+                    // _this.taskList = JSON.parse(baseConfig.getStorage("taskListLocal", false));
                 }else{
                     baseConfig.errorTipMsg(_this, res.data.msg);
                 }

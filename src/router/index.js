@@ -52,6 +52,7 @@ import newRecordingAddList from '../components/operationSupport/callLog/newRecor
 import imMessageStatistics from '../components/operationData/operationDataStatistics/imMessageStatistics.vue';//IM消息统计
 import h5ShareStatistics from '../components/operationData/operationDataStatistics/h5ShareStatistics.vue';//分享页数据统计
 import newUserCastDatalist from '../components/operationData/operationDataStatistics/newUserCastDatalist.vue';//新用户红包领取统计
+import propTotalData from '../components/operationData/operationDataStatistics/propTotalData.vue';//道具统计
 // 1-1渠道数据
 import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
 import channelDataList from '../components/operationData/channelData/channelDataList.vue';//分渠道数据
@@ -246,7 +247,7 @@ export const asyncRouterMap = [
                     { path: '/operationData/userAnalysis/user', component: user, name: '每日在线人数', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/userAnalysis/avgUserTime', component: avgUserTime, name: '人均使用时长', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/userAnalysis/user', component: user, name: '使用频率', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
-                    { path: '/operationData/userAnalysis/onlineDistribute', component: onlineDistribute, name: '在线时长分布', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
+                    // { path: '/operationData/userAnalysis/onlineDistribute', component: onlineDistribute, name: '在线时长分布', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/userAnalysis/levelSpread', component: levelSpread, name: '等级分布查询', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/userAnalysis/dayTaskData', component: dayTaskData, name: '每日任务统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/userAnalysis/achieveTaskData', component: achieveTaskData, name: '成就任务统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
@@ -306,6 +307,7 @@ export const asyncRouterMap = [
                     { path: '/operationData/operationDataStatistics/h5ShareStatistics', component: h5ShareStatistics, name: '分享页数据统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/operationDataStatistics/im', component: imMessageStatistics, name: 'IM消息统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationSupport/operationDataStatistics/roomTabDataInfo', component: roomTabDataInfo, name: '房间功能标签使用统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                  
+                    { path: '/operationSupport/operationDataStatistics/propTotalData', component: propTotalData, name: '道具统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                  
                 ],
             },
             {
