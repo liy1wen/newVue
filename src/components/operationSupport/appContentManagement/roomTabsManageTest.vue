@@ -208,7 +208,7 @@ export default {
     mounted() {
         var _this = this;
         this.$nextTick(function() {
-			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);
+			_this.tabSearchHeight = baseConfig.lineNumber(tabPageHeight);
 			console.log(_this.tabSearchHeight)
             _this.getTableData();
         });
