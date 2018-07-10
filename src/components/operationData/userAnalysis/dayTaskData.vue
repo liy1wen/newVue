@@ -193,13 +193,11 @@ export default {
             var url = '/NewLevel/getTaskIdList';
             allget("",url).then(res => {
                 if(res.data.ret){
-                    var n_obj = {};
                     for(var i = 0;i<res.data.data.length;i++){
                         var p = res.data.data[i].id;
-                        n_obj[p] = res.data.data[i].desc;
+                        _this.taskList[p] = res.data.data[i].desc;
                     }
                     var tls = JSON.stringify(_this.taskList);
-                    baseConfig.setStorage("taskListLocal", tls, false);
                     _this.getData();
                 }else{
                     baseConfig.errorTipMsg(_this, res.data.msg);
