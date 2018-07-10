@@ -26,15 +26,14 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <table cellspacing="0" cellpadding="0"   border="1" style="border: 1px solid #EBEEF5;">
-                <thead  style="background:#E3EFFF;">
-                    <tr v-html="thead_html"  style="height:40px;line-height:40px;color: #909399;">
-                    </tr>
-                </thead>
-                <tbody v-html="tbody_html" class="data_tbody" style="color: #606266;font-size: 14px;">
-                     
-                </tbody>
-            </table>
+            <el-table ref="tableHeight" :data="onePageTabData" border v-loading="listLoading" style="width: 100%;" :height="tableHeight">
+                <template v-for="col in cols">
+                    <el-table-column :prop="col.prop" :label="col.label" :key="col.prop"></el-table-column>
+                </template>
+            </el-table>
+            <el-col :span="24" class="toolbar">
+                <el-pagination layout="total,prev,pager,next,jumper" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+            </el-col>
         </template>
        
     </section>
@@ -54,6 +53,12 @@ export default {
                 startDate: [new Date() - 7 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             listData: [],
+            cols: [],
+            newData: [],
+            page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
+			star: '0', //每一页的开始数据
+            end: '20', //每一页的结束数据
+            totalpage: null, //下方工具条的总条数 
             formLabelWidth: "120px",
 			listLoading: false,
             dialogTableVisible: false,
@@ -68,13 +73,20 @@ export default {
             channelId: null, // 渠道数据
         };
     },
+    computed: {
+        onePageTabData() {
+			var _this = this;
+			return _this.newData.slice(_this.star, _this.end);
+		},
+    },
     methods: {
-        
         //页面的页数
         handleCurrentChange(val) {
-            //服务器的第一页是0 所以 这里要 -1
-            this.page = val-1;
-            this.getData();
+            var _this = this;
+            val = val-1;
+            _this.page = val;
+            _this.star = (_this.page)*20;
+            _this.end = _this.star+20;
         },
         // 获取数据
         getData(type) {
@@ -133,45 +145,28 @@ export default {
                             }
                         }
                         _this.all_ob = all_ob.sort();
-                        
-                        // 动态生成table表头
-                        _this.taskList = JSON.parse(baseConfig.getStorage("taskListLocal", false));
-                        this.thead_html = "<th>日期</th>";
-                        for(var i = 0;i<this.all_ob.length;i++){
-                            this.thead_html += "<th class='d_thead' style='font-size: 14px;'>"+ this.taskList[this.all_ob[i]] +"</th>";
+
+                        // 对不存在数据的进行为0的处理
+                        for(var i=0; i<newData.length; i++) {
+                            for(var j=0; j<all_ob.length; j++) {
+                                if(newData[i].hasOwnProperty(all_ob[j])==false) {
+                                    newData[i][all_ob[j]] = '0';
+                                } else {
+                                    // 已经存在不进行处理
+                                }
+                            }
                         }
 
-                        /*根据上一步整合的数据，判断哪些标签没有数值，没有数值的赋值为0*/
-                        for(var i = 0; i< newData.length; i++){
-                            var newCap = [];
-                            for(var key in newData[i]){
-                                if(key != "date") {
-                                    newCap.push(key);
-                                }
-                            }
-                            // 没有的添加相应的赋值为0
-                            for(var k = 0; k < all_ob.length;k++){
-                                if(newCap.indexOf(all_ob[k]) == "-1"){
-                                    var cap_p = all_ob[k];
-                                    newData[i][cap_p] = "0";
-                                }                                
-                            }
+                        // 对all_ob、this.taskList进行相应的处理,得到cols
+                        this.cols = [{prop: 'date', label: '日期'}];
+                        for(var i=0; i<all_ob.length; i++) {
+                            this.cols.push({
+                                prop: all_ob[i],
+                                label: this.taskList[all_ob[i]],
+                            });
                         }
-                        // 动态生成tbody
-                        var t_body_html = "";
-                        for(var i = 0; i < newData.length; i++){
-                            var td_html = '<td>'+ newData[i].date +'</td>';
-                            var tr_html = "";
-                            for(var key in newData[i]){
-                                if(key != "date"){
-                                    td_html += '<td>'+ newData[i][key] +'</td>'
-                                }
-                            }
-                            tr_html += "<tr style='height:50px;color: #606266;font-size: 14px;'>" + td_html + "</tr>";
-                        t_body_html += tr_html;           
-                        }     
-                        _this.tbody_html = t_body_html;
-                        
+                        this.newData = newData;
+                        this.totalpage = newData.length;
                     }else{
                         baseConfig.successTipMsg(_this, res.data.msg);
                     }
@@ -191,9 +186,7 @@ export default {
                         var p = res.data.data[i].id;
                         n_obj[p] = res.data.data[i].desc;
                     }
-                    var tls = JSON.stringify(n_obj);
-                    baseConfig.setStorage("taskListLocal", tls, false);
-                    // _this.taskList = JSON.parse(baseConfig.getStorage("taskListLocal", false));
+                    _this.getData();
                 }else{
                     baseConfig.errorTipMsg(_this, res.data.msg);
                 }
@@ -203,16 +196,11 @@ export default {
         },
 	 
     },
-    created() {
-        this.getTaskList();
-		this.getData();
-    },
     mounted() {
         var _this = this;
-        _this.tableHeight = baseConfig.lineNumber(searchHeight);
+        _this.tableHeight = baseConfig.lineNumber(searchPageHeight);
         _this.tableWidth = baseConfig.lineNumber(lookWidth);
-        // this.getTaskList();
-        // this.getData();
+        this.getTaskList();
         var id = store.state.user.channelid.split(",");
         var name = store.state.user.channelname.split(","); 
         for(var i = 0; i<id.length; i++){
