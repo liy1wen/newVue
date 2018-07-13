@@ -64,6 +64,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="operate_user" label="审核人"></el-table-column>
+                <el-table-column prop="refuse_reason" label="拒绝原因"></el-table-column>
             </el-table>
             <!-- 工具条 -->
             <el-col :span="24" class="toolbar">
