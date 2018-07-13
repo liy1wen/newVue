@@ -94,6 +94,8 @@ import roomSubsidy from '../components/userManagement/householdManagement/roomSu
 import roomCheck from '../components/userManagement/householdManagement/roomCheck.vue';//房间考核日志
 import changeRoomGrade from '../components/userManagement/householdManagement/changeRoomGrade.vue';//修改房间等级
 import roomOfficialTabList from '../components/userManagement/householdManagement/roomOfficialTabList.vue';//官方标签列表
+import kickRecord from '../components/userManagement/householdManagement/kickRecord.vue';//房间封禁记录
+import roomList from '../components/userManagement/householdManagement/roomList.vue';//房间列表
 
 // 2-3代理推广管理
 import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
@@ -150,6 +152,7 @@ import presentAuditReviewFirst from '../components/operationSupport/financialMan
 import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理
 import applicationMonyMg from '../components/operationSupport/financialManagement/applicationMonyMg.vue';//货币申请及记录
 import vipPackageList from '../components/operationSupport/financialManagement/vipPackageList.vue';//VIP会员配置列表
+import roomSubsidyCheck from '../components/operationSupport/financialManagement/roomSubsidyCheck.vue';//房间补贴审核记录
 // 运营支撑end
 
 // 4、活动专区
@@ -375,15 +378,16 @@ export const asyncRouterMap = [
                     { path: '/userManagement/householdManagement/familyDissolve', component: familyDissolve, name: '解散家族', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/changeFamilyGrade', component: changeFamilyGrade, name: '修改家族等级', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/roomList', component: roomList, name: '房间列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/roomDataInfo', component: roomDataInfo, name: '房间详细数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
-                    { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
+                    // { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/userManagement/householdManagement/roomConsumptionFlow', component: roomConsumptionFlow, name: '房间消费流水', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     { path: '/userManagement/householdManagement/roomSubsidy', component: roomSubsidy, name: '房间流水补贴', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/roomCheck', component: roomCheck, name: '房间考核日志', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/roomTopManagement', component: roomTopManagement, name: '房间置顶管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/changeRoomGrade', component: changeRoomGrade, name: '修改房间等级', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/roomOfficialTabList', component: roomOfficialTabList, name: '官方标签列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
-                    
+                    { path: '/userManagement/householdManagement/kickRecord', component: kickRecord, name: '房间封禁记录', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     
                 ],
             },
@@ -437,6 +441,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord', component: monetaryMembershipApplicationAndRecord, name: '货币、会员申请', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/financialManagement/applicationMonyMg', component: applicationMonyMg, name: '货币、会员申请审核', hidden: false, meta: { role: ['T1', 'P1'] } },
                     { path: '/operationSupport/financialManagement/vipPackageList', component: vipPackageList, name: '会员配置列表', hidden: false, meta: { role: ['T1', 'P1'] } },
+                    { path: '/operationSupport/financialManagement/roomSubsidyCheck', component: roomSubsidyCheck, name: '房间补贴审核', hidden: false, meta: { role: ['T1', 'P1'] } },
                     
                 ],
             },

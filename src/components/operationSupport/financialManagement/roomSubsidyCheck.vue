@@ -1,5 +1,5 @@
 <template>
-    <!-- 流水补贴 -->
+    <!-- 房间流水补贴审核 -->
     <!-- dom结构内容 -->
     <section>
         <!-- 工具条/头部的搜索条件搜索 -->
@@ -52,15 +52,27 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="rate" label="补贴比例"></el-table-column>
-                <el-table-column prop="is_give" label="审核状态">
+                <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <p v-if="scope.row.is_give == 0">待审核</p>
-                        <p v-else-if="scope.row.is_give == 1" style="color: skyblue;">已通过</p>
-                        <p v-else-if="scope.row.is_give == 2" style="color: #F56C6C;">已拒绝</p>
+                        <el-button v-if="scope.row.is_give==0" type="primary" size="mini" @click="passRoom(scope.$index,scope.row,1)">通过</el-button>
+                        <el-button v-if="scope.row.is_give==0" type="warning" size="mini" @click="passRoom(scope.$index,scope.row,2)">拒绝</el-button>
+                        <el-button v-else-if="scope.row.is_give==1" disabled size="mini">已通过</el-button>
+                        <el-button v-else-if="scope.row.is_give==2" disabled size="mini">已拒绝</el-button>
                     </template>
                 </el-table-column>
-                <el-table-column prop="operate_user" label="审核人"></el-table-column>
             </el-table>
+            <el-dialog title="拒绝原因" :visible.sync="dialogFormVisible">
+                <el-form :model="passData">
+                    <el-form-item label="拒绝原因" :label-width="formLabelWidth">
+                        <el-input v-model="passData.refuse_reason" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="refusePass">确 定</el-button>
+                </div>
+            </el-dialog>
+
             <!-- 工具条 -->
             <el-col :span="24" class="toolbar">
                 <el-pagination layout="total,prev, pager, next,jumper" :page-size="20" @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
@@ -72,6 +84,7 @@
 
 <script>
 import { allget } from "../../../api/api";
+import store from "../../../vuex/store.js";
 export default {
     data() {
         return {
@@ -87,6 +100,12 @@ export default {
             uid: "",
             room_id: "",
             room_type: "",
+            dialogFormVisible: false,
+            operate_user: "",
+            passData: {
+                id: "",
+                refuse_reason: ""
+            }
         };
     },
     methods: {
@@ -97,9 +116,9 @@ export default {
             this.getData();
         },
         judgeRoom(row) {
-            if(row.room_type == 0){
+            if (row.room_type == 0) {
                 return "家族房间";
-            }else if(row.room_type == 1){
+            } else if (row.room_type == 1) {
                 return "个人房间";
             }
         },
@@ -117,7 +136,8 @@ export default {
                 room_type: this.room_type,
                 owner_uid: this.uid,
                 family_id: this.room_id,
-                page: this.page
+                page: this.page,
+                ask_type: 1 //0流水1审核
             };
             allget(param, url)
                 .then(res => {
@@ -131,12 +151,63 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        // 房间补贴通过
+        passRoom(index, row, type) {
+            var _this = this;
+            _this.passData.id = row.id;
+            _this.passData.refuse_reason = ""; // 每次点击拒绝理由清空
+            var url = "/NewFamily/passRoomSubsidy";
+            if (type == 1) {
+                var param = {
+                    id: _this.passData.id,
+                    operate_user: _this.operate_user,
+                    is_give: type
+                };
+                allget(param, url)
+                    .then(res => {
+                        if (res.data.ret) {
+                            _this.getData();
+                            baseConfig.successTipMsg(_this, res.data.msg);
+                        } else {
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            } else if (type == 2) {
+                _this.dialogFormVisible = true;
+            }
+        },
+        refusePass() {
+            var _this = this;
+            var url = "/NewFamily/passRoomSubsidy";
+            var param = {
+                id: _this.passData.id,
+                operate_user: _this.operate_user,
+                is_give: 2,
+                refuse_reason: _this.passData.refuse_reason
+            };
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        _this.getData();
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
     },
     mounted() {
         var _this = this;
         _this.tableHeight = baseConfig.lineNumber(searchPageHeight);
         _this.getData();
+        this.operate_user = store.state.user.name;
     }
 };
 </script>
