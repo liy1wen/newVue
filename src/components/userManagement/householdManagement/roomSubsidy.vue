@@ -46,12 +46,16 @@
                 <el-table-column prop="nickname" label="发放对象昵称"></el-table-column>
                 <el-table-column prop="chat_ticket" label="发放补贴金额(聊票)"></el-table-column>
                 <el-table-column prop="days" label="统计周期"></el-table-column>
-                <el-table-column prop="chat_ticket" label="统计金额(聊票)">
+                <el-table-column prop="rate" label="补贴比例">
                     <template slot-scope="scope">
-                        <p>{{(scope.row.chat_ticket/18.56).toFixed(2)}}</p>
+                        <p>{{scope.row.rate}}%</p>
                     </template>
                 </el-table-column>
-                <el-table-column prop="rate" label="补贴比例"></el-table-column>
+                <el-table-column prop="chat_ticket" label="统计金额(聊票)">
+                    <template slot-scope="scope">
+                        <p>{{(scope.row.chat_ticket/(scope.row.rate*0.01)).toFixed(0)}}</p>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="is_give" label="审核状态">
                     <template slot-scope="scope">
                         <p v-if="scope.row.is_give == 0">待审核</p>
