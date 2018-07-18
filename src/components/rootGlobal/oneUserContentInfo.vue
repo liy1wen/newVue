@@ -160,7 +160,7 @@
                                 <el-col :span="12" class="grid-info"><div>聊票：<span>{{userinfo.volumes}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>累计充值(元)：<span>{{userinfo.pay_num/100}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>通话价格：<span>{{userinfo.price}}</span></div></el-col>
-                                <el-col :span="12" class="grid-info"><div>累计提现金额：<span>{{userinfo.cash}}</span></div></el-col>
+                                <el-col :span="12" class="grid-info"><div>累计提现金额(元)：<span>{{userinfo.cash/100}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>累计消耗聊币:<span>{{userinfo.out_chat_gold}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>累积通话时长：<span>{{userinfo.accumulate_time}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>累计消耗聊票：<span>{{userinfo.out_chat_ticket}}</span></div></el-col>

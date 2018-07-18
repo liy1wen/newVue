@@ -31,13 +31,13 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item style="float:right;margin-right: 100px;">
-                    <el-button type="primary" @click="getTbData">查询</el-button>
+                    <el-button type="primary" @click="getTbData(0)">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
         <!--用户的数据展示列表-->
         <template>
-            <el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
+            <el-table ref="tableHeight" :data="newListData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="create_time" label="开启时间"></el-table-column>
                 <el-table-column prop="room_id" label="房间ID"></el-table-column>
                 <el-table-column prop="room_name" label="房间名称"></el-table-column>
@@ -56,7 +56,6 @@
                 <el-table-column prop="room_type" :formatter="judgeRoom" label="房间类型"></el-table-column>
                 <el-table-column prop="owner_uid" label="族长UID"></el-table-column>
                 <el-table-column prop="nickname" label="创建者昵称"></el-table-column>
-                <!-- <el-table-column prop="owner_nickname" label="族长昵称"></el-table-column> -->
                 <el-table-column prop="room_background_pic" label="房间背景图">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="left">
@@ -67,25 +66,27 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column prop="room_status" :formatter="judgeRoom" label="房间状态"></el-table-column>  -->
-                <!-- <el-table-column prop="use_time" label="单次时长"></el-table-column> -->
-                <el-table-column prop="pit_rate" label="入坑率"></el-table-column>
+                <el-table-column   label="入坑率">
+                    <template slot-scope="scope">
+                        <p>{{Number(scope.row.pit_rate).toFixed(0)}}</p>
+                    </template>
+                </el-table-column>
 
-                <!-- <el-table-column prop="total_use_time" label="累计时长"></el-table-column> -->
-                <!-- <el-table-column prop="this_money" label="单次流水（聊币）"></el-table-column> -->
-                <!-- <el-table-column prop="total_money" label="累计流水（聊币）"></el-table-column> -->
-                <!-- <el-table-column prop="this_man" label="消费人次"></el-table-column> -->
-                <!-- <el-table-column prop="total_man" label="累计消费人次"></el-table-column> -->
-                <!-- <el-table-column prop="total_num" label="用户进入数量"></el-table-column> -->
-                <!-- <el-table-column prop="all_total_num" label="用户累计数量"></el-table-column> -->
+                <el-table-column prop="total_cost_money" label="累积消费金额(聊币)"></el-table-column>
+                <el-table-column prop="total_cost_num" label="累积消费人次"></el-table-column>
+                <el-table-column prop="total_cost_people" label="累积消费人数"></el-table-column>
+                <el-table-column prop="total_num" label="直播次数"></el-table-column>
+                <el-table-column prop="total_time" label="直播时长">
+                    <template slot-scope="scope">
+                        <p>{{timeTransform(scope.row.total_time)}}</p>
+                        <p>{{scope.row.total_time}}</p>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="total_into_num" label="房间进入人次"></el-table-column>
+                <el-table-column prop="total_into_people" label="房间进入人数"></el-table-column>
 
                 <el-table-column prop="last_open_time" label="最后直播时间"></el-table-column>
                 <el-table-column prop="total_honour" label="热力值"></el-table-column>
-                <el-table-column prop="num" label="直播次数"></el-table-column>
-                <el-table-column prop="total_time" label="直播时长"></el-table-column>
-                <el-table-column prop="total_cost_money" label="累积消费金额"></el-table-column>
-                <el-table-column prop="total_cost_num" label="累积消费次数"></el-table-column>
-                <el-table-column prop="total_cost_people" label="累积消费人数"></el-table-column>
                 <el-table-column prop="room_status" label="操作" width='130px;' fixed="right">
                     <template slot-scope="scope" style="width: 300px;">
                         <el-button size="mini" type="danger" @click="deleteBgImg(scope.$index, scope.row)">删除背景图</el-button>
@@ -114,7 +115,7 @@
                 </el-pagination>
             </el-col>
             <!-- 开启房间弹窗 -->
-            <el-dialog title="开启房间" :visible.sync="formInfo.dialogShow" center :before-close="handleClose">
+            <el-dialog title="开启房间" :visible.sync="formInfo.dialogShow" center>
                 <el-form :model="formInfo">
                     <div>
                         <span>你将要开启的房间--</span>{{roomName}}</div>
@@ -128,14 +129,14 @@
                 </span>
             </el-dialog>
             <!-- 关闭房间弹窗 -->
-            <el-dialog title="关闭房间" :visible.sync="closeFormInfo.dialogShow" center :before-close="handleClose">
+            <el-dialog title="关闭房间" :visible.sync="closeFormInfo.dialogShow" center>
                 <el-form :model="closeFormInfo">
                     <div>
                         <span>你将要关闭的房间--</span>{{roomName}}</div>
                     <el-radio v-model="radio" label="0">关闭</el-radio>
                     <el-radio v-model="radio" label="1">封禁</el-radio>
-                    <el-form-item label="原因" width="120px">
-                        <el-input v-model="closeFormInfo.oppenReason" auto-complete="off"></el-input>
+                    <el-form-item label="原因" width="100px">
+                        <el-input style="width: 80%;" v-model="closeFormInfo.oppenReason" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
@@ -226,11 +227,13 @@
 <script>
 import { allget } from "../../../api/api";
 import store from "../../../vuex/store.js";
+import axios from "axios";
 export default {
     data() {
         return {
             sex: "",
             listData: [],
+            newListData: [],
             listLoading: false,
             tableHeight: null,
             room_type: "",
@@ -293,41 +296,181 @@ export default {
             this.page = val - 1;
             this.getTbData();
         },
-        //页面的页数
-        handleCurrentChange1(val) {
-            //服务器的第一页是0 所以 这里要 -1
-            this.page1 = val - 1;
-            this.getTbData1();
-        },
-        getTbData() {
+        getTbData(type) {
             var _this = this;
             _this.listLoading = true;
             let url = "/NewFamily/getLiveBroadCastInfo";
+            if(type == 0){
+                _this.page = 0;
+            }
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                room_id: this.room_id,
-                owner_uid: this.owner_uid,
-                page: this.page,
-                room_type: this.room_type
+                room_id: _this.room_id,
+                owner_uid: _this.owner_uid,
+                page: _this.page,
+                room_type: _this.room_type
             };
             param.room_type == ""
                 ? delete param.room_type
                 : (param.room_type = param.room_type);
             allget(param, url)
                 .then(res => {
-                    _this.listLoading = false;
+                    // _this.listLoading = false;
                     if (res.data.ret) {
-                        this.listData = res.data.data;
+                        _this.listData = res.data.data;
+                        _this.getTbDataMore();
                     } else {
-                        baseConfig.errorTipMsg(this, res.data.msg);
+                        baseConfig.errorTipMsg(_this, res.data.msg);
                     }
                 })
                 .catch(err => {
                     console.log(err);
                 });
         },
+        // 添加展开数据
+        getTbDataMore() {
+            var _this = this;
+            var url = "/NewFamily/getLiveBroadCastInfo";
 
+            var p1 = new Promise((resolve, reject) => {
+                var param = {
+                    date_s: baseConfig.changeDateTime(
+                        _this.formOne.startDate[0],
+                        0
+                    ),
+                    date_e: baseConfig.changeDateTime(
+                        _this.formOne.startDate[1],
+                        0
+                    ),
+                    room_id: _this.room_id,
+                    owner_uid: _this.owner_uid,
+                    page: _this.page,
+                    room_type: _this.room_type,
+                    type: 1 //入坑率
+                };
+                param.room_type == ""
+                    ? delete param.room_type
+                    : (param.room_type = param.room_type);
+                allget(param, url)
+                    .then(res => {
+                        if (res.data.ret) {
+                            resolve(res.data.data);
+                        } else {
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            });
+            var p2 = new Promise((resolve, reject) => {
+                var param = {
+                    date_s: baseConfig.changeDateTime(
+                        _this.formOne.startDate[0],
+                        0
+                    ),
+                    date_e: baseConfig.changeDateTime(
+                        _this.formOne.startDate[1],
+                        0
+                    ),
+                    room_id: _this.room_id,
+                    owner_uid: _this.owner_uid,
+                    page: _this.page,
+                    room_type: _this.room_type,
+                    type: 2 //直播时长次数
+                };
+                param.room_type == ""
+                    ? delete param.room_type
+                    : (param.room_type = param.room_type);
+                allget(param, url)
+                    .then(res => {
+                        if (res.data.ret) {
+                            resolve(res.data.data);
+                        } else {
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            });
+            var p3 = new Promise((resolve, reject) => {
+                var param = {
+                    date_s: baseConfig.changeDateTime(
+                        _this.formOne.startDate[0],
+                        0
+                    ),
+                    date_e: baseConfig.changeDateTime(
+                        _this.formOne.startDate[1],
+                        0
+                    ),
+                    room_id: _this.room_id,
+                    owner_uid: _this.owner_uid,
+                    page: _this.page,
+                    room_type: _this.room_type,
+                    type: 3 //消费人数人次金额
+                };
+                allget(param, url)
+                    .then(res => {
+                        if (res.data.ret) {
+                            resolve(res.data.data);
+                        } else {
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            });
+            var p4 = new Promise((resolve, reject) => {
+                var param = {
+                    date_s: baseConfig.changeDateTime(
+                        _this.formOne.startDate[0],
+                        0
+                    ),
+                    date_e: baseConfig.changeDateTime(
+                        _this.formOne.startDate[1],
+                        0
+                    ),
+                    room_id: _this.room_id,
+                    owner_uid: _this.owner_uid,
+                    page: _this.page,
+                    room_type: _this.room_type,
+                    type: 4 //进入人数人次
+                };
+                allget(param, url)
+                    .then(res => {
+                        // console.log(res.data.data);
+                        if (res.data.ret) {
+                            resolve(res.data.data);
+                        } else {
+                            baseConfig.errorTipMsg(_this, res.data.msg);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            });
+            Promise.all([p1, p2, p3, p4])
+                .then(result => {
+                    _this.listLoading = false;
+                    for (var i = 0; i < result[0].length; i++) {
+                        _this.listData[i].pit_rate = (typeof result[0][i]) == 'undefined' ? "" : result[0][i].pit_rate;
+                        _this.listData[i].total_num = (typeof result[1][i]) == 'undefined' ? "" : result[1][i].total_num;
+                        _this.listData[i].total_time = (typeof result[1][i]) == 'undefined' ? "" : result[1][i].total_time;
+                        _this.listData[i].total_cost_money = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_money;
+                        _this.listData[i].total_cost_num = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_num;
+                        _this.listData[i].total_cost_people = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_people;
+                        _this.listData[i].total_into_num = (typeof result[3][i]) == 'undefined' ? "" : result[3][i].total_into_num;
+                        _this.listData[i].total_into_people = (typeof result[3][i]) == 'undefined' ? "" : result[3][i].total_into_people;
+                    }
+                    _this.newListData = _this.listData;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
         judgeRoom(row) {
             if (row.room_type == 0) {
                 return "家族房间";
@@ -593,11 +736,15 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        // 时间转换
+        timeTransform(oldValue){
+            return baseConfig.changeTime(oldValue);
         }
     },
     mounted() {
         this.tableHeight = searchPageHeight;
-        // this.getTbData();
+        this.getTbData();
         this.operate_user = store.state.user.name; // 操作用户的昵称
     }
 };
