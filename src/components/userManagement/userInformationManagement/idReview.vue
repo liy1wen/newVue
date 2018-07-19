@@ -310,6 +310,7 @@ export default {
             this.refuse.uid = row.uid;
         },
         sureRefuse() {
+            var _this = this;
             let url = "/NewUser/failRealName";
             let param = {
                 uid: this.refuse.uid,
