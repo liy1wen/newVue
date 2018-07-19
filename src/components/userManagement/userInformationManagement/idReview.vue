@@ -104,8 +104,12 @@
                                 <el-button size="mini" type="info" @click="revamp(scope.$index, scope.row)">修改信息</el-button>
                             </el-col>
                         </el-row>
-                        <div v-else-if="scope.row.status==3"></div>
-                        <div v-else-if="scope.row.status==4"></div>
+                        <el-row v-else-if="scope.row.status==3">
+                            <el-button size="mini" type="info" @click="revamp(scope.$index, scope.row)">修改信息</el-button>
+                        </el-row>
+                        <el-row v-else-if="scope.row.status==4">
+                            <el-button size="mini" type="info" @click="revamp(scope.$index, scope.row)">修改信息</el-button>
+                        </el-row>
                     </template>
                 </el-table-column>
             </el-table>
@@ -324,6 +328,7 @@ export default {
             allget(param, url)
                 .then(res => {
                     if (res.data.ret) {
+                        _this.refuse.DialogVisible = false;
                         baseConfig.successTipMsg(_this, res.data.msg);
                         _this.refuse.reason = "";
                         _this.getData();
@@ -349,11 +354,12 @@ export default {
             var _this = this;
             let url = "/NewUser/editRealName";
             let param = {
-                uid: this.info.uid,
-                identity_card_icon: this.info.identity_card_icon,
-                identity_card: this.info.identity_card,
-                name: this.info.name,
-                pay_account: this.info.pay_account,
+                uid: _this.info.uid,
+                aut_icon: _this.info.aut_icon,
+                identity_card_icon: _this.info.identity_card_icon,
+                identity_card: _this.info.identity_card,
+                name: _this.info.name,
+                pay_account: _this.info.pay_account,
             };
             allget(param, url)
                 .then(res => {
