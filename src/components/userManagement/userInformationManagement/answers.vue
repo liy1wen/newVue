@@ -65,6 +65,7 @@ export default {
 			totalpage: 1000,  
 			page: 0, 
 			formLabelWidth: '130px', 
+			constrast_uid: "", // 对比uid 每次请求完数据后,将uid存起来，用和下次请求数据做对比
 		};
 	},
 	methods: {
@@ -88,12 +89,12 @@ export default {
 			var _this = this ;
 			_this.listLoading = true;
 			var url = '/NewUser/getUserAnswerRecord';
-            var params = _this.searchCondition();
+			var params = _this.searchCondition();
             if(params.uid == "" || params.uid == undefined){
                 _this.listLoading = false;
                 baseConfig.normalTipMsg(_this, "请填写uid！");
                 return;
-            }
+			}
 			// 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 			if(params==null) {
 				// 不进行数据请求,直接关闭掉加载的图层
@@ -104,10 +105,20 @@ export default {
 					// 数据请求成功
 					_this.listLoading = false;
 					if(res.data.ret) {
-						// 正常数据
-						// _this.totalpage = res.data.data.length;
-						_this.tabData = "";
-						_this.tabData.push(res.data.data);
+						// 判断数据是否为空 当其为数组时没有数据
+						if(Array.isArray(res.data.data) == false){
+							// 每次请求数据时若uid和上次相同时删除上一次数据添加上这次，若不同则直接push
+							if(params.uid == _this.constrast_uid){
+								var lastData = _this.tabData.slice(_this.tabData.length-1);
+								_this.tabData.splice(_this.tabData.length-1,1);
+								_this.tabData = _this.tabData.concat(lastData);
+							}else{
+								_this.tabData.push(res.data.data);
+							}
+						}else{
+							baseConfig.normalTipMsg(_this,"该用户无相关数据!");
+						}
+						_this.constrast_uid = params.uid;
 					} else {
 						// 返回ret==0，非正常数据
 						baseConfig.errorTipMsg(_this, res.data.msg);
