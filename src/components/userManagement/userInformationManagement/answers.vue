@@ -106,6 +106,7 @@ export default {
 					if(res.data.ret) {
 						// 正常数据
 						// _this.totalpage = res.data.data.length;
+						_this.tabData = "";
 						_this.tabData.push(res.data.data);
 					} else {
 						// 返回ret==0，非正常数据

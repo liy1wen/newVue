@@ -37,7 +37,7 @@
         </el-col>
         <!--用户的数据展示列表-->
         <template>
-            <el-table ref="tableHeight" :data="newListData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
+            <el-table ref="tableHeight" :data="listData" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="create_time" label="开启时间"></el-table-column>
                 <el-table-column prop="room_id" label="房间ID"></el-table-column>
                 <el-table-column prop="room_name" label="房间名称"></el-table-column>
@@ -66,7 +66,7 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <el-table-column   label="入坑率">
+                <el-table-column label="入坑率">
                     <template slot-scope="scope">
                         <p>{{Number(scope.row.pit_rate).toFixed(0)}}</p>
                     </template>
@@ -233,7 +233,7 @@ export default {
         return {
             sex: "",
             listData: [],
-            newListData: [],
+            // newListData: [],
             listLoading: false,
             tableHeight: null,
             room_type: "",
@@ -300,7 +300,7 @@ export default {
             var _this = this;
             _this.listLoading = true;
             let url = "/NewFamily/getLiveBroadCastInfo";
-            if(type == 0){
+            if (type == 0) {
                 _this.page = 0;
             }
             let param = {
@@ -316,8 +316,18 @@ export default {
                 : (param.room_type = param.room_type);
             allget(param, url)
                 .then(res => {
-                    // _this.listLoading = false;
+                    _this.listLoading = false;
                     if (res.data.ret) {
+                        for(var i=0; i<res.data.data.length; i++) {
+                            res.data.data[i].pit_rate = '';
+                            res.data.data[i].total_cost_money = '';
+                            res.data.data[i].total_cost_num = '';
+                            res.data.data[i].total_cost_people = '';
+                            res.data.data[i].total_num = '';
+                            res.data.data[i].total_time = '';
+                            res.data.data[i].total_into_num = '';
+                            res.data.data[i].total_into_people = '';
+                        }
                         _this.listData = res.data.data;
                         _this.getTbDataMore();
                     } else {
@@ -333,143 +343,142 @@ export default {
             var _this = this;
             var url = "/NewFamily/getLiveBroadCastInfo";
 
-            var p1 = new Promise((resolve, reject) => {
-                var param = {
-                    date_s: baseConfig.changeDateTime(
-                        _this.formOne.startDate[0],
-                        0
-                    ),
-                    date_e: baseConfig.changeDateTime(
-                        _this.formOne.startDate[1],
-                        0
-                    ),
-                    room_id: _this.room_id,
-                    owner_uid: _this.owner_uid,
-                    page: _this.page,
-                    room_type: _this.room_type,
-                    type: 1 //入坑率
-                };
-                param.room_type == ""
-                    ? delete param.room_type
-                    : (param.room_type = param.room_type);
-                allget(param, url)
-                    .then(res => {
-                        if (res.data.ret) {
-                            resolve(res.data.data);
-                        } else {
-                            baseConfig.errorTipMsg(_this, res.data.msg);
+            var param = {
+                date_s: baseConfig.changeDateTime(
+                    _this.formOne.startDate[0],
+                    0
+                ),
+                date_e: baseConfig.changeDateTime(
+                    _this.formOne.startDate[1],
+                    0
+                ),
+                room_id: _this.room_id,
+                owner_uid: _this.owner_uid,
+                page: _this.page,
+                room_type: _this.room_type,
+                type: 1 //入坑率
+            };
+            allget(param, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        // resolve(res.data.data);
+                        for (var i = 0; i < res.data.data.length; i++) {
+                            _this.listData[i].pit_rate = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].pit_rate;
                         }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            });
-            var p2 = new Promise((resolve, reject) => {
-                var param = {
-                    date_s: baseConfig.changeDateTime(
-                        _this.formOne.startDate[0],
-                        0
-                    ),
-                    date_e: baseConfig.changeDateTime(
-                        _this.formOne.startDate[1],
-                        0
-                    ),
-                    room_id: _this.room_id,
-                    owner_uid: _this.owner_uid,
-                    page: _this.page,
-                    room_type: _this.room_type,
-                    type: 2 //直播时长次数
-                };
-                param.room_type == ""
-                    ? delete param.room_type
-                    : (param.room_type = param.room_type);
-                allget(param, url)
-                    .then(res => {
-                        if (res.data.ret) {
-                            resolve(res.data.data);
-                        } else {
-                            baseConfig.errorTipMsg(_this, res.data.msg);
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            });
-            var p3 = new Promise((resolve, reject) => {
-                var param = {
-                    date_s: baseConfig.changeDateTime(
-                        _this.formOne.startDate[0],
-                        0
-                    ),
-                    date_e: baseConfig.changeDateTime(
-                        _this.formOne.startDate[1],
-                        0
-                    ),
-                    room_id: _this.room_id,
-                    owner_uid: _this.owner_uid,
-                    page: _this.page,
-                    room_type: _this.room_type,
-                    type: 3 //消费人数人次金额
-                };
-                allget(param, url)
-                    .then(res => {
-                        if (res.data.ret) {
-                            resolve(res.data.data);
-                        } else {
-                            baseConfig.errorTipMsg(_this, res.data.msg);
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            });
-            var p4 = new Promise((resolve, reject) => {
-                var param = {
-                    date_s: baseConfig.changeDateTime(
-                        _this.formOne.startDate[0],
-                        0
-                    ),
-                    date_e: baseConfig.changeDateTime(
-                        _this.formOne.startDate[1],
-                        0
-                    ),
-                    room_id: _this.room_id,
-                    owner_uid: _this.owner_uid,
-                    page: _this.page,
-                    room_type: _this.room_type,
-                    type: 4 //进入人数人次
-                };
-                allget(param, url)
-                    .then(res => {
-                        // console.log(res.data.data);
-                        if (res.data.ret) {
-                            resolve(res.data.data);
-                        } else {
-                            baseConfig.errorTipMsg(_this, res.data.msg);
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            });
-            Promise.all([p1, p2, p3, p4])
-                .then(result => {
-                    _this.listLoading = false;
-                    for (var i = 0; i < result[0].length; i++) {
-                        _this.listData[i].pit_rate = (typeof result[0][i]) == 'undefined' ? "" : result[0][i].pit_rate;
-                        _this.listData[i].total_num = (typeof result[1][i]) == 'undefined' ? "" : result[1][i].total_num;
-                        _this.listData[i].total_time = (typeof result[1][i]) == 'undefined' ? "" : result[1][i].total_time;
-                        _this.listData[i].total_cost_money = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_money;
-                        _this.listData[i].total_cost_num = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_num;
-                        _this.listData[i].total_cost_people = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_people;
-                        _this.listData[i].total_into_num = (typeof result[3][i]) == 'undefined' ? "" : result[3][i].total_into_num;
-                        _this.listData[i].total_into_people = (typeof result[3][i]) == 'undefined' ? "" : result[3][i].total_into_people;
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
                     }
-                    _this.newListData = _this.listData;
                 })
                 .catch(err => {
                     console.log(err);
                 });
+            var param1 = {
+                date_s: baseConfig.changeDateTime(
+                    _this.formOne.startDate[0],
+                    0
+                ),
+                date_e: baseConfig.changeDateTime(
+                    _this.formOne.startDate[1],
+                    0
+                ),
+                room_id: _this.room_id,
+                owner_uid: _this.owner_uid,
+                page: _this.page,
+                room_type: _this.room_type,
+                type: 2 //直播时长次数
+            };
+            allget(param1, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        for (var i = 0; i < res.data.data.length; i++) {
+                            _this.listData[i].total_num = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].total_num;
+                            _this.listData[i].total_time = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].total_time;
+                        }
+                        console.log(_this.listData);
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            var param2 = {
+                date_s: baseConfig.changeDateTime(
+                    _this.formOne.startDate[0],
+                    0
+                ),
+                date_e: baseConfig.changeDateTime(
+                    _this.formOne.startDate[1],
+                    0
+                ),
+                room_id: _this.room_id,
+                owner_uid: _this.owner_uid,
+                page: _this.page,
+                room_type: _this.room_type,
+                type: 3 //消费人数人次金额
+            };
+            allget(param2, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        for (var i = 0; i < res.data.data.length; i++) {
+                            _this.listData[i].total_cost_money = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].total_cost_money;
+                            _this.listData[i].total_cost_num = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].total_cost_num;
+                            _this.listData[i].total_cost_people = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].total_cost_people;
+                        }
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            var param3 = {
+                date_s: baseConfig.changeDateTime(
+                    _this.formOne.startDate[0],
+                    0
+                ),
+                date_e: baseConfig.changeDateTime(
+                    _this.formOne.startDate[1],
+                    0
+                ),
+                room_id: _this.room_id,
+                owner_uid: _this.owner_uid,
+                page: _this.page,
+                room_type: _this.room_type,
+                type: 4 //进入人数人次
+            };
+            allget(param3, url)
+                .then(res => {
+                    if (res.data.ret) {
+                        for (var i = 0; i < res.data.data.length; i++) {
+                            _this.listData[i].total_into_num = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].total_into_num;
+                            _this.listData[i].total_into_people = typeof res.data.data[i] == "undefined" ? "" : res.data.data[i].total_into_people;
+                        }
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            // Promise.all([p1, p2, p3, p4])
+            //     .then(result => {
+            //         // _this.listLoading = false;
+            //         for (var i = 0; i < result[0].length; i++) {
+            //             _this.listData[i].pit_rate = (typeof result[0][i]) == 'undefined' ? "" : result[0][i].pit_rate;
+            //             _this.listData[i].total_num = (typeof result[1][i]) == 'undefined' ? "" : result[1][i].total_num;
+            //             _this.listData[i].total_time = (typeof result[1][i]) == 'undefined' ? "" : result[1][i].total_time;
+            //             _this.listData[i].total_cost_money = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_money;
+            //             _this.listData[i].total_cost_num = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_num;
+            //             _this.listData[i].total_cost_people = (typeof result[2][i]) == 'undefined' ? "" : result[2][i].total_cost_people;
+            //             _this.listData[i].total_into_num = (typeof result[3][i]) == 'undefined' ? "" : result[3][i].total_into_num;
+            //             _this.listData[i].total_into_people = (typeof result[3][i]) == 'undefined' ? "" : result[3][i].total_into_people;
+            //         }
+            //         _this.newListData = _this.listData;
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //     });
         },
         judgeRoom(row) {
             if (row.room_type == 0) {
@@ -738,7 +747,7 @@ export default {
                 });
         },
         // 时间转换
-        timeTransform(oldValue){
+        timeTransform(oldValue) {
             return baseConfig.changeTime(oldValue);
         }
     },

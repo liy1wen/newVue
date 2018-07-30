@@ -58,7 +58,8 @@
 				<el-table-column label="状态" width="150" >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.status==0">取消置顶</p>
+							<p v-if="scope.row.status==0 || (new Date(scope.row.end_time) <= new Date()) ">已结束</p>
+							<p v-else-if="scope.row.status==0 || (new Date(scope.row.end_time) > new Date()) ">取消置顶</p>
 							<p v-else-if="scope.row.status==1">置顶</p>
 						</div>
 					</template>
