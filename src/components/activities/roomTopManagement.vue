@@ -58,15 +58,16 @@
 				<el-table-column label="状态" width="150" >
 					<template slot-scope="scope">
 						<div slot="reference" class="name-wrapper">
-							<p v-if="scope.row.status==0 || (new Date(scope.row.end_time) <= new Date()) ">已结束</p>
-							<p v-else-if="scope.row.status==0 || (new Date(scope.row.end_time) > new Date()) ">取消置顶</p>
+							<p v-if="scope.row.status==0 && (new Date(scope.row.end_time) <= new Date()) ">已结束</p>
+							<p v-else-if="scope.row.status==0 && (new Date(scope.row.end_time) > new Date()) ">取消置顶</p>
 							<p v-else-if="scope.row.status==1">置顶</p>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="150">
 					<template slot-scope="scope">
-						<el-button v-if="scope.row.status=='1'" type="primary" size="small" @click.native.prevent="cancelTop(scope.$index, tabData)">取消置顶</el-button>
+						<p v-if="scope.row.status=='1' && (new Date(scope.row.end_time) <= new Date())"  size="small" >已结束</p>
+						<el-button v-else-if="scope.row.status=='1' && (new Date(scope.row.end_time) > new Date())" type="primary" size="small" @click.native.prevent="cancelTop(scope.$index, tabData)">取消置顶</el-button>
 						<el-button v-else-if="scope.row.status=='0'" plain size="small">已取消</el-button>
 					</template>
 				</el-table-column>
