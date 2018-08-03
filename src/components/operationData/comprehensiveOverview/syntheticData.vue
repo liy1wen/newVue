@@ -141,7 +141,7 @@ export default {
 			tabSearchHeight: null,
 			// 各个tab页面的相应字段
 			formOne: {
-				choiceDate: [new Date()-30*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-15*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				position: '',
 				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				TotalPage: null, //下方工具条的总页数 
@@ -150,7 +150,7 @@ export default {
 				end: '20', //每一页的结束数据
 			},
 			formTwo: {
-				choiceDate: [new Date()-30*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-15*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				TotalPage: null, //下方工具条的总页数 
 				Page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
@@ -158,7 +158,7 @@ export default {
 				end: '20', //每一页的结束数据
 			},
 			formThree: {
-				choiceDate: [new Date()-30*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-15*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				TotalPage: null, //下方工具条的总页数 
 				Page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1
@@ -166,7 +166,7 @@ export default {
 				end: '20', //每一页的结束数据
 			},
 			formFour: {
-				choiceDate: [new Date()-30*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
+				choiceDate: [new Date()-15*24*60*60*1000, new Date()], // 对应选择的日期,给默认时间180之前到现在
 				TabData: [], //列表的所有数据，移除删除的功能用全部的数据进行移除
 				TotalPage: null, //下方工具条的总页数 
 				Page: 1, //现在数据展示的页数，当返回的是全部的数据时，设置默认的页面为1

@@ -157,7 +157,7 @@
                             <h4>充值与通话</h4>
                             <div class="user-info-detail">
                                 <el-col :span="12" class="grid-info"><div>聊币：<span>{{userinfo.chat_gold}}</span></div></el-col>
-                                <el-col :span="12" class="grid-info"><div>聊票：<span>{{userinfo.volumes}}</span></div></el-col>
+                                <el-col :span="12" class="grid-info"><div>聊票：<span>{{userinfo.chat_ticket}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>累计充值(元)：<span>{{userinfo.pay_num/100}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>通话价格：<span>{{userinfo.price}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>累计提现金额(元)：<span>{{userinfo.cash/100}}</span></div></el-col>

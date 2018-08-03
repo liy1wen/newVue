@@ -275,11 +275,11 @@ export default {
             if (type == 0) {
                 _this.page = 0;
             }
-            let url = "/Money/getUserConsumer";
+            let url = "/NewMoney/getUserConsumer";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                uid: this.uid,
+                find: this.uid,
                 money_type: this.money_type,
                 type: this.type,
                 trade_type: this.trade_type,

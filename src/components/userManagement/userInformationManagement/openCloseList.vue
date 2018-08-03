@@ -142,13 +142,12 @@ export default {
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                operate_user: this.operate_user,
+                // operate_user: this.operate_user,
                 find: this.find,
                 channel: this.channelId.join(","),
                 nickname: this.nickname,
             };
             if( param.find != "" && param.find != null ){
-                console.log(1234)
                 delete param.date_s;
                 delete param.date_e;
                 delete param.operate_user;
