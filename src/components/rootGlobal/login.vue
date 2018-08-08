@@ -102,7 +102,9 @@ export default {
 
                 } else {}
             }
-        })
+        });
+        // 在这里进行对应页面高度的定义
+        getHeight();
     },
 }
 </script>

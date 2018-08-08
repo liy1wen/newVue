@@ -11,9 +11,10 @@ const user = {
         channelid: '',
         channelname: '',
         token: '',
+        // 配置初始的页面的跳转
         allroute: [
             '/operationData/userAnalysis/heldOutData', 
-            '/userManagement/userInformationManagement/userQueryList',
+            '/userManagement/householdManagement/familyManage',
             '/operationSupport/operatingTools/bannerManagement',
             '/activities/roomTopManagement',
             '/systemSetup/modifyThePassword',

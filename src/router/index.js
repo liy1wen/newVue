@@ -105,6 +105,7 @@ const familyManage  = () => import( '../components/userManagement/householdManag
 const liveBroadCast  = () => import( '../components/userManagement/householdManagement/liveBroadCastManage.vue');//房间数据和记录
 const roomConsumptionFlow  = () => import( '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue');//房间消费流水
 const changeFamilyGrade  = () => import( '../components/userManagement/householdManagement/changeFamilyGrade.vue');//修改家族等级
+const familyAccountManagement  = () => import( '../components/userManagement/householdManagement/familyAccountManagement.vue');//家族账号管理
 const familyDissolve  = () => import( '../components/userManagement/householdManagement/familyDissolve.vue');// 家族解散
 const blacklist  = () => import( '../components/userManagement/householdManagement/blacklist.vue');//黑名单
 const familyHonourList  = () => import( '../components/userManagement/householdManagement/familyHonourList.vue');// 家族荣耀榜单
@@ -396,7 +397,7 @@ export const asyncRouterMap = [
                     { path: '/userManagement/householdManagement/blacklist', component: blacklist, name: '黑名单', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/familyDissolve', component: familyDissolve, name: '解散家族', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/changeFamilyGrade', component: changeFamilyGrade, name: '修改家族等级', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
-                    { path: '/userManagement/householdManagement/user', component: user, name: '家族后台账号管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/userManagement/householdManagement/familyAccountManagement', component: familyAccountManagement, name: '家族账号管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/roomList', component: roomList, name: '房间列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/userManagement/householdManagement/roomDataInfo', component: roomDataInfo, name: '房间详细数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
                     // { path: '/userManagement/householdManagement/liveBroadCast', component: liveBroadCast, name: '房间数据和记录', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'C'] } },
