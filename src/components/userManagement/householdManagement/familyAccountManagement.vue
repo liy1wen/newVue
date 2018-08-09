@@ -7,7 +7,7 @@
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" style="overflow: hidden;" :model="formOne">
                         <el-form-item>
-							<el-button type="primary" @click="formOne.addAccountInfo.dialogShow = true;">添加账号</el-button>
+							<el-button type="primary" @click="formOne.addAccountInfo.dialogShow=true;">添加账号</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
@@ -227,9 +227,9 @@ export default {
 			// val指的是当前点击是第一页
 			var _this = this;
             val = val-1;
-            _this.page = val;
-            _this.star = (_this.page)*20;
-            _this.end = _this.star+20;
+            _this.formOne.page = val;
+            _this.formOne.star = (_this.formOne.page)*20;
+            _this.formOne.end = _this.formOne.star+20;
         },
 		getTableManage() {
 			var _this = this ;
@@ -269,7 +269,6 @@ export default {
                 }
                 axios.get(url, { params: params })
                 .then((res) => {
-                    console.log(res);
                     if(res.data.code) {
                         baseConfig.successTipMsg(_this, '新添账号成功,正在刷新列表信息~');
                         _this.formOne.addAccountInfo.dialogShow = false;
@@ -454,7 +453,6 @@ export default {
         */
 		handleClick(tab, event) {
 			var _this = this;
-            console.log(tab.label);
             if(tab.label=='成员列表') {
                 if(_this.formTwo.uid==''&&_this.formTwo.condition_uid=='') {
                     baseConfig.warningTipMsg(_this, '请在第一屏里面点击成员列表进入、或者快速查询~');

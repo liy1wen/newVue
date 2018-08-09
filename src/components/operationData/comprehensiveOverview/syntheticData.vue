@@ -114,8 +114,8 @@
 					<el-table ref="tableHeight" :data="fourPageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="device" label="设备激活" width="200"></el-table-column>
 						<el-table-column prop="register" label="注册用户" min-width="200"></el-table-column>
-						<el-table-column prop="total_fee" label="付费用户" min-width="200"></el-table-column>
-						<el-table-column prop="consume_user" label="充值金额" min-width="200"></el-table-column>
+						<el-table-column prop="consume_user" label="付费用户" min-width="200"></el-table-column>
+						<el-table-column prop="total_fee" label="充值金额" min-width="200"></el-table-column>
 						<el-table-column prop="enchashment" label="提现" min-width="200"></el-table-column>
 					</el-table>
 					<!--工具条-->

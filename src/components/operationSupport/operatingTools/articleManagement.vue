@@ -33,7 +33,7 @@
 								<el-popover
 								placement="top-start"
 								trigger="hover"
-								content="可直接点击跳转查看页面~">
+								content="可点击打开新的窗口查看页面~">
 									<a
 									slot="reference" 
 									v-if="serverStatus==false" 
@@ -53,16 +53,15 @@
 							<template slot-scope="scope">
 								<el-button 
 								type="primary" 
-								@click.native.prevent="changeOneUserData(scope.$index, scope.row)" 
+								@click.native.prevent="changeData(scope.row)" 
 								size="small">编辑</el-button>								
 								<el-button 
 								type="primary" 
-								@click.native.prevent="deleteOneUserData(scope.$index, scope.row)" 
+								@click.native.prevent="deleteData(scope.row)" 
 								size="small">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
-					<!--工具条-->
 					<el-col 
 					:span="24" 
 					class="toolbar">
@@ -75,23 +74,67 @@
 					</el-col>
 				</template>
 			</el-tab-pane>
-			<el-tab-pane label="编辑修改" name="two" :style="{height: tabHeight+'px'}">
-				<el-form :label-position="labelPosition" class="demo-ruleForm" label-width="120px" :model="formTwo" style="padding-left: 30px;">
+			<el-tab-pane 
+			label="编辑修改" 
+			name="two" :style="{height: tabHeight+'px'}">
+				<el-form 
+				:label-position="labelPosition" 
+				class="demo-ruleForm" 
+				label-width="120px" 
+				:model="formTwo" style="padding-left: 30px;">
 					<el-form-item label="文章主题" style="padding-top: 30px;">
 						<el-input v-model="formTwo.title"></el-input>
 					</el-form-item>
 					<el-form-item label="封面图">
 				        <!--图片文件上传、图片的展示-->
-						<input id="fileinput" @change="uploading($event)" type="file">
-						<!--  <img :src="src"/> -->
+						<input id="fileinput" @change="uploadingTwo($event)" type="file">
+						 <img :src="formTwo.pic"/>
 					</el-form-item>
 					<el-form-item label="内容">
 						<div class="edit_container">
-							<quill-editor class="editer" v-model="formTwo.content" ref="myQuillEditor" :options="editorOption" @ready="onEditorReady($event)"></quill-editor>
+							<quill-editor 
+							class="editer" 
+							v-model="formTwo.content" 
+							ref="myQuillEditor" 
+							:options="editorOption" 
+							@change="twoEditorChange($event)"></quill-editor>
 						</div>
 					</el-form-item>
 				</el-form>
-				<el-button type="primary" style="margin-left: 50px; margin-top: 30px;" @click="sendToTask()">确定发送</el-button>
+				<el-button 
+				type="primary" 
+				style="margin-left: 50px; margin-top: 30px;" 
+				@click="btnSureTwo">确定发送</el-button>
+			</el-tab-pane>
+			<el-tab-pane label="新增文章" name="three" :style="{height: tabHeight+'px'}">
+				<el-form 
+				:label-position="labelPosition" 
+				class="demo-ruleForm" 
+				label-width="120px" 
+				:model="formThree" style="padding-left: 30px;">
+					<el-form-item label="文章主题" style="padding-top: 30px;">
+						<el-input v-model="formThree.title"></el-input>
+					</el-form-item>
+					<el-form-item label="封面图">
+				        <!--图片文件上传、图片的展示-->
+						<input id="fileinput" @change="uploadingThree($event)" type="file">
+						 <img :src="formThree.pic"/>
+					</el-form-item>
+					<el-form-item label="内容">
+						<div class="edit_container">
+							<quill-editor 
+							class="editer" 
+							v-model="formThree.content" 
+							ref="myQuillEditor" 
+							:options="editorOption" 
+							@change="threeEditorChange($event)"></quill-editor>
+						</div>
+					</el-form-item>
+				</el-form>
+				<el-button 
+				type="primary" 
+				style="margin-left: 50px; margin-top: 30px;" 
+				@click="sendToTask()">确定发送</el-button>
 			</el-tab-pane>
 		</el-tabs>
 	</section>
@@ -120,84 +163,151 @@ export default {
 			formTwo: {
 				id: '',
 				pic: '',
+				file: '',
 				title: '',
 				content: '',
 			},
 			formThree: {
 				pic: '',
+				file: '',
 				title: '',
 				content: '',
 			},
-			listLoading: false, //动画加载时显示的动画
-			activeName: 'one', // 设置为tab切换栏的选中不同的状态(one、two、three)
+			listLoading: false,
+			activeName: 'one', 
 			editorOption: {},
 		};
 	},
 	computed:{
-		// 对某一页码展示某一页的数据，对返回的所有的数据进行切割处理，对当前的页码显示20条当前页码的数据
 		onePageTabData() {
 			var _this = this;
-			return _this.tabData.slice(_this.star, _this.end);
+			return _this.formOne.tabData.slice(_this.formOne.star, _this.formOne.end);
 		},
 	},
 	methods: {
-		// 下方页数进行翻页的页码时，返回的是全部的数据，配合onePageTabData展示需要展示当前页面的数据
+		/*
+			第一屏文章管理的方法
+			1、handleCurrentChange：下方工具条进行page的处理，展示多少条数据
+			2、getTableData：获取到全部文章列表数据
+			3、changeData：修改的触发的方法
+			4、deleteData：删除的操作
+		*/ 
 		handleCurrentChange(val) {
-			// val指的是当前点击是第一页
 			var _this = this;
-			_this.page = val;
-			_this.star = (_this.page-1)*20;
-			_this.end = _this.star+20;
+			_this.formOne.page = val;
+			_this.formOne.star = (_this.formOne.page-1)*20;
+			_this.formOne.end = _this.formOne.star+20;
 		},
-		// 获取数据列表
 		getTableData() {
 			var _this = this ;
-			_this.listLoading = true;
-			var url = '/Anchor/getArticle';
-			allget('', url).then(res => { // 进行get请求，(请求参数'', 请求地址url)
-				// 数据请求成功
-				_this.listLoading = false;
+			var url = baseConfig.server+baseConfig.requestUrl+'/Anchor/getArticle';
+			var params = {};
+			axios.get(url, { params: params })
+			.then((res) => {
 				if(res.data.ret) {
-					_this.formData.totalPage = res.data.data.length;
-					_this.formData.tabData = res.data.data;
-				} else {
-					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
+					_this.formOne.totalPage = res.data.data.length;
+					_this.formOne.tabData = res.data.data;
 				}
-			}).catch(function(error){
-				console.log(error);
+				else {
+					baseConfig.errorTipMsg(_this, res.data.msg);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
 			})
 		},
-		// 编辑修改某一条随机昵称
-		changeOneUserData(index, rows) {
+		changeData(row) {
 			var _this = this;
-			
+			_this.formTwo.id = row.id;
+			_this.formTwo.pic = row.image_url;
+			_this.formTwo.title = row.title;
+			_this.formTwo.content = row.content;
+			_this.activeName = 'two';
 		},
-		// 删除的操作
-		deleteOneUserData(index, rows) {
+		deleteData(row) {
 			var _this = this;
-			var id = rows.id;	
-			var url = 'Anchor/delArticle';
+			var id = row.id;
+			var url = baseConfig.server+baseConfig.requestUrl+'Anchor/delArticle';
 			var params = {
 				id: id,
 			};
-			allget(params, url).then(res => { // 进行get请求，(请求参数params, 请求地址url)
-				// 数据请求成功
+			axios.get(url, { params: params })
+			.then((res) => {
+				if(res.data.ret) {
+					baseConfig.successTipMsg(_this, '删除成功~');
+					setTimeout(function() {
+						_this.getTableData();
+					}, 1000);
+				} 
+				else {
+					baseConfig.errorTipMsg(_this, res.data.msg);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+			allget(params, url).then(res => { 
 				if(res.data.ret) {
 					baseConfig.successTipMsg(_this, '删除成功');
 					_this.getTableData();
 				} else {
-					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
+					baseConfig.errorTipMsg(_this, res.data.msg);
 				}
 			}).catch(function(error){
 				console.log(error);
 			})
 		},
-		// 当tab状态栏切换到tab时候进行id...等信息进行清零
+		/*
+			第二屏的编辑修改的方法
+			1、uploadingTwo：图片上传的工具
+			2、TwoEditorReady：对应文章编辑的方法
+			3、btnSureTwo：编辑修改确定发送
+		*/ 
+		uploadingTwo(event) {
+			var _this = this;
+			var windowURL = window.URL||window.webkitURL;
+			_this.formTwo.file = event.target.files[0];
+			_this.formTwo.pic = windowURL.createObjectURL(event.target.files[0]);
+		},
+		twoEditorChange({editor, html, text}) {
+			var _this = this;
+			console.log(_this.formTwo.content);
+		},
+		btnSureTwo() {
+			console.log('确定进行发送~');
+		},
+		/*
+			第三屏的文章新添的方法
+			1、uploadingThree：图片上传的工具
+			2、ThreeEditorReady：对应文章新添的方法
+			3、btnSureThree：编辑新添确定发送
+		*/ 
+		uploadingThree(event) {
+			var _this = this;
+			var windowURL = window.URL||window.webkitURL;
+			_this.formThree.file = event.target.files[0];
+			_this.formThree.pic = windowURL.createObjectURL(event.target.files[0]);
+		},
+		threeEditorChange({editor, html, text}) {
+			var _this = this;
+			console.log(_this.formThree.content);
+		},
+		btnSureThree() {
+			console.log('确定进行发送~');
+		},
+		/*
+			在切换plane的时候处理
+			编辑修改页面只能在首屏里面点击编辑进入，其它情况给上提示
+		*/ 
 		handleClick(tab, event) {
 			var _this = this;
-		},
-		onEditorReady(editor) {
-			// console.log(editor);
+			if(tab.label=='编辑修改'&&_this.formTwo.id=='') {
+				baseConfig.warningTipMsg(_this, '这里是编辑修改，请在文章管理选择文章编辑，正在跳转到文章管理~');
+				setTimeout(function() {
+					_this.activeName = 'one';
+				}, 1000);
+			}
+			console.log(tab.label);
 		},
 	},
 	mounted() {
@@ -207,9 +317,7 @@ export default {
 			_this.tableHeight = baseConfig.lineNumber(tabPageHeight);
 			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);
 			_this.getTableData();
-			if(baseConfig.serverStatus==true) {
-				_this.serverStatus = true;
-			}
+			if(baseConfig.serverStatus==true) { _this.serverStatus = true; }
 		})
 	}
 };
@@ -218,5 +326,11 @@ export default {
 <style lang="css" scoped>
 .el-tab-pane{
 	height: 800px;
+	background: red;
 }
+.quill-editor {
+	height: 350px;
+	background: green;
+}
+
 </style>
