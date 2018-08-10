@@ -1,53 +1,34 @@
 <template>
-	<!-- 礼物管理 -->
+	<!-- 礼物管理->table为指的是数据table展示页面 -->
+	<!-- dom结构内容 -->
 	<section>
-		<el-tabs 
-		v-model="tabActiveName" 
-		type="border-card" 
-		@tab-click="handleClick">
+		<!-- 工具条/头部的搜索条件搜索 -->
+		<el-tabs v-model="tabActiveName" type="border-card" @tab-click="handleClick">
 			<!-- 普通礼物 -->
-			<el-tab-pane 
-			label="普通礼物" 
-			name="first" 
-			:style="{height:tabSearchHeight+'px'}">
-				<el-col :span="24" class="toolbar" style="padding-bottom:0px;">
-					<el-form :inline="true" style="overflow:hidden;" :model="formOne">
+			<el-tab-pane label="普通礼物" name="first" :style="{ height: tabSearchHeight+'px' }">
+				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+					<el-form :inline="true" style="overflow: hidden;" :model="formOne">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">注册时间</span>
-								<el-date-picker 
-								v-model="formOne.choiceDate" 
-								type="daterange" 
-								range-separator=" 至 " 
-								placeholder="选择日期范围"></el-date-picker>
+								<el-date-picker v-model="formOne.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
 							</div>
 						</el-form-item>
 						<el-form-item>
-							<el-button 
-							type="primary" 
-							@click="giftUploading.dialogShow=true;">新增礼物</el-button>
-							<el-button 
-							type="primary" 
-							@click="getTableNormalGiftData">查询</el-button>
+							<el-button type="primary" @click="giftUploading.dialogShow = true;">新增礼物</el-button>
+							<el-button type="primary" @click="getTableNormalGiftData">查询</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
 				<!--用户的数据展示列表-->
 				<template>
-					<el-table 
-					ref="tableHeight" 
-					:data="onePageData" 
-					border fit highlight-current-row 
-					v-loading="listLoading" 
-					style="width: 100%;" :height="tableHeight">
+					<el-table ref="tableHeight" :data="onePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
 						<el-table-column prop="name" label="礼物名称" width="100"></el-table-column>
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img 
-									:src="scope.row.icon" 
-									style="width:100px;height:auto;">
+									<img :src="scope.row.icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -62,9 +43,7 @@
 						<el-table-column label="动态图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img 
-									:src="scope.row.dynamic_icon"
-									style="width:100px;height:auto;">
+									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -126,78 +105,43 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button 
-								type="primary" 
-								@click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" 
-								size="mini">编辑</el-button>								
-								<el-button 
-								v-if="scope.row.status=='0'" 
-								plain 
-								size="mini" 
-								@click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button 
-								v-else 
-								type="primary" 
-								@click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" 
-								size="mini">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="mini">编辑</el-button>								
+								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
 					<!--工具条-->
 					<el-col :span="24" class="toolbar">
-						<el-pagination 
-						layout="total,prev,pager,next,jumper" 
-						@current-change="oneHandleCurrentChange" 
-						:page-size="20" 
-						:total="formOne.TotalPage" 
-						style="float:right;"></el-pagination>
+						<el-pagination layout="total,prev,pager,next,jumper" @current-change="oneHandleCurrentChange" :page-size="20" :total="formOne.TotalPage" style="float:right;"></el-pagination>
 					</el-col>
 				</template>
 			</el-tab-pane>
 			<!-- 活动礼物 -->
-			<el-tab-pane 
-			label="活动礼物" 
-			name="second" 
-			:style="{height:tabSearchHeight+'px'}">
+			<el-tab-pane label="活动礼物" name="second" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" style="overflow: hidden;" :model="formTwo">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">注册时间</span>
-								<el-date-picker 
-								v-model="formTwo.choiceDate" 
-								type="daterange" 
-								range-separator=" 至 " 
-								placeholder="选择日期范围"></el-date-picker>
+								<el-date-picker v-model="formTwo.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
 							</div>
 						</el-form-item>
 						<el-form-item>
-							<el-button 
-							type="primary" 
-							@click="giftUploading.dialogShow=true;">新增礼物</el-button>							
-							<el-button 
-							type="primary" 
-							@click="getTableActivityGiftData">查询</el-button>
+							<el-button type="primary" @click="giftUploading.dialogShow = true;">新增礼物</el-button>							
+							<el-button type="primary" @click="getTableActivityGiftData">查询</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
 				<!--用户的数据展示列表-->
 				<template>
-					<el-table 
-					ref="tableHeight" 
-					:data="twoPageData" 
-					border fit highlight-current-row 
-					v-loading="listLoading" 
-					style="width: 100%;" 
-					:height="tableHeight">
+					<el-table ref="tableHeight" :data="twoPageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
 						<el-table-column prop="name" label="礼物名称" width="100"></el-table-column>
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img 
-									:src="scope.row.icon" 
-									style="width:100px;height:auto;">
+									<img :src="scope.row.icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -212,9 +156,7 @@
 						<el-table-column label="动态图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img 
-									:src="scope.row.dynamic_icon" 
-									style="width:100px;height:auto;">
+									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -276,78 +218,43 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button 
-								type="primary" 
-								@click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" 
-								size="mini">编辑</el-button>								
-								<el-button 
-								v-if="scope.row.status=='0'" 
-								plain 
-								size="mini" 
-								@click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button 
-								v-else 
-								type="primary" 
-								@click.native.prevent="undercarriage(scope.$index, formTwo.TabData, '2')" 
-								size="mini">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" size="mini">编辑</el-button>								
+								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formTwo.TabData, '2')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
 					<!--工具条-->
 					<el-col :span="24" class="toolbar">
-						<el-pagination 
-						layout="total,prev,pager,next,jumper" 
-						@current-change="twoHandleCurrentChange" 
-						:page-size="20" 
-						:total="formTwo.TotalPage" 
-						style="float:right;"></el-pagination>
+						<el-pagination layout="total,prev,pager,next,jumper" @current-change="twoHandleCurrentChange" :page-size="20" :total="formTwo.TotalPage" style="float:right;"></el-pagination>
 					</el-col>
 				</template>
 			</el-tab-pane>
 			<!-- 房间礼物 -->
-			<el-tab-pane 
-			label="房间礼物" 
-			name="three" 
-			:style="{height:tabSearchHeight+'px'}">
+			<el-tab-pane label="房间礼物" name="three" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" style="overflow:hidden;" :model="formTwo">
+					<el-form :inline="true" style="overflow: hidden;" :model="formTwo">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">注册时间</span>
-								<el-date-picker 
-								v-model="formTwo.choiceDate" 
-								type="daterange" 
-								range-separator=" 至 " 
-								placeholder="选择日期范围"></el-date-picker>
+								<el-date-picker v-model="formTwo.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
 							</div>
 						</el-form-item>
 						<el-form-item>
-							<el-button 
-							type="primary" 
-							@click="giftUploading.dialogShow=true;">新增礼物</el-button>							
-							<el-button 
-							type="primary" 
-							@click="getTableRoomGiftData">查询</el-button>
+							<el-button type="primary" @click="giftUploading.dialogShow = true;">新增礼物</el-button>							
+							<el-button type="primary" @click="getTableRoomGiftData">查询</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
 				<!--用户的数据展示列表-->
 				<template>
-					<el-table 
-					ref="tableHeight" 
-					:data="threePageData" 
-					border fit highlight-current-row 
-					v-loading="listLoading" 
-					style="width:100%;" 
-					:height="tableHeight">
+					<el-table ref="tableHeight" :data="threePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="id" label="礼物ID" width="50"></el-table-column>
 						<el-table-column prop="name" label="礼物名称" width="100"></el-table-column>
 						<el-table-column label="礼物图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img 
-									:src="scope.row.icon" 
-									style="width:100px;height:auto;">
+									<img :src="scope.row.icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -362,9 +269,7 @@
 						<el-table-column label="动态图标" width="150">
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
-									<img 
-									:src="scope.row.dynamic_icon" 
-									style="width:100px;height:auto;">
+									<img :src="scope.row.dynamic_icon" alt="" style="width: 100px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -372,10 +277,7 @@
 							<template slot-scope="scope">
 								<div slot="reference" class="name-wrapper">
 									<p v-if="scope.row.superscript==null">暂无角标图</p>
-									<img 
-									v-else 
-									:src="scope.row.superscript" 
-									style="width:60px;height:auto;">
+									<img v-else :src="scope.row.superscript" alt="" style="width: 60px; height: auto;">
 								</div>
 							</template>
 						</el-table-column>
@@ -437,61 +339,31 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button 
-								type="primary" 
-								@click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" 
-								size="mini">编辑</el-button>								
-								<el-button 
-								type="primary" 
-								@click.native.prevent="specialData(scope.$index, formThree.TabData, '3')" 
-								size="mini">特效</el-button>								
-								<el-button 
-								v-if="scope.row.status=='0'" 
-								plain 
-								size="mini" 
-								@click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button 
-								v-else 
-								type="primary" 
-								@click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" 
-								size="mini">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="specialData(scope.$index, formThree.TabData, '3')" size="mini">特效</el-button>								
+								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
 					<!--工具条-->
 					<el-col :span="24" class="toolbar">
-						<el-pagination 
-						layout="total,prev,pager,next,jumper" 
-						@current-change="threeHandleCurrentChange" 
-						:page-size="20" 
-						:total="formThree.TotalPage" 
-						style="float:right;"></el-pagination>
+						<el-pagination layout="total,prev,pager,next,jumper" @current-change="threeHandleCurrentChange" :page-size="20" :total="formThree.TotalPage" style="float:right;"></el-pagination>
 					</el-col>
 				</template>
 			</el-tab-pane>
 			<!-- 标签管理 -->
-			<el-tab-pane 
-			label="标签管理" 
-			name="four" 
-			:style="{height:tabSearchHeight+'px'}">
+			<el-tab-pane label="标签管理" name="four" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 					<el-form :inline="true" style="overflow: hidden;" :model="formFour">
 						<el-form-item>
-							<el-button 
-							type="primary" 
-							@click="formFour.addDialogShow=true;">新增标签</el-button>
+							<el-button type="primary" @click="formFour.addDialogShow=true;">新增标签</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
 				<!--用户的数据展示列表-->
 				<template>
-					<el-table 
-					ref="tableHeight" 
-					:data="fourPageData" 
-					border fit highlight-current-row 
-					v-loading="listLoading" 
-					style="width: 100%;" 
-					:height="tableHeight">
+					<el-table ref="tableHeight" :data="fourPageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="id" label="ID" width="150"></el-table-column>
 						<el-table-column prop="tab_name" label="礼物标签名" width="150"></el-table-column>
 						<el-table-column prop="position" label="位置(值)" width="150"></el-table-column>
@@ -507,31 +379,17 @@
 						<el-table-column prop="sort" label="排序" width="150"></el-table-column>
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button 
-								type="primary" 
-								@click.native.prevent="changeLabelUserData(scope.$index, formFour.TabData)" 
-								size="mini">编辑</el-button>								
-								<el-button 
-								type="primary" 
-								@click.native.prevent="deleteLabel(scope.$index, formFour.TabData)" 
-								size="mini">删除</el-button>
+								<el-button type="primary" @click.native.prevent="changeLabelUserData(scope.$index, formFour.TabData)" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="deleteLabel(scope.$index, formFour.TabData)" size="mini">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
 					<!--工具条-->
 					<el-col :span="24" class="toolbar">
-						<el-pagination 
-						layout="total,prev,pager,next,jumper" 
-						@current-change="fourHandleCurrentChange" 
-						:page-size="20" 
-						:total="formFour.TotalPage" 
-						style="float:right;"></el-pagination>
+						<el-pagination layout="total,prev,pager,next,jumper" @current-change="fourHandleCurrentChange" :page-size="20" :total="formFour.TotalPage" style="float:right;"></el-pagination>
 					</el-col>
 					<!-- 编辑修改--对应的dialog -->
-					<el-dialog 
-					title="修改礼物标签" 
-					width="80%"
-					:visible.sync="formFour.editorDialogShow">
+					<el-dialog title="修改礼物标签" :visible.sync="formFour.editorDialogShow" width="80%">
 						<el-form :model="formFour.editor">
 							<el-form-item label="标签ID" :label-width="formLabelWidth">
 								<el-input v-model="formFour.editor.id" auto-complete="off" disabled></el-input>
@@ -544,18 +402,12 @@
 							</el-form-item>
 						</el-form>
 						<div slot="footer" class="dialog-footer">
-							<el-button 
-							@click.native.prevent="editorLabelSure(0)">取 消</el-button>
-							<el-button 
-							type="primary" 
-							@click.native.prevent="editorLabelSure(1)">确 定</el-button>
+							<el-button @click.native.prevent="editorLabelSure(0)">取 消</el-button>
+							<el-button type="primary" @click.native.prevent="editorLabelSure(1)">确 定</el-button>
 						</div>
 					</el-dialog>
 					<!-- 新增修改--对应的dialog -->
-					<el-dialog 
-					title="新增礼物标签" 
-					width="80%"
-					:visible.sync="formFour.addDialogShow">
+					<el-dialog title="新增礼物标签" :visible.sync="formFour.addDialogShow">
 						<el-form :model="formFour.add">
 							<el-form-item label="标签名称" :label-width="formLabelWidth">
 								<el-input v-model="formFour.add.tab_name" auto-complete="off"></el-input>
@@ -565,20 +417,14 @@
 							</el-form-item>
 						</el-form>
 						<div slot="footer" class="dialog-footer">
-							<el-button 
-							@click.native.prevent="addLabelSure(0)">取 消</el-button>
-							<el-button 
-							type="primary" 
-							@click.native.prevent="addLabelSure(3)">确 定</el-button>
+							<el-button @click.native.prevent="addLabelSure(0)">取 消</el-button>
+							<el-button type="primary" @click.native.prevent="addLabelSure(3)">确 定</el-button>
 						</div>
 					</el-dialog>
 				</template>
 			</el-tab-pane>
 			<!-- 礼物上传 -->
-			<el-dialog 
-			title="礼物上传" 
-			width="80%"
-			:visible.sync="giftUploading.dialogShow">
+			<el-dialog title="礼物上传" :visible.sync="giftUploading.dialogShow" width="80%">
 				<el-form :model="giftUploading.params">
 					<el-form-item label="礼物排序" :label-width="formLabelWidth">
 						<el-input v-model="giftUploading.params.sort" auto-complete="off"></el-input>
@@ -590,31 +436,16 @@
 						<el-input v-model="giftUploading.params.price" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<input 
-						class="filepic fileinput" 
-						@change="uploading($event, 0, 0)" 
-						type="file">
-				        <img 
-						:src="giftUploading.src_pic" 
-						style="width:100px;height:auto;"/>
+						<input class="filepic fileinput" @change="uploading($event, 0, 0)" type="file">
+				        <img :src="giftUploading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<input 
-						class="filegif fileinput" 
-						@change="uploading($event, 1, 0)" 
-						type="file">
-				        <img 
-						:src="giftUploading.src_gif" 
-						style="width:100px;height:auto;"/>
+						<input class="filegif fileinput" @change="uploading($event, 1, 0)" type="file">
+				        <img :src="giftUploading.src_gif" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="角标图" :label-width="formLabelWidth">
-						<input 
-						class="filegif fileinput" 
-						@change="uploading($event, 2, 0)" 
-						type="file">
-				        <img 
-						:src="giftUploading.src_corner" 
-						style="width:100px;height:auto;"/>
+						<input class="filegif fileinput" @change="uploading($event, 2, 0)" type="file">
+				        <img :src="giftUploading.src_corner" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftUploading.params.position">
@@ -639,10 +470,7 @@
 					</el-form-item>
 					<el-form-item label="上架时间" :label-width="formLabelWidth">
 						<div class="block">
-							<el-date-picker 
-							v-model="giftUploading.params.on_sale_time" 
-							type="datetime" 
-							placeholder="选择日期时间"></el-date-picker>
+							<el-date-picker v-model="giftUploading.params.on_sale_time" type="datetime" placeholder="选择日期时间"></el-date-picker>
 						</div>
 					</el-form-item>
 					<el-form-item label="是否为Vip专享" :label-width="formLabelWidth">
@@ -671,18 +499,12 @@
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
-					<el-button 
-					@click.native.prevent="addGiftSure(0)">取 消</el-button>
-					<el-button 
-					type="primary" 
-					@click.native.prevent="addGiftSure(1)">确 定</el-button>
+					<el-button @click.native.prevent="addGiftSure(0)">取 消</el-button>
+					<el-button type="primary" @click.native.prevent="addGiftSure(1)">确 定</el-button>
 				</div>
 			</el-dialog>
 			<!-- 礼物编辑 -->
-			<el-dialog 
-			title="礼物编辑" 
-			width="80%"
-			:visible.sync="giftEditorloading.dialogShow">
+			<el-dialog title="礼物编辑" :visible.sync="giftEditorloading.dialogShow" width="80%">
 				<el-form :model="giftEditorloading.params">
 					<el-form-item label="礼物ID" :label-width="formLabelWidth">
 						<el-input disabled v-model="giftEditorloading.params.id" auto-complete="off"></el-input>
@@ -697,31 +519,16 @@
 						<el-input v-model="giftEditorloading.params.price" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<input 
-						class="filepic fileinput" 
-						@change="uploading($event, 0, 1)" 
-						type="file">
-				        <img 
-						:src="giftEditorloading.src_pic" 
-						style="width:100px;height:auto;"/>
+						<input class="filepic fileinput" @change="uploading($event, 0, 1)" type="file">
+				        <img :src="giftEditorloading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<input 
-						class="filegif fileinput" 
-						@change="uploading($event, 1, 1)" 
-						type="file">
-				        <img 
-						:src="giftEditorloading.src_gif" 
-						style="width:100px;height:auto;"/>
+						<input class="filegif fileinput" @change="uploading($event, 1, 1)" type="file">
+				        <img :src="giftEditorloading.src_gif" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="角标图" :label-width="formLabelWidth">
-						<input 
-						class="filegif fileinput" 
-						@change="uploading($event, 2, 1)" 
-						type="file">
-				        <img 
-						:src="giftEditorloading.src_corner" 
-						style="width:100px;height:auto;"/>
+						<input class="filegif fileinput" @change="uploading($event, 2, 1)" type="file">
+				        <img :src="giftEditorloading.src_corner" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftEditorloading.params.position">
@@ -742,17 +549,11 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="添加时间" :label-width="formLabelWidth">
-						<el-input 
-						disabled 
-						v-model="giftEditorloading.params.create_time" 
-						auto-complete="off"></el-input>
+						<el-input disabled v-model="giftEditorloading.params.create_time" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="上架时间" :label-width="formLabelWidth">
 						<div class="block">
-							<el-date-picker 
-							v-model="giftEditorloading.params.on_sale_time" 
-							type="datetime" 
-							placeholder="选择日期时间"></el-date-picker>
+							<el-date-picker v-model="giftEditorloading.params.on_sale_time" type="datetime" placeholder="选择日期时间"></el-date-picker>
 						</div>
 					</el-form-item>
 					<el-form-item label="是否为Vip专享" :label-width="formLabelWidth">
@@ -781,21 +582,15 @@
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
-					<el-button 
-					@click.native.prevent="editorGiftSure(0)">取 消</el-button>
-					<el-button 
-					type="primary" 
-					@click.native.prevent="editorGiftSure(1)">确 定</el-button>
+					<el-button @click.native.prevent="editorGiftSure(0)">取 消</el-button>
+					<el-button type="primary" @click.native.prevent="editorGiftSure(1)">确 定</el-button>
 				</div>
 			</el-dialog>
 			<!-- 礼物特效的弹窗的table表框 -->
-			<el-dialog 
-			title="礼物数量特效详情" 
-			:visible.sync="giftNumTable.dialogShow" 
-			width="80%">
+			<el-dialog title="礼物数量特效详情" :visible.sync="giftNumTable.dialogShow" width="80%">
 				<el-table :data="giftNumTable.giftNumArr">
-					<el-table-column property="gift_id" label="礼物ID" width="100"></el-table-column>
-					<el-table-column property="num" label="数量" width="100"></el-table-column>
+					<el-table-column property="gift_id" label="礼物ID" width="50"></el-table-column>
+					<el-table-column property="num" label="数量" width="50"></el-table-column>
 					<el-table-column property="num_name" label="礼物数字描述" min-width="100"></el-table-column>
 					<el-table-column property="is_dynamic_effect" label="是否有特效" width="80">
 						<template slot-scope="scope">
@@ -817,38 +612,28 @@
 						<template slot-scope="scope">
 							<div slot="reference" class="name-wrapper">
 								<p v-if="scope.row.num_img_url==''||scope.row.num_img_url==null">无标识图</p>
-								<img 
-								:src="scope.row.num_img_url" 
-								style="width:100px;height:auto;">
+								<img v-else :src="scope.row.num_img_url" alt="" style="width: 100px; height: auto;">
 							</div>
 						</template>
 					</el-table-column>
 					<el-table-column property="dynamic_effect_url" label="特效图" width="150">
 						<template slot-scope="scope">
 							<div slot="reference" class="name-wrapper">
-								<p 
-								v-if="scope.row.dynamic_effect_url==''||scope.row.dynamic_effect_url==null">无特效图</p>
-								<img 
-								:src="scope.row.dynamic_effect_url" 
-								style="width:100px;height:auto;">
+								<p v-if="scope.row.dynamic_effect_url==''||scope.row.dynamic_effect_url==null">无特效图</p>
+								<p v-else style="color:red;">有特效图</p>
+								<!-- <img v-else :src="scope.row.dynamic_effect_url" alt="" style="width: 100px; height: auto;"> -->
 							</div>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="100">
 						<template slot-scope="scope">
-							<el-button 
-							type="primary" 
-							@click.native.prevent="changeNumGIft(scope.$index, giftNumTable.giftNumArr)" 
-							size="mini">编辑</el-button>								
+							<el-button type="primary" @click.native.prevent="changeNumGIft(scope.$index, giftNumTable.giftNumArr)" size="mini">编辑</el-button>								
 						</template>
 					</el-table-column>
 				</el-table>
 			</el-dialog>
 			<!-- 礼物特效编辑 -->
-			<el-dialog 
-			title="特效礼物添加编辑" 
-			width="80%"
-			:visible.sync="giftSpecial.dialogShow">
+			<el-dialog title="特效礼物添加编辑" :visible.sync="giftSpecial.dialogShow" width="80%">
 				<el-form :model="giftSpecial">
 					<el-form-item label="id" :label-width="formLabelWidth">
 						<el-input disabled v-model="giftSpecial.id" auto-complete="off"></el-input>
@@ -872,31 +657,19 @@
 						</el-select>				
 					</el-form-item>
 					<el-form-item label="标识图" :label-width="formLabelWidth">
-						<input 
-						class="filegif fileinput" 
-						@change="uploading($event, 0, 2)" 
-						type="file">
-				        <img 
-						:src="giftSpecial.src_num" 
-						style="width:100px;height:auto;"/>
+						<input class="filegif fileinput" @change="uploading($event, 0, 2)" type="file">
+				        <img :src="giftSpecial.src_num" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="特效图" :label-width="formLabelWidth">
-						<input 
-						class="filegif fileinput" 
-						@change="uploading($event, 1, 2)" 
-						type="file">
-						<div 
-						id="demoCanvas" 
-						:titlesrc="giftSpecial.src_effect" 
-						style="width:100px;height:100px;"></div>
+						<input class="filegif fileinput" @change="uploading($event, 1, 2)" type="file">
+						<el-button v-if="giftSpecial.src_effect!=''" @click.native.prevent="downDemo(giftSpecial.src_effect)">下载文件</el-button>
+						<el-button @click.native.prevent="lookDemo()">特效图页面</el-button>
+						<p style="color:red;display:inline-block;">可以打开特效图页面，将文件拖入查看效果~</p>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
-					<el-button 
-					@click.native.prevent="specialGiftSure(0)">取 消</el-button>
-					<el-button 
-					type="primary" 
-					@click.native.prevent="specialGiftSure(1)">确 定</el-button>
+					<el-button @click.native.prevent="specialGiftSure(0)">取 消</el-button>
+					<el-button type="primary" @click.native.prevent="specialGiftSure(1)">确 定</el-button>
 				</div>
 			</el-dialog>
 		</el-tabs>
@@ -1136,10 +909,17 @@ export default {
 			var _this = this ;
 			_this.listLoading = true;
 			var url = '/Gift/getGift';
-			var params = _this.searchConditionNormalGift();
+			// var params = _this.searchConditionNormalGift();
+			var params = {
+				date_s: baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0),
+				date_e: baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0),
+				position: '1',
+			};
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
+				console.log(baseConfig.server+baseConfig.requestUrl+url);
+				console.log(params);
 				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })				
 				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
@@ -1151,7 +931,7 @@ export default {
 						baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
 					}
 				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
+					console.log(error);
 				})
 			}
 		},
@@ -1174,7 +954,7 @@ export default {
 						baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
 					}
 				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
+					console.log(error);
 				})
 			}
 		},
@@ -1197,7 +977,7 @@ export default {
 						baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
 					}
 				}).catch(function(error){
-					baseConfig.errorTipMsg(_this, error);
+					console.log(error);
 				})
 			}
 		},
@@ -1232,7 +1012,7 @@ export default {
 					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
 				}
 			}).catch(function(error){
-				baseConfig.errorTipMsg(_this, error);
+				console.log(error);
 			})
 		},
 		// 礼物的编辑操作
@@ -1265,8 +1045,11 @@ export default {
 			_this.giftEditorloading.params.probability = rows[index].probability;
 			_this.giftEditorloading.params.is_special = rows[index].is_special;
 			_this.giftEditorloading.params.stock_num = rows[index].stock_num;
+			// 在这里对相应的文件角标图、礼物图片、礼物动图置空
+			_this.giftEditorloading.file_pic = '';
+			_this.giftEditorloading.file_gif = '';
+			_this.giftEditorloading.file_corner = '';
 			_this.giftEditorloading.dialogShow = true;
-			console.log(_this.giftEditorloading);
 		},
 		// 确定礼物的编辑操作
 		editorGiftSure(type) {
@@ -1340,7 +1123,7 @@ export default {
 					baseConfig.errorTipMsg(_this, res.data.msg); // 返回ret==0，非正常数据
 				}
 			}).catch(function(error){
-				baseConfig.errorTipMsg(_this, error);
+				console.log(error);
 			})
 		},
 		// 添加标签的操作
@@ -1371,7 +1154,7 @@ export default {
 							baseConfig.errorTipMsg(_this, res.data.msg);
 						}
 					}).catch(function(error){
-						baseConfig.errorTipMsg(_this, error);
+						console.log(error);
 					})
 				} else {
 					_this.listLoading = false; 
@@ -1419,7 +1202,7 @@ export default {
 							baseConfig.errorTipMsg(_this, res.data.msg);
 						}
 					}).catch(function(error){
-						baseConfig.warningTipMsg(_this, error);
+						console.log(error);
 					})
 				} else {
 					_this.listLoading = false; 
@@ -1451,7 +1234,7 @@ export default {
 				}
 
 			}).catch(function(error) {
-				baseConfig.errorTipMsg(_this, error);
+				console.log(error);
 			})
 		},	
 		// 得到上传文件type(0->pic，1->gif),val(0->礼物新增，1->礼物编辑)
@@ -1493,7 +1276,8 @@ export default {
 				} else if(type==1) { // 特效图
 					_this.giftSpecial.effect_url = event.target.files[0];//获取文件
 			  	    var windowURL = window.URL || window.webkitURL;
-					_this.giftSpecial.src_effect = windowURL.createObjectURL(event.target.files[0]);
+					// 特效图在这里src进行置空处理
+					_this.giftSpecial.src_effect = '';
 				}
 			}
       	}, 
@@ -1552,7 +1336,6 @@ export default {
 				});
 			}		
 		},
-		
 		// 房间礼物添加特效
 		specialData(index, rows, type) {
 			var _this = this;
@@ -1595,18 +1378,16 @@ export default {
 			_this.giftSpecial.num_status = row[index].num_status;
 			_this.giftSpecial.src_num = row[index].num_img_url ? row[index].num_img_url : '';
 			_this.giftSpecial.src_effect = row[index].dynamic_effect_url ? row[index].dynamic_effect_url : '';
+			// 在这里进行对应的文件置空
+			_this.giftSpecial.num_url = '';
+			_this.giftSpecial.effect_url = '';
 			_this.giftSpecial.dialogShow = true;
-			console.log(_this.giftSpecial.src_num);
-			console.log(_this.giftSpecial.src_effect);
 		},
 		// 进行特效礼物的上传
 		specialGiftSure(type) {
 			var _this = this;
 			if(type==0) {
 				_this.giftSpecial.dialogShow = false;
-				// *******
-				// *******
-				// *******
 			} else if(type==1) {
 				_this.listLoading = true;
 				let formData = new FormData();
@@ -1624,7 +1405,6 @@ export default {
 				};
 				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/editGetEffects', formData, config)
 				.then((res) => {
-					console.log(2222);
 					_this.listLoading = false;	
 					_this.giftSpecial.dialogShow = false;							
 					if(res.data.ret) {	
@@ -1640,17 +1420,38 @@ export default {
 				});
 			}
 		},
-		/*
-			顶部状态栏进行切换，可以在进入这一屏的页面方法里面相对应的做处理
-		*/
+		// 顶部tab进行页面的切换
 		handleClick(tab, event) {
 			var _this = this;
-			// console.log(tab.label);
+			// 进行请求的兼容处理
+			if(tab.label=="普通礼物"&&_this.formOne.TabData.length==0) {
+				_this.getTableNormalGiftData();
+			}
+			else if(tab.label=="活动礼物"&&_this.formTwo.TabData.length==0) {
+				_this.getTableActivityGiftData();
+			}
+			else if(tab.label=="房间礼物"&&_this.formThree.TabData.length==0) {
+				_this.getTableRoomGiftData();
+			}
+			else if(tab.label=="标签管理"&&_this.formFour.TabData.length==0) {
+				_this.getLabelData();
+			}
+		},
+		/*
+			downDemo：下载文件
+			lookDemo：进入浏览的页面
+		*/ 
+		downDemo(val) {
+			var _this = this;
+			window.open(val);
+		},
+		lookDemo() {
+			window.open('http://svga.io/svga-preview.html');
 		},
 	},
 	mounted() {
 		var _this = this;
-		this.$nextTick(function() {
+		_this.$nextTick(function() {
 			_this.tableHeight = baseConfig.lineNumber(tabSearchPageHeight);
 			_this.tabSearchHeight = baseConfig.lineNumber(tabSearchHeight);
 			_this.getTableNormalGiftData();
@@ -1667,49 +1468,6 @@ export default {
 .fileinput{
 	float: left;
 	margin-top: 8px;
-}
-/* 页面样式css内容 */
-.excelBox{
-	width: 500px; height: 270px; margin-left: -150px; background: #f1f7ff;
-	position: absolute; left: 50%; top: 15%; z-index: 1000;
-}
-p{ margin: 0; }
-.excelBox>p{
-	width: 100%; height: 50px; line-height: 50px; font-weight: bold;
-	background: #e3efff; text-align: center;
-}
-.excelBox .excelInput{
-	width: 100%; height: 60px;
-}
-.excelBox .select{
-	width: 100%; height: 80px;
-}
-.excelBox .excelInput p,
-.excelBox .select p{
-	width: 100%; height: 36px; text-indent: 20px; line-height: 36px;
-}
-.excelBox .excelInput input{
-    width: 300px; display: block; margin: 0 auto;
-}
-.excelBox .select>div{
-	width: 300px; display: block; margin: 0 auto;
-}
-.btns{
-    width: 100%; height: 50px;
-}
-.btns button{
-    width: 80px; height: 40px; text-align: center; line-height: 40px;
-    border: none; border-radius: 5px;
-    background-color: #78B2FF; margin-top: 20px; color: #fff;
-}
-.btns button:nth-of-type(1){
-    margin-left: 150px; cursor: pointer;
-}
-.btns button:nth-of-type(2){
-    margin-left: 50px; cursor: pointer;
-}
-.demo-ruleForm{
-	width: 500px;
 }
 .el-tab-pane{
 	height: 800px;
