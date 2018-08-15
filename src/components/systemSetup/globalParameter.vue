@@ -20,7 +20,7 @@
 				<el-table-column label="操作" width="150">
 					<template slot-scope="scope">
 						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>
-						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, tabData)" size="small">删除</el-button>
+						<!-- <el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, tabData)" size="small">删除</el-button> -->
 					</template>
 				</el-table-column>
 			</el-table>
@@ -259,31 +259,31 @@ export default {
 			}
 		},
 		// 删除某一条活动通知记录
-		deleteOneUserData(index, rows) {
-			var _this = this;
-			index = index + (_this.page-1)*20;
-			var id = rows[index].id;
-			_this.listLoading = true;
-			let formData = new FormData();
-		  	formData.append('id', id);
-			let config = {
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				}
-			};		
-			axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/delGlobalSet', formData, config)
-			.then((res) => {
-				_this.listLoading = false;
-				if(res.data.ret) {
-					baseConfig.successTipMsg(_this, '删除成功');
-					_this.getTableData();
-				} else {
-					baseConfig.errorTipMsg(_this, res.data.msg);
-				}
-			}).catch((error) => {
-				console.log(error);
-			});
-		},
+		// deleteOneUserData(index, rows) {
+		// 	var _this = this;
+		// 	index = index + (_this.page-1)*20;
+		// 	var id = rows[index].id;
+		// 	_this.listLoading = true;
+		// 	let formData = new FormData();
+		//   	formData.append('id', id);
+		// 	let config = {
+		// 		headers: {
+		// 			'Content-Type': 'multipart/form-data'
+		// 		}
+		// 	};		
+		// 	axios.post(baseConfig.server+baseConfig.requestUrl+'/GlobalSet/delGlobalSet', formData, config)
+		// 	.then((res) => {
+		// 		_this.listLoading = false;
+		// 		if(res.data.ret) {
+		// 			baseConfig.successTipMsg(_this, '删除成功');
+		// 			_this.getTableData();
+		// 		} else {
+		// 			baseConfig.errorTipMsg(_this, res.data.msg);
+		// 		}
+		// 	}).catch((error) => {
+		// 		console.log(error);
+		// 	});
+		// },
 	},
 	mounted() {
 		var _this = this;
