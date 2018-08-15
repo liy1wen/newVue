@@ -1,7 +1,7 @@
 // 引用vue 和vue-router
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// 大板块的引用
+/*
 const Home = () => import('../components/Home/home.vue');
 const operationData = () => import('../components/Home/operationData.vue');
 const userManagement = () => import('../components/Home/userManagement.vue');
@@ -9,27 +9,9 @@ const operationSupport = () => import('../components/Home/operationSupport.vue')
 const activities = () => import('../components/Home/activities.vue');
 const systemSetup = () => import('../components/Home/systemSetup.vue');
 const Login = () => import('../components/rootGlobal/login.vue');
-// import Home from '../components/Home/home.vue';//总的页面
-// import operationData from '../components/Home/operationData.vue';//运营数据
-// import userManagement from '../components/Home/userManagement.vue';//用户管理
-// import operationSupport from '../components/Home/operationSupport.vue';//运营支撑
-// import activities from '../components/Home/activities.vue';//活动专区
-// import systemSetup from '../components/Home/systemSetup.vue';//系统设置
-// import Login from '../components/rootGlobal/login.vue';//登陆页面
-// 页面的基本架构
 const Hello = () => import('../components/Home/hello.vue');
 const Err401 = () => import('../components/rootGlobal/401.vue');
 const empty = () => import('../components/rootGlobal/empty.vue');
-// import Hello from '../components/Home/hello.vue';//欢迎界面
-// import Err401 from '../components/rootGlobal/401.vue';//错误界面
-// import empty from '../components/rootGlobal/empty.vue';//空组建进行页面进行刷新时使用
-// 测试的引用查看数据
-
-// 1、运营数据
-// 运营数据start
-// 1-1综合概述
-// 1-2用户分析
-
 const syntheticData = () => import('../components/operationData/comprehensiveOverview/syntheticData.vue');
 const registerOrActivate = () => import('../components/operationData/userAnalysis/registerOrActivate.vue');
 const heldOutData = () => import('../components/operationData/userAnalysis/heldOutData.vue');
@@ -37,16 +19,6 @@ const avgUserTime = () => import('../components/operationData/userAnalysis/avgUs
 const levelSpread = () => import('../components/operationData/userAnalysis/levelSpread.vue');
 const dayTaskData = () => import('../components/operationData/userAnalysis/dayTaskData.vue');
 const achieveTaskData = () => import('../components/operationData/userAnalysis/achieveTaskData.vue');
-// import syntheticData from '../components/operationData/comprehensiveOverview/syntheticData.vue';//综合数据
-// import registerOrActivate from '../components/operationData/userAnalysis/registerOrActivate.vue';//激活与注册
-// import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
-// // import onlineDistribute from '../components/operationData/userAnalysis/onlineDistribute.vue';//在线时长分布
-// import avgUserTime from '../components/operationData/userAnalysis/avgUserTime.vue';//人均使用时长
-// import levelSpread from '../components/operationData/userAnalysis/levelSpread.vue';//等级分布
-// import dayTaskData from '../components/operationData/userAnalysis/dayTaskData.vue';//每日任务统计
-// import achieveTaskData from '../components/operationData/userAnalysis/achieveTaskData.vue';//成就任务统计
-// 1-3充值与消费
-
 const financialDaily  = () => import( '../components/operationData/rechargeConsumption/financialDaily.vue');//财务日报
 const dailyRealTimeRecharge  = () => import( '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue');//每日实时充值数据
 const payUserDataList  = () => import( '../components/operationData/rechargeConsumption/payUserDataList.vue');//付费用户数据
@@ -57,8 +29,6 @@ const chatCurrencyStatistics  = () => import( '../components/operationData/recha
 const chatTicketStatistics  = () => import( '../components/operationData/rechargeConsumption/chatTicketStatistics.vue');//聊票数据统计
 const roomSubsidyTotal  = () => import( '../components/operationData/rechargeConsumption/roomSubsidyTotal.vue');//房间补贴统计
 const mallSalesStatistics  = () => import( '../components/operationData/rechargeConsumption/mallSalesStatistics.vue');//商城销售统计
-
-// 1-4通话数据统计
 const callDataSummary  = () => import( '../components/operationSupport/callLog/CallDataSummary.vue');//通话数据汇总
 const timeMatching  = () => import( '../components/operationSupport/callLog/timeMatching.vue');//实时详情
 const realTimeCall  = () => import( '../components/operationSupport/callLog/realTimeCall.vue');//实时通话次数
@@ -68,21 +38,13 @@ const friendsCallSummary  = () => import( '../components/operationSupport/callLo
 const eavesdroppingSummary  = () => import( '../components/operationSupport/callLog/eavesdroppingSummary.vue');//偷听汇总
 const GrabChatDataSummary  = () => import( '../components/operationSupport/callLog/GrabChatDataSummary.vue');//抢聊通话汇总
 const newRecordingAddList  = () => import( '../components/operationSupport/callLog/newRecordingAddList.vue');//每日新增录音统计
-// 1-5运营数据统计
 const imMessageStatistics  = () => import( '../components/operationData/operationDataStatistics/imMessageStatistics.vue');//IM消息统计
 const h5ShareStatistics  = () => import( '../components/operationData/operationDataStatistics/h5ShareStatistics.vue');//分享页数据统计
 const newUserCastDatalist  = () => import( '../components/operationData/operationDataStatistics/newUserCastDatalist.vue');//新用户红包领取统计
 const propTotalData  = () => import( '../components/operationData/operationDataStatistics/propTotalData.vue');//道具统计
-// 1-1渠道数据
 const channelManagement  = () => import( '../components/operationData/channelData/channelManagement.vue');//渠道管理
 const channelDataList  = () => import( '../components/operationData/channelData/channelDataList.vue');//分渠道数据
 const roomTabDataInfo  = () => import( '../components/operationData/operationDataStatistics/roomTabDataInfo.vue');//房间功能标签使用统计
-
-// 运营数据end
-
-// 2、用户管理
-// 用户管理start
-// 2-1用户信息管理
 const idReview  = () => import( '../components/userManagement/userInformationManagement/idReview.vue');//用户认证审核(可操作)
 const idReviewList  = () => import( '../components/userManagement/userInformationManagement/idReviewList.vue');//用户认证审核列表
 const userComplaintsList  = () => import( '../components/userManagement/userInformationManagement/userComplaintsList.vue');//用户投诉处理
@@ -100,8 +62,6 @@ const userQueryList  = () => import( '../components/userManagement/userInformati
 const answers  = () => import( '../components/userManagement/userInformationManagement/answers.vue');//注册答题明细
 const taskDataList  = () => import( '../components/userManagement/userInformationManagement/taskDataList.vue');//任务进度查询 
 const levelRecordList  = () => import( '../components/userManagement/userInformationManagement/levelRecordList.vue');//等级流水查询 
-
-// 2-2家族管理
 const familyManage  = () => import( '../components/userManagement/householdManagement/familyManage.vue');//家族查询
 const liveBroadCast  = () => import( '../components/userManagement/householdManagement/liveBroadCastManage.vue');//房间数据和记录
 const roomConsumptionFlow  = () => import( '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue');//房间消费流水
@@ -117,22 +77,14 @@ const changeRoomGrade  = () => import( '../components/userManagement/householdMa
 const roomOfficialTabList  = () => import( '../components/userManagement/householdManagement/roomOfficialTabList.vue');//官方标签列表
 const kickRecord  = () => import( '../components/userManagement/householdManagement/kickRecord.vue');//房间封禁记录
 const roomList  = () => import( '../components/userManagement/householdManagement/roomList.vue');//房间列表
-
-// 2-3代理推广管理
 const agentTotalView  = () => import( '../components/userManagement/agentPromotionManagement/agentTotalView.vue');//推广数据总览
 const agentPopularize  = () => import( '../components/userManagement/agentPromotionManagement/agentPopularize.vue');//代理推广查询
 const agentRanking  = () => import( '../components/userManagement/agentPromotionManagement/agentRanking.vue');//代理排行榜
 const agentBindingQuery  = () => import( '../components/userManagement/agentPromotionManagement/agentBindingQuery.vue');//代理绑定查询
 const agentList  = () => import( '../components/userManagement/agentPromotionManagement/agentList.vue');// 代理绑定查询记录
-// 2-4主播管理
 const anchorDailyBehaviorDataStatistics  = () => import( '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue');//主播每日行为数据统计
 const anchorDailyDataCollection  = () => import( '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue');//主播每日数据汇总
 const anchorPersonalDataCollection  = () => import( '../components/userManagement/anchorsManagement/anchorPersonalDataCollection.vue');//主播个人数据汇总
-// 用户管理end
-
-// 3、运营支撑**
-// 运营支撑start
-// 3-1、app内容管理
 const barrageTopicManagement  = () => import( '../components/operationSupport/appContentManagement/barrageTopicManagement.vue');//弹幕话题管理
 const newUsersMatchFriends  = () => import( '../components/operationSupport/appContentManagement/newUsersMatchFriends.vue');//新用户匹配好友
 const randomLabel  = () => import( '../components/operationSupport/appContentManagement/randomLabel.vue');//随机标签
@@ -142,7 +94,6 @@ const registeredUserGreeting  = () => import( '../components/operationSupport/ap
 const revenueSuspensionWindow  = () => import( '../components/operationSupport/appContentManagement/revenueSuspensionWindow.vue');//收益悬浮窗
 const userTabsManage  = () => import( '../components/operationSupport/appContentManagement/userTabsManage.vue');//首页标签管理
 const roomTabsManageTest  = () => import( '../components/operationSupport/appContentManagement/roomTabsManageTest.vue');//房间标签管理
-// 3-2、运营工具
 const businessCityManagement  = () => import( '../components/operationSupport/operatingTools/businessCityManagement.vue');//商城管理
 const activityNotificationManagement  = () => import( '../components/operationSupport/operatingTools/activityNotificationManagement.vue');//活动通知管理
 const adRestrictionParameters  = () => import( '../components/operationSupport/operatingTools/adRestrictionParameters.vue');//广告限制次数
@@ -157,28 +108,21 @@ const activityFloatWindow  = () => import( '../components/operationSupport/opera
 const articleManagement  = () => import( '../components/operationSupport/operatingTools/articleManagement.vue');//文章管理
 const propList  = () => import( '../components/operationSupport/operatingTools/propList.vue');//礼物列表
 // const roomTabDataInfo  = () => import( '../components/operationSupport/operatingTools/roomTabDataInfo.vue');//房间功能标签使用统计
-// 3-3、录音日志
 const DailyAdditions  = () => import( '../components/operationSupport/recordingLog/DailyAdditions.vue');//每日新增录音明细
 const recordShareManage  = () => import( '../components/operationSupport/recordingLog/recordShareManage.vue');//录音分享卡片
 const systemRack  = () => import( '../components/operationSupport/recordingLog/systemRack.vue');//录音下榜列表
 const tapeSharingData  = () => import( '../components/operationSupport/recordingLog/tapeSharingData.vue');//分享页推荐录音列表
 const wonderfulRecord  = () => import( '../components/operationSupport/recordingLog/wonderfulRecord.vue');//录音精彩内容
 const voiceTabManage  = () => import( '../components/operationSupport/recordingLog/voiceTabManage.vue');//录音标签日志
-// 3-4、通话日志
 const openCallManage  = () => import( '../components/operationSupport/callLog/openCallManage.vue');//公开通话管理
 const callDataDetail  = () => import( '../components/operationSupport/callLog/callDataDetail.vue');//通话记录明细
 const GrabChatCallDetails  = () => import( '../components/operationSupport/callLog/GrabChatCallDetails.vue');//抢聊通话明细
-// 3-5、财务管理
 const presentAuditReview  = () => import( '../components/operationSupport/financialManagement/presentAuditReview.vue');//提现审核管理（二级）
 const presentAuditReviewFirst  = () => import( '../components/operationSupport/financialManagement/presentAuditReviewFirst.vue');//提现审核管理（一级）
 const monetaryMembershipApplicationAndRecord  = () => import( '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue');//货币、会员申请管理
 const applicationMonyMg  = () => import( '../components/operationSupport/financialManagement/applicationMonyMg.vue');//货币申请及记录
 const vipPackageList  = () => import( '../components/operationSupport/financialManagement/vipPackageList.vue');//VIP会员配置列表
 const roomSubsidyCheck  = () => import( '../components/operationSupport/financialManagement/roomSubsidyCheck.vue');//房间补贴审核记录
-// 运营支撑end
-
-// 4、活动专区
-// 活动专区start
 const familyBackstageBackstage  = () => import( '../components/activities/familyBackstageBackstage.vue');//家族活动正式服后台
 const roomTopManagement  = () => import( '../components/activities/roomTopManagement.vue');//家族置顶管理
 const loveActivityManage  = () => import( '../components/activities/loveActivityManage.vue');//情人节数据统计
@@ -187,18 +131,193 @@ const rechargeTheCrowdManagement  = () => import( '../components/activities/rech
 const youthDay  = () => import( '../components/activities/youthDay.vue');// 五四活动
 const wordCupManagement  = () => import( '../components/activities/wordCupManagement.vue');// 世界杯活动
 const superTurntable  = () => import( '../components/activities/superTurntable.vue');// 超级转盘
-// 活动专区end
-// 5、系统设置
-// 系统设置start
 const imageUpload  = () => import( '../components/systemSetup/imageUpload.vue');//图片上传
 const globalParameter  = () => import( '../components/systemSetup/globalParameter.vue');//全局参数
 const modifyThePassword  = () => import( '../components/systemSetup/modifyThePassword.vue');//密码修改
 const accountManagement  = () => import( '../components/systemSetup/accountManagement.vue');//账号管理
 const commonPages  = () => import( '../components/systemSetup/commonPages.vue');//常用页面配置
+const user  = () => import( '../components/User/richText.vue');//文章编辑
+*/ 
+// 大板块的引用
+import Home from '../components/Home/home.vue';//总的页面
+import operationData from '../components/Home/operationData.vue';//运营数据
+import userManagement from '../components/Home/userManagement.vue';//用户管理
+import operationSupport from '../components/Home/operationSupport.vue';//运营支撑
+import activities from '../components/Home/activities.vue';//活动专区
+import systemSetup from '../components/Home/systemSetup.vue';//系统设置
+import Login from '../components/rootGlobal/login.vue';//登陆页面
+// 页面的基本架构
+import Hello from '../components/Home/hello.vue';//欢迎界面
+import Err401 from '../components/rootGlobal/401.vue';//错误界面
+import empty from '../components/rootGlobal/empty.vue';//空组建进行页面进行刷新时使用
+// 测试的引用查看数据
+
+// 1、运营数据
+// 运营数据start
+// 1-1综合概述
+// 1-2用户分析
+import syntheticData from '../components/operationData/comprehensiveOverview/syntheticData.vue';//综合数据
+import registerOrActivate from '../components/operationData/userAnalysis/registerOrActivate.vue';//激活与注册
+import heldOutData from '../components/operationData/userAnalysis/heldOutData.vue';//留存数据
+// import onlineDistribute from '../components/operationData/userAnalysis/onlineDistribute.vue';//在线时长分布
+import avgUserTime from '../components/operationData/userAnalysis/avgUserTime.vue';//人均使用时长
+import levelSpread from '../components/operationData/userAnalysis/levelSpread.vue';//等级分布
+import dayTaskData from '../components/operationData/userAnalysis/dayTaskData.vue';//每日任务统计
+import achieveTaskData from '../components/operationData/userAnalysis/achieveTaskData.vue';//成就任务统计
+// 1-3充值与消费
+
+import financialDaily from '../components/operationData/rechargeConsumption/financialDaily.vue';//财务日报
+import dailyRealTimeRecharge from '../components/operationData/rechargeConsumption/dailyRealTimeRecharge.vue';//每日实时充值数据
+import payUserDataList from '../components/operationData/rechargeConsumption/payUserDataList.vue';//付费用户数据
+import vipMemberData from '../components/operationData/rechargeConsumption/vipMemberData.vue';// vip会员数据
+import rechargeCount from '../components/operationData/rechargeConsumption/rechargeCount';//充值金额统计
+import giftDataList from '../components/operationData/rechargeConsumption/giftDataList.vue';//礼物数据统计
+import chatCurrencyStatistics from '../components/operationData/rechargeConsumption/chatCurrencyStatistics.vue';//聊币数据统计
+import chatTicketStatistics from '../components/operationData/rechargeConsumption/chatTicketStatistics.vue';//聊票数据统计
+import roomSubsidyTotal from '../components/operationData/rechargeConsumption/roomSubsidyTotal.vue';//房间补贴统计
+import mallSalesStatistics from '../components/operationData/rechargeConsumption/mallSalesStatistics.vue';//商城销售统计
+
+// 1-4通话数据统计
+import callDataSummary from '../components/operationSupport/callLog/CallDataSummary.vue';//通话数据汇总
+import timeMatching from '../components/operationSupport/callLog/timeMatching.vue';//实时详情
+import realTimeCall from '../components/operationSupport/callLog/realTimeCall.vue';//实时通话次数
+import randomCallSummary from '../components/operationSupport/callLog/randomCallSummary';//随机通话汇总
+import hotLineSummary from '../components/operationSupport/callLog/hotlineCallSummary.vue';//网红通话汇总
+import friendsCallSummary from '../components/operationSupport/callLog/friendsCallSummary.vue';//好友通话汇总
+import eavesdroppingSummary from '../components/operationSupport/callLog/eavesdroppingSummary.vue';//偷听汇总
+import GrabChatDataSummary from '../components/operationSupport/callLog/GrabChatDataSummary.vue';//抢聊通话汇总
+import newRecordingAddList from '../components/operationSupport/callLog/newRecordingAddList.vue';//每日新增录音统计
+// 1-5运营数据统计
+import imMessageStatistics from '../components/operationData/operationDataStatistics/imMessageStatistics.vue';//IM消息统计
+import h5ShareStatistics from '../components/operationData/operationDataStatistics/h5ShareStatistics.vue';//分享页数据统计
+import newUserCastDatalist from '../components/operationData/operationDataStatistics/newUserCastDatalist.vue';//新用户红包领取统计
+import propTotalData from '../components/operationData/operationDataStatistics/propTotalData.vue';//道具统计
+// 1-1渠道数据
+import channelManagement from '../components/operationData/channelData/channelManagement.vue';//渠道管理
+import channelDataList from '../components/operationData/channelData/channelDataList.vue';//分渠道数据
+import roomTabDataInfo from '../components/operationData/operationDataStatistics/roomTabDataInfo.vue';//房间功能标签使用统计
+
+// 运营数据end
+
+// 2、用户管理
+// 用户管理start
+// 2-1用户信息管理
+import idReview from '../components/userManagement/userInformationManagement/idReview.vue';//用户认证审核(可操作
+import idReviewList from '../components/userManagement/userInformationManagement/idReviewList.vue';//用户认证审核列表
+import userComplaintsList from '../components/userManagement/userInformationManagement/userComplaintsList.vue';//用户投诉处理
+import openCloseList from '../components/userManagement/userInformationManagement/openCloseList.vue';//账号封禁记录（可封禁）
+import recordingComplaints from '../components/userManagement/userInformationManagement/recordingComplaints.vue';//录音投诉管理
+import girlsRanking from '../components/userManagement/userInformationManagement/girlsRanking.vue';//女性魅力值
+import propRecordList from '../components/userManagement/userInformationManagement/propRecordList.vue';//道具流水
+import rechargeList from '../components/userManagement/userInformationManagement/rechargeList.vue';//充值排行榜
+import incomeList from '../components/userManagement/userInformationManagement/incomeList.vue';//收入排行榜
+import newUserRedPackage from '../components/userManagement/userInformationManagement/newUserRedPackage.vue';// 新用户红包领取查询
+import giftGiveRecord from '../components/userManagement/userInformationManagement/giftGiveRecord.vue';//礼物赠送查询
+import userCurrencyDetailQuery from '../components/userManagement/userInformationManagement/userCurrencyDetailQuery.vue';//用户货币明细查询
+import banImEiIpRecord from '../components/userManagement/userInformationManagement/banImEiIpRecord.vue';//设备及ip封禁管理
+import userQueryList from '../components/userManagement/userInformationManagement/userQueryList.vue';//用户信息查询
+import answers from '../components/userManagement/userInformationManagement/answers.vue';//注册答题明细
+import taskDataList from '../components/userManagement/userInformationManagement/taskDataList.vue';//任务进度查询 
+import levelRecordList from '../components/userManagement/userInformationManagement/levelRecordList.vue';//等级流水查询 
+
+// 2-2家族管理
+import familyManage from '../components/userManagement/householdManagement/familyManage.vue';//家族查询
+import liveBroadCast from '../components/userManagement/householdManagement/liveBroadCastManage.vue';//房间数据和记录
+import roomConsumptionFlow from '../components/userManagement/householdManagement/roomConsumptionFlowManage.vue';//房间消费流水
+import changeFamilyGrade from '../components/userManagement/householdManagement/changeFamilyGrade.vue';//修改家族等级
+import familyAccountManagement from '../components/userManagement/householdManagement/familyAccountManagement.vue';//家族账号管理
+import familyDissolve from '../components/userManagement/householdManagement/familyDissolve.vue';// 家族解散
+import blacklist from '../components/userManagement/householdManagement/blacklist.vue';//黑名单
+import familyHonourList from '../components/userManagement/householdManagement/familyHonourList.vue';// 家族荣耀榜单
+import roomDataInfo from '../components/userManagement/householdManagement/roomDataInfo.vue';//房间详细数据
+import roomSubsidy from '../components/userManagement/householdManagement/roomSubsidy.vue';// 房间流水补贴
+import roomCheck from '../components/userManagement/householdManagement/roomCheck.vue';//房间考核日志
+import changeRoomGrade from '../components/userManagement/householdManagement/changeRoomGrade.vue';//修改房间等级
+import roomOfficialTabList from '../components/userManagement/householdManagement/roomOfficialTabList.vue';//官方标签列表
+import kickRecord from '../components/userManagement/householdManagement/kickRecord.vue';//房间封禁记录
+import roomList from '../components/userManagement/householdManagement/roomList.vue';//房间列表
+
+// 2-3代理推广管理
+import agentTotalView from '../components/userManagement/agentPromotionManagement/agentTotalView.vue';//推广数据总览
+import agentPopularize from '../components/userManagement/agentPromotionManagement/agentPopularize.vue';//代理推广查询
+import agentRanking from '../components/userManagement/agentPromotionManagement/agentRanking.vue';//代理排行榜
+import agentBindingQuery from '../components/userManagement/agentPromotionManagement/agentBindingQuery.vue';//代理绑定查询
+import agentList from '../components/userManagement/agentPromotionManagement/agentList.vue';// 代理绑定查询记录
+// 2-4主播管理
+import anchorDailyBehaviorDataStatistics from '../components/userManagement/anchorsManagement/anchorDailyBehaviorDataStatistics.vue';//主播每日行为数据统计
+import anchorDailyDataCollection from '../components/userManagement/anchorsManagement/anchorDailyDataCollection.vue';//主播每日数据汇总
+import anchorPersonalDataCollection from '../components/userManagement/anchorsManagement/anchorPersonalDataCollection.vue';//主播个人数据汇总
+// 用户管理end
+
+// 3、运营支撑**
+// 运营支撑start
+// 3-1、app内容管理
+import barrageTopicManagement from '../components/operationSupport/appContentManagement/barrageTopicManagement.vue';//弹幕话题管理
+import newUsersMatchFriends from '../components/operationSupport/appContentManagement/newUsersMatchFriends.vue';//新用户匹配好友
+import randomLabel from '../components/operationSupport/appContentManagement/randomLabel.vue';//随机标签
+import randomNickname from '../components/operationSupport/appContentManagement/randomNickname.vue';//随机昵称
+import randomSignature from '../components/operationSupport/appContentManagement/randomSignature.vue';//随机签名
+import registeredUserGreeting from '../components/operationSupport/appContentManagement/registeredUserGreeting.vue';//注册用户招呼语
+import revenueSuspensionWindow from '../components/operationSupport/appContentManagement/revenueSuspensionWindow.vue';//收益悬浮窗
+import userTabsManage from '../components/operationSupport/appContentManagement/userTabsManage.vue';//首页标签管理
+import roomTabsManageTest from '../components/operationSupport/appContentManagement/roomTabsManageTest.vue';//房间标签管理
+// 3-2、运营工具
+import businessCityManagement from '../components/operationSupport/operatingTools/businessCityManagement.vue';//商城管理
+import activityNotificationManagement from '../components/operationSupport/operatingTools/activityNotificationManagement.vue';//活动通知管理
+import adRestrictionParameters from '../components/operationSupport/operatingTools/adRestrictionParameters.vue';//广告限制次数
+import bannerManagement from '../components/operationSupport/operatingTools/bannerManagement.vue';//banner管理
+import giftManagement from '../components/operationSupport/operatingTools/giftManagement.vue';//礼物管理(正式服
+import marqueeManagement from '../components/operationSupport/operatingTools/marqueeManagement.vue';//跑马灯管理
+import startPageManagement from '../components/operationSupport/operatingTools/startPageManagement.vue';//启动页管理
+import sendMessageNotifications from '../components/operationSupport/operatingTools/sendMessageNotifications.vue';//发送短信通知
+import sendSystemNotification from '../components/operationSupport/operatingTools/sendSystemNotification.vue';//发送系统通知
+import accountManage from '../components/operationSupport/operatingTools/accountManage.vue';// 账号修改，注册
+import activityFloatWindow from '../components/operationSupport/operatingTools/activityFloatWindow.vue';//活动浮窗
+import articleManagement from '../components/operationSupport/operatingTools/articleManagement.vue';//文章管理
+import propList from '../components/operationSupport/operatingTools/propList.vue';//礼物列表
+// import roomTabDataInfo from '../components/operationSupport/operatingTools/roomTabDataInfo.vue';//房间功能标签使用统计
+// 3-3、录音日志
+import DailyAdditions from '../components/operationSupport/recordingLog/DailyAdditions.vue';//每日新增录音明细
+import recordShareManage from '../components/operationSupport/recordingLog/recordShareManage.vue';//录音分享卡片
+import systemRack from '../components/operationSupport/recordingLog/systemRack.vue';//录音下榜列表
+import tapeSharingData from '../components/operationSupport/recordingLog/tapeSharingData.vue';//分享页推荐录音列表
+import wonderfulRecord from '../components/operationSupport/recordingLog/wonderfulRecord.vue';//录音精彩内容
+import voiceTabManage from '../components/operationSupport/recordingLog/voiceTabManage.vue';//录音标签日志
+// 3-4、通话日志
+import openCallManage from '../components/operationSupport/callLog/openCallManage.vue';//公开通话管理
+import callDataDetail from '../components/operationSupport/callLog/callDataDetail.vue';//通话记录明细
+import GrabChatCallDetails from '../components/operationSupport/callLog/GrabChatCallDetails.vue';//抢聊通话明细
+// 3-5、财务管理
+import presentAuditReview from '../components/operationSupport/financialManagement/presentAuditReview.vue';//提现审核管理（二级）
+import presentAuditReviewFirst from '../components/operationSupport/financialManagement/presentAuditReviewFirst.vue';//提现审核管理（一级）
+import monetaryMembershipApplicationAndRecord from '../components/operationSupport/financialManagement/monetaryMembershipApplicationAndRecord.vue';//货币、会员申请管理
+import applicationMonyMg from '../components/operationSupport/financialManagement/applicationMonyMg.vue';//货币申请及记录
+import vipPackageList from '../components/operationSupport/financialManagement/vipPackageList.vue';//VIP会员配置列表
+import roomSubsidyCheck from '../components/operationSupport/financialManagement/roomSubsidyCheck.vue';//房间补贴审核记录
+// 运营支撑end
+
+// 4、活动专区
+// 活动专区start
+import familyBackstageBackstage from '../components/activities/familyBackstageBackstage.vue';//家族活动正式服后台
+import roomTopManagement from '../components/activities/roomTopManagement.vue';//家族置顶管理
+import loveActivityManage from '../components/activities/loveActivityManage.vue';//情人节数据统计
+import interactionInfo from '../components/activities/interactionInfo.vue';//黑色情人节互动信息
+import rechargeTheCrowdManagement from '../components/activities/rechargeTheCrowdManagement.vue';//充值众筹管理
+import youthDay from '../components/activities/youthDay.vue';// 五四活动
+import wordCupManagement from '../components/activities/wordCupManagement.vue';// 世界杯活动
+import superTurntable from '../components/activities/superTurntable.vue';// 超级转盘
+// 活动专区end
+// 5、系统设置
+// 系统设置start
+import imageUpload from '../components/systemSetup/imageUpload.vue';//图片上传
+import globalParameter from '../components/systemSetup/globalParameter.vue';//全局参数
+import modifyThePassword from '../components/systemSetup/modifyThePassword.vue';//密码修改
+import accountManagement from '../components/systemSetup/accountManagement.vue';//账号管理
+import commonPages from '../components/systemSetup/commonPages.vue';//常用页面配置
 // 系统设置end
 
 // 留存测试填充数据
-const user  = () => import( '../components/User/richText.vue');//文章编辑
+import user from '../components/User/richText.vue';//文章编辑
 
 // 把router 引用进入vue
 Vue.use(VueRouter);
