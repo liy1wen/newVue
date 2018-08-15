@@ -56,6 +56,7 @@ const giftDataList  = () => import( '../components/operationData/rechargeConsump
 const chatCurrencyStatistics  = () => import( '../components/operationData/rechargeConsumption/chatCurrencyStatistics.vue');//聊币数据统计
 const chatTicketStatistics  = () => import( '../components/operationData/rechargeConsumption/chatTicketStatistics.vue');//聊票数据统计
 const roomSubsidyTotal  = () => import( '../components/operationData/rechargeConsumption/roomSubsidyTotal.vue');//房间补贴统计
+const mallSalesStatistics  = () => import( '../components/operationData/rechargeConsumption/mallSalesStatistics.vue');//商城销售统计
 
 // 1-4通话数据统计
 const callDataSummary  = () => import( '../components/operationSupport/callLog/CallDataSummary.vue');//通话数据汇总
@@ -142,6 +143,7 @@ const revenueSuspensionWindow  = () => import( '../components/operationSupport/a
 const userTabsManage  = () => import( '../components/operationSupport/appContentManagement/userTabsManage.vue');//首页标签管理
 const roomTabsManageTest  = () => import( '../components/operationSupport/appContentManagement/roomTabsManageTest.vue');//房间标签管理
 // 3-2、运营工具
+const businessCityManagement  = () => import( '../components/operationSupport/operatingTools/businessCityManagement.vue');//商城管理
 const activityNotificationManagement  = () => import( '../components/operationSupport/operatingTools/activityNotificationManagement.vue');//活动通知管理
 const adRestrictionParameters  = () => import( '../components/operationSupport/operatingTools/adRestrictionParameters.vue');//广告限制次数
 const bannerManagement  = () => import( '../components/operationSupport/operatingTools/bannerManagement.vue');//banner管理
@@ -296,8 +298,7 @@ export const asyncRouterMap = [
                     { path: '/operationData/rechargeConsumption/vipMemberData', component: vipMemberData, name: 'VIP会员充值数据', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/rechargeCount', component: rechargeCount, name: '充值金额统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                     { path: '/operationData/rechargeConsumption/roomSubsidyTotal', component: roomSubsidyTotal, name: '房间补贴统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
-                    
-
+                    { path: '/operationData/rechargeConsumption/mallSalesStatistics', component: mallSalesStatistics, name: '商城销售统计', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2', 'M'] } },                    
                 ],
             },
             {
@@ -486,6 +487,7 @@ export const asyncRouterMap = [
                     { path: '/operationSupport/operatingTools/activityFloatWindow', component: activityFloatWindow, name: '活动浮窗', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/operationSupport/operatingTools/articleManagement', component: articleManagement, name: '文章管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     { path: '/operationSupport/operatingTools/propList', component: propList, name: '道具列表', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
+                    { path: '/operationSupport/operatingTools/businessCityManagement', component: businessCityManagement, name: '商城管理', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     
                 ],
             },

@@ -103,7 +103,7 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
-						<el-table-column label="操作" min-width="100">
+						<el-table-column label="操作" fixed="right" min-width="200">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="mini">编辑</el-button>								
 								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
@@ -216,7 +216,7 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
-						<el-table-column label="操作" min-width="100">
+						<el-table-column label="操作" fixed="right" min-width="200">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" size="mini">编辑</el-button>								
 								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
@@ -233,11 +233,11 @@
 			<!-- 房间礼物 -->
 			<el-tab-pane label="房间礼物" name="three" :style="{ height: tabSearchHeight+'px' }">
 				<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-					<el-form :inline="true" style="overflow: hidden;" :model="formTwo">
+					<el-form :inline="true" style="overflow: hidden;" :model="formThree">
 						<el-form-item>
 							<div class="block">
 								<span class="registerTime">注册时间</span>
-								<el-date-picker v-model="formTwo.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
+								<el-date-picker v-model="formThree.choiceDate" type="daterange" range-separator=" 至 " placeholder="选择日期范围"></el-date-picker>
 							</div>
 						</el-form-item>
 						<el-form-item>
@@ -337,7 +337,7 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
-						<el-table-column label="操作" min-width="100">
+						<el-table-column label="操作" fixed="right" min-width="200">
 							<template slot-scope="scope">
 								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" size="mini">编辑</el-button>								
 								<el-button type="primary" @click.native.prevent="specialData(scope.$index, formThree.TabData, '3')" size="mini">特效</el-button>								
@@ -519,15 +519,15 @@
 						<el-input v-model="giftEditorloading.params.price" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<input class="filepic fileinput" @change="uploading($event, 0, 1)" type="file">
+						<input class="filepic fileinput" id="fileinput3" @change="uploading($event, 0, 1)" type="file">
 				        <img :src="giftEditorloading.src_pic" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<input class="filegif fileinput" @change="uploading($event, 1, 1)" type="file">
+						<input class="filegif fileinput" id="fileinput4" @change="uploading($event, 1, 1)" type="file">
 				        <img :src="giftEditorloading.src_gif" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="角标图" :label-width="formLabelWidth">
-						<input class="filegif fileinput" @change="uploading($event, 2, 1)" type="file">
+						<input class="filegif fileinput" id="fileinput5" @change="uploading($event, 2, 1)" type="file">
 				        <img :src="giftEditorloading.src_corner" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
@@ -657,11 +657,11 @@
 						</el-select>				
 					</el-form-item>
 					<el-form-item label="标识图" :label-width="formLabelWidth">
-						<input class="filegif fileinput" @change="uploading($event, 0, 2)" type="file">
+						<input class="filegif fileinput" id="fileinput6" @change="uploading($event, 0, 2)" type="file">
 				        <img :src="giftSpecial.src_num" style="width: 100px; height: auto;"/>
 					</el-form-item>
 					<el-form-item label="特效图" :label-width="formLabelWidth">
-						<input class="filegif fileinput" @change="uploading($event, 1, 2)" type="file">
+						<input class="filegif fileinput" id="fileinput7" @change="uploading($event, 1, 2)" type="file">
 						<el-button v-if="giftSpecial.src_effect!=''" @click.native.prevent="downDemo(giftSpecial.src_effect)">下载文件</el-button>
 						<el-button @click.native.prevent="lookDemo()">特效图页面</el-button>
 						<p style="color:red;display:inline-block;">可以打开特效图页面，将文件拖入查看效果~</p>
@@ -962,7 +962,13 @@ export default {
 			var _this = this ;
 			_this.listLoading = true;
 			var url = '/Gift/getGift';
-			var params = _this.searchConditionRoomGift();
+			// var params = _this.searchConditionRoomGift();
+			var params = {
+				date_s: baseConfig.changeDateTime(_this.formThree.choiceDate[0], 0),
+				date_e: baseConfig.changeDateTime(_this.formThree.choiceDate[1], 0),
+				position: '3',
+			};
+			console.log(params);
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
@@ -1056,7 +1062,7 @@ export default {
 			var _this = this;
 			if(type==0) {
 				_this.giftEditorloading.dialogShow = false;
-				console.log('点击了取消按钮');
+				_this.resetForm();
 			} else if(type==1) {
 				console.log('点击了确定按钮');
 				_this.listLoading = true;
@@ -1099,6 +1105,7 @@ export default {
 						} else if(_this.giftEditorloading.type==3) {
 							_this.getTableRoomGiftData();
 						}
+						_this.resetForm();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
@@ -1286,11 +1293,9 @@ export default {
 			var _this = this;
 			if(type==0) {
 				// 点击了取消按钮
-				console.log('点击了取消按钮');
 				_this.giftUploading.dialogShow = false;
+				_this.resetForm();
 			} else if(type==1) {
-				// 点击了确认按钮
-				console.log('点击了确认按钮');
 				_this.listLoading = true;
 				// 进行添加的操作
 				let formData = new FormData();
@@ -1328,6 +1333,7 @@ export default {
 						} else if(formData.get('position')==3) {
 							_this.getTableRoomGiftData();
 						}
+						_this.resetForm();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
@@ -1378,7 +1384,7 @@ export default {
 			_this.giftSpecial.num_status = row[index].num_status;
 			_this.giftSpecial.src_num = row[index].num_img_url ? row[index].num_img_url : '';
 			_this.giftSpecial.src_effect = row[index].dynamic_effect_url ? row[index].dynamic_effect_url : '';
-			// 在这里进行对应的文件置空
+			// 在这里进行对应的文件置空，选中的也进行置空
 			_this.giftSpecial.num_url = '';
 			_this.giftSpecial.effect_url = '';
 			_this.giftSpecial.dialogShow = true;
@@ -1388,6 +1394,7 @@ export default {
 			var _this = this;
 			if(type==0) {
 				_this.giftSpecial.dialogShow = false;
+				_this.resetForm();				
 			} else if(type==1) {
 				_this.listLoading = true;
 				let formData = new FormData();
@@ -1412,6 +1419,7 @@ export default {
 						// 本身的房间的数据进行更新、然后对相应的弹窗内容进行修改展示
 						_this.getTableRoomGiftData();
 						_this.getNumGift(_this.giftSpecial.id);
+						_this.resetForm();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
@@ -1436,6 +1444,76 @@ export default {
 			else if(tab.label=="标签管理"&&_this.formFour.TabData.length==0) {
 				_this.getLabelData();
 			}
+		},
+		resetForm() {
+			var _this = this;
+			_this.giftUploading = {
+				dialogShow: false,
+				file_pic: '',
+				src_pic: '',
+				file_gif: '',
+				src_gif: '',
+				file_corner: '',
+				src_corner: '',
+				params: {
+					sort: '',
+					name: '',
+					price: '',
+					pic: '',
+					gif: '',
+					position: '2',
+					status: '1',
+					type: '1',
+					desc: '',
+					on_sale_time: '',
+					is_vip: '0',
+					is_turntable: '0',
+					probability: '',
+					is_special: '0',
+					stock_num: '',
+				},
+			};
+			_this.giftEditorloading = {
+				index: '',
+				type: '',
+				dialogShow: false,
+				file_pic: '',
+				src_pic: '',
+				file_gif: '',
+				src_gif: '',
+				file_corner: '',
+				src_corner: '',
+				params: {
+					id: '',
+					sort: '',
+					name: '',
+					price: '',
+					pic: '',
+					gif: '',
+					position: '',
+					status: '',
+					type: '',
+					create_time: '',
+					on_sale_time: '',
+					is_vip: '',
+					is_turntable: '',
+					probability: '',
+					is_special: '',
+					stock_num: '',
+				},
+			};
+			_this.giftSpecial = {
+				dialogShow: false,
+				id: '',
+				num: '',
+				is_dynamic_effect: '',
+				num_url: '',
+				src_num: '',
+				effect_url: '',
+				src_effect: '',
+				num_name: '',
+				num_status: '',
+			};
 		},
 		/*
 			downDemo：下载文件

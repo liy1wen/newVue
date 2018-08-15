@@ -22,7 +22,7 @@
                     </el-form-item>
                     <el-form-item>
                         <span>渠道</span>
-                        <el-select v-model="channelId" multiple filterable collapse-tags style="margin-left: 20px; width: 150px;" placeholder="请选择">
+                        <el-select v-model="channelId" multiple filterable collapse-tags style="margin-left: 20px; width: 180px;" placeholder="请选择">
                             <el-option v-for="(item, key) of channelData" :key="item" :label="item" :value="key">
                             </el-option>
                         </el-select>
@@ -41,7 +41,7 @@
         <template>
             <el-table :data="listData" v-loading="listLoading" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
                 <el-table-column prop="addtime" label="注册时间"></el-table-column>
-                <el-table-column prop="channel" label="渠道"></el-table-column>
+                <el-table-column prop="annotation" label="渠道"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
                 <el-table-column prop="icon" label="用户头像">
@@ -260,6 +260,7 @@ export default {
             if (type == 0) {
                 _this.page = 0;
             }
+            var channel = _this.channelId.join(",");
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
@@ -272,7 +273,8 @@ export default {
                     0
                 ),
                 find: _this.uid,
-                page: _this.page
+                page: _this.page,
+                channel: channel
             };
             // 如果输入uid  取消其他搜索参数
             if (param.find != "" && param.find != null) {
