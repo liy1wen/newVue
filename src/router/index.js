@@ -306,6 +306,7 @@ import rechargeTheCrowdManagement from '../components/activities/rechargeTheCrow
 import youthDay from '../components/activities/youthDay.vue';// 五四活动
 import wordCupManagement from '../components/activities/wordCupManagement.vue';// 世界杯活动
 import superTurntable from '../components/activities/superTurntable.vue';// 超级转盘
+import tanabataActivity from '../components/activities/tanabataActivity.vue';// 七夕活动
 // 活动专区end
 // 5、系统设置
 // 系统设置start
@@ -683,7 +684,7 @@ export const asyncRouterMap = [
                     { path: '/activities/youthDay', component: youthDay, name: '五四活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/activities/wordCupManagement', component: wordCupManagement, name: '世界杯活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/activities/superTurntable', component: superTurntable, name: '超级转盘', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
-                    
+                    { path: '/activities/tanabataActivity', component: tanabataActivity, name: '七夕活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                 ],
             },
         ],
