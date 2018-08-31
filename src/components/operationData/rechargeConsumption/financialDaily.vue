@@ -1,9 +1,7 @@
 <template>
 	<!-- 财务日报 -->
-	<!-- dom结构内容 -->
 	<section>
-		<!-- 工具条/头部的搜索条件搜索 -->
-		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<el-col :span="24" class="toolbar" style="padding-bottom:0px;">
 			<el-form :inline="true" style="overflow: hidden;" :model="formOne">
 				<el-form-item>
 					<div class="block">
@@ -39,7 +37,6 @@
 				<el-table-column prop="chat_gold" label="聊币充值金额" min-width="60"></el-table-column>
 				<el-table-column prop="vip" label="VIP充值金额" min-width="60"></el-table-column>
 				<el-table-column prop="family" label="创建家族费用" min-width="60"></el-table-column>
-				<el-table-column prop="agent"  label="代理加盟费" min-width="60"></el-table-column>
 				<el-table-column prop="enchashment" label="提现金额" min-width="60"></el-table-column>
 			</el-table>
 			<!-- 折线图 -->
@@ -156,7 +153,7 @@ export default {
 		getTableData() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/Money/getFinancialDaily';
+			var url = '/NewMoney/getFinancialDaily';
 			var params = _this.searchCondition();
 			// 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 			if(params==null) {
@@ -176,7 +173,6 @@ export default {
                             res.data.data[i].chat_gold = (+res.data.data[i].chat_gold).toFixed(0);
                             res.data.data[i].vip = (+res.data.data[i].vip).toFixed(0);
                             res.data.data[i].family = (+res.data.data[i].family).toFixed(0);
-                            res.data.data[i].agent = (+res.data.data[i].agent).toFixed(0);
                             res.data.data[i].enchashment = (+res.data.data[i].enchashment).toFixed(0);
                         }
                          _this.tabData = res.data.data;
