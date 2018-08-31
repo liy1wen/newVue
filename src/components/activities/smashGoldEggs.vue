@@ -194,7 +194,7 @@ export default {
 				uid: '',
 				num: '',
 			},
-			tabActiveName: 'two', //(one、two、three)
+			tabActiveName: 'one', //(one、two、three)
 			formLabelWidth: '130px', 
 		};
 	},
@@ -256,7 +256,7 @@ export default {
 						var obj = {};
 						obj.uid = key;
 						obj.num = res.data.data[key];
-						arr.push(obj);
+						arr.unshift(obj);
 					}
 					_this.formTwo.tabData = arr;
 					_this.formTwo.totalPage = arr.length;
@@ -310,6 +310,7 @@ export default {
 					if(res.data.ret) {
 						baseConfig.successTipMsg(_this, '添加成功~');
 						_this.getTwoData();
+						_this.getThreeData();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);
 					}
@@ -342,6 +343,7 @@ export default {
 					if(res.data.ret) {
 						baseConfig.successTipMsg(_this, '删除成功~');
 						_this.getTwoData();
+						_this.getThreeData();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);
 					}
