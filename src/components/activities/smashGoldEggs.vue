@@ -25,8 +25,10 @@
 					:data="formOne.tabData" 
 					border fit highlight-current-row 
 					style="width:100%;" 
+					:row-class-name="tableRowClassName"
 					:height="tabSearchPageHeight">
 						<el-table-column prop="uid" label="用户UID"></el-table-column>
+						<el-table-column prop="nickname" label="昵称"></el-table-column>
 						<el-table-column prop="one" label="一锤次数"></el-table-column>
 						<el-table-column prop="ten" label="十锤次数"></el-table-column>
 						<el-table-column prop="hundred" label="百锤次数"></el-table-column>
@@ -41,7 +43,7 @@
 						<el-pagination
 						layout="total, prev, pager, next, jumper"
 						@current-change="oneHandleCurrentChange"
-						:page-size="20"
+						:page-size="21"
 						:total="formOne.totalPage"
 						style="float:right;">
 						</el-pagination>
@@ -232,6 +234,10 @@ export default {
 			.then((res) => {
 				if(res.data.ret) {
 					console.log(res.data.data);
+					var obj = res.data.total;
+					obj.uid = '总计';
+					obj.nickname = '---';
+					res.data.data.unshift(obj);
 					_this.formOne.tabData = res.data.data;
 				} else {
 					baseConfig.errorTipMsg(_this, res.data.msg);
@@ -358,6 +364,12 @@ export default {
 			var _this = this;
 			console.log(tab.label);
 		},
+		tableRowClassName({row, rowIndex}) {
+			if(rowIndex===0) {
+				return 'warning-row';
+			} 
+			return '';
+		},
 	},
 	mounted() {
 		var _this = this;
@@ -374,56 +386,8 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-/* 引入的图片展示样式 */
-.fileinput{
-	float: left;
-	margin-top: 8px;
-}
-/* 页面样式css内容 */
-.excelBox{
-	width: 500px; height: 270px; margin-left: -150px; background: #f1f7ff;
-	position: absolute; left: 50%; top: 15%; z-index: 1000;
-}
-p{ margin: 0; }
-.excelBox>p{
-	width: 100%; height: 50px; line-height: 50px; font-weight: bold;
-	background: #e3efff; text-align: center;
-}
-.excelBox .excelInput{
-	width: 100%; height: 60px;
-}
-.excelBox .select{
-	width: 100%; height: 80px;
-}
-.excelBox .excelInput p,
-.excelBox .select p{
-	width: 100%; height: 36px; text-indent: 20px; line-height: 36px;
-}
-.excelBox .excelInput input{
-    width: 300px; display: block; margin: 0 auto;
-}
-.excelBox .select>div{
-	width: 300px; display: block; margin: 0 auto;
-}
-.btns{
-    width: 100%; height: 50px;
-}
-.btns button{
-    width: 80px; height: 40px; text-align: center; line-height: 40px;
-    border: none; border-radius: 5px;
-    background-color: #78B2FF; margin-top: 20px; color: #fff;
-}
-.btns button:nth-of-type(1){
-    margin-left: 150px; cursor: pointer;
-}
-.btns button:nth-of-type(2){
-    margin-left: 50px; cursor: pointer;
-}
-.demo-ruleForm{
-	width: 500px;
-}
-.el-tab-pane{
-	height: 800px;
+<style>
+.el-table .warning-row {
+	background: oldlace;
 }
 </style>
