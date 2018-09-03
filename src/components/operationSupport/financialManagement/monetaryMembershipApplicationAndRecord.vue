@@ -219,7 +219,7 @@ export default {
         },
         oneHandleCurrentChange(val) {
             var _this = this;
-            _this.formOne.page = val;
+            _this.formOne.page = val-1;
             _this.formOne.star = (_this.formOne.page-0)*20;
             _this.formOne.end = _this.formOne.star-0+20;
         },
@@ -235,15 +235,16 @@ export default {
         getTableData() {
             var _this = this;
             _this.listLoading = true;
-            var url = '/NewMoney/findSendMoneyTo';
+            var url = baseConfig.server+baseConfig.requestUrl+'/NewMoney/findSendMoneyTo';
+            // var url ='https://manage.dianliaoapp.com/ydlManage/server/index.php/NewMoney/findSendMoneyTo';
             var params = _this.searchConditionOne();
-            allget(params, url)
-            .then(res => {
+            axios.get(url, {params: params})
+            .then((res) => {
                 _this.listLoading = false;
                 if(res.data.ret) {
                     for(var i=0; i<res.data.data.length; i++) {
-                        res.data.data[i].operation_reason = decodeURI(res.data.data[i].operation_reason);
-                        res.data.data[i].operation_name = decodeURI(res.data.data[i].operation_name);
+                        res.data.data[i].operation_reason = (res.data.data[i].operation_reason);
+                        res.data.data[i].operation_name = (res.data.data[i].operation_name);
                     }
                     _this.formOne.totalPage = res.data.data.length;
                     _this.formOne.tabData = res.data.data;
@@ -252,7 +253,7 @@ export default {
                 }
             })
             .catch(function(error) {
-                baseConfig.errorTipMsg(_this, error);
+                console.log(error);
             })
         },
         sendAdd(type) {
@@ -261,7 +262,8 @@ export default {
                 _this.addDialog.dialogShow= false;
             } else if(type==1) {
                 _this.listLoading = true;
-                var url = '/NewMoney/SendMoneyToYou';
+                var url = baseConfig.server+baseConfig.requestUrl+'/NewMoney/SendMoneyToYou';
+                // var url = 'https://manage.dianliaoapp.com/ydlManage/server/index.php/NewProp/getPropList';
                 let formData = new FormData();
                 formData.append('uid', _this.addDialog.uid);
                 formData.append('type', _this.addDialog.type);
@@ -274,7 +276,7 @@ export default {
                         'Content-Type': 'multipart/form-data'
                     }
                 };
-                axios.post(baseConfig.server+baseConfig.requestUrl+'/NewMoney/SendMoneyToYou', formData, config)
+                axios.post(url, formData, config)
                 .then((res) => {
                     _this.addDialog.dialogShow= false;
                     _this.listLoading = false;
@@ -295,7 +297,8 @@ export default {
             if(type==0){
                 _this.propData.dialogShow = false;
             }else if(type==1){
-                var url = '/NewMoney/SendMoneyToYou';
+                var url = baseConfig.server+baseConfig.requestUrl+'/NewMoney/SendMoneyToYou';
+                // var url = 'https://manage.dianliaoapp.com/ydlManage/server/index.php/NewMoney/SendMoneyToYou';
                 var param = {
                     uid: _this.propData.uid,
                     type: 9,  //道具特有
@@ -318,7 +321,8 @@ export default {
                     delete param.start_time;
                     delete param.end_time;
                 }
-                allget(param, url).then(res=>{
+                axios.get(url, {params: param})
+                .then((res)=>{
                     if(res.data.ret){
                         console.log(res.data);
                         baseConfig.successTipMsg(_this, res.data.msg);
@@ -334,8 +338,10 @@ export default {
         },
         getPropData(){
             var _this = this;
-            var url = '/NewProp/getPropList';
-            allget("", url).then(res => {
+            var url = baseConfig.server+baseConfig.requestUrl+'/NewProp/getPropList';
+            // var url = 'https://manage.dianliaoapp.com/ydlManage/server/index.php/NewProp/getPropList';
+            axios.get(url, {params: {}})
+            .then((res) => {
                 if(res.data.ret){
                     _this.propData.propList = res.data.data;
                     for(var i = 0; i < res.data.data.length; i++){

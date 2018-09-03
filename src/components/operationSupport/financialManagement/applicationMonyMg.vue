@@ -175,10 +175,10 @@ export default {
                     _this.listLoading = false;
                     if (res.data.ret) {
                         for (var i = 0; i < res.data.data.length; i++) {
-                            res.data.data[i].operation_reason = decodeURI(
+                            res.data.data[i].operation_reason = (
                                 res.data.data[i].operation_reason
                             );
-                            res.data.data[i].operation_name = decodeURI(
+                            res.data.data[i].operation_name = (
                                 res.data.data[i].operation_name
                             );
                         }

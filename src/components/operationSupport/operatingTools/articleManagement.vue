@@ -66,7 +66,7 @@
 					:span="24" 
 					class="toolbar">
 						<el-pagination 
-						layout="total, prev, pager, next, jumper" 
+						layout="total,prev,pager,next,jumper" 
 						@current-change="handleCurrentChange" 
 						:page-size="20" 
 						:total="formOne.totalPage" 
@@ -76,13 +76,13 @@
 			</el-tab-pane>
 			<el-tab-pane 
 			label="编辑修改" 
-			name="two" :style="{height: tabHeight+'px'}">
+			name="two" :style="{height:tabHeight+'px'}">
 				<el-form 
 				:label-position="labelPosition" 
 				class="demo-ruleForm" 
 				label-width="120px" 
-				:model="formTwo" style="padding-left: 30px;">
-					<el-form-item label="文章主题" style="padding-top: 30px;">
+				:model="formTwo" style="padding-left:30px;">
+					<el-form-item label="文章主题" style="padding-top:30px;">
 						<el-input v-model="formTwo.title"></el-input>
 					</el-form-item>
 					<el-form-item label="封面图">
@@ -106,7 +106,10 @@
 				style="margin-left: 50px; margin-top: 30px;" 
 				@click="btnSureTwo">确定发送</el-button>
 			</el-tab-pane>
-			<el-tab-pane label="新增文章" name="three" :style="{height: tabHeight+'px'}">
+			<el-tab-pane 
+			label="新增文章" 
+			name="three" 
+			:style="{height:tabHeight+'px'}">
 				<el-form 
 				:label-position="labelPosition" 
 				class="demo-ruleForm" 
@@ -133,7 +136,7 @@
 				</el-form>
 				<el-button 
 				type="primary" 
-				style="margin-left: 50px; margin-top: 30px;" 
+				style="margin-left:50px; margin-top:30px;" 
 				@click="sendToTask()">确定发送</el-button>
 			</el-tab-pane>
 		</el-tabs>
@@ -325,12 +328,15 @@ export default {
 
 <style lang="css" scoped>
 .el-tab-pane{
+	width: 90%;
+	padding-left: 5%;
 	height: 800px;
-	background: red;
+	/* background: red; */
 }
 .quill-editor {
+	width: 100%;
 	height: 350px;
-	background: green;
+	/* background: green; */
 }
 
 </style>

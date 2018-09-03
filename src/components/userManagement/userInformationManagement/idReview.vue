@@ -83,7 +83,7 @@
                 <el-table-column prop="fail_reason" label="拒绝原因"></el-table-column>
                 <el-table-column prop="auth_time" label="审核时间"></el-table-column>
                 <el-table-column prop="auth_user" label="审核人"></el-table-column>
-                <el-table-column label="操作" min-width="120">
+                <el-table-column label="操作" min-width="150">
                     <template slot-scope="scope">
                         <el-row v-if="scope.row.status==1">
                             <el-col :span="8">
@@ -120,61 +120,97 @@
             <el-dialog title="提示" :visible.sync="passDialogVisible" width="30%">
                 <span>确定要通过吗？</span>
                 <span slot="footer" class="dialog-footer">
-                    <el-button @click="passDialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="passDialogVisible = false, surePass()">确 定</el-button>
+                    <el-button @click="passDialogVisible=false">取 消</el-button>
+                    <el-button type="primary" @click="passDialogVisible=false,surePass()">确 定</el-button>
                 </span>
             </el-dialog>
             <!-- 拒绝弹窗 -->
             <el-dialog title="拒绝" :visible.sync="refuse.DialogVisible">
                 <el-form :model="refuse">
-
                     <el-form-item label="拒绝原因" :label-width="formLabelWidth">
                         <el-input v-model="refuse.reason" placeholder="请输入拒绝原因" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="refuse.DialogVisible = false, refuse.reason=''">取 消</el-button>
+                    <el-button @click="refuse.DialogVisible=false,refuse.reason=''">取 消</el-button>
                     <el-button type="primary" @click="sureRefuse()">确 定</el-button>
                 </div>
             </el-dialog>
-            <!-- 提示填写原因弹窗 -->
-            <el-dialog title="提示" :visible.sync="refuse.titleDialogVisible" width="30%">
-                <span>请填写封号原因</span>
-                <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="refuse.titleDialogVisible = false">确 定</el-button>
-                </span>
-            </el-dialog>
-            <!-- 修改信息弹窗 -->
-            <el-dialog title="信息修改" style="width:800px; left:30%;" :visible.sync="info.dialogVisible">
+            <el-dialog 
+            title="信息修改" 
+            :visible.sync="info.dialogVisible">
                 <el-form :model="info">
-                    <el-form-item label="真实姓名：" :label-width="formLabelWidth">
-                        <el-input style="width: 200px;" v-model="info.name"  auto-complete="off"></el-input>
+                    <el-form-item label="UID" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.uid"></el-input>
                     </el-form-item>
-                    <el-form-item label="身份证号码：" :label-width="formLabelWidth">
-                        <el-input style="width: 200px;" v-model="info.identity_card"  auto-complete="off"></el-input>
+                    <el-form-item label="昵称" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.nickname"></el-input>
                     </el-form-item>
-                    <el-form-item label="支付宝账号：" :label-width="formLabelWidth">
-                        <el-input style="width: 200px;" v-model="info.pay_account"  auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="手持身份证照：" :label-width="formLabelWidth">
+                    <el-form-item label="认证照片" :label-width="formLabelWidth">
                         <template slot-scope="scope">
                             <el-popover trigger="hover" placement="left">
-                                <img :src="info.aut_icon" alt="" style="width:300px;height:300px;">
+                                <img 
+                                :src="info.aut_icon" 
+                                style="width:300px;height:300px;">
                                 <div slot="reference" class="name-wrapper">
-                                    <img :src="info.aut_icon" alt="" style="width:100px;height:100px;">
+                                    <img 
+                                    :src="info.aut_icon" 
+                                    style="width:100px;height:100px;">
                                 </div>
                             </el-popover>
                         </template>
                     </el-form-item>
-                    <el-form-item label="身份证照：" :label-width="formLabelWidth">
+                    <el-form-item label="请求时间" :label-width="formLabelWidth">
+                        <el-input style="width: 200px;" v-model="info.req_time"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份认证照片" :label-width="formLabelWidth">
                         <template slot-scope="scope">
                             <el-popover trigger="hover" placement="left">
-                                <img :src="info.identity_card_icon" alt="" style="width:300px;height:300px;">
+                                <img 
+                                :src="info.identity_card_icon" 
+                                style="width:300px;height:300px;">
                                 <div slot="reference" class="name-wrapper">
-                                    <img :src="info.identity_card_icon" alt="" style="width:100px;height:100px;">
+                                    <img 
+                                    :src="info.identity_card_icon" 
+                                    style="width:100px;height:100px;">
                                 </div>
                             </el-popover>
                         </template>
+                    </el-form-item>
+                    <el-form-item label="认证状态" :label-width="formLabelWidth">
+                        <el-select style="width: 100px;" v-model="info.status">
+                            <el-option label="未认证" value="0"></el-option>
+                            <el-option label="认证中" value="1"></el-option>
+                            <el-option label="认证成功" value="2"></el-option>
+                            <el-option label="认证失败" value="3"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="身份证号码" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.identity_card"></el-input>
+                    </el-form-item>
+                    <el-form-item label="真实姓名" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="支付宝" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.pay_account"></el-input>
+                    </el-form-item>
+                    <el-form-item label="本月剩余提现次数" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.pay_account"></el-input>
+                    </el-form-item>
+                    <el-form-item label="认证方式" :label-width="formLabelWidth">
+                        <el-select style="width: 100px;" v-model="info.type">
+                            <el-option label="真人认证" value="0"></el-option>
+                            <el-option label="实名认证" value="1"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="失败原因" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.fail_reason"></el-input>
+                    </el-form-item>
+                    <el-form-item label="认证时间" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.auth_time"></el-input>
+                    </el-form-item>
+                    <el-form-item label="操作人姓名" :label-width="formLabelWidth">
+                        <el-input style="width:200px;" v-model="info.auth_user"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -197,6 +233,7 @@
 <script>
 import { allget } from "../../../api/api";
 import store from "../../../vuex/store";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -217,18 +254,26 @@ export default {
             passUid: null, //pass UID
             refuse: {
                 DialogVisible: false,
-                titleDialogVisible: false,
                 reason: null,
                 uid: null
             },
             info: {
+                // 在这里修改将对应的内容进行全部的展示
                 dialogVisible: false,
-                name: null,
-                identity_card: null,
-                pay_account: null,
-                aut_icon: null,
-                identity_card_icon: null,
-                uid: null,
+                uid:'',            
+                nickname: '',
+                aut_icon: '',
+                req_time: '',
+                identity_card_icon: '',
+                status: '',
+                identity_card: '',
+                name: '',
+                pay_account: '',
+                surplus_num: '',
+                type: '',
+                fail_reason: '',
+                auth_time: '',
+                auth_user: '',
             },
             clear: {
                 dialogVisible: false,
@@ -257,8 +302,8 @@ export default {
         getData() {
             var _this = this;
             _this.listLoading = true;
-            let url = "/NewUser/getRealName";
-            let param = {
+            let url = baseConfig.server+baseConfig.requestUrl+"/NewUser/getRealName";
+            let params = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
                 find: this.find,
@@ -266,15 +311,15 @@ export default {
                 identity_card: this.identity_card,
                 status: this.status
             };
-            allget(param, url)
-                .then(res => {
-                    _this.listLoading = false; 
-                    _this.listData = res.data.data;
-                    _this.totalpage = res.data.data.length;
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            axios.get(url, {params: params})
+            .then((res) => {
+                _this.listLoading = false; 
+                _this.listData = res.data.data;
+                _this.totalpage = res.data.data.length;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         },
         // 性别
         judegSex(row, column) {
@@ -290,23 +335,23 @@ export default {
         },
         surePass() {
             var _this = this;
-            let url = "/NewUser/passRealName";
-            let param = {
+            let url = baseConfig.server+baseConfig.requestUrl+"/NewUser/passRealName";
+            let params = {
                 uid: this.passUid,
                 auth_user: this.operate_user
             };
-            allget(param, url)
-                .then(res => {
-                    if (res.data.ret) {
-                        baseConfig.successTipMsg(_this, res.data.msg);
-                        _this.getData();
-                    } else {
-                        baseConfig.errorTipMsg(_this, res.data.msg);
-                    }
-                })
-                .catch(err => {
-                    baseConfig.errorTipMsg(_this, err.data.msg);
-                });
+            axios.get(url, {params: params})
+            .then((res) => {
+                if (res.data.ret) {
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                    _this.getData();
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         },
         // 拒绝
         refuseBtn(index, row) {
@@ -315,65 +360,82 @@ export default {
         },
         sureRefuse() {
             var _this = this;
-            let url = "/NewUser/failRealName";
-            let param = {
+            let url = baseConfig.server+baseConfig.requestUrl+"/NewUser/failRealName";
+            let params = {
                 uid: this.refuse.uid,
                 auth_user: this.operate_user,
                 fail_reason: this.refuse.reason
             };
-            if (param.fail_reason == null || param.fail_reason == "") {
-                this.refuse.titleDialogVisible = true;
+            if (params.fail_reason==null || params.fail_reason=="") {
+                baseConfig.warningTipMsg(_this, '请填写拒绝的原因~');
                 return;
             }
-            allget(param, url)
-                .then(res => {
-                    if (res.data.ret) {
-                        _this.refuse.DialogVisible = false;
-                        baseConfig.successTipMsg(_this, res.data.msg);
-                        _this.refuse.reason = "";
-                        _this.getData();
-                    } else {
-                        baseConfig.errorTipMsg(_this, res.data.msg);
-                    }
-                })
-                .catch(err => {
-                    baseConfig.errorTipMsg(_this, err.data.msg);
-                });
+            axios.get(url, {params: params})
+            .then((res) => {
+                if (res.data.ret) {
+                    _this.refuse.DialogVisible = false;
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                    _this.refuse.reason = "";
+                    _this.getData();
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         },
         // 修改信息
         revamp(index, row) {
-            this.info.dialogVisible = true;
-            this.info.name = row.name;
-            this.info.identity_card = row.identity_card;
-            this.info.pay_account = row.pay_account;
-            this.info.aut_icon = row.aut_icon;
-            this.info.identity_card_icon = row.identity_card_icon;
-            this.info.uid = row.uid;
+            var _this = this;
+            _this.info.dialogVisible = true;
+            _this.info.uid = row.uid;
+            _this.info.nickname = row.nickname;
+            _this.info.aut_icon = row.aut_icon;
+            _this.info.req_time = row.req_time;
+            _this.info.identity_card_icon = row.identity_card_icon;
+            _this.info.status = row.status;
+            _this.info.identity_card = row.identity_card;
+            _this.info.name = row.name;
+            _this.info.pay_account = row.pay_account;
+            _this.info.surplus_num = row.surplus_num;
+            _this.info.type = row.type;
+            _this.info.fail_reason = row.fail_reason;
+            _this.info.auth_time = row.auth_time;
+            _this.info.auth_user = row.auth_user;
+            console.log(_this.info.aut_icon);
+            console.log(_this.info.identity_card_icon);
         },
         sureRevamp() {
             var _this = this;
-            let url = "/NewUser/editRealName";
-            let param = {
+            let url = baseConfig.server+baseConfig.requestUrl+"/NewUser/editRealName";
+            let params = {
                 uid: _this.info.uid,
                 aut_icon: _this.info.aut_icon,
-                identity_card_icon: _this.info.identity_card_icon,
+                req_time: _this.info.req_time,
+                status: _this.info.status,
                 identity_card: _this.info.identity_card,
                 name: _this.info.name,
                 pay_account: _this.info.pay_account,
+                surplus_num: _this.info.surplus_num,
+                type: _this.info.type,
+                fail_reason: _this.info.fail_reason,
+                auth_time: _this.info.auth_time,
+                auth_user: _this.info.auth_user,
             };
-            allget(param, url)
-                .then(res => {
-                    if (res.data.ret) {
-                        baseConfig.successTipMsg(_this, res.data.msg);
-                        _this.info.dialogVisible = false;
-                        _this.getData();
-                    } else {
-                        baseConfig.errorTipMsg(_this, res.data.msg);
-                    }
-                })
-                .catch(err => {
-                    baseConfig.errorTipMsg(_this, err.data.msg);
-                });
+            axios.get(url, {params:params})
+            .then((res) => {
+                if (res.data.ret) {
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                    _this.info.dialogVisible = false;
+                    _this.getData();
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         },
         // 清除认证
         clearDate(index, row) {
@@ -382,24 +444,24 @@ export default {
         },
         sureClear() {
             var _this = this;
-            let url = "/NewUser/clearRealName";
-            let param = {
+            let url = baseConfig.server+baseConfig.requestUrl+"/NewUser/clearRealName";
+            let params = {
                 uid: this.clear.uid,
                 auth_user: this.operate_user,
             };
-            allget(param, url)
-                .then(res => {
-                    if (res.data.ret) {
-                        baseConfig.successTipMsg(_this, res.data.msg);
-                        _this.clear.dialogVisible = false;
-                        _this.getData();
-                    } else {
-                        baseConfig.errorTipMsg(_this, res.data.msg);
-                    }
-                })
-                .catch(err => {
-                    baseConfig.errorTipMsg(_this, err.data.msg);
-                });
+            axios.get(url, {params: params})
+            .then((res) => {
+                if (res.data.ret) {
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                    _this.clear.dialogVisible = false;
+                    _this.getData();
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         }
     },
     mounted() {
