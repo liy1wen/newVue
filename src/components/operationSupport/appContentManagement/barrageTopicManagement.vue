@@ -181,34 +181,29 @@ export default {
 		getTableData() {
 			var _this = this ;
 			_this.listLoading = true;
-			var url = '/GlobalSet/findScreen';
+			var url = baseConfig.server+baseConfig.requestUrl+'/GlobalSet/findScreen';
 			var params = _this.searchCondition();
-			// 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 			if(params==null) {
-				// 不进行数据请求,直接关闭掉加载的图层
 				_this.listLoading = false;
 			} else {
-				// 进行get请求，(请求参数params, 请求地址url)
-				allget(params, url).then(res => {
-					// 数据请求成功
+				axios.get(url, {params: params})
+				.then((res) => {
 					_this.listLoading = false;
 					if(res.data.ret) {
-						// 正常数据
 						for(var i=0; i<res.data.data.length; i++) { // 对数据进行处理，将最大的序列号进行加1操作保存
-							res.data.data[i].content = decodeURI(res.data.data[i].content);
+							res.data.data[i].content = (res.data.data[i].content);
 							if(_this.formTwo.sort<=res.data.data[i].sort) {
 								_this.formTwo.sort = res.data.data[i].sort-0+1;
-								// console.log(_this.formTwo.sort);
 							}
 						}
 						_this.totalpage = res.data.data.length;
 						_this.tabData = res.data.data;
 					} else {
-						// 返回ret==0，非正常数据
 						baseConfig.errorTipMsg(_this, res.data.msg);
 					}
-				}).catch(function(error){
-					console.log(error);
+				})
+				.catch((err) => {
+					console.log(err);
 				})
 			}
 		},
