@@ -14,8 +14,8 @@
                     <span>类型</span>
                     <el-select v-model="formOne.type">
                         <el-option label="全部" value="0"></el-option>
-                        <el-option label="聊币" value="1"></el-option>
-                        <el-option label="聊票" value="2"></el-option>
+                        <el-option label="豆币" value="1"></el-option>
+                        <el-option label="豆票" value="2"></el-option>
                         <el-option label="白银" value="3"></el-option>
                         <el-option label="黄金" value="4"></el-option>
                         <el-option label="铂金" value="5"></el-option>
@@ -40,23 +40,36 @@
                 <el-table-column prop="time" label="申请时间"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
-                <el-table-column prop="type" label="赠送类型">
+                <el-table-column prop="num" label="申请数量">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <p v-if="scope.row.type==1">聊币</p>
-                            <p v-else-if="scope.row.type==2">聊票</p>
-                            <p v-else-if="scope.row.type==3">白银</p>
-                            <p v-else-if="scope.row.type==4">黄金</p>
-                            <p v-else-if="scope.row.type==5">铂金</p>
-                            <p v-else-if="scope.row.type==6">钻石</p>
-                            <p v-else-if="scope.row.type==7">至尊</p>
-                            <p v-else-if="scope.row.type==8">圣尊</p>
-                            <p v-else-if="scope.row.type==9">{{scope.row.prop_name}}</p>
+                            <p v-if="scope.row.type==1
+                            ||scope.row.type==2">{{scope.row.num}}</p>
+                            <p v-else-if="scope.row.type==5
+                            ||scope.row.type==6
+                            ||scope.row.type==7
+                            ||scope.row.type==8">{{scope.row.num}}个月</p>
+                            <p v-else-if="scope.row.type==9">{{scope.row.num}}张</p>
+                            <p v-else-if="scope.row.type==10">{{scope.row.num}}天</p>
+                            <p v-else-if="scope.row.type==11">{{scope.row.num}}天</p>
                         </div>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column prop="name" label="道具"></el-table-column> -->
-                <el-table-column prop="num" label="申请数量"></el-table-column>
+                <el-table-column prop="type" label="赠送类型">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <p v-if="scope.row.type==1">豆币</p>
+                            <p v-else-if="scope.row.type==2">豆票</p>
+                            <p v-else-if="scope.row.type==5">体验会员</p>
+                            <p v-else-if="scope.row.type==6">钻石会员</p>
+                            <p v-else-if="scope.row.type==7">至尊会员</p>
+                            <p v-else-if="scope.row.type==8">圣尊会员</p>
+                            <p v-else-if="scope.row.type==9">{{scope.row.prop_name}}(道具)</p>
+                            <p v-else-if="scope.row.type==10">{{scope.row.attire_name}}(装扮)</p>
+                            <p v-else-if="scope.row.type==11">{{scope.row.car_name}}(座驾)</p>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="operation_name" label="申请人"></el-table-column>
                 <el-table-column prop="operation_reason" label="申请原由"></el-table-column>
                 <el-table-column prop="status" label="审核状态">
@@ -150,47 +163,30 @@ export default {
             _this.formOne.star = (_this.formOne.page - 0) * 20;
             _this.formOne.end = _this.formOne.star - 0 + 20;
         },
-        searchConditionOne() {
-            var _this = this;
-            var obj = {};
-            obj.date_s = baseConfig.changeDateTime(
-                _this.formOne.choiceDate[0],
-                0
-            );
-            obj.date_e = baseConfig.changeDateTime(
-                _this.formOne.choiceDate[1],
-                0
-            );
-            obj.type = _this.formOne.type;
-            obj.find = _this.formOne.find;
-            return obj;
-        },
         getTableData() {
             var _this = this;
             _this.listLoading = true;
-            var url = "/NewMoney/agreeSendMoneyTo";
-            var params = _this.searchConditionOne();
-            allget(params, url)
-                .then(res => {
-                    _this.listLoading = false;
-                    if (res.data.ret) {
-                        for (var i = 0; i < res.data.data.length; i++) {
-                            res.data.data[i].operation_reason = (
-                                res.data.data[i].operation_reason
-                            );
-                            res.data.data[i].operation_name = (
-                                res.data.data[i].operation_name
-                            );
-                        }
-                        _this.formOne.totalPage = res.data.data.length;
-                        _this.formOne.tabData = res.data.data;
-                    } else {
-                        baseConfig.errorTipMsg(_this, res.data.msg);
-                    }
-                })
-                .catch(function(error) {
-                    baseConfig.errorTipMsg(_this, error);
-                });
+            var url = baseConfig.server+baseConfig.requestUrl+"/NewMoney/agreeSendMoneyTo";
+            var params = {
+                date_s: baseConfig.changeDateTime(_this.formOne.choiceDate[0], 0),
+                date_e: baseConfig.changeDateTime(_this.formOne.choiceDate[1], 0),
+                type: _this.formOne.type,
+                find: _this.formOne.find,
+            };
+            axios.get(url, {params: params})
+            .then((res) => {
+                _this.listLoading = false;
+                if (res.data.ret) {
+                    console.log(res.data.data);
+                    _this.formOne.totalPage = res.data.data.length;
+                    _this.formOne.tabData = res.data.data;
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(error);
+            })
         },
         // 通过
         pass(index, row) {

@@ -47,7 +47,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="num" label="奖励数量" width="150" sortable>
+                <el-table-column prop="num" label="申请数量" width="150" sortable>
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <p v-if="scope.row.type==1
