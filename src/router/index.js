@@ -310,6 +310,7 @@ import wordCupManagement from '../components/activities/wordCupManagement.vue';/
 import superTurntable from '../components/activities/superTurntable.vue';// 超级转盘
 import tanabataActivity from '../components/activities/tanabataActivity.vue';// 七夕活动
 import smashGoldEggs from '../components/activities/smashGoldEggs.vue';// 砸金蛋活动
+import robotManagement from '../components/activities/robotManagement.vue';// 机器人管理
 // 活动专区end
 // 5、系统设置
 // 系统设置start
@@ -684,6 +685,7 @@ export const asyncRouterMap = [
                     { path: '/activities/superTurntable', component: superTurntable, name: '超级转盘', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/activities/tanabataActivity', component: tanabataActivity, name: '七夕活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     { path: '/activities/smashGoldEggs', component: smashGoldEggs, name: '砸金蛋活动', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
+                    { path: '/activities/robotManagement', component: robotManagement, name: '机器人管理', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },                    
                     
                     // { path: '/activities/loveActivityManage', component: loveActivityManage, name: '情人节活动数据统计', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
                     // { path: '/activities/interactionInfo', component: interactionInfo, name: '黑色情人节互动信息', iconCls: 'el-icon-menu', hidden: false, meta: { role: ['T1', 'T2', 'P1', 'P2', 'O1', 'O2'] } },
