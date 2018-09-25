@@ -6,6 +6,12 @@
 					<el-form-item label="房间ID">
 						<el-input v-model="formOne.room_id"></el-input>
 					</el-form-item>
+					<el-form-item label="类型">
+						<el-select v-model="formOne.type">
+							<el-option label="个人房间" value="0"></el-option>
+							<el-option label="家族房间" value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="getData">查询</el-button>
 					</el-form-item>
@@ -19,9 +25,15 @@
 				border fit highlight-current-row 
 				style="width:100%;" 
 				:height="searchPageHeight">
-					<el-table-column prop="family_id" label="房间ID" min-width="100"></el-table-column>
+					<el-table-column prop="room_id" label="房间ID" min-width="100"></el-table-column>
 					<el-table-column prop="room_name" label="房间名称" min-width="100"></el-table-column>
-					<el-table-column prop="room_pic" label="房间缩略图" min-width="100"></el-table-column>
+					<el-table-column prop="room_pic" label="房间缩略图" min-width="100">
+						<template slot-scope="scope">
+							<div slot="reference" class="name-wrapper">
+								<img :src="scope.row.room_pic" style="width: 100px; height: auto;">
+							</div>
+						</template>
+					</el-table-column>
 					<el-table-column prop="total_honour" label="总荣耀值" min-width="100"></el-table-column>
 					<el-table-column prop="week_honour" label="周荣耀值" min-width="100"></el-table-column>
 					<el-table-column prop="robot_num" label="机器人的数量" min-width="100"></el-table-column>
@@ -74,6 +86,7 @@ export default {
 			searchPageHeight: null,
 			formOne: {
 				room_id: '',
+				type: '1',//1->家族,0->个人
 				tabData: [],
 				totalPage: 1000, 
 				page: 0,
@@ -101,6 +114,7 @@ export default {
 			var params = {
 				room_id: _this.formOne.room_id,
 				page: _this.formOne.page,
+				type: _this.formOne.type,
 			};
 			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })
 			.then((res) => {
