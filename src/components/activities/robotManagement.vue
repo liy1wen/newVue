@@ -8,8 +8,9 @@
 					</el-form-item>
 					<el-form-item label="类型">
 						<el-select v-model="formOne.type">
-							<el-option label="个人房间" value="0"></el-option>
-							<el-option label="家族房间" value="1"></el-option>
+							<el-option label="全部" value="0"></el-option>
+							<el-option label="个人房间" value="1"></el-option>
+							<el-option label="家族房间" value="2"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item>
@@ -36,6 +37,7 @@
 					</el-table-column>
 					<el-table-column prop="total_honour" label="总荣耀值" min-width="100"></el-table-column>
 					<el-table-column prop="week_honour" label="周荣耀值" min-width="100"></el-table-column>
+					<el-table-column prop="total_num" label="目前房间总人数" min-width="100"></el-table-column>
 					<el-table-column prop="robot_num" label="机器人的数量" min-width="100"></el-table-column>
 					<el-table-column label="机器人调整" min-width="100">
 						<template slot-scope="scope">
@@ -86,7 +88,7 @@ export default {
 			searchPageHeight: null,
 			formOne: {
 				room_id: '',
-				type: '1',//1->家族,0->个人
+				type: '0',//0->全部，1->个人，2->家族
 				tabData: [],
 				totalPage: 1000, 
 				page: 0,

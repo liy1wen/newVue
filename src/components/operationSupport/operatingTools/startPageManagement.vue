@@ -65,7 +65,9 @@
             <!-- 新加启动页 -->
             <el-dialog title="新加启动页" :visible.sync="dialogShow">
                 <el-form :model="formData">
-
+                    <el-form-item label="开始-结束" :label-width="formLabelWidth">
+                        <el-date-picker v-model="formData.choiceDate" type="datetimerange" range-separator=" 至 " placeholder="开始-结束"></el-date-picker>
+                    </el-form-item>
                     <el-form-item label="启动页名称" :label-width="formLabelWidth">
                         <el-input v-model="formData.title"></el-input>
                     </el-form-item>
@@ -204,6 +206,7 @@ export default {
             operation_name: null,
             dialogShow: false,
             formData: {
+                choiceDate: [new Date(), new Date()], // 对应选择的日期,给默认时间180之前到现在
                 title: "",
                 file_pic: "",
                 pic: "",
@@ -377,6 +380,9 @@ export default {
                 this.dialogShow = false;
             } else if (type == 1) {
                 let formData = new FormData();
+                
+				formData.append('start_time', baseConfig.changeDateTime(_this.formData.choiceDate[0], 1));
+				formData.append('end_time', baseConfig.changeDateTime(_this.formData.choiceDate[1], 1));
 				formData.append('title', _this.formData.title);
 				formData.append('jump_url', _this.formData.jump_url);
 				formData.append('type', _this.formData.type);
@@ -400,6 +406,8 @@ export default {
                         _this.dialogShow = false;
                         _this.getTableData();
                         //完成后清空数据
+                        _this.formData.start_time = "";
+                        _this.formData.end_time = "";
                         _this.formData.title = "";
                         _this.formData.jump_url = "";
                         _this.formData.type = "";

@@ -48,6 +48,7 @@
                                 <el-col :span="12" class="grid-info"><div>注册时间：<span>{{userinfo.addtime}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>最后登录时间：<span>{{userinfo.lasttime}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info"><div>最后登录IP地址：<span>{{userinfo.ip}}</span></div></el-col>
+                                <el-col :span="12" class="grid-info"><div>设备号：<span>{{userinfo.imei}}</span></div></el-col>
                                 <el-col :span="12" class="grid-info">
                                     <div v-if="userinfo.status==-1">账号状态：<span>封号</span></div>
                                     <div v-else-if="userinfo.status==0">账号状态：<span>正常</span></div>
