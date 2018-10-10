@@ -105,9 +105,9 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" fixed="right" min-width="200">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formOne.TabData, '1')" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row, '1')" size="mini">编辑</el-button>								
 								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formOne.TabData, '1')" size="mini">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, scope.row, '1')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -218,9 +218,9 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" fixed="right" min-width="200">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData, '2')" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row, '2')" size="mini">编辑</el-button>								
 								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formTwo.TabData, '2')" size="mini">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, scope.row, '2')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -339,10 +339,10 @@
 						<el-table-column prop="stock_num" label="库存数量" width="50"></el-table-column>										
 						<el-table-column label="操作" fixed="right" min-width="200">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formThree.TabData, '3')" size="mini">编辑</el-button>								
-								<el-button type="primary" @click.native.prevent="specialData(scope.$index, formThree.TabData, '3')" size="mini">特效</el-button>								
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row, '3')" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="specialData(scope.$index, scope.row, '3')" size="mini">特效</el-button>								
 								<el-button v-if="scope.row.status=='0'" plain size="mini" @click.native.prevent="tipUndercarriage()">下架</el-button>
-								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, formThree.TabData, '3')" size="mini">下架</el-button>
+								<el-button v-else type="primary" @click.native.prevent="undercarriage(scope.$index, scope.row, '3')" size="mini">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -379,8 +379,8 @@
 						<el-table-column prop="sort" label="排序" width="150"></el-table-column>
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeLabelUserData(scope.$index, formFour.TabData)" size="mini">编辑</el-button>								
-								<el-button type="primary" @click.native.prevent="deleteLabel(scope.$index, formFour.TabData)" size="mini">删除</el-button>
+								<el-button type="primary" @click.native.prevent="changeLabelUserData(scope.$index, scope.row)" size="mini">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="deleteLabel(scope.$index, scope.row)" size="mini">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -991,13 +991,13 @@ export default {
 		undercarriage(index, rows, type) {
 			var _this = this;
 			if(type=='1') {
-				index = index + (_this.formOne.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
+				index = index + (_this.formOne.Page-1)*20; 
 			} else if(type=='2') {
-				index = index + (_this.formTwo.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
+				index = index + (_this.formTwo.Page-1)*20;
 			} else if(type=='3') {
-				index = index + (_this.formThree.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
+				index = index + (_this.formThree.Page-1)*20; 
 			}
-			var id = rows[index].id; // 拿出对应内容的中value值	
+			var id = rows.id; // 拿出对应内容的中value值	
 			var url = 'Gift/downGift';
 			var params = {
 				id: id,
@@ -1025,32 +1025,32 @@ export default {
 		changeOneUserData(index, rows, type) {
 			var _this = this;
 			if(type=='1') {
-				index = index + (_this.formOne.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
+				index = index + (_this.formOne.Page-1)*20; 
 			} else if(type=='2') {
-				index = index + (_this.formTwo.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
+				index = index + (_this.formTwo.Page-1)*20; 
 			} else if(type=='3') {
-				index = index + (_this.formThree.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
+				index = index + (_this.formThree.Page-1)*20;
 			}
 			// 进行赋值操作
 			_this.giftEditorloading.index = index;
 			_this.giftEditorloading.type = type;
-			_this.giftEditorloading.params.id = rows[index].id;
-			_this.giftEditorloading.params.sort = rows[index].sort;
-			_this.giftEditorloading.params.name = rows[index].name;
-			_this.giftEditorloading.params.price = rows[index].price;
-			_this.giftEditorloading.src_pic = rows[index].icon;
-			_this.giftEditorloading.src_gif = rows[index].dynamic_icon;
-			_this.giftEditorloading.src_corner = rows[index].superscript;
-			_this.giftEditorloading.params.position = rows[index].position;
-			_this.giftEditorloading.params.status = rows[index].status;
-			_this.giftEditorloading.params.type = rows[index].type;
-			_this.giftEditorloading.params.create_time = rows[index].create_time;
-			_this.giftEditorloading.params.on_sale_time = rows[index].on_sale_time;
-			_this.giftEditorloading.params.is_vip = rows[index].is_vip;
-			_this.giftEditorloading.params.is_turntable = rows[index].is_turntable;
-			_this.giftEditorloading.params.probability = rows[index].probability;
-			_this.giftEditorloading.params.is_special = rows[index].is_special;
-			_this.giftEditorloading.params.stock_num = rows[index].stock_num;
+			_this.giftEditorloading.params.id = rows.id;
+			_this.giftEditorloading.params.sort = rows.sort;
+			_this.giftEditorloading.params.name = rows.name;
+			_this.giftEditorloading.params.price = rows.price;
+			_this.giftEditorloading.src_pic = rows.icon;
+			_this.giftEditorloading.src_gif = rows.dynamic_icon;
+			_this.giftEditorloading.src_corner = rows.superscript;
+			_this.giftEditorloading.params.position = rows.position;
+			_this.giftEditorloading.params.status = rows.status;
+			_this.giftEditorloading.params.type = rows.type;
+			_this.giftEditorloading.params.create_time = rows.create_time;
+			_this.giftEditorloading.params.on_sale_time = rows.on_sale_time;
+			_this.giftEditorloading.params.is_vip = rows.is_vip;
+			_this.giftEditorloading.params.is_turntable = rows.is_turntable;
+			_this.giftEditorloading.params.probability = rows.probability;
+			_this.giftEditorloading.params.is_special = rows.is_special;
+			_this.giftEditorloading.params.stock_num = rows.stock_num;
 			// 在这里对相应的文件角标图、礼物图片、礼物动图置空
 			_this.giftEditorloading.file_pic = '';
 			_this.giftEditorloading.file_gif = '';
@@ -1174,9 +1174,9 @@ export default {
 			var _this = this;
 			index = index + (_this.formFour.Page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
 			_this.formFour.editor.index = index;
-			_this.formFour.editor.id = rows[index].id;
-			_this.formFour.editor.tab_name = rows[index].tab_name;
-			_this.formFour.editor.sort = rows[index].sort;
+			_this.formFour.editor.id = rows.id;
+			_this.formFour.editor.tab_name = rows.tab_name;
+			_this.formFour.editor.sort = rows.sort;
 			_this.formFour.editorDialogShow = true; // 点击了编辑修改显示dialog框
 		},
 		// 编辑标签的确定,0->取消，1->确定
@@ -1221,7 +1221,7 @@ export default {
 		deleteLabel(index, rows) {
 			var _this = this;
 			index = index + (_this.formFour.Page-1)*20;
-			var id = rows[index].id;
+			var id = rows.id;
 			_this.listLoading = true;
 			var url = '/Gift/delGiftTab';
 			var params = {
@@ -1350,7 +1350,7 @@ export default {
 			} else {
 				baseConfig.errorTipMsg(_this, '只有房间礼物可以添加特效啦~');				
 			}
-			_this.getNumGift(rows[index].id);	
+			_this.getNumGift(rows.id);	
 		},			
 		// 进行房间礼物请求对应数量的详情
 		getNumGift(id) {

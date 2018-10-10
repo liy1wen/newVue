@@ -42,9 +42,9 @@
                 <el-table-column label="操作" width="400" sortable>
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <el-button type="primary" size="mini" @click.native.prevent="editDialogShow(scope.$index, formOne.tabData)">编辑管理员</el-button>
-                            <el-button type="primary" size="mini" @click.native.prevent="changePassWordShow(scope.$index, formOne.tabData)">重置密码</el-button>
-                            <el-button type="danger" size="mini" @click.native.prevent="delDialogShow(scope.$index, formOne.tabData)">删除账号</el-button>
+                            <el-button type="primary" size="mini" @click.native.prevent="editDialogShow(scope.$index, scope.row)">编辑管理员</el-button>
+                            <el-button type="primary" size="mini" @click.native.prevent="changePassWordShow(scope.$index, scope.row)">重置密码</el-button>
+                            <el-button type="danger" size="mini" @click.native.prevent="delDialogShow(scope.$index, scope.row)">删除账号</el-button>
                         </div>
                     </template>
                 </el-table-column>
@@ -367,22 +367,22 @@ export default {
         editDialogShow(index, rows) {
             var _this = this;
             _this.editDialog.dialogShow = true;
-            _this.editDialog.id = rows[index].id;
-            _this.editDialog.user_name = rows[index].user_name;
-            _this.editDialog.real_name = rows[index].real_name;
-            _this.editDialog.pass_word = rows[index].pass_word;
-            _this.editDialog.channel_id_list = rows[index].channel_id_list;
-            _this.editDialog.channel_name_list = rows[index].channel_name_list;
-            _this.editDialog.auth_code = rows[index].auth_code;
-            _this.editDialog.page_auth_code = rows[index].page_auth_code;
+            _this.editDialog.id = rows.id;
+            _this.editDialog.user_name = rows.user_name;
+            _this.editDialog.real_name = rows.real_name;
+            _this.editDialog.pass_word = rows.pass_word;
+            _this.editDialog.channel_id_list = rows.channel_id_list;
+            _this.editDialog.channel_name_list = rows.channel_name_list;
+            _this.editDialog.auth_code = rows.auth_code;
+            _this.editDialog.page_auth_code = rows.page_auth_code;
         },
         // 重置密码 
         changePassWordShow(index, rows) {
             var _this = this;
             _this.changePassWord.dialogShow = true;
-            _this.changePassWord.id = rows[index].id;
-            _this.changePassWord.user_name = rows[index].user_name;
-            _this.changePassWord.old_pass_word = rows[index].pass_word;
+            _this.changePassWord.id = rows.id;
+            _this.changePassWord.user_name = rows.user_name;
+            _this.changePassWord.old_pass_word = rows.pass_word;
         },
         // 重置密码取消确定操作
         changePassWordBtn(type) {
@@ -419,8 +419,8 @@ export default {
         delDialogShow(index, rows) {
             var _this = this;
             _this.delDialog.dialogShow = true;
-            _this.delDialog.id = rows[index].id;
-            _this.delDialog.user_name = rows[index].user_name;
+            _this.delDialog.id = rows.id;
+            _this.delDialog.user_name = rows.user_name;
         },
         // 删除管理员取消确定操作
         delDialogBtn(type) {

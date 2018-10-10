@@ -19,8 +19,8 @@
 				<el-table-column prop="create_time" label="添加时间" width="200"></el-table-column>
 				<el-table-column label="操作" min-width="200">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>
-						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, tabData)" size="small">删除</el-button>
+						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row)" size="small">编辑</el-button>
+						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, scope.row)" size="small">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -131,9 +131,9 @@ export default {
 			var _this = this;
 			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
 			_this.formTwo.index = index;
-			_this.formTwo.id = rows[index].id;
-			_this.formTwo.name = rows[index].name;
-			_this.formTwo.create_time = rows[index].create_time;
+			_this.formTwo.id = rows.id;
+			_this.formTwo.name = rows.name;
+			_this.formTwo.create_time = rows.create_time;
 			_this.dialogFormVisible = true; // 点击了编辑修改显示dialog框
 		},
 		// 确定编辑修改随机标签(val对应的值：0->取消，1->确认)
@@ -221,9 +221,8 @@ export default {
 		// 删除某一条随机标签
 		deleteOneUserData(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 移除前拿出对应内容的中value值	
-			console.log(id);
+			index = index + (_this.page-1)*20; 
+			var id = rows.id; 	
 			// 下面的操作主要是为了进行将删除的内容调用删除接口进行删除
 			_this.listLoading = true;
 			var url = '/GlobalSet/delLabels';

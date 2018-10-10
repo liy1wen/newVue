@@ -70,7 +70,7 @@
 				</el-table-column>
 				<el-table-column label="操作" width="100">
 					<template slot-scope="scope">
-						<el-button v-if="scope.row.send_status==0" type="primary" @click.native.prevent="cacelOneUserData(scope.$index, tabData)" size="small">取消发送</el-button>
+						<el-button v-if="scope.row.send_status==0" type="primary" @click.native.prevent="cacelOneUserData(scope.$index, scope.row)" size="small">取消发送</el-button>
 						<p v-else-if="scope.row.send_status==1||scope.row.send_status==2">不可改</p>
 					</template>
 				</el-table-column>
@@ -453,8 +453,8 @@ export default {
 		// 取消发送操作
 		cacelOneUserData(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 移除前拿出对应内容的中value值	
+			index = index + (_this.page-1)*20;
+			var id = rows.id;	
 			// 下面的操作主要是为了进行将删除的用户调用删除接口进行删除
 			_this.listLoading = true;
 			let formData = new FormData();

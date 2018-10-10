@@ -70,7 +70,7 @@
 				<el-table-column prop="operation_name" label="操作人" width="150" sortable ></el-table-column>				
 				<el-table-column label="查看" width="100">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="lookOneUserData(scope.$index, tabData)" size="small">查看详情</el-button>
+						<el-button type="primary" @click.native.prevent="lookOneUserData(scope.$index, scope.row)" size="small">查看详情</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -415,8 +415,8 @@ export default {
 		// 取消发送操作
 		lookOneUserData(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var send_id = rows[index].send_id; // 移除前拿出对应内容的中value值	
+			index = index + (_this.page-1)*20; 
+			var send_id = rows.send_id; 	
 			// 下面的操作主要是为了进行将删除的用户调用删除接口进行删除
 			_this.listLoading = true;
 			var url = '/GlobalSet/getMsmMessStatus';

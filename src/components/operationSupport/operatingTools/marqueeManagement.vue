@@ -55,7 +55,7 @@
 				<el-table-column label="操作" width="100">
 					<template slot-scope="scope">
 						<el-button v-if="scope.row.status=='1'" plain size="small" @click.native.prevent="tipEnd()">已结束</el-button>
-						<el-button v-else-if="scope.row.status=='0'" type="primary" @click.native.prevent="endSure(scope.$index, tabData)" size="small">结束</el-button>
+						<el-button v-else-if="scope.row.status=='0'" type="primary" @click.native.prevent="endSure(scope.$index, scope.row)" size="small">结束</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -261,7 +261,7 @@ export default {
 		// 确定结束的方法
 		endSure(index, rows) {
 			var _this = this;
-			var id = rows[index].id;
+			var id = rows.id;
 			var url = '/Marquee/killOperationMarquee';
 			var params = {
 				id: id,

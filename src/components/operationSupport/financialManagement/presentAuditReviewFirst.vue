@@ -57,7 +57,7 @@
                 <el-table-column prop="order_id" label="订单id" width="300" sortable></el-table-column>
                 <el-table-column label="操作" min-width="100" sortable>
                     <template slot-scope="scope">
-                        <el-button type="primary" @click.native.prevent="Auditing(scope.$index, formOne.tabData)" size="small">审核</el-button>
+                        <el-button type="primary" @click.native.prevent="Auditing(scope.$index, scope.row)" size="small">审核</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -303,18 +303,18 @@ export default {
             // 审核详情按钮
             var _this = this;
             index = index + _this.formOne.page * 20;
-            _this.Alipay.pay_account = rows[index].pay_account;
-            _this.Alipay.name = rows[index].name;
-            _this.Alipay.id = rows[index].id;
-            var id = rows[index].id;
+            _this.Alipay.pay_account = rows.pay_account;
+            _this.Alipay.name = rows.name;
+            _this.Alipay.id = rows.id;
+            var id = rows.id;
             var url = "/Money/getMoneyOutInfo";
             var params = {
                 id: id
             };
             _this.addDialog.dialogShow = true;
             _this.addDialog.id = id;
-            _this.addDialog.order_id = rows[index].order_id;
-            _this.addDialog.uid = rows[index].uid;
+            _this.addDialog.order_id = rows.order_id;
+            _this.addDialog.uid = rows.uid;
             _this.listLoading = true;
             allget(params, url)
                 .then(res => {

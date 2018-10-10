@@ -67,7 +67,7 @@
 				<el-table-column label="操作" width="150">
 					<template slot-scope="scope">
 						<p v-if="scope.row.status=='1' && (new Date(scope.row.end_time) <= new Date())"  size="small" >已结束</p>
-						<el-button v-else-if="scope.row.status=='1' && (new Date(scope.row.end_time) > new Date())" type="primary" size="small" @click.native.prevent="cancelTop(scope.$index, tabData)">取消置顶</el-button>
+						<el-button v-else-if="scope.row.status=='1' && (new Date(scope.row.end_time) > new Date())" type="primary" size="small" @click.native.prevent="cancelTop(scope.row)">取消置顶</el-button>
 						<el-button v-else-if="scope.row.status=='0'" plain size="small">已取消</el-button>
 					</template>
 				</el-table-column>
@@ -254,9 +254,9 @@ export default {
 			}
 		},
 		// 取消置顶的方法
-		cancelTop(index, rows) {
+		cancelTop(rows) {
 			var _this = this;
-			var id = rows[index].id;
+			var id = rows.id;
 			var url = '/NewFamily/cancelRoomSortPlan';
 			var params = {
 				id: id,

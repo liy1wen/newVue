@@ -38,7 +38,7 @@
 				</el-table-column>
 				<el-table-column label="操作" width="200">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, tabData)" size="small">删除</el-button>
+						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, scope.row)" size="small">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -211,7 +211,7 @@ export default {
 		deleteOneUserData(index, rows) {
 			var _this = this;
 			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 移除前拿出对应内容的中value值	
+			var id = rows.id; // 移除前拿出对应内容的中value值	
 			// 下面的操作主要是为了进行将删除的用户调用删除接口进行删除
 			_this.listLoading = true;
 			let formData = new FormData();

@@ -183,9 +183,9 @@
 						</el-table-column>					
 						<el-table-column label="操作" min-width="100">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>								
-								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.$index, tabData)" size="small">上架</el-button>
-								<el-button v-if="scope.row.status=='1'" plain @click.native.prevent="undercarriage(scope.$index, tabData)" size="small">下架</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row)" size="small">编辑</el-button>								
+								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.$index, scope.row)" size="small">上架</el-button>
+								<el-button v-if="scope.row.status=='1'" plain @click.native.prevent="undercarriage(scope.$index, scope.row)" size="small">下架</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -300,24 +300,24 @@ export default {
 		// 编辑修改某一条随机昵称
 		changeOneUserData(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 拿出对应内容的中value值	
+			index = index + (_this.page-1)*20; 
+			var id = rows.id; 
 			_this.activeName2 = 'first'; // 跳转到任务设置页面
-			_this.formLabelAlign = rows[index]; // 对数据结构进行组装
+			_this.formLabelAlign = rows; // 对数据结构进行组装
 			_this.formLabelAlign = {
-				id: rows[index].id,
-				name: rows[index].name,
-				icon: rows[index].icon,
-				type: rows[index].type,
-				android_link: rows[index].android_link,
-				ios_link: rows[index].ios_link,
-				desc: rows[index].desc,
-				reward_type: rows[index].reward_type,
-				reward: rows[index].reward,
-				jump_url: rows[index].jump_url,
+				id: rows.id,
+				name: rows.name,
+				icon: rows.icon,
+				type: rows.type,
+				android_link: rows.android_link,
+				ios_link: rows.ios_link,
+				desc: rows.desc,
+				reward_type: rows.reward_type,
+				reward: rows.reward,
+				jump_url: rows.jump_url,
 				jump_h5_show: false, //H5跳转地址是否进行显示
 				jump_app_show: false, //应用内跳转地址是否进行显示
-				sort: rows[index].sort,
+				sort: rows.sort,
 			};
 			// 对相应的选择跳转类型进行显示
 			if((_this.formLabelAlign.jump_url==null&&_this.formLabelAlign.ios_link==null&&_this.formLabelAlign.android_link==null)||(_this.formLabelAlign.jump_url==''&&_this.formLabelAlign.ios_link==''&&_this.formLabelAlign.android_link=='')) {
@@ -331,8 +331,8 @@ export default {
 		// 上架的操作
 		grounding(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 拿出对应内容的中value值	
+			index = index + (_this.page-1)*20;
+			var id = rows.id;	
 			var url = 'Marquee/upDownRevenueFloatingWindowData';
 			var params = {
 				id: id,
@@ -353,8 +353,8 @@ export default {
 		// 下架的操作
 		undercarriage(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 拿出对应内容的中value值	
+			index = index + (_this.page-1)*20;
+			var id = rows.id; 	
 			var url = 'Marquee/upDownRevenueFloatingWindowData';
 			var params = {
 				id: id,

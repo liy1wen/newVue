@@ -98,8 +98,8 @@
 						</el-table-column>
 						<el-table-column label="操作" width="150">
 							<template slot-scope="scope">
-								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.$index, formTwo.TabData)" size="small">上架</el-button>								
-								<el-button v-else-if="scope.row.status=='1'" type="warning" @click.native.prevent="undercarriage(scope.$index, formTwo.TabData)" size="small">下架</el-button>								
+								<el-button v-if="scope.row.status=='0'" type="primary" @click.native.prevent="grounding(scope.row)" size="small">上架</el-button>								
+								<el-button v-else-if="scope.row.status=='1'" type="warning" @click.native.prevent="undercarriage(scope.row)" size="small">下架</el-button>								
 							</template>
 						</el-table-column>
 					</el-table>
@@ -361,10 +361,10 @@ export default {
 			}
 		},
 		// 上架的操作
-		grounding(index, rows) {
+		grounding(rows) {
 			var _this = this;
-			index = index + (_this.formTwo.Page-1)*20;
-			var id = rows[index].id;
+			// index = index + (_this.formTwo.Page-1)*20;
+			var id = rows.id;
 			_this.listLoading = true;
 			var url = 'Activity/upDownFamilyThemeActivity';
 			var params = {
@@ -386,10 +386,10 @@ export default {
 			});
 		},
 		// 下架的操作
-		undercarriage(index, rows) {
+		undercarriage(rows) {
 			var _this = this;
-			index = index + (_this.formTwo.Page-1)*20;
-			var id = rows[index].id;
+			// index = index + (_this.formTwo.Page-1)*20;
+			var id = rows.id;
 			_this.listLoading = true;
 			var url = 'Activity/upDownFamilyThemeActivity';
 			var params = {

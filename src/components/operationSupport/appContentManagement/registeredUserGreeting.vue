@@ -49,7 +49,7 @@
 				<el-table-column prop="value" label="用户招呼语" width="800" sortable ></el-table-column>
 				<el-table-column label="操作" min-width="200">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, tabData)" size="small">删除</el-button>
+						<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, scope.row)" size="small">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -220,9 +220,8 @@ export default {
 		// 删除某一条注册语
 		deleteOneUserData(index, rows) {
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var content = rows[index].value; // 移除前拿出对应内容的中value值	
-			console.log(content);
+			index = index + (_this.page-1)*20; 
+			var content = rows.value; 
 			// 下面的操作主要是为了进行将删除的内容调用删除接口进行删除
 			_this.listLoading = true;
 			var url = '/User/delRegisterSayHelloRedis';

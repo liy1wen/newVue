@@ -11,7 +11,7 @@
 				<el-table-column prop="desc" label="描述" width="200"></el-table-column>
 				<el-table-column label="操作" min-width="300">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>
+						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row)" size="small">编辑</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -116,13 +116,13 @@ export default {
 		// 编辑修改某一条随机昵称
 		changeOneUserData(index, rows){
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			var id = rows[index].id; // 移除前拿出对应内容的中value值	
+			index = index + (_this.page-1)*20; 
+			var id = rows.id; 	
 			_this.formTwo.index = index;
 			_this.formTwo.id = id;
-			_this.formTwo.key = rows[index].key;
-			_this.formTwo.value = rows[index].value;
-			_this.formTwo.desc = rows[index].desc;
+			_this.formTwo.key = rows.key;
+			_this.formTwo.value = rows.value;
+			_this.formTwo.desc = rows.desc;
 			_this.dialogFormVisible = true; // 点击了编辑修改显示dialog框
 		},
 		// 确定编辑修改随机昵称(val对应的值：0->取消，1->确认)

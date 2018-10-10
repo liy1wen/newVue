@@ -175,8 +175,8 @@
 						<el-table-column prop="end_time" label="直播通话结束时间" width="80"></el-table-column>
 						<el-table-column label="操作" width="150">
 							<template slot-scope="scope">
-								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, formTwo.TabData)" size="small">编辑</el-button>								
-								<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, formTwo.TabData)" size="small">删除</el-button>
+								<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row)" size="small">编辑</el-button>								
+								<el-button type="primary" @click.native.prevent="deleteOneUserData(scope.$index, scope.row)" size="small">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -581,7 +581,7 @@ export default {
 		deleteOneUserData(index, rows) {
 			var _this = this;
 			index = index + (_this.formTwo.Page-1)*20;
-			var id = rows[index].id;
+			var id = rows.id;
 			_this.listLoading = true;
 			var url = 'Banner/deleteBanner';
 			var params = {
@@ -604,29 +604,29 @@ export default {
 		changeOneUserData(index, rows) {
 			var _this = this;
 			index = index + (_this.formTwo.Page-1)*20;
-			_this.bannerEditorloading.params.position = rows[index].position;
-			_this.bannerEditorloading.params.id = rows[index].id;
-			_this.bannerEditorloading.params.sort = rows[index].sort;
-			_this.bannerEditorloading.params.title = rows[index].title;
-			_this.bannerEditorloading.params.type = rows[index].type;
-			_this.bannerEditorloading.params.req_uid = rows[index].req_uid;
-			_this.bannerEditorloading.params.res_uid = rows[index].res_uid;
-			_this.bannerEditorloading.params.start_time = rows[index].start_time;
-			_this.bannerEditorloading.params.end_time = rows[index].end_time;
-			_this.bannerEditorloading.params.jump_url = rows[index].jump_url;
-			_this.bannerEditorloading.params.page_param = rows[index].page_param;
-			_this.bannerEditorloading.params.show_type = rows[index].show_type;
-			_this.bannerEditorloading.params.is_show = rows[index].is_show;
-			_this.bannerEditorloading.src_pic = rows[index].image_url;
-			if(rows[index].show_s_time==null||rows[index].show_s_time=='null') {//为null时特殊处理
+			_this.bannerEditorloading.params.position = rows.position;
+			_this.bannerEditorloading.params.id = rows.id;
+			_this.bannerEditorloading.params.sort = rows.sort;
+			_this.bannerEditorloading.params.title = rows.title;
+			_this.bannerEditorloading.params.type = rows.type;
+			_this.bannerEditorloading.params.req_uid = rows.req_uid;
+			_this.bannerEditorloading.params.res_uid = rows.res_uid;
+			_this.bannerEditorloading.params.start_time = rows.start_time;
+			_this.bannerEditorloading.params.end_time = rows.end_time;
+			_this.bannerEditorloading.params.jump_url = rows.jump_url;
+			_this.bannerEditorloading.params.page_param = rows.page_param;
+			_this.bannerEditorloading.params.show_type = rows.show_type;
+			_this.bannerEditorloading.params.is_show = rows.is_show;
+			_this.bannerEditorloading.src_pic = rows.image_url;
+			if(rows.show_s_time==null||rows.show_s_time=='null') {//为null时特殊处理
 				_this.bannerEditorloading.params.show_s_time = '';
 			} else {
-				_this.bannerEditorloading.params.show_s_time = rows[index].show_s_time;
+				_this.bannerEditorloading.params.show_s_time = rows.show_s_time;
 			}
-			if(rows[index].show_e_time==null||rows[index].show_e_time=='null') {//为null时特殊处理
+			if(rows.show_e_time==null||rows.show_e_time=='null') {//为null时特殊处理
 				_this.bannerEditorloading.params.show_e_time = '';
 			} else {
-				_this.bannerEditorloading.params.show_e_time = rows[index].show_e_time;
+				_this.bannerEditorloading.params.show_e_time = rows.show_e_time;
 			}
 			_this.bannerEditorloading.dialogShow = true;
 		},

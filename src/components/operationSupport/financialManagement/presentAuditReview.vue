@@ -44,7 +44,7 @@
                 <el-table-column prop="order_id" label="订单id" width="300" sortable></el-table-column>
                 <el-table-column label="操作" min-width="100" sortable>
                     <template slot-scope="scope">
-                        <el-button type="primary" @click.native.prevent="Auditing(scope.$index, formOne.tabData)" size="small">审核</el-button>
+                        <el-button type="primary" @click.native.prevent="Auditing(scope.row)" size="small">审核</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -210,10 +210,9 @@ export default {
                 baseConfig.errorTipMsg(_this, error);
             })
         },
-        Auditing(index, rows) { // 审核详情按钮
+        Auditing(rows) { // 审核详情按钮
             var _this = this;
-            index = index + (_this.formOne.page)*20; 
-            var id = rows[index].id; 	
+            var id = rows.id; 	
             var url = "/Money/getMoneyOutInfo";
             var params = {
                 id: id,
@@ -221,7 +220,7 @@ export default {
             };
             _this.addDialog.dialogShow = true;
             _this.addDialog.id = id;
-            _this.addDialog.order_id = rows[index].order_id;
+            _this.addDialog.order_id = rows.order_id;
             _this.listLoading = true;            
             allget(params, url)
             .then(res => {

@@ -11,7 +11,7 @@
 				<el-table-column prop="desc" label="描述" width="250"></el-table-column>
 				<el-table-column label="操作" width="150">
 					<template slot-scope="scope">
-						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, tabData)" size="small">编辑</el-button>
+						<el-button type="primary" @click.native.prevent="changeOneUserData(scope.$index, scope.row)" size="small">编辑</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -224,12 +224,12 @@ export default {
 		// 编辑修改某一条渠道号名称
 		changeOneUserData(index, rows){
 			var _this = this;
-			index = index + (_this.page-1)*20; // 页数的相应操作，拿取之后翻页的页码的index值
-			_this.formOne.id = rows[index].id;
-			_this.formOne.g_key = rows[index].g_key;
-			_this.formOne.desc = rows[index].desc;
+			index = index + (_this.page-1)*20; 
+			_this.formOne.id = rows.id;
+			_this.formOne.g_key = rows.g_key;
+			_this.formOne.desc = rows.desc;
 			if(_this.formOne.id==37) {
-                var aa = JSON.parse(rows[index].value);
+                var aa = JSON.parse(rows.value);
                 _this.formOne.values.room_h5_img = '';
 				_this.formOne.values.room_h5_jump_url = '';
 				_this.formOne.values.room_h5_jump_type = '';
@@ -249,7 +249,7 @@ export default {
 				_this.formOne.values.home_h5_share_content = aa.home_h5_share_content;
 				_this.formOne.values.home_h5_is_show = aa.home_h5_is_show;
 			} else if(_this.formOne.id==119||_this.formOne.id==120||_this.formOne.id==121||_this.formOne.id==122){
-                var aa = JSON.parse(rows[index].value);
+                var aa = JSON.parse(rows.value);
                 _this.formOne.values.home_h5_img = '';
 				_this.formOne.values.home_h5_jump_url = '';
 				_this.formOne.values.home_h5_jump_type = '';
@@ -269,7 +269,7 @@ export default {
 				_this.formOne.values.room_h5_share_content = aa.room_h5_share_content;
 				_this.formOne.values.room_h5_is_show = aa.room_h5_is_show;
 			}else if(_this.formOne.id==128||_this.formOne.id==129||_this.formOne.id==130){
-				var aa = JSON.parse(rows[index].value);
+				var aa = JSON.parse(rows.value);
 				_this.formOne.values.room_h5_img = '';
 				_this.formOne.values.room_h5_jump_url = '';
 				_this.formOne.values.room_h5_jump_type = '';
