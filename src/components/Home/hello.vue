@@ -22,8 +22,8 @@ export default {
     filters:{
         // 没有名字定义为超管员，其它的全部是管理员+name
         name: function(name) {
-            if(name=='admin'){
-                return '超管员';
+            if(store.state.user.user=='admin'){
+                return '超级管理员';
             }else {
                 return '管理员'+name; 
             }
@@ -33,6 +33,7 @@ export default {
         // hello组建中拿取用户信息
         getStorage() {
             var _this = this;
+            console.log(store.state.user);
             if(store.state.user.name){
                 _this.username = store.state.user.name;
             } else {
