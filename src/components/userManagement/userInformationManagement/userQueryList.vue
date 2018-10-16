@@ -6,6 +6,8 @@
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" style="overflow: hidden;">
                 <el-row>
+                    <el-button v-if="collectiveSeal.dialogOne==false" type="info" plain>集体封号</el-button>
+                    <el-button v-if="collectiveSeal.dialogOne==true" type="danger" @click="collectiveSeal.dialogTwo=true">集体封号</el-button>
                     <el-form-item>
                         <div class="block">
                             <span class="registerTime">注册日期</span>
@@ -23,7 +25,7 @@
                     <el-form-item>
                         <span>渠道</span>
                         <el-select v-model="channelId" multiple filterable collapse-tags style="margin-left: 20px; width: 180px;" placeholder="请选择">
-                            <el-option v-for="(item, key) of channelData" :key="item" :label="item" :value="key">
+                            <el-option v-for="(item, key) of channelData" :key="key" :label="item" :value="key">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -39,7 +41,14 @@
         </el-col>
         <!-- 用户的数据展示列表 -->
         <template>
-            <el-table :data="listData" v-loading="listLoading" border fit highlight-current-row style="width: 100%;" :height="tableHeight">
+            <el-table 
+            :data="listData" 
+            v-loading="listLoading" 
+            border fit highlight-current-row 
+            @selection-change="handleSelectionChange"
+            style="width: 100%;" 
+            :height="tableHeight">
+                <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column prop="addtime" label="注册时间"></el-table-column>
                 <el-table-column prop="annotation" label="渠道"></el-table-column>
                 <el-table-column prop="uid" label="UID"></el-table-column>
@@ -56,7 +65,7 @@
                 </el-table-column>
                 <el-table-column prop="level" label="等级"></el-table-column>
                 <el-table-column prop="sex" :formatter="judgeSex" label="性别"></el-table-column>
-                <el-table-column prop="address" label="城市"></el-table-column>
+                <el-table-column prop="city" label="城市"></el-table-column>
                 <el-table-column prop="lasttime" label="最近登录时间"></el-table-column>
                 <el-table-column prop="status" :formatter="judgeStatus" label="状态"></el-table-column>
                 <el-table-column prop="is_online" :formatter="judgeOnline" label="是否在线"></el-table-column>
@@ -91,7 +100,8 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-dialog title="封禁账号" :visible.sync="titleInfo.dialogFormVisible">
+            <!-- 个人封号 -->
+            <el-dialog title="个人封禁账号" :visible.sync="titleInfo.dialogFormVisible">
                 <el-form :model="titleInfo">
                     <el-form-item label="封号时长" :label-width="formLabelWidth">
                         <el-select v-model="titleInfo.day" placeholder="请选择封号时长">
@@ -113,9 +123,34 @@
                     <el-button type="primary" @click="sureTitle">确 定</el-button>
                 </div>
             </el-dialog>
+            <!-- 集体进行封号处理 -->
+            <el-dialog title="集体封禁账号" :visible.sync="collectiveSeal.dialogTwo">
+                <el-form :model="collectiveSeal">
+                    <el-form-item label="封号账号" :label-width="formLabelWidth">
+                        <el-input v-model="collectiveSeal.uid_list" disabled></el-input>
+                    </el-form-item>
+                    <el-form-item label="封号时长" :label-width="formLabelWidth">
+                        <el-select v-model="collectiveSeal.day" placeholder="请选择封号时长">
+                            <el-option label="1天" value="1"></el-option>
+                            <el-option label="3天" value="3"></el-option>
+                            <el-option label="5天" value="5"></el-option>
+                            <el-option label="7天" value="7"></el-option>
+                            <el-option label="15天" value="15"></el-option>
+                            <el-option label="30天" value="30"></el-option>
+                            <el-option label="永远封号" value="0"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="封号原因" :label-width="formLabelWidth">
+                        <el-input v-model="collectiveSeal.reason"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="collectiveSeal.dialogTwo=false">取 消</el-button>
+                    <el-button type="primary" @click="collectiveSealSure">确 定</el-button>
+                </div>
+            </el-dialog>
             <el-dialog title="解封账号" :visible.sync="UnlockInfo.dialogFormVisible">
                 <el-form :model="UnlockInfo">
-
                     <el-form-item label="解封原因" :label-width="formLabelWidth">
                         <el-input v-model="UnlockInfo.reason" auto-complete="off"></el-input>
                     </el-form-item>
@@ -168,6 +203,7 @@
 import Event from "./../../../public_js/event";
 import { allget } from "../../../api/api";
 import store from "../../../vuex/store";
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -214,7 +250,16 @@ export default {
             resetPassword: {
                 dialogFormVisible: false,
                 uid: "",
-            }
+            },
+            collectiveSeal: {
+                dialogOne: false,
+                dialogTwo: false,
+                uid_list: '',
+                day: '0',
+                reason: '',
+                operate_user: '',
+                multipleSelection: [],
+            },
         };
     },
     methods: {
@@ -489,7 +534,49 @@ export default {
                 .catch(err => {
                     console.error(err);
                 });
-        }
+        },
+        handleSelectionChange(val) {
+            var _this = this;
+            var uid_list = '';
+            val.forEach(function(item, index) {
+                uid_list = uid_list=='' ? item.uid : uid_list+','+item.uid;
+            });
+            // 将对应的uid_list保留
+            _this.collectiveSeal.uid_list = uid_list;
+            // 判断对应的值按钮的点击控制
+            if(_this.collectiveSeal.uid_list=='') {
+               _this.collectiveSeal.dialogOne = false; 
+            } else {
+               _this.collectiveSeal.dialogOne = true; 
+            }
+        },
+        collectiveSealSure() {
+            console.log('点击确定按钮');
+            var _this = this;
+            var url = '/NewUser/muchKickUser';
+            var params = {
+                uid_list: _this.collectiveSeal.uid_list,
+                day: _this.collectiveSeal.day,
+                reason: _this.collectiveSeal.reason,
+                operate_user: _this.operate_user,
+            };
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params:params})
+            .then((res)=>{
+                if(res.data.ret) {
+                    baseConfig.successTipMsg(this, res.data.msg);
+                    _this.getData();
+                    _this.collectiveSeal.uid_list = "";
+                    _this.collectiveSeal.day = "0";
+                    _this.collectiveSeal.reason = "";
+                    _this.collectiveSeal.dialogTwo = false;
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+        },
     },
     mounted() {
         var _this = this;
