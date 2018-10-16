@@ -13,7 +13,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <span>UID</span>
+                    <span>家族ID</span>
                     <el-input style="width:150px;" placeholder="请输入内容" v-model="searchUid">
                     </el-input>
                 </el-form-item>
@@ -208,17 +208,22 @@ export default {
         getData(type) {
             var _this = this;
             _this.listLoading = true;
-            let url = "/Family/getFamilyData";
-            if (this.formOne.startDate == null) {
-                baseConfig.warningTipMsg(this, "请输入日期");
-                return;
-            }
+            let url = "/NewFamily/getFamilyData";
             let param = {
                 date_s: baseConfig.changeDateTime(this.formOne.startDate[0], 0),
                 date_e: baseConfig.changeDateTime(this.formOne.startDate[1], 0),
-                uid: this.searchUid
+                family_id: _this.searchUid
             };
-            allget(param, url)
+            if(param.family_id!==null&&param.family_id!==''){
+			//  判断搜索有没有uid,如果有就将开始时间和结束时间设置为null
+            	param.date_s=null;
+            	param.date_e=null;
+            }else{
+               	param.date_s = baseConfig.changeDateTime(this.formOne.startDate[0], 0);
+                param.date_e = baseConfig.changeDateTime(this.formOne.startDate[1], 0);
+            }
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params: param})
+            // axios.get('https://manage.dianliaoapp.com/ydlManage/server/index.php'+url, {params: param})
                 .then(res => {
                     _this.listLoading = false;
                     if (res.data.ret) {
