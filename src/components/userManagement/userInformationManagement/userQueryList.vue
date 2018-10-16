@@ -560,6 +560,10 @@ export default {
                 reason: _this.collectiveSeal.reason,
                 operate_user: _this.operate_user,
             };
+            if(_this.collectiveSeal.reason=='') {//原因不能为空的
+                baseConfig.warningTipMsg(_this, '原因不能为空的~');
+                return;
+            }
             axios.get(baseConfig.server+baseConfig.requestUrl+url, {params:params})
             .then((res)=>{
                 if(res.data.ret) {
