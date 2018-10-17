@@ -253,7 +253,7 @@ export default {
 				url = '/User/kickUser';// 封号
 				data ={uid:uid,operate_user:store.getters.name};
 			} else if(type==2){
-				url = '/User/freeUser';// 解封
+				url = '/NewUser/freeUser';// 解封
 				data ={uid:uid};	
 			} else if(type==3){
 				url = '/User/delUserVoiceSignature';// 踢下线

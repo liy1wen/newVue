@@ -436,16 +436,22 @@
 						<el-input v-model="giftUploading.params.price" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
-						<input class="filepic fileinput" @change="uploading($event, 0, 0)" type="file">
-				        <img :src="giftUploading.src_pic" style="width: 100px; height: auto;"/>
+						<span class="showbtn">选择文件</span>
+						<input id="fileinput0" class="filepic fileinput" @change="uploading($event, 0, 0)" type="file">
+						<span class="showname">{{giftUploading.pic_name}}</span>
+				        <img :src="giftUploading.src_pic" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
-						<input class="filegif fileinput" @change="uploading($event, 1, 0)" type="file">
-				        <img :src="giftUploading.src_gif" style="width: 100px; height: auto;"/>
+						<span class="showbtn">选择文件</span>
+						<input id="fileinput1" class="filegif fileinput" @change="uploading($event, 1, 0)" type="file">
+						<span class="showname">{{giftUploading.gif_name}}</span>
+				        <img :src="giftUploading.src_gif" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="角标图" :label-width="formLabelWidth">
-						<input class="filegif fileinput" @change="uploading($event, 2, 0)" type="file">
-				        <img :src="giftUploading.src_corner" style="width: 100px; height: auto;"/>
+						<span class="showbtn">选择文件</span>
+						<input id="fileinput2" class="filegif fileinput" @change="uploading($event, 2, 0)" type="file">
+						<span class="showname">{{giftUploading.corner_name}}</span>
+				        <img :src="giftUploading.src_corner" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftUploading.params.position">
@@ -519,16 +525,22 @@
 						<el-input v-model="giftEditorloading.params.price" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
+						<span class="showbtn">选择文件</span>
 						<input class="filepic fileinput" id="fileinput3" @change="uploading($event, 0, 1)" type="file">
-				        <img :src="giftEditorloading.src_pic" style="width: 100px; height: auto;"/>
+						<span class="showname">{{giftEditorloading.pic_name}}</span>
+				        <img :src="giftEditorloading.src_pic" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="动态图上传" :label-width="formLabelWidth">
+						<span class="showbtn">选择文件</span>
 						<input class="filegif fileinput" id="fileinput4" @change="uploading($event, 1, 1)" type="file">
-				        <img :src="giftEditorloading.src_gif" style="width: 100px; height: auto;"/>
+						<span class="showname">{{giftEditorloading.gif_name}}</span>
+				        <img :src="giftEditorloading.src_gif" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="角标图" :label-width="formLabelWidth">
+						<span class="showbtn">选择文件</span>
 						<input class="filegif fileinput" id="fileinput5" @change="uploading($event, 2, 1)" type="file">
-				        <img :src="giftEditorloading.src_corner" style="width: 100px; height: auto;"/>
+						<span class="showname">{{giftEditorloading.corner_name}}</span>
+				        <img :src="giftEditorloading.src_corner" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="礼物位置" :label-width="formLabelWidth">
 						<el-select v-model="giftEditorloading.params.position">
@@ -612,7 +624,7 @@
 						<template slot-scope="scope">
 							<div slot="reference" class="name-wrapper">
 								<p v-if="scope.row.num_img_url==''||scope.row.num_img_url==null">无标识图</p>
-								<img v-else :src="scope.row.num_img_url" alt="" style="width: 100px; height: auto;">
+								<img v-else :src="scope.row.num_img_url" alt="" style="width:200px;height:auto;margin-left:200px;">
 							</div>
 						</template>
 					</el-table-column>
@@ -621,7 +633,7 @@
 							<div slot="reference" class="name-wrapper">
 								<p v-if="scope.row.dynamic_effect_url==''||scope.row.dynamic_effect_url==null">无特效图</p>
 								<p v-else style="color:red;">有特效图</p>
-								<!-- <img v-else :src="scope.row.dynamic_effect_url" alt="" style="width: 100px; height: auto;"> -->
+								<!-- <img v-else :src="scope.row.dynamic_effect_url" alt="" style="width:200px;height:auto;margin-left:200px;"> -->
 							</div>
 						</template>
 					</el-table-column>
@@ -657,11 +669,16 @@
 						</el-select>				
 					</el-form-item>
 					<el-form-item label="标识图" :label-width="formLabelWidth">
+						<span class="showbtn">选择文件</span>
 						<input class="filegif fileinput" id="fileinput6" @change="uploading($event, 0, 2)" type="file">
-				        <img :src="giftSpecial.src_num" style="width: 100px; height: auto;"/>
+						<span class="showname">{{giftSpecial.num_file_name}}</span>
+				        <img :src="giftSpecial.src_num" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="特效图" :label-width="formLabelWidth">
+						<span class="showbtn">选择文件</span>
 						<input class="filegif fileinput" id="fileinput7" @change="uploading($event, 1, 2)" type="file">
+						<span class="showname">{{giftSpecial.effect_file_name}}</span>
+						<p style="margin-left:200px;width:0px;opacity:0;display:inline-block;"></p>
 						<el-button v-if="giftSpecial.src_effect!=''" @click.native.prevent="downDemo(giftSpecial.src_effect)">下载文件</el-button>
 						<el-button @click.native.prevent="lookDemo()">特效图页面</el-button>
 						<p style="color:red;display:inline-block;">可以打开特效图页面，将文件拖入查看效果~</p>
@@ -735,10 +752,13 @@ export default {
 				dialogShow: false,
 				file_pic: '',//上传的图片
 				src_pic: '',
+				pic_name: '',
 				file_gif: '',//动态图
 				src_gif: '',
+				gif_name: '',
 				file_corner: '',//角标图
 				src_corner: '',
+				corner_name: '',
 				params: {
 					sort: '',
 					name: '',
@@ -763,10 +783,13 @@ export default {
 				dialogShow: false,
 				file_pic: '',
 				src_pic: '',
+				pic_name: '',
 				file_gif: '',
 				src_gif: '',
+				gif_name: '',
 				file_corner: '',//角标图
 				src_corner: '',
+				corner_name: '',
 				params: {
 					id: '',
 					sort: '',
@@ -797,8 +820,10 @@ export default {
 				is_dynamic_effect: '',
 				num_url: '',
 				src_num: '',
+				num_file_name: '',
 				effect_url: '',
 				src_effect: '',
+				effect_file_name: '',
 				num_name: '',
 				num_status: '',
 			},
@@ -918,8 +943,6 @@ export default {
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
-				console.log(baseConfig.server+baseConfig.requestUrl+url);
-				console.log(params);
 				axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: params })				
 				.then(res => { // 进行get请求，(请求参数params, 请求地址url)
 					// 数据请求成功
@@ -968,7 +991,6 @@ export default {
 				date_e: baseConfig.changeDateTime(_this.formThree.choiceDate[1], 0),
 				position: '3',
 			};
-			console.log(params);
 			if(params==null) { // 如果得到的搜索为null，表示存在搜索条件为空，不进行数据请求
 				_this.listLoading = false; // 不进行数据请求,直接关闭掉加载的图层
 			} else {
@@ -1064,7 +1086,6 @@ export default {
 				_this.giftEditorloading.dialogShow = false;
 				_this.resetForm();
 			} else if(type==1) {
-				console.log('点击了确定按钮');
 				_this.listLoading = true;
 				// 进行编辑的操作
 				let formData = new FormData();
@@ -1092,7 +1113,6 @@ export default {
 				};		
 				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/editGift', formData, config)
 				.then((res) => {
-					console.log(res.data);
 					_this.listLoading = false;	
 					_this.giftEditorloading.dialogShow = false;									
 					if(res.data.ret) {	
@@ -1246,45 +1266,54 @@ export default {
 		},	
 		// 得到上传文件type(0->pic，1->gif),val(0->礼物新增，1->礼物编辑)
         uploading(event, type, val) {
+			console.log('进入文件上传的这边');
 			var _this = this;
 			if(val==0) { // 礼物新增
 				if(type==0) { // 静态图icon图标
 					_this.giftUploading.file_pic = event.target.files[0];
 			  	    var windowURL = window.URL || window.webkitURL;
 					_this.giftUploading.src_pic = windowURL.createObjectURL(event.target.files[0]);
+					_this.giftUploading.pic_name = event.target.files[0].name;
 				} else if(type==1) { // 动态图icon图标
 					_this.giftUploading.file_gif = event.target.files[0];
 			  	    var windowURL = window.URL || window.webkitURL;
 					_this.giftUploading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+					_this.giftUploading.gif_name = event.target.files[0].name;
 				} else if(type==2) { // 角标图
 					_this.giftUploading.file_corner = event.target.files[0];
 			  	    var windowURL = window.URL || window.webkitURL;
 					_this.giftUploading.src_corner = windowURL.createObjectURL(event.target.files[0]);			
+					_this.giftUploading.corner_name = event.target.files[0].name;
 				}
 			} else if(val==1) { // 礼物编辑
 				if(type==0) { // 静态图icon图标
 					_this.giftEditorloading.file_pic = event.target.files[0];//获取文件
 			  	    var windowURL = window.URL || window.webkitURL;
 					_this.giftEditorloading.src_pic = windowURL.createObjectURL(event.target.files[0]);
+					_this.giftEditorloading.pic_name = event.target.files[0].name;
 				} else if(type==1) { // 动态图icon图标
 					_this.giftEditorloading.file_gif = event.target.files[0];//获取文件
 			  	    var windowURL = window.URL || window.webkitURL;
 					_this.giftEditorloading.src_gif = windowURL.createObjectURL(event.target.files[0]);
+					_this.giftEditorloading.gif_name = event.target.files[0].name;
 				} else if(type==2) { // 角标图
 					_this.giftEditorloading.file_corner = event.target.files[0];
 			  	    var windowURL = window.URL || window.webkitURL;
 					_this.giftEditorloading.src_corner = windowURL.createObjectURL(event.target.files[0]);					
+					_this.giftEditorloading.corner_name = event.target.files[0].name;
 				}
 			} else if(val==2) { // 礼物特效
 				if(type==0) { // 标识图
 					_this.giftSpecial.num_url = event.target.files[0];//获取文件
 			  	    var windowURL = window.URL || window.webkitURL;
 					_this.giftSpecial.src_num = windowURL.createObjectURL(event.target.files[0]);
+					_this.giftSpecial.num_file_name = event.target.files[0].name;
 				} else if(type==1) { // 特效图
 					_this.giftSpecial.effect_url = event.target.files[0];//获取文件
 			  	    var windowURL = window.URL || window.webkitURL;
 					// 特效图在这里src进行置空处理
 					_this.giftSpecial.src_effect = '';
+					_this.giftSpecial.effect_file_name = event.target.files[0].name;
 				}
 			}
       	}, 
@@ -1321,7 +1350,6 @@ export default {
 				};		
 				axios.post(baseConfig.server+baseConfig.requestUrl+'/Gift/addGift', formData, config)
 				.then((res) => {
-					console.log(res.data);
 					_this.listLoading = false;	
 					_this.giftUploading.dialogShow = false;								
 					if(res.data.ret) {	
@@ -1376,7 +1404,6 @@ export default {
 		// 礼物数量进行相对应的编辑
 		changeNumGIft(index, row) {
 			var _this = this;
-			console.log(row[index]);
 			_this.giftSpecial.id = row[index].gift_id;
 			_this.giftSpecial.num = row[index].num;
 			_this.giftSpecial.is_dynamic_effect = row[index].is_dynamic_effect;
@@ -1446,15 +1473,19 @@ export default {
 			}
 		},
 		resetForm() {
+			// 进行对应的重置
 			var _this = this;
 			_this.giftUploading = {
 				dialogShow: false,
 				file_pic: '',
 				src_pic: '',
+				pic_name: '',
 				file_gif: '',
 				src_gif: '',
+				gif_name: '',
 				file_corner: '',
 				src_corner: '',
+				corner_name: '',
 				params: {
 					sort: '',
 					name: '',
@@ -1479,10 +1510,13 @@ export default {
 				dialogShow: false,
 				file_pic: '',
 				src_pic: '',
+				pic_name: '',
 				file_gif: '',
 				src_gif: '',
+				gif_name: '',
 				file_corner: '',
 				src_corner: '',
+				corner_name: '',
 				params: {
 					id: '',
 					sort: '',
@@ -1509,8 +1543,10 @@ export default {
 				is_dynamic_effect: '',
 				num_url: '',
 				src_num: '',
+				num_file_name: '',
 				effect_url: '',
 				src_effect: '',
+				effect_file_name: '',
 				num_name: '',
 				num_status: '',
 			};
@@ -1543,9 +1579,42 @@ export default {
 
 <style lang="css" scoped>
 /* 引入的图片展示样式 */
+.el-form-item__content{
+	overflow: hidden;
+}
+.showbtn{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 150px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+	background-color: #00b3ee;
+	border: 2px solid #00b3ee;
+}
 .fileinput{
-	float: left;
-	margin-top: 8px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 150px;
+	height: 30px;
+	opacity: 0;
+	border: 2px solid red;
+}
+.showname{
+	position: absolute;
+	left: 0;
+	top: 38px;
+	font-size: 14px;
+	width: 150px;
+	height: 16px;
+	line-height: 16px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .el-tab-pane{
 	height: 800px;

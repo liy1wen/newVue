@@ -179,7 +179,7 @@ export default {
     methods:{
         oneHandleCurrentChange(val) {
             var _this = this;
-            _this.formOne.page = val;
+            _this.formOne.page = val-1;
             _this.formOne.star = (_this.formOne.page-0)*20;
             _this.formOne.end = _this.formOne.star-0+20;
         },

@@ -358,18 +358,22 @@ export default {
         sureTitle() {
             var _this = this;
             var url = "/User/kickUser";
-            var param = {
-                uid: this.titleInfo.uid,
-                day: this.titleInfo.day,
-                reason: this.titleInfo.reason,
-                operate_user: this.operate_user
+            let formData = new FormData();
+            formData.append('uid', _this.titleInfo.uid);
+            formData.append('day', _this.titleInfo.day);
+            formData.append('reason', _this.titleInfo.reason);
+            formData.append('operate_user', _this.operate_user);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             };
-            if (param.reason == "" || param.reason == null) {
+            if (formData.get('reason') == "" || formData.get('reason') == null) {
                 baseConfig.warningTipMsg(this, "封人家总得有个原因吧！");
                 return;
             }
-            allget(param, url)
-                .then(res => {
+            axios.post(baseConfig.server+baseConfig.requestUrl+url, formData, config)
+                .then((res) => {
                     if (res.data.ret) {
                         baseConfig.successTipMsg(this, res.data.msg);
                         _this.getData();
@@ -381,8 +385,8 @@ export default {
                         baseConfig.errorTipMsg(_this, res.data.msg);
                     }
                 })
-                .catch(err => {
-                    console.error(err);
+                .catch((err) => {
+                    console.log(err);
                 });
         },
         // 解封
@@ -392,17 +396,21 @@ export default {
         },
         srueUnlock() {
             var _this = this;
-            var url = "/User/freeUser";
-            var param = {
-                uid: this.UnlockInfo.uid,
-                reason: this.UnlockInfo.reason,
-                operate_user: this.operate_user
+            var url = "/NewUser/freeUser";
+            let formData = new FormData();
+            formData.append('uid', _this.UnlockInfo.uid);
+            formData.append('reason', _this.UnlockInfo.reason);
+            formData.append('operate_user', _this.operate_user);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             };
-            if (param.reason == "" || param.reason == null) {
+            if (formData.get('reason') == "" || formData.get('reason') == null) {
                 baseConfig.warningTipMsg(_this, "请输入解封原因！");
                 return;
             }
-            allget(param, url)
+            axios.post(baseConfig.server+baseConfig.requestUrl+url, formData, config)
                 .then(res => {
                     if (res.data.ret) {
                         baseConfig.successTipMsg(this, res.data.msg);
@@ -426,22 +434,27 @@ export default {
         sureplDown() {
             var _this = this;
             var url = "/User/kickUserDown";
-            var param = {
-                uid: this.plDownInfo.uid,
-                reason: this.plDownInfo.reason,
-                operate_user: this.operate_user
+            let formData = new FormData();
+            formData.append('uid', _this.plDownInfo.uid);
+            formData.append('reason', _this.plDownInfo.reason);
+            formData.append('operate_user', _this.operate_user);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             };
-            if (param.reason == "" || param.reason == null) {
+            if(formData.get('reason')=='') {//原因不能为空的
                 baseConfig.warningTipMsg(_this, "请输入踢掉原因");
+                return;
             }
-            allget(param, url)
+            axios.post(baseConfig.server+baseConfig.requestUrl+url, formData, config)
                 .then(res => {
                     if (res.data.ret) {
                         baseConfig.successTipMsg(this, res.data.msg);
                         _this.getData();
-                        this.plDownInfo.uid = "";
-                        this.plDownInfo.reason = "";
-                        this.plDownInfo.dialogFormVisible = false;
+                        _this.plDownInfo.uid = "";
+                        _this.plDownInfo.reason = "";
+                        _this.plDownInfo.dialogFormVisible = false;
                     } else {
                         baseConfig.errorTipMsg(_this, res.data.msg);
                     }
@@ -551,35 +564,38 @@ export default {
             }
         },
         collectiveSealSure() {
-            console.log('点击确定按钮');
             var _this = this;
             var url = '/NewUser/muchKickUser';
-            var params = {
-                uid_list: _this.collectiveSeal.uid_list,
-                day: _this.collectiveSeal.day,
-                reason: _this.collectiveSeal.reason,
-                operate_user: _this.operate_user,
+            let formData = new FormData();
+            formData.append('uid_list', _this.collectiveSeal.uid_list);
+            formData.append('day', _this.collectiveSeal.day);
+            formData.append('reason', _this.collectiveSeal.reason);
+            formData.append('operate_user', _this.operate_user);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             };
-            if(_this.collectiveSeal.reason=='') {//原因不能为空的
+            if(formData.get('reason')=='') {//原因不能为空的
                 baseConfig.warningTipMsg(_this, '原因不能为空的~');
                 return;
             }
-            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params:params})
-            .then((res)=>{
-                if(res.data.ret) {
-                    baseConfig.successTipMsg(this, res.data.msg);
-                    _this.getData();
-                    _this.collectiveSeal.uid_list = "";
-                    _this.collectiveSeal.day = "0";
-                    _this.collectiveSeal.reason = "";
-                    _this.collectiveSeal.dialogTwo = false;
-                } else {
-                    baseConfig.errorTipMsg(_this, res.data.msg);
-                }
-            })
-            .catch((err)=>{
-                console.log(err);
-            });
+            axios.post(baseConfig.server+baseConfig.requestUrl+url, formData, config)
+                .then((res)=>{
+                    if(res.data.ret) {
+                        baseConfig.successTipMsg(this, res.data.msg);
+                        _this.getData();
+                        _this.collectiveSeal.uid_list = "";
+                        _this.collectiveSeal.day = "0";
+                        _this.collectiveSeal.reason = "";
+                        _this.collectiveSeal.dialogTwo = false;
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err);
+                });
         },
     },
     mounted() {
