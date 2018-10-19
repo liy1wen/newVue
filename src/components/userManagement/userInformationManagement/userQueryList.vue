@@ -33,6 +33,10 @@
                         <span>UID</span>
                         <el-input style="width: 150px;" v-model="uid" placeholder="请输入UID" clearable></el-input>
                     </el-form-item>
+                    <el-form-item>
+                        <span>昵称</span>
+                        <el-input style="width: 150px;" v-model="nickname" placeholder="请输入昵称" clearable></el-input>
+                    </el-form-item>
                     <el-form-item class="search-span" style="float:right;">
                         <el-button id="searchBtn" type="primary" @click="getData(0)">查询</el-button>
                     </el-form-item>
@@ -233,6 +237,7 @@ export default {
             formLabelWidth: "120px",
             listLoading: false,
             uid: "",
+            nickname: "",
             operate_user: null,
             page: 0, // 分页
             totalpage: 1000,
@@ -338,6 +343,7 @@ export default {
                     0
                 ),
                 find: _this.uid,
+                nickname: _this.nickname,
                 page: _this.page,
                 channel: channel
             };
@@ -348,6 +354,15 @@ export default {
                 delete param.date_ls;
                 delete param.date_le;
                 delete param.page;
+                delete param.nickname;
+            }
+            if (param.nickname != "" && param.nickname != null) {
+                delete param.date_s;
+                delete param.date_e;
+                delete param.date_ls;
+                delete param.date_le;
+                delete param.page;
+                delete param.find;
             }
             allget(param, url)
                 .then(res => {
@@ -556,24 +571,28 @@ export default {
         sureWarn(){
             var _this = this;
             var url = '/NewUser/warnComplain';
-            var param = {
-                id: _this.warnInfo.id,
-                warn_content: _this.warnInfo.warn_content,
-                uid: _this.warnInfo.uid,
-                operate_user: _this.operate_user,
-            }
-            allget(param, url)
-            .then((res) => {
-            	_this.warnInfo.dialogFormVisible = false;
-                if (res.data.ret) {
-                    baseConfig.successTipMsg(_this, res.data.msg);
-                } else {
-                    baseConfig.errorTipMsg(_this, res.data.msg);
+            let formData = new FormData();
+            formData.append('id', _this.warnInfo.id);
+            formData.append('warn_content', _this.warnInfo.warn_content);
+            formData.append('uid', _this.warnInfo.uid);
+            formData.append('operate_user', _this.operate_user);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            })
-            .catch((err) => {
-                console.error(err);
-            });       	     
+            };
+            axios.post(baseConfig.server+baseConfig.requestUrl+url, formData, config)
+                .then((res) => {
+                    _this.warnInfo.dialogFormVisible = false;
+                    if (res.data.ret) {
+                        baseConfig.successTipMsg(_this, res.data.msg);
+                    } else {
+                        baseConfig.errorTipMsg(_this, res.data.msg);
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });       	     
         },
         sureReset(){
             var _this = this;
