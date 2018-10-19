@@ -49,6 +49,16 @@
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
                 <el-table-column prop="sex" :formatter="judegSex" label="性别"></el-table-column>
+                <el-table-column prop="icon" label="用户头像">
+                    <template slot-scope="scope">
+                        <el-popover trigger="hover" placement="left">
+                            <img :src="scope.row.icon" alt="" style="width:300px;height:400px;">
+                            <div slot="reference" class="name-wrapper">
+                                <img :src="scope.row.icon" alt="" style="width:100px;height:100px;">
+                            </div>
+                        </el-popover>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="aut_icon" label="手持证件照">
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="left">

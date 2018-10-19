@@ -96,6 +96,9 @@
                             <el-col :span="4">
                                 <el-button size="mini" type="primary" @click="resetPass(scope.$index, scope.row)">重置密码</el-button>
                             </el-col>
+                            <el-col :span="4">
+                                <el-button size="mini" type="warning" @click="warn(scope.$index, scope.row)">警告</el-button>
+                            </el-col>
                         </el-row>
                     </template>
                 </el-table-column>
@@ -188,7 +191,18 @@
                     <el-button type="primary" @click="sureReset">确 定</el-button>
                 </span>
             </el-dialog>
-
+            <!--警告-->
+            <el-dialog title="警告" :visible.sync="warnInfo.dialogFormVisible">
+                <el-form :model="warnInfo">
+                    <el-form-item label="警告文字" :label-width="formLabelWidth">
+                        <el-input v-model="warnInfo.word" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="warnInfo.dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="sureWarn">确 定</el-button>
+                </div>
+            </el-dialog>
             <el-col :span="24" class="toolbar">
                 <el-pagination layout="total,prev, pager, next,jumper" :page-size="20" @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
                 </el-pagination>
@@ -250,6 +264,12 @@ export default {
             resetPassword: {
                 dialogFormVisible: false,
                 uid: "",
+            },
+            warnInfo: {
+                dialogFormVisible: false,
+                id: '',
+                uid: '',
+                warn_content: ''
             },
             collectiveSeal: {
                 dialogOne: false,
@@ -528,6 +548,32 @@ export default {
             var _this = this;
             _this.resetPassword.dialogFormVisible = true;
             _this.resetPassword.uid = row.uid;
+        },
+        warn(index, row){
+            this.warnInfo.dialogFormVisible = true;
+            this.warnInfo.uid = row.uid;
+        },
+        sureWarn(){
+            var _this = this;
+            var url = '/NewUser/warnComplain';
+            var param = {
+                id: _this.warnInfo.id,
+                warn_content: _this.warnInfo.warn_content,
+                uid: _this.warnInfo.uid,
+                operate_user: _this.operate_user,
+            }
+            allget(param, url)
+            .then((res) => {
+            	_this.warnInfo.dialogFormVisible = false;
+                if (res.data.ret) {
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                } else {
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });       	     
         },
         sureReset(){
             var _this = this;

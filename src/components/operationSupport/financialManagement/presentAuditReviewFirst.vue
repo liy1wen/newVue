@@ -62,7 +62,11 @@
                 </el-table-column>
             </el-table>
             <el-col :span="24" class="toolbar">
-                <el-pagination layout="total,prev,pager,next,jumper" @current-change="oneHandleCurrentChange" :page-size="20" :total="formOne.totalPage" style="float: right;"></el-pagination>
+                <el-pagination 
+                layout="total,prev,pager,next,jumper" 
+                @current-change="oneHandleCurrentChange" 
+                :page-size="20" :total="formOne.totalPage" 
+                style="float: right;"></el-pagination>
             </el-col>
         </template>
         <el-dialog title="审核详情" :visible.sync="addDialog.dialogShow">
@@ -260,7 +264,7 @@ export default {
     methods: {
         oneHandleCurrentChange(val) {
             var _this = this;
-            _this.formOne.page = val;
+            _this.formOne.page = val-1;
             _this.formOne.star = (_this.formOne.page - 0) * 20;
             _this.formOne.end = _this.formOne.star - 0 + 20;
         },

@@ -25,8 +25,8 @@
 					<el-table ref="tableHeight" :data="onePageData" border fit highlight-current-row v-loading="listLoading" style="width: 100%;" :height="tableHeight">
 						<el-table-column prop="time" label="日期" width="200"></el-table-column>
 						<el-table-column prop="device" label="设备激活" min-width="200"></el-table-column>
-						<el-table-column prop="active" label="新增注册" min-width="200"></el-table-column>
-						<el-table-column prop="register" label="日活跃用户数(DAU)" min-width="200"></el-table-column>
+						<el-table-column prop="register" label="新增注册" min-width="200"></el-table-column>
+						<el-table-column prop="active" label="日活跃用户数(DAU)" min-width="200"></el-table-column>
 						<el-table-column prop="ACCU" label="ACCU" min-width="200"></el-table-column>
 					</el-table>
 					<!--工具条-->

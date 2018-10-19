@@ -40,12 +40,29 @@
                 <el-table-column prop="uid" label="UID"></el-table-column>
                 <el-table-column prop="nickname" label="昵称"></el-table-column>
                 <el-table-column prop="channel" label="渠道"></el-table-column>
-                <el-table-column prop="day" label="封号时长"></el-table-column>
+                <el-table-column prop="day" label="封号时长">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.type==4">--</div>
+                        <div v-else>{{scope.row.day}}</div>
+                    </template>
+                </el-table-column>
                 <!-- <el-table-column prop="free_time" label="解封时间"></el-table-column> -->
-                <el-table-column prop="reason" label="原因"></el-table-column>
+                <el-table-column prop="reason" label="封号原因">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.type==4">--</div>
+                        <div v-else>{{scope.row.reason}}</div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="operate_user" label="操作人"></el-table-column>
+                <el-table-column prop="warn_content" label="警告文字">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.type==4">{{scope.row.warn_content}}</div>
+                        <div v-else>--</div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作" min-width="120">
                     <template slot-scope="scope">
+                        <div v-if="scope.row.type==4">已警告</div>
                         <div v-if="scope.row.status==0&&scope.row.type==1">已解封</div>
                         <div v-else-if="scope.row.status==1&&scope.row.type==1">已封号
                             <el-button style="margin-left: 5px;" plain size="mini" type="primary" @click="getter(scope.$index, scope.row)">解封</el-button>

@@ -96,10 +96,21 @@
                             <p v-if="scope.row.status==0">未审核</p>
                             <p v-else-if="scope.row.status==1">通过</p>
                             <p v-else-if="scope.row.status==2">拒绝</p>
+                            <p v-else-if="scope.row.status==-1">取消</p>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="operation_name" label="操作人" width="150" sortable></el-table-column>
+                <el-table-column label="操作" width="150">
+                    <template slot-scope="scope">
+	                    <el-row>
+	                        <el-button v-if="scope.row.status==0" size="mini" type="primary" @click="cancell(scope.$index, scope.row)">取消</el-button>
+	                        <el-button v-else-if="scope.row.status==1" size="mini" plain>已通过</el-button>
+	                        <el-button v-else-if="scope.row.status==2" size="mini" plain>已拒绝</el-button>
+	                        <el-button v-else-if="scope.row.status==-1" size="mini" plain>已取消</el-button>
+	                    </el-row>
+                    </template>
+                </el-table-column>
             </el-table>
             <el-col :span="24" class="toolbar">
                 <el-pagination 
@@ -297,6 +308,7 @@ export default {
             },
             listLoading: false,
             formLabelWidth: '120px',
+            id:""//赠送 id
         }
     }, 
     computed: {
@@ -557,6 +569,28 @@ export default {
 				console.log(err);
 			})
         },
+		//  取消记录
+		cancell(index,row){
+            var _this = this;
+			_this.id=row.id;
+            var params={
+            	id:_this.id,
+            	operation_name:_this.dressUp.operation_name
+            }
+            var url = baseConfig.server+baseConfig.requestUrl+'/NewMoney/SendMoneyToCancel';
+            axios.get(url, {params: params})
+            .then((res) => {
+            	console.log(res)
+                if(res.data.ret) {
+                    baseConfig.successTipMsg(_this, res.data.msg);
+                    _this.getTableData();
+                }else{
+                    baseConfig.errorTipMsg(_this, res.data.msg);
+                }
+            }).catch(error=>{
+                console.log(error);
+            })
+		}
     },
     mounted() {
         var _this = this;

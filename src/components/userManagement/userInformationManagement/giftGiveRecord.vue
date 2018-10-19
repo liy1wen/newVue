@@ -8,7 +8,13 @@
                 <el-form-item>
                     <div class="block">
                         <span class="registerTime">日期</span>
-                        <el-date-picker v-model="formOne.startDate" style="width:250px;" type="daterange" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期">
+                        <el-date-picker 
+                        v-model="formOne.startDate" 
+                        style="width:250px;" 
+                        type="daterange" 
+                        range-separator=" 至 " start-placeholder="开始日期" 
+                        end-placeholder="结束日期" 
+                        :default-time="['00:00:00', '23:59:59']">
                         </el-date-picker>
                     </div>
                 </el-form-item>
@@ -45,6 +51,8 @@
                 <el-table-column prop="price" label="价格"></el-table-column>
                 <el-table-column prop="give_uid" label="对方UID"></el-table-column>
                 <el-table-column prop="give_nickname" label="对方昵称"></el-table-column>
+                <el-table-column prop="gift_num" label="数量"></el-table-column>
+                <el-table-column prop="chat_gold" label="总价值"></el-table-column>
             </el-table>
             <!-- 工具条 -->
             <el-col :span="24" class="toolbar">
@@ -98,8 +106,14 @@ export default {
                 type: this.type,
                 page: this.page,
             };
+    		if( param.uid!== null && param.uid !== ''){
+			//  判断搜索有没有uid,如果有就将开始时间和结束时间设置为null
+            	param.date_s=null;
+            	param.date_e=null;
+            }
             allget(param, url)
                 .then(res => {
+                	console.log(res,param)
                     _this.listLoading = false;
                     if (res.data.ret) {
                         _this.listData = res.data.data;

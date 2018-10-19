@@ -1125,10 +1125,10 @@ export default {
 						} else if(_this.giftEditorloading.type==3) {
 							_this.getTableRoomGiftData();
 						}
-						_this.resetForm();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
+					_this.resetForm();
 				}).catch((error) => {
 					console.log(error);
 				});
@@ -1361,10 +1361,10 @@ export default {
 						} else if(formData.get('position')==3) {
 							_this.getTableRoomGiftData();
 						}
-						_this.resetForm();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
+					_this.resetForm();
 				}).catch((error) => {
 					console.log(error);
 				});
@@ -1446,10 +1446,10 @@ export default {
 						// 本身的房间的数据进行更新、然后对相应的弹窗内容进行修改展示
 						_this.getTableRoomGiftData();
 						_this.getNumGift(_this.giftSpecial.id);
-						_this.resetForm();
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
+					_this.resetForm();
 				}).catch((error) => {
 					console.log(error);
 				});

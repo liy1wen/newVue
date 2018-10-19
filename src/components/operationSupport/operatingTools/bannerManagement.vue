@@ -212,8 +212,10 @@
 						<el-input v-model="bannerNewloading.params.title" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
+						<span class="showbtn">选择文件</span>
 						<input class="filepic fileinput" @change="uploading($event, 0)" type="file">
-				        <img :src="bannerNewloading.src_pic" style="width: 100px; height: auto;"/>
+						<span class="showname">{{bannerNewloading.pic_name}}</span>
+				        <img :src="bannerNewloading.src_pic" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="跳转类型" :label-width="formLabelWidth">
 						<el-select v-model="bannerNewloading.params.type">
@@ -292,8 +294,10 @@
 						<el-input v-model="bannerEditorloading.params.title" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="图片上传" :label-width="formLabelWidth">
+						<span class="showbtn">选择文件</span>
 						<input class="filepic fileinput" @change="uploading($event, 1)" type="file">
-				        <img :src="bannerEditorloading.src_pic" style="width: 100px; height: auto;"/>
+						<span class="showname">{{bannerEditorloading.pic_name}}</span>
+				        <img :src="bannerEditorloading.src_pic" style="width:200px;height:auto;margin-left:200px;"/>
 					</el-form-item>
 					<el-form-item label="跳转类型" :label-width="formLabelWidth">
 						<el-select v-model="bannerEditorloading.params.type">
@@ -383,6 +387,7 @@ export default {
 				dialogShow: false,
 				file_pic: '',
 				src_pic: '',
+				pic_name: '',
 				params: {
 					position: '0',
 					sort: '',
@@ -404,6 +409,7 @@ export default {
 				dialogShow: false,
 				file_pic: '',
 				src_pic: '',
+				pic_name: '',
 				params: {
 					position: '',
 					id: '',
@@ -522,11 +528,13 @@ export default {
 		  	    var windowURL = window.URL || window.webkitURL;
 		        //创建图片文件的url
 				_this.bannerNewloading.src_pic = windowURL.createObjectURL(event.target.files[0]);
+				_this.bannerNewloading.pic_name = event.target.files[0].name;
 			} else if(type==1) {
 				_this.bannerEditorloading.file_pic = event.target.files[0];//获取文件
 		  	    var windowURL = window.URL || window.webkitURL;
 		        //创建图片文件的url
 				_this.bannerEditorloading.src_pic = windowURL.createObjectURL(event.target.files[0]);
+				_this.bannerEditorloading.pic_name = event.target.files[0].name;
 			}
       	}, 
 		// banner条新增
@@ -535,6 +543,7 @@ export default {
 			if(type==0) {
 				// console.log('点击了取消按钮');
 				_this.bannerNewloading.dialogShow = false;
+				_this.resetForm();
 			} else if(type==1) {
 				// console.log('点击了确认按钮');
 				_this.listLoading = true;
@@ -572,6 +581,7 @@ export default {
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
+					_this.resetForm();
 				}).catch((error) => {
 					console.log(error);
 				});
@@ -636,6 +646,7 @@ export default {
 			if(type==0) {
 				// console.log('点击了取消按钮');
 				_this.bannerEditorloading.dialogShow = false;
+				_this.resetForm();
 			} else if(type==1) {
 				// console.log('点击了确认按钮');
 				_this.listLoading = true;
@@ -673,6 +684,7 @@ export default {
 					} else {
 						baseConfig.errorTipMsg(_this, res.data.msg);						
 					}
+					_this.resetForm();
 				}).catch((error) => {
 					console.log(error);
 				});
@@ -682,6 +694,55 @@ export default {
 		handleClick(tab, event) {
 			var _this = this;
 			// console.log(tab.label);
+		},
+		resetForm() {
+			// 进行对应的重置
+			var _this = this;
+			_this.bannerNewloading = {
+				dialogShow: false,
+				file_pic: '',
+				src_pic: '',
+				pic_name: '',
+				params: {
+					position: '0',
+					sort: '',
+					title: '',
+					type: '2',
+					req_uid: '',
+					res_uid: '',
+					start_time: '',
+					end_time: '',
+					jump_url: '',
+					page_param: '',
+					show_type: '0',
+					is_show: '1',
+					show_s_time: '',
+					show_e_time: '',
+				},
+			};
+			_this.bannerEditorloading = {
+				dialogShow: false,
+				file_pic: '',
+				src_pic: '',
+				pic_name: '',
+				params: {
+					position: '',
+					id: '',
+					sort: '',
+					title: '',
+					type: '',
+					req_uid: '',
+					res_uid: '',
+					start_time: '',
+					end_time: '',
+					jump_url: '',
+					page_param: '',
+					show_type: '',
+					is_show: '',
+					show_s_time: '',
+					show_e_time: '',
+				},
+			};
 		},
 	},
 	mounted() {
@@ -747,5 +808,39 @@ p{ margin: 0; }
 }
 .el-tab-pane{
 	height: 800px;
+}
+.showbtn{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 150px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+	background-color: #00b3ee;
+	border: 2px solid #00b3ee;
+}
+.fileinput{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 150px;
+	height: 30px;
+	opacity: 0;
+	border: 2px solid red;
+}
+.showname{
+	position: absolute;
+	left: 0;
+	top: 38px;
+	font-size: 14px;
+	width: 150px;
+	height: 16px;
+	line-height: 16px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 </style>
