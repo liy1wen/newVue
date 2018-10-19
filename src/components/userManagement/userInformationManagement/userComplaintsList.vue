@@ -51,14 +51,22 @@
 		</el-col>
 		<!-- 用户的数据展示列表 -->
 		<template>
-			<el-table :data="onePageTabData" border fit highlight-current-row style="width: 100%;" v-loading="listLoading" :height="tableHeight">
+			<el-table 
+            :data="onePageTabData" 
+            border fit highlight-current-row 
+            style="width: 100%;" 
+            v-loading="listLoading" 
+            :height="tableHeight">
 				<el-table-column prop="id" label="投诉ID"></el-table-column>
 				<el-table-column prop="time" label="投诉时间"></el-table-column>
 				<el-table-column prop="uid" label="投诉人"></el-table-column>
 				<el-table-column prop="complain_uid" label="被投诉人"></el-table-column>
 				<el-table-column prop="long_time" label="封号时长"></el-table-column>
 				<el-table-column prop="channel" label="渠道"></el-table-column>
-				<el-table-column prop="num" label="投诉次数"></el-table-column>
+				<el-table-column prop="num" label="投诉次数">
+                    <!-- 点击投诉次数，出现对应的内容 -->
+                    
+                </el-table-column>
 				<el-table-column prop="warn_num" label="警告次数"></el-table-column>
 				<el-table-column prop="content" label="投诉类型"></el-table-column>
 				<el-table-column prop="explains" label="详细内容"></el-table-column>
@@ -85,14 +93,20 @@
 								<el-button size="mini" type="warning" @click="warning(scope.$index, scope.row)">警告</el-button>
 							</el-col>
 							<el-col :span="8">
-								<el-button size="mini" type="info" @click="dialogFormVisible = true, getter(scope.$index, scope.row)">封号</el-button>
+								<el-button size="mini" type="info" @click="dialogFormVisible=true, getter(scope.$index, scope.row)">封号</el-button>
 							</el-col>
 						</el-row>
 					</template>
 				</el-table-column>
 			</el-table>
             <el-col :span="24" class="toolbar">
-				<el-pagination layout="total,prev,pager,next,jumper" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="totalpage" style="float:right;"></el-pagination>
+				<el-pagination 
+                layout="total,prev,pager,next,jumper" 
+                :current-page="page" 
+                @current-change="handleCurrentChange" 
+                :page-size="20" 
+                :total="totalpage" 
+                style="float:right;"></el-pagination>
 			</el-col>
 		</template>
 		<el-dialog title="封号" :visible.sync="dialogFormVisible">
@@ -136,7 +150,7 @@ export default {
         return {
             tableHeight: null, // table展示的页面的高度多少，第二页中对应高度
             formOne: {
-                startDate: [new Date() - 1 * 24 * 60 * 60 * 1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
+                startDate: [new Date()-1*24*60*60*1000, new Date()] // 对应选择的日期,给默认时间180之前到现在
             },
             recordStatus: "",
             listData: [],

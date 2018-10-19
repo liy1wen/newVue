@@ -195,7 +195,7 @@
             <el-dialog title="警告" :visible.sync="warnInfo.dialogFormVisible">
                 <el-form :model="warnInfo">
                     <el-form-item label="警告文字" :label-width="formLabelWidth">
-                        <el-input v-model="warnInfo.word" auto-complete="off"></el-input>
+                        <el-input v-model="warnInfo.warn_content" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
