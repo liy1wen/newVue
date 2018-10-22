@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { allget } from "../../api/api";
 import axios from "axios";
 export default {
     data() {
@@ -51,7 +50,7 @@ export default {
             let param = {
                 page: this.page
             };
-            allget(param, url)
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: param })
                 .then(res => {
                     if(res.data.ret){
                         this.listData = res.data.data;

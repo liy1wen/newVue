@@ -211,8 +211,6 @@
                 <el-pagination layout="total,prev, pager, next,jumper" :page-size="20" @current-change="handleCurrentChange" :current-page="page+1" :total=totalpage style="float:right; ">
                 </el-pagination>
             </el-col>
-            <!-- 个人信息展示组件 -->
-            <!-- <oneUserContent></oneUserContent> -->
         </template>
     </section>
 </template>

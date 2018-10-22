@@ -65,7 +65,9 @@
 				<el-table-column prop="channel" label="渠道"></el-table-column>
 				<el-table-column prop="num" label="投诉次数">
                     <!-- 点击投诉次数，出现对应的内容 -->
-                    
+                    <template slot-scope="scope">
+                        <el-button type="primary" @click="getInfo(scope.row.complain_uid)">{{scope.row.num}}</el-button>
+                    </template>
                 </el-table-column>
 				<el-table-column prop="warn_num" label="警告次数"></el-table-column>
 				<el-table-column prop="content" label="投诉类型"></el-table-column>
@@ -138,6 +140,45 @@
 				<el-button type="primary" @click="dialogtitle = false">确 定</el-button>
 			</span>
 		</el-dialog>
+        <el-dialog title="投诉详情" :visible.sync="complaint.dialogVisible" width="80%">
+            <el-table :data="complaint.tabData">
+                <el-table-column property="id" label="ID" width="150"></el-table-column>
+                <el-table-column property="time" label="日期" width="200"></el-table-column>
+                <el-table-column property="uid" label="投诉人"></el-table-column>
+                <el-table-column property="complain_uid" label="被投诉人"></el-table-column>
+                <el-table-column property="channel" label="渠道号"></el-table-column>
+                <el-table-column prop="content" label="投诉类型"></el-table-column>
+				<el-table-column prop="explains" label="详细内容"></el-table-column>
+				<el-table-column prop="evidences" label="图片">
+					<template slot-scope="scope">
+						<el-popover trigger="hover" v-if="changeData(scope.row.evidences)" placement="left">
+							<img :src="changeData(scope.row.evidences)" alt="" style="width:300px;height:500px;">
+							<div slot="reference" class="name-wrapper">
+								<img :src="changeData(scope.row.evidences)" alt="" style="width:100px;height:100px;">
+							</div>
+						</el-popover>
+					</template>
+				</el-table-column>
+                <el-table-column label="操作" min-width="120">
+					<template slot-scope="scope">
+						<div v-if="scope.row.status==1">已忽略</div>
+						<div v-else-if="scope.row.status==2">已警告</div>
+						<div v-else-if="scope.row.status==3">已封号</div>
+						<el-row v-else-if="scope.row.status==0">
+							<el-col :span="8">
+								<el-button size="mini" type="success" @click="ignore(scope.$index, scope.row)">忽视</el-button>
+							</el-col>
+							<el-col :span="8">
+								<el-button size="mini" type="warning" @click="warning(scope.$index, scope.row)">警告</el-button>
+							</el-col>
+							<el-col :span="8">
+								<el-button size="mini" type="info" @click="dialogFormVisible=true, getter(scope.$index, scope.row)">封号</el-button>
+							</el-col>
+						</el-row>
+					</template>
+				</el-table-column>
+            </el-table>
+        </el-dialog>
 	</section>
 </template>
 
@@ -179,7 +220,11 @@ export default {
 			page: 1,
 			totalpage: null,
 			star: '0',
-			end: '20',
+            end: '20',
+            complaint: {
+                dialogVisible: false,
+                tabData: [],
+            },
         };
     },
 	computed: {
@@ -222,7 +267,7 @@ export default {
                 channel: this.channelId.join(","),
                 operate_user: this.operate_user
             };
-            allget(param, url)
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params: param})
                 .then(res => {
                     _this.listLoading = false;
                     _this.listData = res.data.data;
@@ -239,7 +284,7 @@ export default {
             let param = {
                 id: row.id
             };
-            allget(param, url)
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params: param})
                 .then(res => {
                     baseConfig.successTipMsg(_this, res.data.msg);
                 })
@@ -254,7 +299,7 @@ export default {
                 id: row.id,
                 uid: row.complain_uid
             };
-            allget(param, url)
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params: param})
                 .then(res => {
                     if (res.data.ret) {
                         baseConfig.successTipMsg(_this, res.data.msg);
@@ -291,7 +336,7 @@ export default {
                 return;
             }
             _this.dialogFormVisible = false;
-            allget(param, url)
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params: param})
                 .then(res => {
                     if (res.data.ret) {
                         baseConfig.successTipMsg(_this, res.data.msg);
@@ -302,7 +347,25 @@ export default {
                 .catch(err => {
                     baseConfig.errorTipMsg(_this, err.data.msg);
                 });
-        }
+        },
+        // 加载相对应的内容
+        getInfo(val) {
+            console.log(val);
+            var _this = this;
+            var url = '/NewUser/getComplainById';
+            var params = {
+                uid: val,
+            };
+            axios.get(baseConfig.server+baseConfig.requestUrl+url, {params: params})
+                .then((res) => {
+                    console.log(res.data.data);
+                    _this.complaint.tabData = res.data.data; 
+                    _this.complaint.dialogVisible = true;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
     mounted() {
         var _this = this;

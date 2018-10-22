@@ -38,7 +38,7 @@ export default {
             let url = "/NewActivity/getBlackLoverDataInfo";
             let param = {
             };
-            allget(param, url)
+			axios.get(baseConfig.server+baseConfig.requestUrl+url, { params: param })
                 .then(res => {
                     if(res.data.ret){
                         this.listData = res.data.data;

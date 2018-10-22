@@ -58,7 +58,11 @@
 				<el-table-column prop="channel" label="渠道" min-width="60"></el-table-column>
 				<el-table-column prop="version_name" label="版本" min-width="60"></el-table-column>
 				<el-table-column prop="pay_times" label="充值次数" min-width="60"></el-table-column>
-				<el-table-column prop="pay_num" label="累计金额（元）" min-width="60"></el-table-column>
+				<el-table-column 
+				prop="pay_num" 
+				label="累计金额（元）" 
+				:formatter="judgePayNum" 
+				min-width="60"></el-table-column>
 				<el-table-column 
 				prop="order_pay_type" 
 				label="充值方式" 
@@ -200,6 +204,10 @@ export default {
 		judgeTotalFee(row, column) {
 			//进行金额的单位转换，返回为分转换为元
 			return (row.total_fee/100).toFixed(2);
+		},
+		judgePayNum(row, column) {
+			// 进行金额的单位转换，返回为分转换为元
+			return (row.pay_num/100).toFixed(2);
 		},
 		judgeStatus(row, column) {
 			// 1(待支付)2(支付异常)3(支付成功)

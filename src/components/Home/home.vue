@@ -32,7 +32,6 @@
             </el-col>
         </el-menu>
         <!-- 个人信息展示组件 -->
-		<!-- <oneUserContent></oneUserContent> -->
         <oneUserContentInfo></oneUserContentInfo>
         <!-- 路由容器 -->
         <el-col :span="24" class="content-all-wrapper">
@@ -45,8 +44,7 @@
 
 <script>
 import Event from './../../public_js/event.js';
-import oneUserContent from './../rootGlobal/oneUserContent.vue'; // 个人信息内容弹窗
-import oneUserContentInfo from './../rootGlobal/oneUserContentInfo.vue';
+import oneUserContentInfo from './../rootGlobal/oneUserContentInfo.vue';// 个人信息内容弹窗
 import store from '../../vuex/store';
 export default {
      data() {
@@ -68,7 +66,6 @@ export default {
         }
     },
     components: {
-        oneUserContent,
         oneUserContentInfo,
 	},
     mounted: function(){
@@ -133,7 +130,7 @@ export default {
             var _this = this;
             if(baseConfig.server.indexOf('test')=='-1') {
                 // 正式服，进行6为有效数字的匹配
-                if(/^[0-9]{6}$/.test(_this.uidFind)) {
+                if(/^[0-9]{6}$/.test(_this.uidFind) || /^[0-9]{7}$/.test(_this.uidFind)) {
                     Event.$emit('show-one-user', {
                         uid : _this.uidFind,
                     });
