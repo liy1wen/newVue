@@ -120,7 +120,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="发送文字" :label-width="formLabelWidth">
-					<el-input type="textarea" :rows="2" :maxlength="50" v-model="formCondition.content" auto-complete="off"></el-input>
+					<el-input type="textarea" :rows="2" :maxlength="5000" v-model="formCondition.content" auto-complete="off"></el-input>
 					<p style="font-weight: bold;">在发送文字正文中相应位置插入{messageDisplay}超链接才生效</p>
 				</el-form-item>
 				<el-form-item label="显示的文字" :label-width="formLabelWidth">
